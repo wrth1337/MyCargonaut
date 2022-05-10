@@ -1,0 +1,35 @@
+* {
+  box-sizing: border-box;
+}
+html, body, .page {
+  height: 100%;
+  margin: 0;
+}
+p {
+  font-family: sans-serif;
+}
+.page {
+  background: #243b55;
+  background: linear-gradient(350deg, #141e30, #243b55);
+  background-size: cover;
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1em;
+}
+.content {
+  text-align: center;
+  color: white;
+}
+.main-text {
+  color: white;
+  font-family: "Lucida Console", Monaco, monospace;
+  font-weight: 100;
+}
+.text-red {
+  color: #ff0000;
+}
+.text-green {
+  color: #00ff00;
+}
