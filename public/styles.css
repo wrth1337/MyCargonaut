@@ -22,11 +22,6 @@ p {
   text-align: center;
   color: white;
 }
-.main-text {
-  color: white;
-  font-family: "Lucida Console", Monaco, monospace;
-  font-weight: 100;
-}
 .text-red {
   color: #ff0000;
 }
