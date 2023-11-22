@@ -1,0 +1,13 @@
+version: '3'
+services:
+
+    database:
+        container_name: database
+        build:
+            context: .
+            dockerfile: database/Dockerfile
+        env_file:
+            - environment.env
+        restart: always
+        ports:
+            - "3306:3306"
