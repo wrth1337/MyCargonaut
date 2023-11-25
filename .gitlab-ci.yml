@@ -28,7 +28,7 @@ testFrontend:
   stage: commit-phase
   tags:
     - KMS
-  image: node-chrome:latest
+  image: svaseghi/node-chrome:latest
   before_script:
     - export CHROME_BIN=/usr/bin/google-chrome
     - npm ci
