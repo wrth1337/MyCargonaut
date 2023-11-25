@@ -31,7 +31,7 @@ testFrontend:
   script:
     - cd frontend/myCargonaut
     - npm i
-    - npm run test
+    - npm run test --no-watch --no-progress --browsers=ChromeHeadless
   allow_failure: false
 
 testBackend:
