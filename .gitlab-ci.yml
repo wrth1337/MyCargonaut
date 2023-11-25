@@ -34,6 +34,16 @@ testFrontend:
     - npm run test
   allow_failure: false
 
+testBackend:
+  stage: commit-phase
+  tags:
+    - npm
+  script:
+    - cd backend
+    - npm i
+    - npm run test
+  allow_failure: false
+
 static_code_analysis:
   stage: report-phase
   image:
