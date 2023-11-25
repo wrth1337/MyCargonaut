@@ -1,4 +1,5 @@
 # MyCargonaut
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 <sub><sup>Disclaimer: This project is part of the "Konzepte moderner Softwareentwicklung" module, led by Lukas Maximilian Kimpel. This web application, MyCargonaut, is a student initiative aimed at exploring and implementing modern software development concepts.</sub></sup>
 
