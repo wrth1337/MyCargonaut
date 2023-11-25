@@ -31,6 +31,7 @@ testFrontend:
   script:
     - cd frontend/myCargonaut
     - npm i --save-dev puppeteer
+    - npm install chromium --save-dev
     - npm i
     - export CHROME_BIN=/usr/bin/google-chrome
     - npm run test --no-watch --no-progress --browsers=ChromeHeadless
