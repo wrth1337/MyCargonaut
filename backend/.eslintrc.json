@@ -9,6 +9,7 @@
         "ecmaVersion": "latest"
     },
     "rules": {
-        "indent" : ["error", 4]
+        "indent" : ["error", 4],
+        "require-jsdoc": 0
     }
 }
