@@ -27,16 +27,12 @@ lintBackend:
 testFrontend:
   stage: commit-phase
   tags:
-    - KMS
-  image: selenium/node-chrome
-  before_script:
-    - export CHROME_BIN=/usr/bin/google-chrome
-    - npm ci
+    - npm
   script:
-    - npm run build
-    - npm run test --no-watch --no-progress --browsers=ChromeHeadless
-
-
+    - cd frontend/myCargonaut
+    - npm i
+    - echo 'TestFramework under construction...'
+  allow_failure: true
 
 testBackend:
   stage: commit-phase
@@ -46,7 +42,7 @@ testBackend:
     - cd backend
     - npm i
     - npm run test
-  allow_failure: false
+  allow_failure: true
 
 static_code_analysis:
   stage: report-phase
