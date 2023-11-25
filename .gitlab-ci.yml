@@ -27,15 +27,16 @@ lintBackend:
 testFrontend:
   stage: commit-phase
   tags:
-    - npm
-  script:
-    - cd frontend/myCargonaut
-    - npm i --save-dev puppeteer
-    - npm install chromium --save-dev
-    - npm i
+    - KMS
+  image: node-chrome:latest
+  before_script:
     - export CHROME_BIN=/usr/bin/google-chrome
+    - npm ci
+  script:
+    - npm run build
     - npm run test --no-watch --no-progress --browsers=ChromeHeadless
-  allow_failure: false
+
+
 
 testBackend:
   stage: commit-phase

@@ -36,15 +36,26 @@ module.exports = function (config) {
       ]
     },
     reporters: ['progress', 'kjhtml'],
-    browsers: ['ChromeHeadlessNoSandbox'],
+    browsers: ['Chromium'],
+    browserDisconnectTolerance: 3,
+    browserDisconnectTimeout: 10000,
+    browserNoActivityTimeout: 60000,
+    flags: ['--disable-translate', '--disable-extensions', '--mute-audio'],
+    singleRun: false,
+    restartOnFileChange: true,
+    browserConsoleLogOptions: {
+      terminal: false,
+    },
     customLaunchers: {
-      ChromeHeadlessNoSandbox: {
-        base: 'ChromeHeadless',
+      ci: {
+        base: 'ChromiumHeadless',
         flags: [
           '--no-sandbox',
           '--disable-gpu',
-          '--disable-web-security'
-        ]
+          '--disable-translate',
+          '--disable-extensions',
+          '--mute-audio',
+        ],
       },
     },
   })
