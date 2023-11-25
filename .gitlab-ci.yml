@@ -13,7 +13,7 @@ lintFrontend:
   script:
     - cd frontend/myCargonaut
     - npm install
-    - ng lint
+    - npm run lint
 
 lintBackend:
   stage: commit-phase
