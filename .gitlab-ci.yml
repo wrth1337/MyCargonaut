@@ -55,5 +55,5 @@ static_code_analysis:
     - echo 'Running static code analysis...'
     - sonar-scanner
       -Dsonar.host.url=https://scm.thm.de/sonar
-      -Dsonar.projectKey=$SONARCUBE_KEY
+      -Dsonar.projectKey=$SONARQUBE_KEY
       -Dsonar.login=$SONARQUBE_TOKEN
