@@ -1,11 +1,59 @@
-pages:
-  stage: deploy
+stages:
+  - commit-phase
+  - report-phase
+  - uat-phase
+  - pat-phase
+  - sat-phase
+  - deploy-phase
+
+lintFrontend:
+  stage: commit-phase
   tags:
-    - alpine
+    - npm
   script:
-    - echo 'Just declare artifact...'
-  artifacts:
-    paths:
-    - public
-  rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+    - cd frontend/myCargonaut
+    - npm install
+    - ng lint
+
+lintBackend:
+  stage: commit-phase
+  tags:
+    - npm
+  script:
+    - cd backend
+    - npm install
+    - npx eslint .
+
+testFrontend:
+  stage: commit-phase
+  tags:
+    - npm
+  script:
+    - cd frontend/myCargonaut
+    - npm i
+    - npm run test
+  allow_failure: false
+
+testBackend:
+  stage: commit-phase
+  tags:
+    - npm
+  script:
+    - cd backend
+    - npm i
+    - npm run test
+  allow_failure: false
+
+static_code_analysis:
+  stage: report-phase
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  tags:
+    - KMS
+  script:
+    - echo 'Running static code analysis...'
+    - sonar-scanner
+      -Dsonar.host.url=https://scm.thm.de/sonar
+      -Dsonar.projectKey=$SONARCUBE_KEY
+      -Dsonar.login=$SONARQUBE_TOKEN
