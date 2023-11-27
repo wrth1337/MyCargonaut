@@ -37,8 +37,6 @@ jobs:
 
       - name: Run ESLint
         run: npx eslint ./frontend
-          --config .eslintrc.js
-          --ext .js,.jsx,.ts,.tsx
-          --format @microsoft/eslint-formatter-sarif
+          --config ./myCargonaut/eslintrc.json
           --output-file eslint-results.sarif
         continue-on-error: true
