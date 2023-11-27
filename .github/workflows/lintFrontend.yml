@@ -1,42 +1,37 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# ESLint is a tool for identifying and reporting on patterns
-# found in ECMAScript/JavaScript code.
-# More details at https://github.com/eslint/eslint
-# and https://eslint.org
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: ESLint
+name: Node.js CI
 
 on:
   push:
-    branches: [ "develop", "master" ]
-  pull_request:
-    # The branches below must be a subset of the branches above
     branches: [ "develop" ]
-  schedule:
-    - cron: '17 5 * * 3'
+  pull_request:
+    branches: [ "develop" ]
 
 jobs:
-  eslint:
-    name: Run eslint scanning
+  build:
+
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      security-events: write
-      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Install ESLint
-        run: |
-          npm install eslint@8.10.0
-          npm install @microsoft/eslint-formatter-sarif@2.1.7
-
-      - name: Run ESLint
-        run: npx eslint ./frontend
-          --config ./frontend/myCargonaut/eslintrc.json
-          --output-file eslint-results.sarif
-        continue-on-error: true
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Install Dependencies
+      working-directory: ./frontend/myCargonaut
+      run: npm install
+      
+    - name: Lint
+      working-directory: ./frontend/myCargonaut
+      run: npm run lint
+    
