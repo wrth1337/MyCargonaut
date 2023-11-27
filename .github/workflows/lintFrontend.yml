@@ -37,6 +37,6 @@ jobs:
 
       - name: Run ESLint
         run: npx eslint ./frontend
-          --config ./myCargonaut/eslintrc.json
+          --config ./frontend/myCargonaut/eslintrc.json
           --output-file eslint-results.sarif
         continue-on-error: true
