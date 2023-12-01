@@ -18,6 +18,7 @@ const pool = mariadb.createPool({
     database: process.env.MYSQL_DATABASE,
 });
 
+// ---Methods--- //
 async function registerNewUser(username, password) {
     const newUser ='INSERT INTO users (username, pass) VALUES (?, ?)';
 
@@ -47,5 +48,25 @@ async function isUserAlreadyRegistered(username) {
         throw error;
     }
 }
+
+// ---Routes--- //
+router.post('/register', async function (req, res, next) {
+    const conn = await pool.getConnection();
+
+    try {
+        const {username, password} = req.body;
+        const userExists = await isUserAlreadyRegistered(username);
+
+        if (userExists) {
+            res.send({status: 0, error: 'username or email already taken', msg: 'Your username or email is already taken.'});
+        } else {
+            const newUser = await registerNewUser(username, password);
+        }
+    } catch (error) {
+        res.send({status: 0, error: 'Registration failed'});
+    } finally {
+        if (conn) conn.release();
+    }
+});
 
 module.exports = router;
