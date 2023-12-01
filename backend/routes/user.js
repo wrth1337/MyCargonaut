@@ -22,3 +22,19 @@ async function registerNewUser(username, password) {
         return 1;
     }
 }
+
+async function isUserAlreadyRegistered(username) {
+    const checkUsername = 'SELECT COUNT(*) AS count FROM users WHERE username = ?';
+
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(checkUsername, [username]);
+        conn.release();
+
+        const count = result[0].count;
+        return count > 0;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
