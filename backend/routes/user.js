@@ -1,5 +1,14 @@
 const mariadb = require('mariadb');
+const express = require('express');
+const rateLimit = require('express-rate-limit');
 
+const router = express.Router();
+const limiter = rateLimit({
+    windowMs: 1 * 60 * 1000,
+    max: 100,
+});
+
+router.use(limiter);
 
 const pool = mariadb.createPool({
     host: 'database',
