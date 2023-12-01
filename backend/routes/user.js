@@ -17,8 +17,8 @@ async function registerNewUser(username, password) {
         const result = await conn.query(newUser, [username, password]);
         conn.release();
 
-        return 1;
-    } catch (error) {
         return 0;
+    } catch (error) {
+        return 1;
     }
 }
