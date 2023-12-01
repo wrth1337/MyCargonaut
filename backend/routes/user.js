@@ -47,3 +47,5 @@ async function isUserAlreadyRegistered(username) {
         throw error;
     }
 }
+
+module.exports = router;
