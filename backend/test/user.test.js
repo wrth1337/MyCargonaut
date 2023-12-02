@@ -1,6 +1,6 @@
 const {expect, test} = require('@jest/globals');
 const {registerNewUser} = require('../routes/user');
-const mariadb = require("mariadb");
+const mariadb = require('mariadb');
 
 const pool = mariadb.createPool({
     host: '0.0.0.0',
