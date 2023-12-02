@@ -34,15 +34,13 @@ async function registerNewUser(username, password) {
 }
 
 async function isUserAlreadyRegistered(username) {
-    const checkUsername = 'SELECT COUNT(*) AS count FROM users WHERE username = ?';
+    const checkUsername = 'SELECT COUNT(*) AS count FROM users WHERE name = ?';
 
     try {
         const conn = await pool.getConnection();
         const result = await conn.query(checkUsername, [username]);
-        conn.release();
-
-        const count = result[0].count;
-        return count > 0;
+        await conn.release();
+        return (result[0].count > 0);
     } catch (error) {
         console.error(error);
         throw error;
@@ -69,4 +67,4 @@ router.post('/register', async function(req, res, next) {
     }
 });
 
-module.exports = {router, registerNewUser};
+module.exports = {router, registerNewUser, isUserAlreadyRegistered};
