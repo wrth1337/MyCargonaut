@@ -1,8 +1,20 @@
 version: '3'
 services:
+    backend:
+        container_name: MyCargonaut_Backend
+        build:
+            context: backend
+            dockerfile: Dockerfile
+        env_file:
+            - environment.env
+        depends_on:
+            - database
+        restart: unless-stopped
+        ports:
+            - "3000:3000"
 
     database:
-        container_name: database
+        container_name: MyCargonaut_Database
         build:
             context: .
             dockerfile: database/Dockerfile
@@ -11,3 +23,17 @@ services:
         restart: always
         ports:
             - "3306:3306"
+            
+    frontend:
+        container_name: MyCargonaut_Frontend
+        build:
+            context: frontend/myCargonaut
+            dockerfile: Dockerfile
+        env_file:
+            - environment.env
+        depends_on:
+            - backend
+        restart: unless-stopped
+        ports:
+            - "80:80"
+            - "443:443"
