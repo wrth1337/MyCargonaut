@@ -10,6 +10,6 @@ import { FormsModule } from '@angular/forms';
 export class RegisterComponent {
 
   onSubmit(form: NgForm){
-    console.log("Form triggred")
+    console.log("Form triggered")
   }
 }
