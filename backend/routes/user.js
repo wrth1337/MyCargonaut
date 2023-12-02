@@ -11,16 +11,16 @@ const limiter = rateLimit({
 router.use(limiter);
 
 const pool = mariadb.createPool({
-    host: 'database',
+    host: '0.0.0.0',
     port: '3306',
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE,
+    user: 'root',
+    password: 'admin',
+    database: 'cargodb',
 });
 
 // ---Methods--- //
 async function registerNewUser(username, password) {
-    const newUser ='INSERT INTO users (username, pass) VALUES (?, ?)';
+    const newUser ='INSERT INTO users (name, password) VALUES (?, ?)';
 
     try {
         const conn = await pool.getConnection();
@@ -69,4 +69,4 @@ router.post('/register', async function(req, res, next) {
     }
 });
 
-module.exports = router;
+module.exports = {router, registerNewUser};
