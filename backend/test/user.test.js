@@ -14,6 +14,7 @@ test('add new user', async () => {
     registerNewUser('testuser', 'testpassword');
     const conn = await pool.getConnection();
     const result = await conn.query('SELECT * FROM users WHERE name = (?)', ['testuser']);
+    conn.query('DELETE FROM users;');
     conn.release();
     expect((result[0].name)).toBe('testuser');
     expect((result[0].password)).toBe('testpassword');
