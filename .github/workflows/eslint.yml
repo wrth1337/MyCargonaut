@@ -33,7 +33,6 @@ jobs:
 
       - name: Run ESLint
         run: |
-          cd ..
           cd frontend/mycargonaut
           npx eslint --config .eslintrc.json --ext .js,.jsx,.ts,.ts --format @microsoft/eslint-formatter-sarif --output-file eslint-results.sarif
         continue-on-error: true
