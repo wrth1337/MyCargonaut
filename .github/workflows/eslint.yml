@@ -34,7 +34,7 @@ jobs:
       - name: Run ESLint
         run: |
           cd frontend/mycargonaut
-          npm install @typescript-eslint/eslint-plugin@latest --save-dev
+          npm install @typescript-eslint/eslint-plugin@latest
           npx eslint --config .eslintrc.json --ext .js,.jsx,.ts,.ts --format @microsoft/eslint-formatter-sarif --output-file eslint-results.sarif
         continue-on-error: true
 
