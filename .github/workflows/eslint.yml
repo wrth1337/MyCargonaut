@@ -24,10 +24,17 @@ jobs:
           npm install eslint@8.10.0
           npm install @microsoft/eslint-formatter-sarif@2.1.7
           npm install eslint-config-google
-
+      
       - name: Run ESLint
         run: |
           cd backend  
+          npx eslint --config .eslintrc.json --ext .js,.jsx,.ts,.ts --format @microsoft/eslint-formatter-sarif --output-file eslint-results.sarif
+        continue-on-error: true
+
+      - name: Run ESLint
+        run: |
+          cd ..
+          cd frontend/mycargonaut
           npx eslint --config .eslintrc.json --ext .js,.jsx,.ts,.ts --format @microsoft/eslint-formatter-sarif --output-file eslint-results.sarif
         continue-on-error: true
 
