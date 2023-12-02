@@ -14,7 +14,7 @@ services:
             - "3000:3000"
 
     database:
-        container_name: MyCargonaut_Database
+        container_name: database
         build:
             context: .
             dockerfile: database/Dockerfile
