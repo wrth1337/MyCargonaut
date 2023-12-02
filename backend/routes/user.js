@@ -50,7 +50,7 @@ async function isUserAlreadyRegistered(username) {
 }
 
 // ---Routes--- //
-router.post('/register', async function (req, res, next) {
+router.post('/register', async function(req, res, next) {
     const conn = await pool.getConnection();
 
     try {
