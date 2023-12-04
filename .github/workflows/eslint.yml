@@ -1,4 +1,4 @@
-name: ESLint
+name: Lint Front & Backend
 
 on:
   push:
@@ -25,13 +25,13 @@ jobs:
           npm install @microsoft/eslint-formatter-sarif@2.1.7
           npm install eslint-config-google
       
-      - name: Run ESLint
+      - name: Run ESLint Backend
         run: |
           cd backend  
           npx eslint --config .eslintrc.json --ext .js,.jsx,.ts,.ts --format @microsoft/eslint-formatter-sarif --output-file eslint-results.sarif
         continue-on-error: true
 
-      - name: Run ESLint
+      - name: Run ESLint Frontend
         run: |
           cd frontend/mycargonaut
           npm install @typescript-eslint/eslint-plugin@latest
