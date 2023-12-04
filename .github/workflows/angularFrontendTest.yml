@@ -1,0 +1,30 @@
+name: Angular Frontened Tests
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20' 
+
+    - name: Install Chrome Browser
+      run: |
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo dpkg -i google-chrome-stable_current_amd64.deb
+        sudo apt-get install -f
+
+    - name: Install npm
+      run: |
+        - cd frontend/mycargonaut
+        - npm install
+        - npm run test-ci
+
+    # Hier kannst du weitere Schritte hinzufügen, die du benötigst, z. B. Tests ausführen, Build-Prozesse usw.
