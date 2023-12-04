@@ -15,7 +15,27 @@ Text
 Text
 
 ## Installation
-Text
+- Clone Repository
+- Go to frontend/mycargonaut and run npm i
+- Go to backend and run npm i
+### Frontend
+#### Start
+- ng serve
+#### Test
+- ng test
+#### Lint
+- ng lint / npm run lint
+### Backend
+#### Start
+- npm start dev
+#### Test
+- npm run test
+#### Lint
+- npx eslint .
+### Start Database
+- docker compose build
+- docker compose up
+
 
 ## Contributors
 All members of "Group 2" were involved in the project.
