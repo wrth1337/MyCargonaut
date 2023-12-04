@@ -16,7 +16,10 @@ export class RegisterComponent implements OnInit{
   ){}
   onSubmit(form: NgForm){
     console.log("Form triggered")
-    this.api.postRequest("user/register", form.value)
+    console.log(form.value)
+    this.api.postRequest("user/register", form.value).subscribe((res:any) =>{
+      console.log(res)
+    })
   }
   ngOnInit(): void {
       console.log("init functionality")

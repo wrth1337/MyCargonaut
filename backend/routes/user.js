@@ -49,8 +49,9 @@ async function isUserAlreadyRegistered(username) {
 
 // ---Routes--- //
 router.post('/register', async function(req, res, next) {
-    const conn = await pool.getConnection();
+    console.log('Register server reached 1');
 
+    const conn = await pool.getConnection();
     try {
         const {username, password} = req.body;
         const userExists = await isUserAlreadyRegistered(username);
