@@ -20,7 +20,7 @@ const pool = mariadb.createPool({
 
 // ---Methods--- //
 async function registerNewUser(firstName, lastName, email, passwords, birthdate) {
-    const newUser ='INSERT INTO users (firstName, lastName, email, passwords, birthdate) VALUES (?, ?, ?, ?, ?)';
+    const newUser ='INSERT INTO user (firstName, lastName, email, passwords, birthdate) VALUES (?, ?, ?, ?, ?)';
 
     try {
         const conn = await pool.getConnection();
@@ -34,7 +34,7 @@ async function registerNewUser(firstName, lastName, email, passwords, birthdate)
 }
 
 async function isUserAlreadyRegistered(email) {
-    const checkUsername = 'SELECT COUNT(*) AS count FROM users WHERE name = ?';
+    const checkUsername = 'SELECT COUNT(*) AS count FROM user WHERE email = ?';
 
     try {
         const conn = await pool.getConnection();
@@ -53,13 +53,13 @@ router.post('/register', async function(req, res, next) {
 
     const conn = await pool.getConnection();
     try {
-        const {firstName, lastName, email, passwords, birthdate} = req.body;
+        const {firstName, lastName, email, password, birthdate} = req.body;
         const userExists = await isUserAlreadyRegistered(email);
 
         if (userExists) {
             res.send({status: 0, error: 'username or email already taken', msg: 'Your username or email is already taken.'});
         } else {
-            const newUser = await registerNewUser(firstName, lastName, email, passwords, birthdate);
+            const newUser = await registerNewUser(firstName, lastName, email, password, birthdate);
         }
     } catch (error) {
         res.send({status: 0, error: 'Registration failed'});
