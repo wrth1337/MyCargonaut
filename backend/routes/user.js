@@ -19,12 +19,12 @@ const pool = mariadb.createPool({
 });
 
 // ---Methods--- //
-async function registerNewUser(username, password) {
-    const newUser ='INSERT INTO users (name, password) VALUES (?, ?)';
+async function registerNewUser(firstName, lastName, email, passwords, birthdate) {
+    const newUser ='INSERT INTO users (firstName, lastName, email, passwords, birthdate) VALUES (?, ?, ?, ?, ?)';
 
     try {
         const conn = await pool.getConnection();
-        const result = await conn.query(newUser, [username, password]);
+        const result = await conn.query(newUser, [firstName, lastName, email, passwords, birthdate]);
         conn.release();
 
         return 0;
@@ -33,12 +33,12 @@ async function registerNewUser(username, password) {
     }
 }
 
-async function isUserAlreadyRegistered(username) {
+async function isUserAlreadyRegistered(email) {
     const checkUsername = 'SELECT COUNT(*) AS count FROM users WHERE name = ?';
 
     try {
         const conn = await pool.getConnection();
-        const result = await conn.query(checkUsername, [username]);
+        const result = await conn.query(checkUsername, [email]);
         await conn.release();
         return (result[0].count > 0);
     } catch (error) {
@@ -53,13 +53,13 @@ router.post('/register', async function(req, res, next) {
 
     const conn = await pool.getConnection();
     try {
-        const {username, password} = req.body;
-        const userExists = await isUserAlreadyRegistered(username);
+        const {firstName, lastName, email, passwords, birthdate} = req.body;
+        const userExists = await isUserAlreadyRegistered(email);
 
         if (userExists) {
             res.send({status: 0, error: 'username or email already taken', msg: 'Your username or email is already taken.'});
         } else {
-            const newUser = await registerNewUser(username, password);
+            const newUser = await registerNewUser(firstName, lastName, email, passwords, birthdate);
         }
     } catch (error) {
         res.send({status: 0, error: 'Registration failed'});

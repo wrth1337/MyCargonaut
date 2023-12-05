@@ -1,7 +1,19 @@
 <p>register works!</p>
 <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
     <div>
-        <input class="form-control username-input" type="text" name="username" placeholder="Username" ngModel>
+        <input class="form-control vorname-input" type="text" name="vorname" placeholder="Vorname" ngModel>
+    </div>
+    <div>
+        <input class="form-control nachname-input" type="text" name="nachname" placeholder="Nachname" ngModel>
+    </div>
+    <div>
+        <input class="form-control geburtsdatum-input" type="date" name="geburtsdatum" placeholder="Geburtsdatum" ngModel>
+    </div>
+    <div>
+        <input class="form-control handynummer-input" type="text" name="handynummer" placeholder="Handynummer" required="false" ngModel>
+    </div>
+    <div>
+        <input class="form-control email-input" type="text" name="email" placeholder="Email" ngModel>
     </div>
     <div>
         <input class="form-control password-input" type="password" name="password" placeholder="Password" ngModel>
