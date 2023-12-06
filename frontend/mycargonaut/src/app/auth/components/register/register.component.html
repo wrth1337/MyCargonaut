@@ -1,12 +1,20 @@
 <p>register works!</p>
-<form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+<div>
+  <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
     <div>
-        <input class="form-control username-input" type="text" name="username" placeholder="Username" ngModel>
+      <input class="form-control username-input" type="text" name="username" placeholder="Username" ngModel>
     </div>
     <div>
-        <input class="form-control password-input" type="password" name="password" placeholder="Password" ngModel>
+      <input class="form-control password-input" type="password" name="password" placeholder="Password" ngModel>
     </div>
     <div>
-        <input type="submit" value="Register">
+      <input type="submit" value="Register">
     </div>
-</form>
+  </form>
+  <div *ngIf="passwordIsWeak">
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <div>Your password is too weak.</div>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  </div>
+</div>

@@ -9,7 +9,8 @@ import { ApiService } from 'src/app/service/api.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit{
-  isLogin: boolean = false;
+  isLogin = false;
+  passwordIsWeak = false;
 
   constructor(
     private api: ApiService,
@@ -19,6 +20,9 @@ export class RegisterComponent implements OnInit{
     console.log(form.value)
     this.api.postRequest("user/register", form.value).subscribe((res:any) =>{
       console.log(res)
+      if(res.status == 2){
+        this.passwordIsWeak = true;
+      }
     })
   }
   ngOnInit(): void {
