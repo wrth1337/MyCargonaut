@@ -11,6 +11,8 @@ import { ApiService } from 'src/app/service/api.service';
 export class RegisterComponent implements OnInit{
   isLogin = false;
   passwordIsWeak = false;
+  passwordFeedback = false;
+  zxcvbnFeedback = '';
 
   constructor(
     private api: ApiService,
@@ -22,6 +24,10 @@ export class RegisterComponent implements OnInit{
       console.log(res)
       if(res.status == 2){
         this.passwordIsWeak = true;
+        if(res.feedback.warning) {
+          this.passwordFeedback = true;
+          this.zxcvbnFeedback = res.feedback.warning;
+        }
       }
     })
   }
