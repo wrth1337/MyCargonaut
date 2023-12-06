@@ -6,6 +6,7 @@ const zxcvbnCommonPackage = require('@zxcvbn-ts/language-common');
 const zxcvbnEnPackage = require('@zxcvbn-ts/language-en');
 const zxcvbnDePackage = require('@zxcvbn-ts/language-de');
 
+// eslint-disable-next-line new-cap
 const router = express.Router();
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000,
@@ -63,9 +64,8 @@ async function isUserAlreadyRegistered(username) {
 
 // ---Routes--- //
 router.post('/register', async function(req, res, next) {
-    console.log('Register server reached 1');
-
     const conn = await pool.getConnection();
+    zxcvbnOptions.setOptions(zxcvbnSettings);
     try {
         const {username, password} = req.body;
 
@@ -78,6 +78,7 @@ router.post('/register', async function(req, res, next) {
             const userExists = await isUserAlreadyRegistered(username);
 
             if (userExists) {
+                // eslint-disable-next-line max-len
                 res.send({status: 0, error: 'username or email already taken', msg: 'Your username or email is already taken.'});
             } else {
                 const newUser = await registerNewUser(username, password);
