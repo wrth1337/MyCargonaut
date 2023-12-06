@@ -3,16 +3,16 @@ CREATE OR REPLACE TABLE user (
     firstName VARCHAR(100) NOT NULL,
     lastName VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    passwords VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL,
     birthdate DATE NOT NULL,
     phonenumber VARCHAR(100),
-    coins INTEGER,
+    coins DOUBLE,
     picture VARCHAR(1024)
 );
 
 CREATE OR REPLACE TABLE vehicle (
     vehicleId int not null PRIMARY KEY auto_increment,
-    nameV VARCHAR(100) NOT NULL,
+    name VARCHAR(100) NOT NULL,
     numSeats SMALLINT NOT NULL,
     maxWeight FLOAT,
     picture VARCHAR(1024),
@@ -36,6 +36,7 @@ CREATE OR REPLACE TABLE ad (
      smoker BOOLEAN,
      notes TEXT,
      numSeats SMALLINT,
+     active BOOLEAN DEFAULT TRUE,
      userId int not null,
      CONSTRAINT fk_user_id2
    	FOREIGN KEY (userId) REFERENCES user (userId)
@@ -43,6 +44,16 @@ CREATE OR REPLACE TABLE ad (
    	ON UPDATE CASCADE
 );
     
+CREATE OR REPLACE TABLE intermediateGoal(
+    intermediateGoalId int not null PRIMARY KEY auto_increment,
+    location VARCHAR(255) not null,
+    adId int not null,
+    CONSTRAINT fk_ad_id_intermediateGoal
+        FOREIGN KEY (adId) REFERENCES ad (adId)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
 CREATE OR REPLACE TABLE offer(
     offerId int not null PRIMARY KEY auto_increment,
     vehicleId int not null,
@@ -74,17 +85,17 @@ CREATE OR REPLACE TABLE booking(
     adId int not null,
     userId int not null,
     price DOUBLE NOT NULL,
-    timeBooking TIMESTAMP NOT NULL,
+    timeBooking TIMESTAMP DEFAULT NOW(),
     numSeats SMALLINT NOT NULL,
     canceled BOOLEAN DEFAULT FALSE,
     CONSTRAINT fk_ad_id_booking
-   	FOREIGN KEY (adId) REFERENCES ad(adId)
-   	ON DELETE CASCADE
-   	ON UPDATE CASCADE,
-     CONSTRAINT fk_user_id_booking
-   	FOREIGN KEY (userId) REFERENCES user (userId)
-   	ON DELETE RESTRICT
-   	ON UPDATE CASCADE
+        FOREIGN KEY (adId) REFERENCES ad(adId)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT fk_user_id_booking
+        FOREIGN KEY (userId) REFERENCES user (userId)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
 );
 
 CREATE OR REPLACE TABLE status(
@@ -108,7 +119,7 @@ CREATE OR REPLACE TABLE rating(
     punctuality SMALLINT UNSIGNED NOT NULL,
     agreement SMALLINT UNSIGNED NOT NULL,
     pleasent SMALLINT UNSIGNED NOT NULL,
-    freight SMALLINT,
+    freight SMALLINT UNSIGNED,
     comment TEXT,
     CONSTRAINT fk_booking_id_rating
    	FOREIGN KEY (bookingId) REFERENCES booking (bookingId)
@@ -139,7 +150,3 @@ CREATE OR REPLACE TABLE message(
     	ON DELETE CASCADE
     	ON UPDATE CASCADE
 );
-
-
-
-
