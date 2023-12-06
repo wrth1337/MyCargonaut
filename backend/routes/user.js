@@ -1,6 +1,10 @@
 const mariadb = require('mariadb');
 const express = require('express');
 const rateLimit = require('express-rate-limit');
+const {zxcvbn, zxcvbnOptions} = require('@zxcvbn-ts/core');
+const zxcvbnCommonPackage = require('@zxcvbn-ts/language-common');
+const zxcvbnEnPackage = require('@zxcvbn-ts/language-en');
+const zxcvbnDePackage = require('@zxcvbn-ts/language-de');
 
 const router = express.Router();
 const limiter = rateLimit({
