@@ -124,7 +124,21 @@ CREATE OR REPLACE TABLE rating(
    	ON UPDATE CASCADE
 );
 
-
+CREATE OR REPLACE TABLE message(
+    messageId int not null PRIMARY KEY auto_increment,
+    userId int not null,
+    adId int not null,
+    timeMessage TIMESTAMP DEFAULT NOW(),
+    messageText text not null,
+    CONSTRAINT fk_user_id_message
+    	FOREIGN KEY (userId) REFERENCES user (userId)
+    	ON DELETE CASCADE
+    	ON UPDATE CASCADE,
+    CONSTRAINT fk_ad_id_message        
+    	FOREIGN KEY (adId) REFERENCES ad (adId)
+    	ON DELETE CASCADE
+    	ON UPDATE CASCADE
+);
 
 
 
