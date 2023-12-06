@@ -68,12 +68,20 @@ router.post('/register', async function(req, res, next) {
     const conn = await pool.getConnection();
     try {
         const {username, password} = req.body;
-        const userExists = await isUserAlreadyRegistered(username);
 
-        if (userExists) {
-            res.send({status: 0, error: 'username or email already taken', msg: 'Your username or email is already taken.'});
+        const zxcvbnResults = zxcvbn(password, [username]);
+        const zxcvbnScore = zxcvbnReults.score;
+        const zxcvbnFeedback = zxcvbnResults.feedback;
+        if (zxcvbnScore <= 2) {
+            res.send({status: 2, score: zxcvbnScore, feedback: zxcvbnFeedback});
         } else {
-            const newUser = await registerNewUser(username, password);
+            const userExists = await isUserAlreadyRegistered(username);
+
+            if (userExists) {
+                res.send({status: 0, error: 'username or email already taken', msg: 'Your username or email is already taken.'});
+            } else {
+                const newUser = await registerNewUser(username, password);
+            }
         }
     } catch (error) {
         res.send({status: 0, error: 'Registration failed'});
