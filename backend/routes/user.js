@@ -22,6 +22,16 @@ const pool = mariadb.createPool({
     database: 'cargodb',
 });
 
+const zxcvbnSettings = {
+    translations: zxcvbnEnPackage.translations,
+    graphs: zxcvbnCommonPackage.adjacencyGraphs,
+    dictionary: {
+        ...zxcvbnCommonPackage.dictionary,
+        ...zxcvbnEnPackage.dictionary,
+        ...zxcvbnDePackage.dictionary,
+    },
+};
+
 // ---Methods--- //
 async function registerNewUser(username, password) {
     const newUser ='INSERT INTO users (name, password) VALUES (?, ?)';
