@@ -70,7 +70,7 @@ router.post('/register', async function(req, res, next) {
         const {username, password} = req.body;
 
         const zxcvbnResults = zxcvbn(password, [username]);
-        const zxcvbnScore = zxcvbnReults.score;
+        const zxcvbnScore = zxcvbnResults.score;
         const zxcvbnFeedback = zxcvbnResults.feedback;
         if (zxcvbnScore <= 2) {
             res.send({status: 2, score: zxcvbnScore, feedback: zxcvbnFeedback});
