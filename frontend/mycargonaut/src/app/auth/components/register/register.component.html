@@ -1,12 +1,25 @@
 <p>register works!</p>
 <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
     <div>
-        <input class="form-control username-input" type="text" name="username" placeholder="Username" ngModel>
+        <input id="vorname" class="form-control vorname-input" type="text" name="firstName" required placeholder="Vorname" ngModel>*
     </div>
     <div>
-        <input class="form-control password-input" type="password" name="password" placeholder="Password" ngModel>
+        <input id="nachname" class="form-control nachname-input" type="text" name="lastName" required placeholder="Nachname" ngModel>*
     </div>
     <div>
-        <input type="submit" value="Register">
+        <input id="gebi" class="form-control geburtsdatum-input" type="date" name="birthdate" required placeholder="Geburtsdatum" ngModel>*
+    </div>
+    <div>
+        <input id="handynummer" class="form-control handynummer-input" type="tel" name="phonenumber" placeholder="Handynummer" ngModel>
+    </div>
+    <div>
+        <input id="email" class="form-control email-input" type="text" name="email" required placeholder="Email" ngModel>*
+    </div>
+    <div>
+        <input id="passwort" class="form-control password-input" type="password" name="passwords" required placeholder="Password" ngModel>*
+    </div>
+    <div>
+        <input id="submitKnopf" class="submitButton" type="submit" value="Register" [disabled]="!registerForm.valid">
     </div>
 </form>
+<p style="font-size: small;">* Pflichtfelder</p>
