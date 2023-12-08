@@ -34,12 +34,12 @@ const zxcvbnSettings = {
 };
 
 // ---Methods--- //
-async function registerNewUser(username, password) {
-    const newUser ='INSERT INTO users (name, password) VALUES (?, ?)';
+async function registerNewUser(firstName, lastName, email, passwords, birthdate, phonenumber) {
+    const newUser ='INSERT INTO user (firstName, lastName, email, passwords, birthdate, phonenumber, coins) VALUES (?, ?, ?, ?, ?, ?, 0)';
 
     try {
         const conn = await pool.getConnection();
-        const result = await conn.query(newUser, [username, password]);
+        const result = await conn.query(newUser, [firstName, lastName, email, passwords, birthdate, phonenumber]);
         conn.release();
 
         return 0;
@@ -48,12 +48,12 @@ async function registerNewUser(username, password) {
     }
 }
 
-async function isUserAlreadyRegistered(username) {
-    const checkUsername = 'SELECT COUNT(*) AS count FROM users WHERE name = ?';
+async function isUserAlreadyRegistered(email) {
+    const checkUsername = 'SELECT COUNT(*) AS count FROM user WHERE email = ?';
 
     try {
         const conn = await pool.getConnection();
-        const result = await conn.query(checkUsername, [username]);
+        const result = await conn.query(checkUsername, [email]);
         await conn.release();
         return (result[0].count > 0);
     } catch (error) {
@@ -67,21 +67,19 @@ router.post('/register', async function(req, res, next) {
     const conn = await pool.getConnection();
     zxcvbnOptions.setOptions(zxcvbnSettings);
     try {
-        const {username, password} = req.body;
-
-        const zxcvbnResults = zxcvbn(password, [username]);
+        const {firstName, lastName, email, passwords, birthdate, phonenumber} = req.body;
+        const zxcvbnResults = zxcvbn(passwords, [firstName, lastName, email, birthdate, phonenumber]);
         const zxcvbnScore = zxcvbnResults.score;
         const zxcvbnFeedback = zxcvbnResults.feedback;
         if (zxcvbnScore <= 2) {
             res.send({status: 2, score: zxcvbnScore, feedback: zxcvbnFeedback});
         } else {
-            const userExists = await isUserAlreadyRegistered(username);
-
+            const userExists = await isUserAlreadyRegistered(email);
             if (userExists) {
                 // eslint-disable-next-line max-len
                 res.send({status: 0, error: 'username or email already taken', msg: 'Your username or email is already taken.'});
             } else {
-                const newUser = await registerNewUser(username, password);
+                const newUser = await registerNewUser(firstName, lastName, email, passwords, birthdate, phonenumber);
             }
         }
     } catch (error) {
