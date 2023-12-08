@@ -23,6 +23,10 @@
   },
   "dependencies": {
     "@jest/globals": "^29.7.0",
+    "@zxcvbn-ts/core": "^3.0.4",
+    "@zxcvbn-ts/language-common": "^3.0.4",
+    "@zxcvbn-ts/language-de": "^3.0.2",
+    "@zxcvbn-ts/language-en": "^3.0.2",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-rate-limit": "^7.1.5",

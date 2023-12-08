@@ -1,7 +1,12 @@
 const mariadb = require('mariadb');
 const express = require('express');
 const rateLimit = require('express-rate-limit');
+const {zxcvbn, zxcvbnOptions} = require('@zxcvbn-ts/core');
+const zxcvbnCommonPackage = require('@zxcvbn-ts/language-common');
+const zxcvbnEnPackage = require('@zxcvbn-ts/language-en');
+const zxcvbnDePackage = require('@zxcvbn-ts/language-de');
 
+// eslint-disable-next-line new-cap
 const router = express.Router();
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000,
@@ -17,6 +22,16 @@ const pool = mariadb.createPool({
     password: 'admin',
     database: 'cargodb',
 });
+
+const zxcvbnSettings = {
+    translations: zxcvbnEnPackage.translations,
+    graphs: zxcvbnCommonPackage.adjacencyGraphs,
+    dictionary: {
+        ...zxcvbnCommonPackage.dictionary,
+        ...zxcvbnEnPackage.dictionary,
+        ...zxcvbnDePackage.dictionary,
+    },
+};
 
 // ---Methods--- //
 async function registerNewUser(firstName, lastName, email, passwords, birthdate, phonenumber) {
@@ -49,17 +64,23 @@ async function isUserAlreadyRegistered(email) {
 
 // ---Routes--- //
 router.post('/register', async function(req, res, next) {
-    console.log('Register server reached 1');
-
     const conn = await pool.getConnection();
+    zxcvbnOptions.setOptions(zxcvbnSettings);
     try {
         const {firstName, lastName, email, passwords, birthdate, phonenumber} = req.body;
-        const userExists = await isUserAlreadyRegistered(email);
-
-        if (userExists) {
-            res.send({status: 0, error: 'username or email already taken', msg: 'Your username or email is already taken.'});
+        const zxcvbnResults = zxcvbn(passwords, [firstName, lastName, email, birthdate, phonenumber]);
+        const zxcvbnScore = zxcvbnResults.score;
+        const zxcvbnFeedback = zxcvbnResults.feedback;
+        if (zxcvbnScore <= 2) {
+            res.send({status: 2, score: zxcvbnScore, feedback: zxcvbnFeedback});
         } else {
-            const newUser = await registerNewUser(firstName, lastName, email, passwords, birthdate, phonenumber);
+            const userExists = await isUserAlreadyRegistered(email);
+            if (userExists) {
+                // eslint-disable-next-line max-len
+                res.send({status: 0, error: 'username or email already taken', msg: 'Your username or email is already taken.'});
+            } else {
+                const newUser = await registerNewUser(firstName, lastName, email, passwords, birthdate, phonenumber);
+            }
         }
     } catch (error) {
         res.send({status: 0, error: 'Registration failed'});

@@ -1,5 +1,5 @@
-<p>register works!</p>
-<form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+<div>
+  <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
     <div>
         <input id="vorname" class="form-control vorname-input" type="text" name="firstName" required placeholder="Vorname" ngModel>*
     </div>
@@ -23,3 +23,16 @@
     </div>
 </form>
 <p style="font-size: small;">* Pflichtfelder</p>
+ <div *ngIf="passwordIsWeak">
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <div>Your password is too weak.</div>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  </div>
+  <div *ngIf="passwordFeedback">
+    <div class="alert alert-info alert-dismissible" role="alert">
+      <div>{{ zxcvbnFeedback }}</div>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
