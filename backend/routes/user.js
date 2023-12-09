@@ -34,14 +34,14 @@ const zxcvbnSettings = {
 };
 
 // ---Methods--- //
-async function registerNewUser(firstName, lastName, email, passwords, birthdate, phonenumber) {
-    const newUser ='INSERT INTO user (firstName, lastName, email, passwords, birthdate, phonenumber, coins) VALUES (?, ?, ?, ?, ?, ?, 0)';
+async function registerNewUser(firstName, lastName, email, password, birthdate, phonenumber) {
+    const newUser ='INSERT INTO user (firstName, lastName, email, password, birthdate, phonenumber, coins) VALUES (?, ?, ?, ?, ?, ?, 0)';
 
     try {
         const conn = await pool.getConnection();
-        const result = await conn.query(newUser, [firstName, lastName, email, passwords, birthdate, phonenumber]);
-        conn.release();
-
+        const result = await conn.query(newUser, [firstName, lastName, email, password, birthdate, phonenumber]);
+        await conn.release();
+        console.log('User registered successfully');
         return 0;
     } catch (error) {
         return 1;
