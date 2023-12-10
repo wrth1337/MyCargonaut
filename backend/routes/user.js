@@ -91,4 +91,16 @@ router.post('/register', async function(req, res, next) {
     }
 });
 
+router.post('/login', async function (req, res, next) {
+    const conn = await pool.getConnection();
+    try {
+        const { username, password } = req.body;
+
+    } catch (error) {
+        res.send({status: 0, error: 'error'});
+    } finally {
+        if (con) con.release();
+    }
+});
+
 module.exports = {router, registerNewUser, isUserAlreadyRegistered};
