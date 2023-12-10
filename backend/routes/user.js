@@ -6,6 +6,7 @@ const zxcvbnCommonPackage = require('@zxcvbn-ts/language-common');
 const zxcvbnEnPackage = require('@zxcvbn-ts/language-en');
 const zxcvbnDePackage = require('@zxcvbn-ts/language-de');
 const argon2 = require('argon2');
+const jwt = require('jsonwebtoken');
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
