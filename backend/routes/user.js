@@ -8,15 +8,16 @@ const zxcvbnDePackage = require('@zxcvbn-ts/language-de');
 const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
 
-// eslint-disable-next-line new-cap
 const router = express.Router();
+
+// Express Limiter
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000,
     max: 100,
 });
-
 router.use(limiter);
 
+// Database settings
 const pool = mariadb.createPool({
     host: '0.0.0.0',
     port: '3306',
@@ -25,6 +26,7 @@ const pool = mariadb.createPool({
     database: 'cargodb',
 });
 
+// ZXCVBN settings
 const zxcvbnSettings = {
     translations: zxcvbnEnPackage.translations,
     graphs: zxcvbnCommonPackage.adjacencyGraphs,
@@ -34,6 +36,9 @@ const zxcvbnSettings = {
         ...zxcvbnDePackage.dictionary,
     },
 };
+
+// JWT settings
+const jwtSecret = process.env.JWT_SECRET;
 
 // ---Methods--- //
 async function registerNewUser(firstName, lastName, email, password, birthdate, phonenumber) {
@@ -92,11 +97,22 @@ router.post('/register', async function(req, res, next) {
     }
 });
 
-router.post('/login', async function (req, res, next) {
+router.post('/login', async function(req, res, next) {
     const conn = await pool.getConnection();
     try {
-        const { username, password } = req.body;
+        const {username, password} = req.body;
 
+        const getUserData = `SELECT * FROM user WHERE username = ?`;
+        const result = await conn.query(getUserData, [username]);
+
+        if (result.length > 0) {
+            const hashedPassword = result[0].password;
+            const passwordIsCorrect = argon2.verify(hashedPassword, password.toString());
+            if (passwordIsCorrect) {
+                let token = jwt.sign({username: username, user_id: result[0].user_id}, jwtSecret, {expiresIn: '1h'});
+                res.send({status: 0, data: {username, user_id: result[0].user_id}, token: token });
+            }
+        }
     } catch (error) {
         res.send({status: 0, error: 'error'});
     } finally {
