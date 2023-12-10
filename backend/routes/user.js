@@ -5,6 +5,7 @@ const {zxcvbn, zxcvbnOptions} = require('@zxcvbn-ts/core');
 const zxcvbnCommonPackage = require('@zxcvbn-ts/language-common');
 const zxcvbnEnPackage = require('@zxcvbn-ts/language-en');
 const zxcvbnDePackage = require('@zxcvbn-ts/language-de');
+const argon2 = require('argon2');
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -35,11 +36,12 @@ const zxcvbnSettings = {
 
 // ---Methods--- //
 async function registerNewUser(firstName, lastName, email, password, birthdate, phonenumber) {
+    const hashedPassword = await argon2.hash(password);
     const newUser ='INSERT INTO user (firstName, lastName, email, password, birthdate, phonenumber, coins) VALUES (?, ?, ?, ?, ?, ?, 0)';
 
     try {
         const conn = await pool.getConnection();
-        const result = await conn.query(newUser, [firstName, lastName, email, password, birthdate, phonenumber]);
+        const result = await conn.query(newUser, [firstName, lastName, email, hashedPassword, birthdate, phonenumber]);
         await conn.release();
         console.log('User registered successfully');
         return 0;
