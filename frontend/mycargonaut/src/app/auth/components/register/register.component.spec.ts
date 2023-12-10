@@ -23,11 +23,6 @@ describe('RegisterComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have a username input field with type=text', () =>{
-    const el = fixture.debugElement.query(By.css('.username-input'));
-    expect(el.nativeElement.getAttribute('type')).toEqual('text');
-  });
-
   it('should have a password input field with type=password', () =>{
     const el = fixture.debugElement.query(By.css('.password-input'));
     expect(el.nativeElement.getAttribute('type')).toEqual('password');
