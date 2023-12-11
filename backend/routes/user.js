@@ -88,8 +88,6 @@ router.post('/register', async function(req, res, next) {
                 res.send({status: 0, error: 'username or email already taken', msg: 'Your username or email is already taken.'});
             } else {
                 const newUser = await registerNewUser(firstName, lastName, email, passwords, birthdate, phonenumber);
-                res.status(418);
-                res.send({juhu: "hu"});
             }
         }
     } catch (error) {
@@ -112,12 +110,14 @@ router.post('/login', async function(req, res, next) {
             const passwordIsCorrect = argon2.verify(hashedPassword, password.toString());
             if (passwordIsCorrect) {
                 let token = jwt.sign({email: email, user_id: result[0].user_id}, jwtSecret, {expiresIn: '1h'});
-                res.send({status: 1, data: {email, user_id: result[0].user_id}, token: token});
-                
+                res.send({status: 1, data: {email, user_id: result[0].user_id}, token: token});     
+            }else{
+                res.send({status: 0, error: 'error'});
             }
+        }else{
+            res.send({status: 0, error: 'error'});
         }
     } catch (error) {
-        console.log(error);
         res.send({status: 0, error: 'error'});
     } finally {
         if (conn) conn.release();
