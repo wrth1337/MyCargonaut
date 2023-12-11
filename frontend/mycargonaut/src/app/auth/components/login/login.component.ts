@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/service/api.service';
@@ -9,13 +9,16 @@ import { AuthService } from 'src/app/service/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
   loginFailure = false;
   constructor(
     private api: ApiService,
     private auth: AuthService,
     private router: Router
   ){}
+  ngOnInit(){
+      this.loginFailure = false;
+  }
   onSubmit(form : NgForm){
     this.api.postRequest("user/login", form.value).subscribe((res:any) =>{
       if(res.status == 1){
