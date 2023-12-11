@@ -38,7 +38,7 @@ const zxcvbnSettings = {
 };
 
 // JWT settings
-const jwtSecret = process.env.JWT_SECRET;
+const jwtSecret = process.env.JWT_SECRET || 'TEST_DEV_SECRET';
 
 // ---Methods--- //
 async function registerNewUser(firstName, lastName, email, password, birthdate, phonenumber) {
@@ -88,6 +88,8 @@ router.post('/register', async function(req, res, next) {
                 res.send({status: 0, error: 'username or email already taken', msg: 'Your username or email is already taken.'});
             } else {
                 const newUser = await registerNewUser(firstName, lastName, email, passwords, birthdate, phonenumber);
+                res.status(418);
+                res.send({juhu: "hu"});
             }
         }
     } catch (error) {
@@ -100,23 +102,25 @@ router.post('/register', async function(req, res, next) {
 router.post('/login', async function(req, res, next) {
     const conn = await pool.getConnection();
     try {
-        const {username, password} = req.body;
+        const {email, password} = req.body;
 
-        const getUserData = `SELECT * FROM user WHERE username = ?`;
-        const result = await conn.query(getUserData, [username]);
+        const getUserData = `SELECT * FROM user WHERE email = ?`;
+        const result = await conn.query(getUserData, [email]);
 
         if (result.length > 0) {
             const hashedPassword = result[0].password;
             const passwordIsCorrect = argon2.verify(hashedPassword, password.toString());
             if (passwordIsCorrect) {
-                let token = jwt.sign({username: username, user_id: result[0].user_id}, jwtSecret, {expiresIn: '1h'});
-                res.send({status: 0, data: {username, user_id: result[0].user_id}, token: token});
+                let token = jwt.sign({email: email, user_id: result[0].user_id}, jwtSecret, {expiresIn: '1h'});
+                res.send({status: 1, data: {email, user_id: result[0].user_id}, token: token});
+                
             }
         }
     } catch (error) {
+        console.log(error);
         res.send({status: 0, error: 'error'});
     } finally {
-        if (con) con.release();
+        if (conn) conn.release();
     }
 });
 
