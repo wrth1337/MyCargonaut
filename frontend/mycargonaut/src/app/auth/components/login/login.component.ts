@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ApiService } from 'src/app/service/api.service';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -7,8 +10,21 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  loginFailure = false;
+  constructor(
+    private api: ApiService,
+    private auth: AuthService,
+    private router: Router
+  ){}
   onSubmit(form : NgForm){
-    console.log("onSubmit works");
-    console.log(form);
+    this.api.postRequest("user/login", form.value).subscribe((res:any) =>{
+      if(res.status == 1){
+        this.auth.setDataInLocalStorage('userData', JSON.stringify(res.data));
+        this.auth.setDataInLocalStorage('token', res.token);
+        this.router.navigate(['']);
+      }else{
+        this.loginFailure = true;
+      }
+    })
   }
 }
