@@ -12,6 +12,9 @@ export class RegisterComponent implements OnInit{
   isLogin = false;
   passwordIsWeak = false;
   passwordFeedback = false;
+  birthdateInvalid = false;
+  emailInvalid = false;
+  phonenumberInvalid = false;
   zxcvbnFeedback = '';
 
   constructor(
@@ -19,6 +22,15 @@ export class RegisterComponent implements OnInit{
   ){}
   onSubmit(form: NgForm){
     this.api.postRequest("user/register", form.value).subscribe((res:any) =>{
+      if(res.status == 3){
+        this.phonenumberInvalid = true;
+      }
+      if(res.status == 4){
+        this.emailInvalid = true;
+      }
+      if(res.status == 5){
+        this.birthdateInvalid = true;
+      }
       if(res.status == 2){
         this.passwordIsWeak = true;
         if(res.feedback.warning) {
