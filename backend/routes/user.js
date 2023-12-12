@@ -91,7 +91,7 @@ router.post('/register', async function(req, res, next) {
         const zxcvbnFeedback = zxcvbnResults.feedback;
         if (!isPhonenumberValid(phonenumber)) {
             res.status(422);
-            res.send({status: 3, msg: 'No valid phonennumber'});
+            res.send({status: 3, msg: 'No valid phonenumber'});
         }
         if (!isEmailValid(email)) {
             res.status(422);
