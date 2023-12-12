@@ -74,20 +74,23 @@ router.post('/register', async function(req, res, next) {
         const zxcvbnScore = zxcvbnResults.score;
         const zxcvbnFeedback = zxcvbnResults.feedback;
         if (zxcvbnScore <= 2) {
+            res.status(422);
             res.send({status: 2, score: zxcvbnScore, feedback: zxcvbnFeedback});
         } else {
             const userExists = await isUserAlreadyRegistered(email);
             if (userExists) {
-                // eslint-disable-next-line max-len
+                res.status(409);
                 res.send({status: 0, error: 'username or email already taken', msg: 'Your username or email is already taken.'});
             } else {
                 const newUser = await registerNewUser(firstName, lastName, email, passwords, birthdate, phonenumber);
+                res.status(201);
+                res.send({status: 1, msg: 'User created'});
             }
         }
     } catch (error) {
         res.send({status: 0, error: 'Registration failed'});
     } finally {
-        if (conn) conn.release();
+        if (conn) await conn.release();
     }
 });
 
