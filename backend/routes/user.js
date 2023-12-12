@@ -38,7 +38,6 @@ const zxcvbnSettings = {
 async function registerNewUser(firstName, lastName, email, password, birthdate, phonenumber) {
     const hashedPassword = await argon2.hash(password);
     const newUser ='INSERT INTO user (firstName, lastName, email, password, birthdate, phonenumber, coins) VALUES (?, ?, ?, ?, ?, ?, 0)';
-
     try {
         const conn = await pool.getConnection();
         // eslint-disable-next-line no-unused-vars
@@ -63,6 +62,22 @@ async function isUserAlreadyRegistered(email) {
         console.error(error);
         throw error;
     }
+}
+
+async function isEmailValid(email) {
+    // eslint-disable-next-line max-len
+    const regexEmail = /(?:[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+    return regexEmail.test(email);
+}
+
+async function isBirthdateValid(birthdate) {
+    const regexBirthdate = /[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/;
+    return regexBirthdate.test(birthdate);
+}
+
+async function isPhonenumberValid(phonenumber) {
+    const regexPhonenumber = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
+    return regexPhonenumber.test(phonenumber);
 }
 
 // ---Routes--- //
@@ -96,4 +111,4 @@ router.post('/register', async function(req, res, next) {
     }
 });
 
-module.exports = {router, registerNewUser, isUserAlreadyRegistered};
+module.exports = {router, registerNewUser, isUserAlreadyRegistered, isEmailValid, isPhonenumberValid, isBirthdateValid};
