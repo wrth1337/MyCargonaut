@@ -89,6 +89,18 @@ router.post('/register', async function(req, res, next) {
         const zxcvbnResults = zxcvbn(passwords, [firstName, lastName, email, birthdate, phonenumber]);
         const zxcvbnScore = zxcvbnResults.score;
         const zxcvbnFeedback = zxcvbnResults.feedback;
+        if (!isPhonenumberValid(phonenumber)) {
+            res.status(422);
+            res.send({status: 3, msg: 'No valid phonennumber'});
+        }
+        if (!isEmailValid(email)) {
+            res.status(422);
+            res.send({status: 4, msg: 'No valid email'});
+        }
+        if (!isDateValid(birthdate)) {
+            res.status(422);
+            res.send({status: 5, msg: 'No valid birthdate'});
+        }
         if (zxcvbnScore <= 2) {
             res.status(422);
             res.send({status: 2, score: zxcvbnScore, feedback: zxcvbnFeedback});
@@ -96,16 +108,17 @@ router.post('/register', async function(req, res, next) {
             const userExists = await isUserAlreadyRegistered(email);
             if (userExists) {
                 res.status(409);
-                res.send({status: 0, error: 'username or email already taken', msg: 'Your username or email is already taken.'});
+                res.send({status: 1, msg: 'Your email is already taken.'});
             } else {
                 // eslint-disable-next-line no-unused-vars
                 const newUser = await registerNewUser(firstName, lastName, email, passwords, birthdate, phonenumber);
                 res.status(201);
-                res.send({status: 1, msg: 'User created'});
+                res.send({status: 0, msg: 'User created'});
             }
         }
     } catch (error) {
-        res.send({status: 0, error: 'Registration failed'});
+        res.status(500);
+        res.send({status: 99, error: 'Registration failed'});
     } finally {
         if (conn) await conn.release();
     }
