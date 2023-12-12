@@ -21,6 +21,7 @@ export class RegisterComponent implements OnInit{
     private api: ApiService,
   ){}
   onSubmit(form: NgForm){
+    // TODO: code wird durch http-fehlercode abgebrochen. muss noch gefixt werden
     this.api.postRequest("user/register", form.value).subscribe((res:any) =>{
       if(res.status == 3){
         this.phonenumberInvalid = true;
