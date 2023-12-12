@@ -1,5 +1,6 @@
 const {expect, test, afterAll} = require('@jest/globals');
 const {registerNewUser, isUserAlreadyRegistered} = require('../routes/user');
+const argon2 = require('argon2');
 const mariadb = require('mariadb');
 
 const pool = mariadb.createPool({
@@ -36,6 +37,48 @@ test('register new user in database via backend', async () => {
         expect(dbResult[0].lastName).toBe(lastName);
         expect(dbResult[0].email).toBe(email);
         expect(dbResult[0].phonenumber).toBe(phonenumber);
+
+    } finally {
+        // Always release the connection
+        if (conn) await conn.release();
+    }
+
+    try {
+        // Clean up the test data from the database
+        conn = await pool.getConnection();
+        await conn.query('DELETE FROM user WHERE email = ?', [email]);
+    } finally {
+        // Always release the connection
+        if (conn) await conn.release();
+    }
+});
+
+test('registerNewUser argon2id functionality', async () => {
+    const firstName = 'testFirstName';
+    const lastName = 'testLastName';
+    const email = 'testEmail@test.com';
+    const password = 'testPassword';
+    const birthdate = '1990-01-01';
+    const phonenumber = '1234567890';
+
+    // Register a new user
+    const registerResult = await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
+
+    // Expect the function to return 0 (success)
+    expect(registerResult).toBe(0);
+
+    let conn;
+
+    try {
+        // Verify the user is in the database
+        conn = await pool.getConnection();
+        const dbResult = await conn.query('SELECT * FROM user WHERE email = ?', [email]);
+
+        // Verify the hashed password
+        const isVerified = await argon2.verify(dbResult[0].password, password);
+
+        // Expect the verification to be true
+        expect(isVerified).toBe(true);
 
     } finally {
         // Always release the connection
