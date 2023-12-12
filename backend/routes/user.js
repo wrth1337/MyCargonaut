@@ -70,8 +70,8 @@ async function isEmailValid(email) {
     return regexEmail.test(email);
 }
 
-async function isBirthdateValid(birthdate) {
-    const regexBirthdate = /[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/;
+async function isDateValid(birthdate) {
+    const regexBirthdate = /[0-9][0-9][0-9][0-9]-(0[0-9]|1[0-2])-(0[0-9]|1[0-9]|2[0-9]|3[0-1])/;
     return regexBirthdate.test(birthdate);
 }
 
@@ -111,4 +111,4 @@ router.post('/register', async function(req, res, next) {
     }
 });
 
-module.exports = {router, registerNewUser, isUserAlreadyRegistered, isEmailValid, isPhonenumberValid, isBirthdateValid};
+module.exports = {router, registerNewUser, isUserAlreadyRegistered, isEmailValid, isPhonenumberValid, isDateValid};
