@@ -11,6 +11,9 @@ const httpServer = require('http').createServer(app);
 const user = require('./routes/user');
 app.use('/user', user.router);
 
+const profile = require('./routes/profile');
+app.use('/user', profile.router);
+
 
 // app.js
 const swaggerJSDoc = require('swagger-jsdoc');

@@ -10,13 +10,16 @@ import { ApiService } from 'src/app/service/api.service';
 
 
 export class ProfileComponent {
+  data: any;
 
   constructor(
     private api: ApiService,
   ){}
-
-  ngOnInit(): void {
+  ngOnInit() {
     console.log("init");
+    this.api.getRequest("user/profile").subscribe((res: any) => {
+      this.data = res.data;
+    })
   }
 }
 
