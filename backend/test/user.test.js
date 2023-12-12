@@ -1,5 +1,5 @@
 const {expect, test, afterAll} = require('@jest/globals');
-const {registerNewUser, isUserAlreadyRegistered, isEmailValid} = require('../routes/user');
+const {registerNewUser, isUserAlreadyRegistered, isEmailValid, isPhonenumberValid} = require('../routes/user');
 const mariadb = require('mariadb');
 
 const pool = mariadb.createPool({
@@ -83,6 +83,22 @@ test('emailvalidation finds falsy emails', async () => {
     expect(await isEmailValid('.mysite@mysite.org')).toBeFalsy();
     expect(await isEmailValid('mysite()*@gmail.com')).toBeFalsy();
     expect(await isEmailValid('mysite..1234@yahoo.com')).toBeFalsy();
+});
+
+// Test: isPhonenumberValid()
+test('phonennumbervalidation finds correct phonennumbers', async () => {
+    expect(await isPhonenumberValid('027743829')).toBeTruthy();
+    expect(await isPhonenumberValid('0152234716')).toBeTruthy();
+    expect(await isPhonenumberValid('+49152234716')).toBeTruthy();
+    expect(await isPhonenumberValid('+49152 234 716')).toBeTruthy();
+    expect(await isPhonenumberValid('+49152-234-716')).toBeTruthy();
+    expect(await isPhonenumberValid('+49152.234.716')).toBeTruthy();
+    expect(await isPhonenumberValid('02774/3324243')).toBeTruthy();
+});
+test('phonennumbervalidation finds falsy phonennumbers', async () => {
+    expect(await isPhonenumberValid('23480a2938')).toBeFalsy();
+    expect(await isPhonenumberValid('29304!123')).toBeFalsy();
+    expect(await isPhonenumberValid('23094&234')).toBeFalsy();
 });
 
 // Jest afterAll function
