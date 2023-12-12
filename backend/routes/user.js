@@ -89,19 +89,16 @@ router.post('/register', async function(req, res, next) {
         const zxcvbnResults = zxcvbn(passwords, [firstName, lastName, email, birthdate, phonenumber]);
         const zxcvbnScore = zxcvbnResults.score;
         const zxcvbnFeedback = zxcvbnResults.feedback;
-        if (!isPhonenumberValid(phonenumber)) {
+        if (!await isPhonenumberValid(phonenumber)) {
             res.status(422);
             res.send({status: 3, msg: 'No valid phonenumber'});
-        }
-        if (!isEmailValid(email)) {
+        } else if (!await isEmailValid(email)) {
             res.status(422);
             res.send({status: 4, msg: 'No valid email'});
-        }
-        if (!isDateValid(birthdate)) {
+        } else if (!await isDateValid(birthdate)) {
             res.status(422);
             res.send({status: 5, msg: 'No valid birthdate'});
-        }
-        if (zxcvbnScore <= 2) {
+        } else if (zxcvbnScore <= 2) {
             res.status(422);
             res.send({status: 2, score: zxcvbnScore, feedback: zxcvbnFeedback});
         } else {
