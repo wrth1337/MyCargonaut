@@ -18,10 +18,7 @@ export class RegisterComponent implements OnInit{
     private api: ApiService,
   ){}
   onSubmit(form: NgForm){
-    console.log("Form triggered")
-    console.log(form.value)
     this.api.postRequest("user/register", form.value).subscribe((res:any) =>{
-      console.log(res)
       if(res.status == 2){
         this.passwordIsWeak = true;
         if(res.feedback.warning) {
