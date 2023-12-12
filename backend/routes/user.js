@@ -66,6 +66,64 @@ async function isUserAlreadyRegistered(email) {
 }
 
 // ---Routes--- //
+/**
+ * @swagger
+ * /register:
+ *      post:
+ *          summary: Create a new user.
+ *          description: Create a new user.
+ *          parameters:
+ *              - in: query
+ *                name: firstName
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                description: The Firstname of the user to be created.
+ *                example: Max
+ *              - in: query
+ *                name: lastName
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                description: The Lastname of the user to be created.
+ *                example: Mustermann
+ *              - in: query
+ *                name: email
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                description: The email-address of the user to be created.
+ *                example: max.mustermann@email.de
+ *              - in: query
+ *                name: passwords
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                description: The chosen password of the user to be created.
+ *                example: gi#$giOsdjw!sj2xS
+ *              - in: query
+ *                name: birthdate
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                  format: date
+ *                description: The birthdate of the user to be created.
+ *                example: 01.01.1990
+ *              - in: query
+ *                name: phonenumber
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                description: The phonenumber of the user to be created.
+ *                example: 1234566789
+ *          responses:
+ *              201:
+ *                  description: User successfully created.
+ *              409:
+ *                  description: User with the same email-address already exists.
+ *              422:
+ *                  description: Password is too weak.
+ */
 router.post('/register', async function(req, res, next) {
     const conn = await pool.getConnection();
     zxcvbnOptions.setOptions(zxcvbnSettings);
