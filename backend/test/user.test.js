@@ -1,5 +1,5 @@
 const {expect, test, afterAll} = require('@jest/globals');
-const {registerNewUser, isUserAlreadyRegistered} = require('../routes/user');
+const {registerNewUser, isUserAlreadyRegistered, isEmailValid} = require('../routes/user');
 const mariadb = require('mariadb');
 
 const pool = mariadb.createPool({
@@ -10,6 +10,7 @@ const pool = mariadb.createPool({
     database: 'cargodb',
 });
 
+// Test: registerNewUser()
 test('register new user in database via backend', async () => {
     const firstName = 'testFirstName';
     const lastName = 'testLastName';
@@ -63,6 +64,26 @@ test('user isnt registered yet', async () =>{
     expect(result).toBe(false);
 });
 */
+
+// Test: isEmailValid()
+test('emailvalidation finds correct emails', async () => {
+    expect(await isEmailValid('testemail@gmail.de')).toBeTruthy();
+    expect(await isEmailValid('test.email@gmail.de')).toBeTruthy();
+    expect(await isEmailValid('t@gmail.de')).toBeTruthy();
+    expect(await isEmailValid('mysite@you.me.net')).toBeTruthy();
+});
+test('emailvalidation finds falsy emails', async () => {
+    expect(await isEmailValid('testemailgmail.de')).toBeFalsy();
+    expect(await isEmailValid('testem!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ailgmail.de')).toBeFalsy();
+    expect(await isEmailValid('quatsch')).toBeFalsy();
+    expect(await isEmailValid('LeetHaxx0r@gmail@web.de')).toBeFalsy();
+    expect(await isEmailValid('mysite@.com.my')).toBeFalsy();
+    expect(await isEmailValid('@com.my')).toBeFalsy();
+    expect(await isEmailValid('mysite123@gmail.b')).toBeFalsy();
+    expect(await isEmailValid('.mysite@mysite.org')).toBeFalsy();
+    expect(await isEmailValid('mysite()*@gmail.com')).toBeFalsy();
+    expect(await isEmailValid('mysite..1234@yahoo.com')).toBeFalsy();
+});
 
 // Jest afterAll function
 afterAll(() => {
