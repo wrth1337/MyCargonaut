@@ -41,6 +41,7 @@ async function registerNewUser(firstName, lastName, email, password, birthdate, 
 
     try {
         const conn = await pool.getConnection();
+        // eslint-disable-next-line no-unused-vars
         const result = await conn.query(newUser, [firstName, lastName, email, hashedPassword, birthdate, phonenumber]);
         await conn.release();
         console.log('User registered successfully');
@@ -82,6 +83,7 @@ router.post('/register', async function(req, res, next) {
                 res.status(409);
                 res.send({status: 0, error: 'username or email already taken', msg: 'Your username or email is already taken.'});
             } else {
+                // eslint-disable-next-line no-unused-vars
                 const newUser = await registerNewUser(firstName, lastName, email, passwords, birthdate, phonenumber);
                 res.status(201);
                 res.send({status: 1, msg: 'User created'});
