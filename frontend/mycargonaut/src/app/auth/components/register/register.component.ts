@@ -12,26 +12,41 @@ export class RegisterComponent implements OnInit{
   isLogin = false;
   passwordIsWeak = false;
   passwordFeedback = false;
+  birthdateInvalid = false;
+  emailInvalid = false;
+  phonenumberInvalid = false;
   zxcvbnFeedback = '';
 
   constructor(
     private api: ApiService,
   ){}
+
   onSubmit(form: NgForm){
-    console.log("Form triggered")
-    console.log(form.value)
+    // TODO: code wird durch http-fehlercode abgebrochen. muss noch gefixt werden
     this.api.postRequest("user/register", form.value).subscribe((res:any) =>{
-      console.log(res)
-      if(res.status == 2){
+      console.log(res);
+    }, (error:any) =>{
+      if(error.error.status == 3){
+        this.phonenumberInvalid = true;
+      }
+      if(error.error.status == 4){
+        console.log('email invalid');
+        this.emailInvalid = true;
+      }
+      if(error.error.status == 5){
+        this.birthdateInvalid = true;
+      }
+      if(error.error.status == 2){
         this.passwordIsWeak = true;
-        if(res.feedback.warning) {
+        if(error.error.feedback.warning) {
           this.passwordFeedback = true;
-          this.zxcvbnFeedback = res.feedback.warning;
+          this.zxcvbnFeedback = error.error.feedback.warning;
         }
       }
     })
   }
+
   ngOnInit(): void {
-      console.log("init functionality")
+    console.log('init registration');
   }
 }
