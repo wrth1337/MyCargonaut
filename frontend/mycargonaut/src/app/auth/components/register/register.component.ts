@@ -45,7 +45,7 @@ export class RegisterComponent implements OnInit{
     })
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   ngOnInit(): void {
+    console.log('init registration');
   }
 }
