@@ -138,7 +138,19 @@ async function isPhonenumberValid(phonenumber) {
  *                  description: User with the same email-address already exists.
  *              422:
  *                  description: Password is too weak.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  msg:
+ *                                      type: string
+ *                                      description: A brief description of the error.
  */
+// TODO: oneOF in Swagger, because 422 can have different response-objects
 router.post('/register', async function(req, res, next) {
     const conn = await pool.getConnection();
     zxcvbnOptions.setOptions(zxcvbnSettings);
