@@ -24,7 +24,7 @@ export class RegisterComponent implements OnInit{
   onSubmit(form: NgForm){
     // TODO: code wird durch http-fehlercode abgebrochen. muss noch gefixt werden
     this.api.postRequest("user/register", form.value).subscribe((res:any) =>{
-
+      console.log("registration complete");
     }, (error:any) =>{
       if(error.status == 3){
         this.phonenumberInvalid = true;
@@ -43,7 +43,5 @@ export class RegisterComponent implements OnInit{
         }
       }
     })
-  }
-  ngOnInit(): void {
   }
 }
