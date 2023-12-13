@@ -11,23 +11,32 @@ import { AuthService } from 'src/app/service/auth.service';
 })
 export class LoginComponent implements OnInit{
   loginFailure = false;
+  isLogin = false;
   constructor(
     private api: ApiService,
     private auth: AuthService,
     private router: Router
   ){}
   ngOnInit(){
-      this.loginFailure = false;
+    this.isUserLogin();
+    this.loginFailure = false;
   }
   onSubmit(form : NgForm){
     this.api.postRequest("user/login", form.value).subscribe((res:any) =>{
       if(res.status == 1){
         this.auth.setDataInLocalStorage('userData', JSON.stringify(res.data));
         this.auth.setDataInLocalStorage('token', res.token);
-        this.router.navigate(['']);
+        window.location.reload();
       }else{
         this.loginFailure = true;
       }
     })
+  }
+  isUserLogin(){
+    if(this.auth.getToken() != null){this.isLogin = true}
+  }
+  logout(){
+    this.auth.clearStorage();
+    window.location.reload();
   }
 }

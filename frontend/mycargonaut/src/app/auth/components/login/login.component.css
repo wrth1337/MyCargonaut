@@ -26,3 +26,7 @@
 .newAcc{
     color: var(--primary);
 }
+.logoutButton{
+    background-color: var(--secondary);
+    color: white;
+}
