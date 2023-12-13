@@ -26,20 +26,21 @@ export class RegisterComponent implements OnInit{
     this.api.postRequest("user/register", form.value).subscribe((res:any) =>{
       console.log(res);
     }, (error:any) =>{
-      if(error.status == 3){
+      if(error.error.status == 3){
         this.phonenumberInvalid = true;
       }
-      if(error.status == 4){
+      if(error.error.status == 4){
+        console.log('email invalid');
         this.emailInvalid = true;
       }
-      if(error.status == 5){
+      if(error.error.status == 5){
         this.birthdateInvalid = true;
       }
-      if(error.status == 2){
+      if(error.error.status == 2){
         this.passwordIsWeak = true;
-        if(error.feedback.warning) {
+        if(error.error.feedback.warning) {
           this.passwordFeedback = true;
-          this.zxcvbnFeedback = error.feedback.warning;
+          this.zxcvbnFeedback = error.error.feedback.warning;
         }
       }
     })
