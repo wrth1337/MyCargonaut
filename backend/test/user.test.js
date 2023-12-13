@@ -1,5 +1,5 @@
 const {expect, test, afterAll} = require('@jest/globals');
-const {registerNewUser, isUserAlreadyRegistered} = require('../routes/user');
+const {registerNewUser, isUserAlreadyRegistered, isEmailValid, isPhonenumberValid, isDateValid} = require('../routes/user');
 const mariadb = require('mariadb');
 
 const pool = mariadb.createPool({
@@ -10,6 +10,7 @@ const pool = mariadb.createPool({
     database: 'cargodb',
 });
 
+// Test: registerNewUser()
 test('register new user in database via backend', async () => {
     const firstName = 'testFirstName';
     const lastName = 'testLastName';
@@ -63,6 +64,54 @@ test('user isnt registered yet', async () =>{
     expect(result).toBe(false);
 });
 */
+
+// Test: isEmailValid()
+test('emailvalidation finds correct emails', async () => {
+    expect(await isEmailValid('testemail@gmail.de')).toBeTruthy();
+    expect(await isEmailValid('test.email@gmail.de')).toBeTruthy();
+    expect(await isEmailValid('t@gmail.de')).toBeTruthy();
+    expect(await isEmailValid('mysite@you.me.net')).toBeTruthy();
+});
+test('emailvalidation finds falsy emails', async () => {
+    expect(await isEmailValid('testemailgmail.de')).toBeFalsy();
+    expect(await isEmailValid('testem!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ailgmail.de')).toBeFalsy();
+    expect(await isEmailValid('quatsch')).toBeFalsy();
+    expect(await isEmailValid('LeetHaxx0r@gmail@web.de')).toBeFalsy();
+    expect(await isEmailValid('mysite@.com.my')).toBeFalsy();
+    expect(await isEmailValid('@com.my')).toBeFalsy();
+    expect(await isEmailValid('mysite123@gmail.b')).toBeFalsy();
+    expect(await isEmailValid('.mysite@mysite.org')).toBeFalsy();
+    expect(await isEmailValid('mysite()*@gmail.com')).toBeFalsy();
+    expect(await isEmailValid('mysite..1234@yahoo.com')).toBeFalsy();
+});
+
+// Test: isPhonenumberValid()
+test('phonennumbervalidation finds correct phonennumbers', async () => {
+    expect(await isPhonenumberValid('027743829')).toBeTruthy();
+    expect(await isPhonenumberValid('0152234716')).toBeTruthy();
+    expect(await isPhonenumberValid('+49152234716')).toBeTruthy();
+    expect(await isPhonenumberValid('+49152 234 716')).toBeTruthy();
+    expect(await isPhonenumberValid('+49152-234-716')).toBeTruthy();
+    expect(await isPhonenumberValid('+49152.234.716')).toBeTruthy();
+    expect(await isPhonenumberValid('02774/3324243')).toBeTruthy();
+});
+test('phonennumbervalidation finds falsy phonennumbers', async () => {
+    expect(await isPhonenumberValid('23480a2938')).toBeFalsy();
+    expect(await isPhonenumberValid('29304!123')).toBeFalsy();
+    expect(await isPhonenumberValid('23094&234')).toBeFalsy();
+});
+
+// Test: isBirthdateValid()
+test('datevalidation finds correct dates', async () => {
+    expect(await isDateValid('1990-04-12')).toBeTruthy();
+    expect(await isDateValid('2023-12-12')).toBeTruthy();
+});
+test('datevalidation finds falsy dates', async () => {
+    expect(await isDateValid('1990-31-31')).toBeFalsy();
+    expect(await isDateValid('1990-31')).toBeFalsy();
+    expect(await isDateValid('1997-01-5')).toBeFalsy();
+    expect(await isDateValid('1997-99-99')).toBeFalsy();
+});
 
 // Jest afterAll function
 afterAll(() => {
