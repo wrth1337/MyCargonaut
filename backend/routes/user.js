@@ -105,21 +105,21 @@ async function isPhonenumberValid(phonenumber) {
  *                schema:
  *                  type: string
  *                description: The Firstname of the user to be created.
- *                example: Max
+ *                example: Gabe
  *              - in: query
  *                name: lastName
  *                required: true
  *                schema:
  *                  type: string
  *                description: The Lastname of the user to be created.
- *                example: Mustermann
+ *                example: Newell
  *              - in: query
  *                name: email
  *                required: true
  *                schema:
  *                  type: string
  *                description: The email-address of the user to be created.
- *                example: max.mustermann@email.de
+ *                example: gaben@valvesoftware.com
  *              - in: query
  *                name: passwords
  *                required: true
@@ -134,7 +134,7 @@ async function isPhonenumberValid(phonenumber) {
  *                  type: string
  *                  format: date
  *                description: The birthdate of the user to be created.
- *                example: 01.01.1990
+ *                example: 03-11-1962
  *              - in: query
  *                name: phonenumber
  *                required: true
@@ -242,6 +242,70 @@ router.post('/register', async function(req, res, next) {
     }
 });
 
+/**
+ * @swagger
+ * /login:
+ *      post:
+ *          summary: Login as an existing user.
+ *          description: Login as an existing user.
+ *          tags:
+ *              - user
+ *          parameters:
+ *              - in: query
+ *                name: email
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                description: The email of the user.
+ *                example: Leet@Krew.de
+ *              - in: query
+ *                name: password
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                description: The password of the user.
+ *                example: L33tH4xx0r!
+ *          responses:
+ *              200:
+ *                  description: Response of the login-attempt. Notice, The status-code is always 200 due to security-reasons, wether it was successfull or not.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              oneOf:
+ *                                  - $ref: '#/components/schemas/login-success'
+ *                                  - $ref: '#/components/schemas/login-error'
+ *
+ * components:
+ *      schemas:
+ *          login-success:
+ *              type: object
+ *              properties:
+ *                  status:
+ *                      type: integer
+ *                      description: The status-code.
+ *                  data:
+ *                      type: object
+ *                      description: The data of the logged-in user.
+ *                      properties:
+ *                          email:
+ *                              type: string
+ *                              description: The email of the logged-in user.
+ *                          user_id:
+ *                              type: integer
+ *                              description: The ID of the logged-in user.
+ *                  token:
+ *                      type: string
+ *                      description: The JW-Token of the logged-in user.
+ *          login-error:
+ *              type: object
+ *              properties:
+ *                  status:
+ *                      type: integer
+ *                      description: The status-code.
+ *                  error:
+ *                      type: string
+ *                      description: The error-message.
+ */
 router.post('/login', async function(req, res, next) {
     const conn = await pool.getConnection();
     try {
