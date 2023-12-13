@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from 'src/app/service/api.service';
-import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-register',
