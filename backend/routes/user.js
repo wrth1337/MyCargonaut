@@ -110,7 +110,7 @@ router.post('/login', async function(req, res, next) {
             const passwordIsCorrect = argon2.verify(hashedPassword, password.toString());
             if (passwordIsCorrect) {
                 let token = jwt.sign({email: email, user_id: result[0].user_id}, jwtSecret, {expiresIn: '1h'});
-                res.send({status: 1, data: {email, user_id: result[0].user_id}, token: token});     
+                res.send({status: 1, data: {email, user_id: result[0].user_id}, token: token});
             }else{
                 res.send({status: 0, error: 'error'});
             }
