@@ -27,7 +27,7 @@ Text
 - ng lint / npm run lint
 ### Backend
 #### Start
-- npm start dev
+- npm run dev
 #### Test
 - npm run test
 #### Lint
