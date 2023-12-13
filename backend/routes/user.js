@@ -87,6 +87,121 @@ async function isPhonenumberValid(phonenumber) {
 }
 
 // ---Routes--- //
+/**
+ * @swagger
+ * tags:
+ *      - name: user
+ *        description: Routes that are connected to the user.
+ * /register:
+ *      post:
+ *          summary: Create a new user.
+ *          description: Create a new user.
+ *          tags:
+ *              - user
+ *          parameters:
+ *              - in: query
+ *                name: firstName
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                description: The Firstname of the user to be created.
+ *                example: Gabe
+ *              - in: query
+ *                name: lastName
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                description: The Lastname of the user to be created.
+ *                example: Newell
+ *              - in: query
+ *                name: email
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                description: The email-address of the user to be created.
+ *                example: gaben@valvesoftware.com
+ *              - in: query
+ *                name: passwords
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                description: The chosen password of the user to be created.
+ *                example: gi#$giOsdjw!sj2xS
+ *              - in: query
+ *                name: birthdate
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                  format: date
+ *                description: The birthdate of the user to be created.
+ *                example: 03-11-1962
+ *              - in: query
+ *                name: phonenumber
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                description: The phonenumber of the user to be created.
+ *                example: 1234566789
+ *          responses:
+ *              201:
+ *                  description: User successfully created.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  msg:
+ *                                      type: string
+ *                                      description: A brief description about the successfull registration.
+ *              409:
+ *                  description: User with the same email-address already exists.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  msg:
+ *                                      type: string
+ *                                      description: A brief description of the error.
+ *              422:
+ *                  description: Password is too weak.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              oneOf:
+ *                                  - $ref: '#/components/schemas/normal-message'
+ *                                  - $ref: '#/components/schemas/zxcvbn-message'
+ *
+ * components:
+ *      schemas:
+ *          normal-message:
+ *              type: object
+ *              properties:
+ *                  status:
+ *                      type: integer
+ *                      description: The status-code.
+ *                  msg:
+ *                      type: string
+ *                      description: A brief description of the error.
+ *          zxcvbn-message:
+ *              type: object
+ *              properties:
+ *                  status:
+ *                      type: integer
+ *                      description: The status-code.
+ *                  score:
+ *                      type: integer
+ *                      description: The security-score of the given (bad) password.
+ *                  feedback:
+ *                      type: string
+ *                      description: The feedback for the given (bad) password.
+ */
 router.post('/register', async function(req, res, next) {
     const conn = await pool.getConnection();
     zxcvbnOptions.setOptions(zxcvbnSettings);
@@ -127,6 +242,70 @@ router.post('/register', async function(req, res, next) {
     }
 });
 
+/**
+ * @swagger
+ * /login:
+ *      post:
+ *          summary: Login as an existing user.
+ *          description: Login as an existing user.
+ *          tags:
+ *              - user
+ *          parameters:
+ *              - in: query
+ *                name: email
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                description: The email of the user.
+ *                example: Leet@Krew.de
+ *              - in: query
+ *                name: password
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                description: The password of the user.
+ *                example: L33tH4xx0r!
+ *          responses:
+ *              200:
+ *                  description: Response of the login-attempt. Notice, The status-code is always 200 due to security-reasons, wether it was successfull or not.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              oneOf:
+ *                                  - $ref: '#/components/schemas/login-success'
+ *                                  - $ref: '#/components/schemas/login-error'
+ *
+ * components:
+ *      schemas:
+ *          login-success:
+ *              type: object
+ *              properties:
+ *                  status:
+ *                      type: integer
+ *                      description: The status-code.
+ *                  data:
+ *                      type: object
+ *                      description: The data of the logged-in user.
+ *                      properties:
+ *                          email:
+ *                              type: string
+ *                              description: The email of the logged-in user.
+ *                          user_id:
+ *                              type: integer
+ *                              description: The ID of the logged-in user.
+ *                  token:
+ *                      type: string
+ *                      description: The JW-Token of the logged-in user.
+ *          login-error:
+ *              type: object
+ *              properties:
+ *                  status:
+ *                      type: integer
+ *                      description: The status-code.
+ *                  error:
+ *                      type: string
+ *                      description: The error-message.
+ */
 router.post('/login', async function(req, res, next) {
     const conn = await pool.getConnection();
     try {
