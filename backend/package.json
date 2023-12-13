@@ -4,8 +4,8 @@
   "description": "myCargonaut Backend",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon index.js",
     "start": "node index.js",
-    "start dev": "nodemon index.js",
     "test": "jest  --forceExit"
   },
   "repository": {
