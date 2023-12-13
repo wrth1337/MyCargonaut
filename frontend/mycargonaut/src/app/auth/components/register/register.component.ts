@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit{
   constructor(
     private api: ApiService,
   ){}
-  // @ts-ignore
+
   onSubmit(form: NgForm){
     // TODO: code wird durch http-fehlercode abgebrochen. muss noch gefixt werden
     this.api.postRequest("user/register", form.value).subscribe((res:any) =>{
