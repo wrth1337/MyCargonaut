@@ -6,16 +6,18 @@ const zxcvbnCommonPackage = require('@zxcvbn-ts/language-common');
 const zxcvbnEnPackage = require('@zxcvbn-ts/language-en');
 const zxcvbnDePackage = require('@zxcvbn-ts/language-de');
 const argon2 = require('argon2');
+const jwt = require('jsonwebtoken');
 
-// eslint-disable-next-line new-cap
 const router = express.Router();
+
+// Express Limiter
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000,
     max: 100,
 });
-
 router.use(limiter);
 
+// Database settings
 const pool = mariadb.createPool({
     host: '0.0.0.0',
     port: '3306',
@@ -24,6 +26,7 @@ const pool = mariadb.createPool({
     database: 'cargodb',
 });
 
+// ZXCVBN settings
 const zxcvbnSettings = {
     translations: zxcvbnEnPackage.translations,
     graphs: zxcvbnCommonPackage.adjacencyGraphs,
@@ -33,6 +36,9 @@ const zxcvbnSettings = {
         ...zxcvbnDePackage.dictionary,
     },
 };
+
+// JWT settings
+const jwtSecret = process.env.JWT_SECRET || 'TEST_DEV_SECRET';
 
 // ---Methods--- //
 async function registerNewUser(firstName, lastName, email, password, birthdate, phonenumber) {
@@ -118,6 +124,37 @@ router.post('/register', async function(req, res, next) {
         res.send({status: 99, error: 'Registration failed'});
     } finally {
         if (conn) await conn.release();
+    }
+});
+
+router.post('/login', async function(req, res, next) {
+    const conn = await pool.getConnection();
+    try {
+        const {email, password} = req.body;
+
+        const getUserData = `SELECT * FROM user WHERE email = ?`;
+        const result = await conn.query(getUserData, [email]);
+
+        if (result.length > 0) {
+            const hashedPassword = result[0].password;
+            const passwordIsCorrect = argon2.verify(hashedPassword, password.toString());
+            if (passwordIsCorrect) {
+                const token = jwt.sign({email: email, user_id: result[0].user_id}, jwtSecret, {expiresIn: '1h'});
+                res.status(200);
+                res.send({status: 1, data: {email, user_id: result[0].user_id}, token: token});
+            } else {
+                res.status(200);
+                res.send({status: 0, error: 'error'});
+            }
+        } else {
+            res.status(200);
+            res.send({status: 0, error: 'error'});
+        }
+    } catch (error) {
+        res.status(200);
+        res.send({status: 0, error: 'error'});
+    } finally {
+        if (conn) conn.release();
     }
 });
 
