@@ -83,10 +83,15 @@ async function isPhonenumberValid(phonenumber) {
 // ---Routes--- //
 /**
  * @swagger
+ * tags:
+ *      - name: user
+ *        description: Routes that are connected to the user.
  * /register:
  *      post:
  *          summary: Create a new user.
  *          description: Create a new user.
+ *          tags:
+ *              - user
  *          parameters:
  *              - in: query
  *                name: firstName
@@ -134,10 +139,19 @@ async function isPhonenumberValid(phonenumber) {
  *          responses:
  *              201:
  *                  description: User successfully created.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  msg:
+ *                                      type: string
+ *                                      description: A brief description about the successfull registration.
  *              409:
  *                  description: User with the same email-address already exists.
- *              422:
- *                  description: Password is too weak.
  *                  content:
  *                      application/json:
  *                          schema:
@@ -149,6 +163,38 @@ async function isPhonenumberValid(phonenumber) {
  *                                  msg:
  *                                      type: string
  *                                      description: A brief description of the error.
+ *              422:
+ *                  description: Password is too weak.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              oneOf:
+ *                                  - $ref: '#/components/schemas/normal-message'
+ *                                  - $ref: '#/components/schemas/zxcvbn-message'
+ *
+ * components:
+ *      schemas:
+ *          normal-message:
+ *              type: object
+ *              properties:
+ *                  status:
+ *                      type: integer
+ *                      description: The status-code.
+ *                  msg:
+ *                      type: string
+ *                      description: A brief description of the error.
+ *          zxcvbn-message:
+ *              type: object
+ *              properties:
+ *                  status:
+ *                      type: integer
+ *                      description: The status-code.
+ *                  score:
+ *                      type: integer
+ *                      description: The security-score of the given (bad) password.
+ *                  feedback:
+ *                      type: string
+ *                      description: The feedback for the given (bad) password.
  */
 // TODO: oneOF in Swagger, because 422 can have different response-objects
 router.post('/register', async function(req, res, next) {
