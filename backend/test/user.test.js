@@ -96,6 +96,49 @@ test('registerNewUser argon2id functionality', async () => {
     }
 });
 
+
+test('registerNewUser argon2id functionality negativ test', async () => {
+    const firstName = 'testFirstName';
+    const lastName = 'testLastName';
+    const email = 'testEmail@test.com';
+    const password = 'testPassword';
+    const birthdate = '1990-01-01';
+    const phonenumber = '1234567890';
+
+    // Register a new user
+    const registerResult = await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
+
+    // Expect the function to return 0 (success)
+    expect(registerResult).toBe(0);
+
+    let conn;
+
+    try {
+        // Verify the user is in the database
+        conn = await pool.getConnection();
+        const dbResult = await conn.query('SELECT * FROM user WHERE email = ?', [email]);
+
+        if(dbResult[0].password === password){
+            isVerified = true;
+        }isVerified = false;
+        // Expect the verification to be true
+        expect(isVerified).toBe(false);
+
+    } finally {
+        // Always release the connection
+        if (conn) await conn.release();
+    }
+
+    try {
+        // Clean up the test data from the database
+        conn = await pool.getConnection();
+        await conn.query('DELETE FROM user WHERE email = ?', [email]);
+    } finally {
+        // Always release the connection
+        if (conn) await conn.release();
+    }
+});
+
 /*
 TODO: Test muss noch auf die neue Datenbank angepasst werden MK-09.12.2023
 test('user isnt registered yet', async () =>{
