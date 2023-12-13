@@ -1,38 +1,57 @@
 <div>
-  <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
-    <div>
-        <input id="vorname" class="form-control vorname-input" type="text" name="firstName" required placeholder="Vorname" ngModel>*
+    <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+        <div>
+            <input id="vorname" class="form-control vorname-input" type="text" name="firstName" required placeholder="Vorname" ngModel>*
+        </div>
+        <div>
+            <input id="nachname" class="form-control nachname-input" type="text" name="lastName" required placeholder="Nachname" ngModel>*
+        </div>
+        <div>
+            <input id="gebi" class="form-control geburtsdatum-input" type="date" name="birthdate" required placeholder="Geburtsdatum" ngModel>*
+        </div>
+        <div>
+            <input id="handynummer" class="form-control handynummer-input" type="tel" name="phonenumber" placeholder="Handynummer" ngModel>
+        </div>
+        <div>
+            <input id="email" class="form-control email-input" type="text" name="email" required placeholder="Email" ngModel>*
+        </div>
+        <div>
+            <input id="passwort" class="form-control password-input" type="password" name="passwords" required placeholder="Password" ngModel>*
+        </div>
+        <div>
+            <input id="submitKnopf" class="submitButton" type="submit" value="Register" [disabled]="!registerForm.valid">
+        </div>
+    </form>
+    <p style="font-size: small;">* Pflichtfelder</p>
+    <div *ngIf="passwordIsWeak">
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <div>Your password is too weak.</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     </div>
-    <div>
-        <input id="nachname" class="form-control nachname-input" type="text" name="lastName" required placeholder="Nachname" ngModel>*
+    <div *ngIf="passwordFeedback">
+        <div class="alert alert-info alert-dismissible" role="alert">
+            <div>{{ zxcvbnFeedback }}</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     </div>
-    <div>
-        <input id="gebi" class="form-control geburtsdatum-input" type="date" name="birthdate" required placeholder="Geburtsdatum" ngModel>*
+    <div *ngIf="phonenumberInvalid">
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <div>Your phonenumber isinvalid.</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     </div>
-    <div>
-        <input id="handynummer" class="form-control handynummer-input" type="tel" name="phonenumber" placeholder="Handynummer" ngModel>
+    <div *ngIf="birthdateInvalid">
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <div>Your birthdate isn't a valid date.</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     </div>
-    <div>
-        <input id="email" class="form-control email-input" type="text" name="email" required placeholder="Email" ngModel>*
+    <div *ngIf="emailInvalid">
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <div>Your email-address is invalid.</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     </div>
-    <div>
-        <input id="passwort" class="form-control password-input" type="password" name="passwords" required placeholder="Password" ngModel>*
-    </div>
-    <div>
-        <input id="submitKnopf" class="submitButton" type="submit" value="Register" [disabled]="!registerForm.valid">
-    </div>
-</form>
-<p style="font-size: small;">* Pflichtfelder</p>
- <div *ngIf="passwordIsWeak">
-    <div class="alert alert-danger alert-dismissible" role="alert">
-      <div>Your password is too weak.</div>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-  </div>
-  <div *ngIf="passwordFeedback">
-    <div class="alert alert-info alert-dismissible" role="alert">
-      <div>{{ zxcvbnFeedback }}</div>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-  </div>
 </div>
+
