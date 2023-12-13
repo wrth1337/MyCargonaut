@@ -42,6 +42,5 @@ export class RegisterComponent implements OnInit{
     })
   }
   ngOnInit(): void {
-      console.log("init functionality")
   }
 }
