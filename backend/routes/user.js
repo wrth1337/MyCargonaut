@@ -202,7 +202,6 @@ async function isPhonenumberValid(phonenumber) {
  *                      type: string
  *                      description: The feedback for the given (bad) password.
  */
-// TODO: oneOF in Swagger, because 422 can have different response-objects
 router.post('/register', async function(req, res, next) {
     const conn = await pool.getConnection();
     zxcvbnOptions.setOptions(zxcvbnSettings);
