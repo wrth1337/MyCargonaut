@@ -19,9 +19,10 @@ export class ProfileComponent {
 
   ngOnInit() {
     console.log("init");
-    this.api.getRequest("user/profile").subscribe((res: any) => {
+    this.api.getUserProfile().subscribe((res: any) => {
       this.data = res.data;
-    })
+      console.log(res.data);
+    });
   }
 }
 

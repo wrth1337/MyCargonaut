@@ -22,12 +22,12 @@ const pool = mariadb.createPool({
 // ---Methods--- //
 
 async function getUser(email) {
-    const uid = getUserId(email);
-    const userData = 'SELECT * FROM user WHERE userId = ?';
+    //const uid = getUserId(email);
+    const userData = 'SELECT * FROM user WHERE email = ?';
   
     try {
       const conn = await pool.getConnection();
-      const result = await conn.query(userData, [uid]);
+      const result = await conn.query(userData, [email]);
       await conn.release();
       console.log('User Data fetched');
   
@@ -132,6 +132,7 @@ router.get('/profile', async function(req, res, next) {
 router.get('/profile', async function(req, res, next) {
     try {
       const email = req.query.email;
+      console.log(email);
       const user = await getUser(email);
   
       if (user.success) {

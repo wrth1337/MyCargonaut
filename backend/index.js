@@ -12,7 +12,7 @@ const user = require('./routes/user');
 app.use('/user', user.router);
 
 const profile = require('./routes/profile');
-app.use('/user', profile.router);
+app.use('', profile.router);
 
 
 // app.js
