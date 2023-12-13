@@ -1,9 +1,9 @@
 <div>
     <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
       <!-- Modal -->
-      <div id="modal"class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-m">
-          <div class="modal-content"> 
+          <div class="modal-content">
             <div class="modal-body p-4">
               <div *ngIf="!this.isLogin">
                 <div class="row pb-3">
@@ -12,7 +12,7 @@
                       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
                       <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
                       </svg>
-                    </button>                  
+                    </button>
                   </div>
                   <div class="col">
                     <img  src="../../../../assets/Logo/SVG/semi_androidMyCargonaut.svg" alt="Unser Logo: MyCargonaut" height="116">
@@ -33,18 +33,18 @@
                     </div>
                     <div class="mb-5">
                       <a class="newAcc"[routerLink]="['/register']">Neuen Account erstellen</a>
-                    </div>  
+                    </div>
                     <div *ngIf="loginFailure">
                       <div class="alert alert-danger alert-dismissible" role="alert">
                         <div>The given password and e-mail doesn't match.</div>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                       </div>
                     </div>
-                  </div>          
-                </div>              
+                  </div>
+                </div>
               </div>
               <div class="center"*ngIf="this.isLogin">
-                <span>You are allready logged in:</span>
+                <span>You are already logged in:</span>
                 <div>
                   <button type="button" class="btn logoutButton p-2 m-3" data-bs-dismiss="alert" aria-label="Logout" (click)="logout()" value="Abmelden">Abmelden</button>
                 </div>
