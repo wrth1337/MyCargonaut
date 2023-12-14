@@ -35,6 +35,7 @@ Text
 ### Start Database
 - docker compose build
 - docker compose up
+  
 
 
 ## Contributors
