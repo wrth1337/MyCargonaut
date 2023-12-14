@@ -22,4 +22,10 @@ export class ApiService {
     const email = obj.email;
     return this.http.get(`${this.baseUrl}profile?email=${email}`).pipe(map(res => res));
   }
+  getUserVehicles(): Observable<any> {
+    const data = this.auth.getUserData();
+    const obj = data ? JSON.parse(data) : null;
+    const email = obj.email;
+    return this.http.get(`${this.baseUrl}vehicle?email=${email}`).pipe(map(res => res));
+  }
 }

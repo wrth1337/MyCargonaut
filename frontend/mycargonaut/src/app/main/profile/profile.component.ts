@@ -11,17 +11,22 @@ import { ApiService } from 'src/app/service/api.service';
 
 export class ProfileComponent {
 
-  data: any;
+  userData: any;
+  vehicleData: any;
 
   constructor(
-    private api: ApiService,
+    private api: ApiService
   ){}
 
   ngOnInit() {
     console.log("init");
     this.api.getUserProfile().subscribe((res: any) => {
-      this.data = res.data;
-      console.log(res.data);
+      this.userData = res.userData;
+      console.log(res.userData);
+    });
+    this.api.getUserVehicles().subscribe((res: any) => {
+      this.vehicleData = res.vehicleData;
+      console.log(res.vehicleData);
     });
   }
 }
