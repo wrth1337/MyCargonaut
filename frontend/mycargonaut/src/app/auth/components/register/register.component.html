@@ -1,66 +1,73 @@
 <div>
     <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
-        <div>
-            <input id="firstName" class="form-control firstName-input" type="text" name="firstName" required placeholder="Vorname" ngModel>*
+      <div class="modal fade" id="registerModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-m">
+          <div class="modal-content">
+            <div class="modal-body p-4">
+              <div>
+                <input id="firstName" class="form-control firstName-input" type="text" name="firstName" required placeholder="Vorname" ngModel>*
+              </div>
+              <div>
+                <input id="lastName" class="form-control lastName-input" type="text" name="lastName" required placeholder="Nachname" ngModel>*
+              </div>
+              <div>
+                <input id="birthdate" class="form-control birthdate-input" type="date" name="birthdate" required placeholder="Geburtsdatum" ngModel>*
+              </div>
+              <div>
+                <input id="phonenumber" class="form-control phonenumber-input" type="tel" name="phonenumber" placeholder="Handynummer" ngModel>
+              </div>
+              <div>
+                <input id="email" class="form-control email-input" type="text" name="email" required placeholder="Email" ngModel>*
+              </div>
+              <div>
+                <input id="password-1" class="form-control password-1-input" type="password" name="password" required placeholder="Passwort" ngModel>*
+              </div>
+              <div>
+                <input id="password-2" class="form-control password-2-input" type="password" name="passwordRepeat" required placeholder="Passwort wiederholen" ngModel>*
+              </div>
+              <div>
+                <input id="submitKnopf" class="submitButton" type="submit" value="Register" [disabled]="!registerForm.valid">
+              </div>
+              <div *ngIf="arePasswordsMissmatching">
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                  <div>Your passwords aren't matching.</div>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              </div>
+              <div *ngIf="passwordIsWeak">
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                  <div>Your password is too weak.</div>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              </div>
+              <div *ngIf="passwordFeedback">
+                <div class="alert alert-info alert-dismissible" role="alert">
+                  <div>{{ zxcvbnFeedback }}</div>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              </div>
+              <div *ngIf="phonenumberInvalid">
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                  <div>Your phonenumber isinvalid.</div>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              </div>
+              <div *ngIf="birthdateInvalid">
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                  <div>Your birthdate isn't a valid date.</div>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              </div>
+              <div *ngIf="emailInvalid">
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                  <div>Your email-address is invalid.</div>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
-            <input id="lastName" class="form-control lastName-input" type="text" name="lastName" required placeholder="Nachname" ngModel>*
-        </div>
-        <div>
-            <input id="birthdate" class="form-control birthdate-input" type="date" name="birthdate" required placeholder="Geburtsdatum" ngModel>*
-        </div>
-        <div>
-            <input id="phonenumber" class="form-control phonenumber-input" type="tel" name="phonenumber" placeholder="Handynummer" ngModel>
-        </div>
-        <div>
-            <input id="email" class="form-control email-input" type="text" name="email" required placeholder="Email" ngModel>*
-        </div>
-        <div>
-            <input id="password-1" class="form-control password-1-input" type="password" name="password" required placeholder="Passwort" ngModel>*
-        </div>
-        <div>
-          <input id="password-2" class="form-control password-2-input" type="password" name="passwordRepeat" required placeholder="Passwort wiederholen" ngModel>*
-        </div>
-        <div>
-            <input id="submitKnopf" class="submitButton" type="submit" value="Register" [disabled]="!registerForm.valid">
-        </div>
-    </form>
-    <p style="font-size: small;">* Pflichtfelder</p>
-    <div *ngIf="arePasswordsMissmatching">
-      <div class="alert alert-danger alert-dismissible" role="alert">
-        <div>Your passwords aren't matching.</div>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
-    </div>
-    <div *ngIf="passwordIsWeak">
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <div>Your password is too weak.</div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    </div>
-    <div *ngIf="passwordFeedback">
-        <div class="alert alert-info alert-dismissible" role="alert">
-            <div>{{ zxcvbnFeedback }}</div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    </div>
-    <div *ngIf="phonenumberInvalid">
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <div>Your phonenumber isinvalid.</div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    </div>
-    <div *ngIf="birthdateInvalid">
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <div>Your birthdate isn't a valid date.</div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    </div>
-    <div *ngIf="emailInvalid">
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <div>Your email-address is invalid.</div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    </div>
+    </form>
 </div>
 
