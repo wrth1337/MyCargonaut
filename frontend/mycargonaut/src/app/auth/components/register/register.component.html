@@ -1,22 +1,25 @@
 <div>
     <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
         <div>
-            <input id="vorname" class="form-control vorname-input" type="text" name="firstName" required placeholder="Vorname" ngModel>*
+            <input id="firstName" class="form-control firstName-input" type="text" name="firstName" required placeholder="Vorname" ngModel>*
         </div>
         <div>
-            <input id="nachname" class="form-control nachname-input" type="text" name="lastName" required placeholder="Nachname" ngModel>*
+            <input id="lastName" class="form-control lastName-input" type="text" name="lastName" required placeholder="Nachname" ngModel>*
         </div>
         <div>
-            <input id="gebi" class="form-control geburtsdatum-input" type="date" name="birthdate" required placeholder="Geburtsdatum" ngModel>*
+            <input id="birthdate" class="form-control birthdate-input" type="date" name="birthdate" required placeholder="Geburtsdatum" ngModel>*
         </div>
         <div>
-            <input id="handynummer" class="form-control handynummer-input" type="tel" name="phonenumber" placeholder="Handynummer" ngModel>
+            <input id="phonenumber" class="form-control phonenumber-input" type="tel" name="phonenumber" placeholder="Handynummer" ngModel>
         </div>
         <div>
             <input id="email" class="form-control email-input" type="text" name="email" required placeholder="Email" ngModel>*
         </div>
         <div>
-            <input id="passwort" class="form-control password-input" type="password" name="passwords" required placeholder="Password" ngModel>*
+            <input id="password-1" class="form-control password-1-input" type="password" name="password-1" required placeholder="Passwort" ngModel>*
+        </div>
+        <div>
+          <input id="password-2" class="form-control password-2-input" type="password" name="password-2" required placeholder="Passwort wiederholen" ngModel>*
         </div>
         <div>
             <input id="submitKnopf" class="submitButton" type="submit" value="Register" [disabled]="!registerForm.valid">
