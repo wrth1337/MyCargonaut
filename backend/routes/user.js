@@ -206,8 +206,8 @@ router.post('/register', async function(req, res, next) {
     const conn = await pool.getConnection();
     zxcvbnOptions.setOptions(zxcvbnSettings);
     try {
-        const {firstName, lastName, email, passwords, birthdate, phonenumber} = req.body;
-        const zxcvbnResults = zxcvbn(passwords, [firstName, lastName, email, birthdate, phonenumber]);
+        const {firstName, lastName, email, password, birthdate, phonenumber} = req.body;
+        const zxcvbnResults = zxcvbn(password, [firstName, lastName, email, birthdate, phonenumber]);
         const zxcvbnScore = zxcvbnResults.score;
         const zxcvbnFeedback = zxcvbnResults.feedback;
         if (!await isPhonenumberValid(phonenumber)) {
@@ -229,7 +229,7 @@ router.post('/register', async function(req, res, next) {
                 res.send({status: 1, msg: 'Your email is already taken.'});
             } else {
                 // eslint-disable-next-line no-unused-vars
-                const newUser = await registerNewUser(firstName, lastName, email, passwords, birthdate, phonenumber);
+                const newUser = await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
                 res.status(201);
                 res.send({status: 0, msg: 'User created'});
             }
