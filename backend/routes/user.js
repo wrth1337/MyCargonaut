@@ -49,7 +49,6 @@ async function registerNewUser(firstName, lastName, email, password, birthdate, 
         // eslint-disable-next-line no-unused-vars
         const result = await conn.query(newUser, [firstName, lastName, email, hashedPassword, birthdate, phonenumber]);
         await conn.release();
-        console.log('User registered successfully');
         return 0;
     } catch (error) {
         return 1;
