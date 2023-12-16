@@ -20,7 +20,7 @@
                   <div class="col"></div>
                 </div>
                 <div class="p-3">
-                  E-mail
+                  E-Mail
                     <input id="email" class="form-control email-input input-text-field" type="text" name="email" required ngModel>
                 </div>
                   <div class="p-3">
@@ -32,7 +32,7 @@
                       <input id="submitButton" class="submitButton btn align-middle" type="submit" value="Anmelden" [disabled]="!loginForm.valid">
                     </div>
                     <div class="mb-5">
-                      <a class="newAcc" data-bs-target="#registerModal" data-bs-toggle="modal">Neuen Account erstellen</a>
+                      <a class="newAcc" data-bs-toggle="modal" data-bs-target="#registerModal">Neuen Account erstellen</a>
                     </div>
                     <div *ngIf="loginFailure">
                       <div class="alert alert-danger alert-dismissible" role="alert">
@@ -43,7 +43,7 @@
                   </div>
                 </div>
               </div>
-              <div class="center"*ngIf="this.isLogin">
+              <div class="center" *ngIf="this.isLogin">
                 <span>You are already logged in:</span>
                 <div>
                   <button type="button" class="btn logoutButton p-2 m-3" data-bs-dismiss="alert" aria-label="Logout" (click)="logout()" value="Abmelden">Abmelden</button>

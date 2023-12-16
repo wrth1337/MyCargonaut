@@ -4,29 +4,57 @@
         <div class="modal-dialog modal-m">
           <div class="modal-content">
             <div class="modal-body p-4">
-              <div>
-                <input id="firstName" class="form-control firstName-input" type="text" name="firstName" required placeholder="Vorname" ngModel>*
+              <div class="row pb-3">
+                <div class="col align-left">
+                  <button type="button" class=" btn returnButton" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                      <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="col">
+                  <img class="logo" src="../../../../assets/Logo/SVG/semi_androidMyCargonaut.svg" alt="Unser Logo: MyCargonaut" height="116">
+                </div>
+                <div class="col align-right">
+                  <button type="button" class=" btn returnButton" data-bs-dismiss="modal" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+                    </svg>
+                  </button>
+                </div>
               </div>
-              <div>
-                <input id="lastName" class="form-control lastName-input" type="text" name="lastName" required placeholder="Nachname" ngModel>*
+              <div class="p-3">
+                Vorname
+                <input id="firstName" class="form-control firstName-input input-text-field" type="text" name="firstName" required ngModel>
               </div>
-              <div>
-                <input id="birthdate" class="form-control birthdate-input" type="date" name="birthdate" required placeholder="Geburtsdatum" ngModel>*
+              <div class="p-3">
+                Nachname
+                <input id="lastName" class="form-control lastName-input input-text-field" type="text" name="lastName" required ngModel>
               </div>
-              <div>
-                <input id="phonenumber" class="form-control phonenumber-input" type="tel" name="phonenumber" placeholder="Handynummer" ngModel>
+              <div class="p-3">
+                E-Mail
+                <input id="email" class="form-control email-input input-text-field" type="text" name="email" required ngModel>
               </div>
-              <div>
-                <input id="email" class="form-control email-input" type="text" name="email" required placeholder="Email" ngModel>*
+              <div class="p-3">
+                Geburtsdatum
+                <input id="birthdate" class="form-control birthdate-input input-text-field" type="date" name="birthdate" required ngModel>
               </div>
-              <div>
-                <input id="password-1" class="form-control password-input" type="password" name="password" required placeholder="Passwort" ngModel>*
+              <div class="p-3">
+                Handynummer
+                <input id="phonenumber" class="form-control phonenumber-input input-text-field" type="tel" name="phonenumber" ngModel>
               </div>
-              <div>
-                <input id="password-2" class="form-control passwordRepeat-input" type="password" name="passwordRepeat" required placeholder="Passwort wiederholen" ngModel>*
+              <div class="p-3">
+                Passwort
+                <input id="password-1" class="form-control password-input input-text-field" type="password" name="password" required ngModel>
               </div>
-              <div>
-                <input id="submitKnopf" class="submitButton" type="submit" value="Register" [disabled]="!registerForm.valid">
+              <div class="p-3">
+                Passwort wiederholen
+                <input id="password-2" class="form-control passwordRepeat-input input-text-field" type="password" name="passwordRepeat" required ngModel>
+              </div>
+              <div class="center">
+                <div class="align-middle p-3">
+                  <input id="submitButton" class="submitButton btn align-middle" type="submit" value="Jetzt registrieren" [disabled]="!registerForm.valid">
+                </div>
               </div>
               <div *ngIf="arePasswordsMissmatching">
                 <div class="alert alert-danger alert-dismissible" role="alert">
