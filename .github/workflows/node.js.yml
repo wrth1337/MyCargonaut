@@ -19,6 +19,11 @@ jobs:
       run: |
         cd backend
         npm install
+    
+    - name: RunDatabaseService
+      run: |
+        docker compose up database -d
+        docker compose ps
 
     - name: Run tests
       run: |
