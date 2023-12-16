@@ -8,6 +8,7 @@ const zxcvbnDePackage = require('@zxcvbn-ts/language-de');
 const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
 
+// eslint-disable-next-line new-cap
 const router = express.Router();
 
 // Express Limiter
@@ -28,7 +29,7 @@ const pool = mariadb.createPool({
 
 // ZXCVBN settings
 const zxcvbnSettings = {
-    translations: zxcvbnEnPackage.translations,
+    translations: zxcvbnDePackage.translations,
     graphs: zxcvbnCommonPackage.adjacencyGraphs,
     dictionary: {
         ...zxcvbnCommonPackage.dictionary,
