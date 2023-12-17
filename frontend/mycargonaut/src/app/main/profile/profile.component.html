@@ -6,7 +6,32 @@
 <div>{{userData.password}}</div>
 <div>{{userData.coins}}</div>
 <div>{{userData.picture}}</div>
-<div>{{vehicleData.name}}</div>
+<div *ngIf="!vehiclesAvailable">
+    <div>{{vehicleData}}</div>
+</div>
+<div *ngIf="vehiclesAvailable">
+<li *ngFor="let item of vehicleData">
+    <b> {{item.name}} </b>
+</li>
+</div>
+<div *ngIf="!offersAvailable">
+    <div>{{offerData}}</div>
+</div>
+<div *ngIf="offersAvailable">
+<li *ngFor="let item of offerData">
+    <b> {{item.adId}} </b> <br>
+    <b> {{item.startLocation}} </b>
+</li>
+</div>
+<div *ngIf="!wantedsAvailable">
+    <div>{{wantedData}}</div>
+</div>
+<div *ngIf="wantedsAvailable">
+<li *ngFor="let item of wantedData">
+    <b> {{item.adId}} </b> <br>
+    <b> {{item.freight}} </b>
+</li>
+</div>
 
 
   

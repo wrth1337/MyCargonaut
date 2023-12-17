@@ -17,6 +17,13 @@ app.use('', profile.router);
 const vehicle = require('./routes/vehicle');
 app.use('', vehicle.router);
 
+const offer = require('./routes/offer');
+app.use('', offer.router);
+
+const wanted = require('./routes/wanted');
+app.use('', wanted.router);
+
+
 
 
 // app.js

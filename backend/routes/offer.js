@@ -21,24 +21,23 @@ const pool = mariadb.createPool({
 
 // ---Methods--- //
 
-
-async function getUserVehicles(email) {
-    //const uid = getUserId(email);
+async function getUserOffers(email) {
+    //const id = getUserId(email);
     const uid = 'SELECT userId FROM user WHERE email = ?';
-    const userVehicles = 'SELECT name FROM vehicle WHERE userId = ?';
+    const userOffers = 'SELECT a.adId, a.startLocation, a.endLocation, a.startDate, a.endDate FROM ad a JOIN offer o ON o.adId = a.adId WHERE userId = ?';
 
     try {
         const conn = await pool.getConnection();
         const resid = await conn.query(uid, [email]);
         const id = resid[0].userId;
-        const result = await conn.query(userVehicles, [id]);
+        const result = await conn.query(userOffers, [id]);
         await conn.release();
-        console.log('User Vehicles fetched');
+        console.log('User Offers fetched');
         if (result.length > 0) {
-            console.log(result[0].name);
+            console.log(result);
             return { success: true, data: result };
         } else {
-            return { success: false, message: 'Keine Fahrzeuge vorhanden' };
+            return { success: false, message: 'Keine Angebote vorhanden' };
         }
     } catch (error) {
         console.error('Fehler bei der Abfrage:', error);
@@ -48,21 +47,22 @@ async function getUserVehicles(email) {
 
 // ---Routes--- //
 
-
-router.get('/vehicle', async function(req, res, next) {
+router.get('/offer', async function(req, res, next) {
     try {
       const email = req.query.email;
-      const vehicle = await getUserVehicles(email);
-      if (vehicle.success) {
-        console.log(vehicle.data);
-        res.json({ status: 1, vehicleData: vehicle.data });
+      const offer = await getUserOffers(email);
+  
+      if (offer.success) {
+        console.log(offer.data);
+        res.json({ status: 1, offerData: offer.data });
       } else {
-        res.json({ status: 0, message: vehicle.message });
+        res.json({ status: 0, error: offer.message });
       }
     } catch (error) {
         res.json({ status: 0, error: 'failed' });
     }
 });
+  
 
 
-module.exports = { router, getUserVehicles };
+module.exports = { router, getUserOffers };

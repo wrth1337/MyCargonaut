@@ -28,4 +28,17 @@ export class ApiService {
     const email = obj.email;
     return this.http.get(`${this.baseUrl}vehicle?email=${email}`).pipe(map(res => res));
   }
+  getUserOffers(): Observable<any> {
+    const data = this.auth.getUserData();
+    const obj = data ? JSON.parse(data) : null;
+    const email = obj.email;
+    return this.http.get(`${this.baseUrl}offer?email=${email}`).pipe(map(res => res));
+  }
+
+  getUserWanteds(): Observable<any> {
+    const data = this.auth.getUserData();
+    const obj = data ? JSON.parse(data) : null;
+    const email = obj.email;
+    return this.http.get(`${this.baseUrl}wanted?email=${email}`).pipe(map(res => res));
+  }
 }

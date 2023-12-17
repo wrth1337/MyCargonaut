@@ -59,48 +59,6 @@ async function getUserId(email) {
     }
 }
 
-async function getUserVehicles(email) {
-    //const uid = getUserId(email);
-    const uid = 'SELECT userId FROM user WHERE email = ?';
-    const userVehicles = 'SELECT v.name FROM vehicle v JOIN user u ON v.userId = u.userId WHERE v.userId = ?';
-
-    try {
-        const conn = await pool.getConnection();
-        const resid = await conn.query(uid, [email]);
-        const id = resid[0].userId;
-        const result = await conn.query(userVehicles, [id]);
-        await conn.release();
-        console.log('User Vehicles fetched');
-        if (result.length > 0) {
-            console.log(result[0]);
-            return { success: true, data: result[0] };
-        } else {
-            return { success: false, message: 'Fahrzeug nicht gefunden' };
-        }
-    } catch (error) {
-        console.error('Fehler bei der Abfrage:', error);
-        return { success: false, message: 'Fehler bei der Abfrage' };
-    }
-}
-
-async function getUserOffers(email) {
-    //const id = getUserId(email);
-    const uid = 'SELECT userId FROM user WHERE email = ?';
-    const userOffers = 'SELECT * FROM offer o JOIN ad a ON a.adId = o.adId WHERE a.userId = ?';
-
-    try {
-        const conn = await pool.getConnection();
-        const resid = await conn.query(uid, [email]);
-        const id = resid[0].userId;
-        const result = await conn.query(userOffers, [id]);
-        await conn.release();
-        console.log('User Offers fetched');
-        return result;
-    } catch (error) {
-        return error;
-    }
-}
-
 // ---Routes--- //
 
 router.get('/profile', async function(req, res, next) {

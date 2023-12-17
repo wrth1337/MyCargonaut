@@ -21,24 +21,23 @@ const pool = mariadb.createPool({
 
 // ---Methods--- //
 
-
-async function getUserVehicles(email) {
-    //const uid = getUserId(email);
+async function getUserWanteds(email) {
+    //const id = getUserId(email);
     const uid = 'SELECT userId FROM user WHERE email = ?';
-    const userVehicles = 'SELECT name FROM vehicle WHERE userId = ?';
+    const userWanted = 'SELECT a.adId, a.startLocation, a.endLocation, a.startDate, a.endDate, w.freight FROM ad a JOIN wanted w ON w.adId = a.adId WHERE a.userId = ?';
 
     try {
         const conn = await pool.getConnection();
         const resid = await conn.query(uid, [email]);
         const id = resid[0].userId;
-        const result = await conn.query(userVehicles, [id]);
+        const result = await conn.query(userWanted, [id]);
         await conn.release();
-        console.log('User Vehicles fetched');
+        console.log('User Wanteds fetched');
         if (result.length > 0) {
-            console.log(result[0].name);
+            console.log(result);
             return { success: true, data: result };
         } else {
-            return { success: false, message: 'Keine Fahrzeuge vorhanden' };
+            return { success: false, message: 'Keine Gesuche vorhanden' };
         }
     } catch (error) {
         console.error('Fehler bei der Abfrage:', error);
@@ -48,21 +47,22 @@ async function getUserVehicles(email) {
 
 // ---Routes--- //
 
-
-router.get('/vehicle', async function(req, res, next) {
+router.get('/wanted', async function(req, res, next) {
     try {
       const email = req.query.email;
-      const vehicle = await getUserVehicles(email);
-      if (vehicle.success) {
-        console.log(vehicle.data);
-        res.json({ status: 1, vehicleData: vehicle.data });
+      const wanted = await getUserWanteds(email);
+  
+      if (wanted.success) {
+        console.log(wanted.data);
+        res.json({ status: 1, wantedData: wanted.data });
       } else {
-        res.json({ status: 0, message: vehicle.message });
+        res.json({ status: 0, message: wanted.message });
       }
     } catch (error) {
         res.json({ status: 0, error: 'failed' });
     }
 });
+  
 
 
-module.exports = { router, getUserVehicles };
+module.exports = { router, getUserWanteds };
