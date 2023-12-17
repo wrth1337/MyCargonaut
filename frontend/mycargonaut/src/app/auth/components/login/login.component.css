@@ -25,6 +25,7 @@
 }
 .newAcc{
     color: var(--primary);
+    cursor: pointer;
 }
 .logoutButton{
     background-color: var(--secondary);

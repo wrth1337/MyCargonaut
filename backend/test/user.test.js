@@ -54,6 +54,7 @@ test('register new user in database via backend', async () => {
     }
 });
 
+// Test: argon2id
 test('registerNewUser argon2id functionality', async () => {
     const firstName = 'testFirstName';
     const lastName = 'testLastName';
@@ -95,8 +96,6 @@ test('registerNewUser argon2id functionality', async () => {
         if (conn) await conn.release();
     }
 });
-
-
 test('registerNewUser argon2id functionality negativ test', async () => {
     const firstName = 'testFirstName';
     const lastName = 'testLastName';
@@ -138,18 +137,6 @@ test('registerNewUser argon2id functionality negativ test', async () => {
         if (conn) await conn.release();
     }
 });
-
-/*
-TODO: Test muss noch auf die neue Datenbank angepasst werden MK-09.12.2023
-test('user isnt registered yet', async () =>{
-    const conn = await pool.getConnection();
-    await conn.query('INSERT INTO user (name, password) VALUES (?,?)', ['testuser1', 'testpassword']);
-    const result = await isUserAlreadyRegistered('testuser2');
-    await conn.query('DELETE FROM user;');
-    await conn.release();
-    expect(result).toBe(false);
-});
-*/
 
 // Test: isEmailValid()
 test('emailvalidation finds correct emails', async () => {
