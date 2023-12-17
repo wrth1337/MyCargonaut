@@ -56,7 +56,7 @@ router.get('/offer', async function(req, res, next) {
         console.log(offer.data);
         res.json({ status: 1, offerData: offer.data });
       } else {
-        res.json({ status: 0, error: offer.message });
+        res.json({ status: 0, message: offer.message });
       }
     } catch (error) {
         res.json({ status: 0, error: 'failed' });
