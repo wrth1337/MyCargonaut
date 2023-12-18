@@ -53,8 +53,7 @@ async function getFilteredAds(type, startLocation, endLocation, startDate, freig
     if (type === 'offer') {
         query = `
             SELECT
-                a.adId,
-                AVG((r.punctuality + r.agreement + r.pleasent + COALESCE(r.freight, 0)) / 4) AS overallRating
+                a.adId
             FROM
                 ad a
                     JOIN
@@ -76,7 +75,7 @@ async function getFilteredAds(type, startLocation, endLocation, startDate, freig
             userRatingFloat = parseFloat(userRating);
             query += `
                  HAVING
-                    overallRating>=${userRatingFloat}`;
+                    AVG((r.punctuality + r.agreement + r.pleasent + COALESCE(r.freight, 0)) / 4)>=${userRatingFloat}`;
         } else {
             query += `;`;
         }
@@ -84,8 +83,7 @@ async function getFilteredAds(type, startLocation, endLocation, startDate, freig
         query = `
             SELECT
                 a.adId,
-                AVG((r.punctuality + r.agreement + r.pleasent + COALESCE(r.freight, 0)) / 4) AS overallRating
-            FROM
+                FROM
                 ad a
                     JOIN
                 wanted w ON w.adId = a.adId
@@ -104,7 +102,7 @@ async function getFilteredAds(type, startLocation, endLocation, startDate, freig
             userRatingFloat = parseFloat(userRating);
             query += `
                  HAVING
-                    overallRating>=${userRatingFloat}`;
+                    AVG((r.punctuality + r.agreement + r.pleasent + COALESCE(r.freight, 0)) / 4)>=${userRatingFloat}`;
         } else {
             query += `;`;
         }
