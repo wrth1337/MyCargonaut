@@ -30,14 +30,15 @@ button {
 }
 
 #SearchFormSection,
-.SearchFormInput {
+.FormInputColor {
   border: 2px solid var(--primary);
   border-radius: 10px;
   background-color: var(--light);
   color: var(--primary);
 }
 
-#SearchFormButton {
+#SearchFormButton,
+.buttonPrimary {
   border: 1px solid var(--primary);
   border-radius: 10px;
   background-color: var(--primary);
@@ -46,4 +47,11 @@ button {
 
 #carouselExampleControls.card {
   background-color: var(--secondary_light);
+}
+
+.FormInputLight,
+.borderPrimary {
+  border: 2px solid var(--primary);
+  border-radius: 10px;
+  color: var(--primary);
 }
