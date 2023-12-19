@@ -7,7 +7,9 @@ CREATE OR REPLACE TABLE user (
     birthdate DATE NOT NULL,
     phonenumber VARCHAR(100),
     coins DOUBLE,
-    picture VARCHAR(1024)
+    picture VARCHAR(1024),
+    description TEXT,
+    experience TEXT
 );
 
 CREATE OR REPLACE TABLE vehicle (
@@ -27,6 +29,7 @@ CREATE OR REPLACE TABLE vehicle (
 
 CREATE OR REPLACE TABLE ad (
      adId int not null PRIMARY KEY auto_increment,
+     description TEXT,
      startLocation VARCHAR(255),
      endLocation VARCHAR(255),
      intermediateGoals VARCHAR(255),

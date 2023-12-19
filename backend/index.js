@@ -23,6 +23,8 @@ app.use('', offer.router);
 const wanted = require('./routes/wanted');
 app.use('', wanted.router);
 
+const trip = require('./routes/trip');
+app.use('', trip.router);
 
 
 

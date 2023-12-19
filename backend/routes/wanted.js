@@ -24,7 +24,7 @@ const pool = mariadb.createPool({
 async function getUserWanteds(email) {
     //const id = getUserId(email);
     const uid = 'SELECT userId FROM user WHERE email = ?';
-    const userWanted = 'SELECT a.adId, a.startLocation, a.endLocation, a.startDate, a.endDate, w.freight FROM ad a JOIN wanted w ON w.adId = a.adId WHERE a.userId = ?';
+    const userWanted = 'SELECT a.startLocation, a.endLocation, a.startDate FROM ad a JOIN wanted w ON w.adId = a.adId JOIN booking b ON b.adId = a.adId JOIN status s ON s.bookingId = b.bookingId WHERE s.endRide = FALSE AND a.userId = ?';
 
     try {
         const conn = await pool.getConnection();

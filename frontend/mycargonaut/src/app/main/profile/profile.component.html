@@ -1,36 +1,65 @@
-<div>{{userData.firstName}}</div>
-<div>{{userData.lastName}}</div>
-<div>{{userData.birthdate}}</div>
-<div>{{userData.phonenumber}}</div>
-<div>{{userData.email}}</div>
-<div>{{userData.password}}</div>
-<div>{{userData.coins}}</div>
-<div>{{userData.picture}}</div>
-<div *ngIf="!vehiclesAvailable">
-    <div>{{vehicleData}}</div>
-</div>
-<div *ngIf="vehiclesAvailable">
-<li *ngFor="let item of vehicleData">
-    <b> {{item.name}} </b>
-</li>
-</div>
-<div *ngIf="!offersAvailable">
-    <div>{{offerData}}</div>
-</div>
-<div *ngIf="offersAvailable">
-<li *ngFor="let item of offerData">
-    <b> {{item.adId}} </b> <br>
-    <b> {{item.startLocation}} </b>
-</li>
-</div>
-<div *ngIf="!wantedsAvailable">
-    <div>{{wantedData}}</div>
-</div>
-<div *ngIf="wantedsAvailable">
-<li *ngFor="let item of wantedData">
-    <b> {{item.adId}} </b> <br>
-    <b> {{item.freight}} </b>
-</li>
+<div>
+    <div> Name: {{userData.firstName}} {{userData.lastName}}</div>
+    <div> Geburtsdatum: {{userData.birthdate}}</div>
+    <div> Handynummer: {{userData.phonenumber}}</div>
+    <div> Email: {{userData.email}}</div>
+    <div> Coins: {{userData.coins}}</div>
+    <div>{{userData.picture}}</div>
+    <div> Kurzbeschreibung über mich: {{userData.description}}</div>
+    <div> Bewertung: {{userData.rating}}</div>
+    <div> Erfahrung: {{userData.experience}}</div>
+    <div> Anzahl Fahrten: </div> <!--{{userData.trips}}</div>-->
+
+    <div>
+        <div *ngIf="!vehiclesAvailable">
+            <div>{{vehicleData}}</div>
+        </div>
+        <div *ngIf="vehiclesAvailable">
+            <div> Meine Fahrzeuge: </div>
+            <div *ngFor="let item of vehicleData">
+                <div> {{item.name}} </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div *ngIf="!offersAvailable">
+            <div>{{offerData}}</div>
+        </div>
+        <div *ngIf="offersAvailable">
+            <div> Meine Angebote: </div>
+            <div *ngFor="let item of offerData">
+                <div> Biete Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div *ngIf="!wantedsAvailable">
+            <div>{{wantedData}}</div>
+        </div>
+        <div *ngIf="wantedsAvailable">
+            <div> Meine Gesuche: </div>
+            <div *ngFor="let item of wantedData">
+                <div> Suche Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div *ngIf="!tripsAvailable">
+            <div>{{uwtData}}</div>
+        </div>
+        <div *ngIf="tripsAvailable">
+            <div> Meine Fahrten: </div>
+            <div *ngFor="let item of uwtData">
+                <div> Suche Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
+            </div>
+            <div *ngFor="let item of uotData">
+                <div> Biete Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 

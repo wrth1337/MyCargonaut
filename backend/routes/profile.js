@@ -22,10 +22,10 @@ const pool = mariadb.createPool({
 // ---Methods--- //
 
 async function getUser(email) {
-    //const uid = getUserId(email);
     const uid = 'SELECT userId FROM user WHERE email = ?';
-    const userData = 'SELECT * FROM user WHERE userId = ?';
-  
+    //const tripCount = 'SELECT COUNT(*) AS trips FROM status s JOIN booking b ON b.bookingId = s.bookingId JOIN ad a ON a.adId = b.adId WHERE s.endRide = TRUE AND a.userId = ?';
+    const userData = 'SELECT u.firstName, u.lastName, u.email, u.birthdate, u.phonenumber, u.coins, u.picture, u.description, u.experience, AVG((COALESCE(r.punctuality, 0) + COALESCE(r.agreement, 0) + COALESCE(r.pleasent, 0) + CASE WHEN r.freight IS NOT NULL THEN r.freight ELSE 0 END) / NULLIF(4.0 - CASE WHEN r.freight IS NULL THEN 1 ELSE 0 END, 0)) AS rating FROM user u JOIN rating r ON r.userWhoWasEvaluated = u.userId WHERE u.userId = ?';
+
     try {
       const conn = await pool.getConnection();
       const resid = await conn.query(uid, [email]);
@@ -33,6 +33,7 @@ async function getUser(email) {
       const result = await conn.query(userData, [id]);
       await conn.release();
       console.log('User Data fetched');
+      console.log(result[0]);
   
       if (result.length > 0) {
         return { success: true, data: result[0] };
@@ -42,20 +43,6 @@ async function getUser(email) {
     } catch (error) {
       console.error('Fehler bei der Abfrage:', error);
       return { success: false, message: 'Fehler bei der Abfrage' };
-    }
-  }
-
-async function getUserId(email) {
-    const id = 'SELECT userId FROM user WHERE email = ?';
-    try {
-        const conn = await pool.getConnection();
-        const result = await conn.query(id, [email]);
-        await conn.release();
-        console.log('User Id fetched');
-        console.log(result[0].userId);
-        return result[0].userId;
-    } catch (error) {
-        return error;
     }
 }
 
@@ -67,6 +54,7 @@ router.get('/profile', async function(req, res, next) {
       const user = await getUser(email);
   
       if (user.success) {
+        console.log(user.data);
         res.json({ status: 1, userData: user.data });
       } else {
         res.json({ status: 0, error: user.message });
@@ -78,4 +66,4 @@ router.get('/profile', async function(req, res, next) {
   
 
 
-module.exports = { router, getUser, getUserId };
+module.exports = { router, getUser };

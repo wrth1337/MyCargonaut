@@ -15,9 +15,12 @@ export class ProfileComponent {
   vehicleData: any;
   offerData: any;
   wantedData: any;
+  uwtData: any;
+  uotData: any;
   vehiclesAvailable = false;
   offersAvailable = false;
   wantedsAvailable = false;
+  tripsAvailable = false;
 
   constructor(
     private api: ApiService
@@ -27,7 +30,6 @@ export class ProfileComponent {
     console.log("init");
     this.api.getUserProfile().subscribe((res: any) => {
       this.userData = res.userData;
-      console.log(res.userData);
     });
     this.api.getUserVehicles().subscribe((res: any) => {
       if(res.status === 1) {
@@ -37,7 +39,6 @@ export class ProfileComponent {
       else {
         this.vehicleData = res.message;
       }
-      console.log(this.vehicleData);
     });
     this.api.getUserOffers().subscribe((res: any) => {
       if(res.status === 1) {
@@ -47,7 +48,6 @@ export class ProfileComponent {
       else {
         this.offerData = res.message;
       }
-      console.log(this.offerData);
     });
     this.api.getUserWanteds().subscribe((res: any) => {
       if(res.status === 1) {
@@ -57,7 +57,16 @@ export class ProfileComponent {
       else {
         this.wantedData = res.message;
       }
-      console.log(this.wantedData);
+    });
+    this.api.getUserTrips().subscribe((res: any) => {
+      if(res.status === 1) {
+        this.tripsAvailable = true;
+        this.uwtData = res.uwtData;
+        this.uotData = res.uotData;
+      }
+      else {
+        this.uwtData = res.message;
+      }
     });
   }
 }
