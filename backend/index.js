@@ -14,6 +14,19 @@ app.use('/user', user.router);
 const profile = require('./routes/profile');
 app.use('', profile.router);
 
+const vehicle = require('./routes/vehicle');
+app.use('', vehicle.router);
+
+const offer = require('./routes/offer');
+app.use('', offer.router);
+
+const wanted = require('./routes/wanted');
+app.use('', wanted.router);
+
+const trip = require('./routes/trip');
+app.use('', trip.router);
+
+
 
 // app.js
 const swaggerJSDoc = require('swagger-jsdoc');

@@ -22,14 +22,17 @@ const pool = mariadb.createPool({
 // ---Methods--- //
 
 async function getUser(email) {
-    //const uid = getUserId(email);
-    const userData = 'SELECT * FROM user WHERE email = ?';
-  
+    const uid = 'SELECT userId FROM user WHERE email = ?';
+    const userData = 'SELECT u.firstName, u.lastName, u.email, u.birthdate, u.phonenumber, u.coins, u.picture, u.description, u.experience, AVG((COALESCE(r.punctuality, 0) + COALESCE(r.agreement, 0) + COALESCE(r.pleasent, 0) + CASE WHEN r.freight IS NOT NULL THEN r.freight ELSE 0 END) / NULLIF(4.0 - CASE WHEN r.freight IS NULL THEN 1 ELSE 0 END, 0)) AS rating FROM user u JOIN rating r ON r.userWhoWasEvaluated = u.userId WHERE u.userId = ?';
+
     try {
       const conn = await pool.getConnection();
-      const result = await conn.query(userData, [email]);
+      const resid = await conn.query(uid, [email]);
+      const id = resid[0].userId;
+      const result = await conn.query(userData, [id]);
       await conn.release();
       console.log('User Data fetched');
+      console.log(result[0]);
   
       if (result.length > 0) {
         return { success: true, data: result[0] };
@@ -40,111 +43,26 @@ async function getUser(email) {
       console.error('Fehler bei der Abfrage:', error);
       return { success: false, message: 'Fehler bei der Abfrage' };
     }
-  }
-  
-/*
-async function getUser(email) {
-    const userData = 'SELECT * FROM user WHERE email = ?';
-
-    try {
-        const conn = await pool.getConnection();
-        const result = await conn.query(userData, [email]);
-        await conn.release();
-        console.log('User Data fetched');
-        return result;
-    } catch (error) {
-        return error;
-    }
-}
-*/
-
-async function getUserId(email) {
-    const id = 'SELECT userId FROM user WHERE email = ?';
-    try {
-        const conn = await pool.getConnection();
-        const result = await conn.query(id, [email]);
-        await conn.release();
-        console.log('User Id fetched');
-        return result;
-    } catch (error) {
-        return error;
-    }
-}
-
-async function getUserVehicles(email) {
-    const uid = getUserId(email);
-    const userVehicles = 'SELECT v.name FROM vehicle v JOIN user u ON v.userId = u.userId WHERE v.userId = ?';
-
-    try {
-        const conn = await pool.getConnection();
-        const result = await conn.query(userVehicles, [uid]);
-        await conn.release();
-        console.log('User Vehicles fetched');
-        return result;
-    } catch (error) {
-        return 1;
-    }
-}
-
-async function getUserOffers(email) {
-    const id = getUserId(email);
-    const userOffers = 'SELECT * FROM offer o JOIN ad a ON a.adId = o.adId JOIN user u ON u.userId = a.userId WHERE userId = ?';
-
-    try {
-        const conn = await pool.getConnection();
-        const result = await conn.query(userOffers, [id]);
-        await conn.release();
-        console.log('User Offers fetched');
-        return result;
-    } catch (error) {
-        return error;
-    }
 }
 
 // ---Routes--- //
-/*router.get('/profile', async function(req, res, next) {
-    const conn = await pool.getConnection();
-    try {
-        const {email} = req.body;
-        const user = await getUser(email);
-    } catch (error) {
-        res.send({status: 0, error: 'failed'});
-    } finally {
-        if (conn) conn.release();
-    }
-});*/
-
-
-// ---Routes--- //
-
-/*
-router.get('/profile', async function(req, res, next) {
-    try {
-        const email = req.query.email;
-        const user = await getUser(email);
-        res.json({ status: 1, data: user });
-    } catch (error) {
-        res.json({ status: 0, error: 'failed' });
-    }
-});
-*/
 
 router.get('/profile', async function(req, res, next) {
     try {
       const email = req.query.email;
-      console.log(email);
       const user = await getUser(email);
   
       if (user.success) {
-        res.json({ status: 1, data: user.data });
+        console.log(user.data);
+        res.json({ status: 1, userData: user.data });
       } else {
         res.json({ status: 0, error: user.message });
       }
     } catch (error) {
-      res.json({ status: 0, error: 'failed' });
+        res.json({ status: 0, error: 'failed' });
     }
-  });
+});
   
 
 
-module.exports = { router, getUser, getUserId, getUserVehicles, getUserOffers };
+module.exports = { router, getUser };
