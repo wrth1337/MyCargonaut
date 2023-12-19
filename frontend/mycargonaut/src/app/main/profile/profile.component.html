@@ -8,7 +8,7 @@
     <div> Kurzbeschreibung über mich: {{userData.description}}</div>
     <div> Bewertung: {{userData.rating}}</div>
     <div> Erfahrung: {{userData.experience}}</div>
-    <div> Anzahl Fahrten: </div> <!--{{userData.trips}}</div>-->
+    <div> Anzahl Fahrten: {{uwtData.length + uotData.length}}</div>
 
     <div>
         <div *ngIf="!vehiclesAvailable">
