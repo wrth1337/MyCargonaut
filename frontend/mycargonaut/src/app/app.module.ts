@@ -7,10 +7,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {AuthModule} from "./auth/auth.module";
+import { SearchbarComponent } from './searchbar/searchbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    SearchbarComponent,
   ],
   imports: [
     AuthModule,
@@ -21,6 +23,6 @@ import {AuthModule} from "./auth/auth.module";
     HttpClientModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, SearchbarComponent]
 })
 export class AppModule { }
