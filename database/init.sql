@@ -14,12 +14,21 @@ CREATE OR REPLACE TABLE user (
     birthdate DATE NOT NULL,
     phonenumber VARCHAR(100),
     coins DOUBLE,
-    picture VARCHAR(1024),
+    picture VARCHAR(1024)
+);
+
+CREATE OR REPLACE TABLE userLanguage (
+    userLanguageId int not null PRIMARY KEY auto_increment,
+    userId int not null,
     languageId int not null,
-    CONSTRAINT fk_language_id
+    CONSTRAINT fk_userLanguage_userId
+   	FOREIGN KEY (userId) REFERENCES user (userId)
+   	ON DELETE CASCADE
+   	ON UPDATE CASCADE,
+    CONSTRAINT fk_userLanguage_languageId
    	FOREIGN KEY (languageId) REFERENCES language (languageId)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
+   	ON DELETE CASCADE
+   	ON UPDATE CASCADE
 );
 
 CREATE OR REPLACE TABLE vehicle (
