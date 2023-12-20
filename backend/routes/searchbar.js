@@ -82,7 +82,7 @@ async function getFilteredAds(type, startLocation, endLocation, startDate, freig
     } else if (type === 'wanted') {
         query = `
             SELECT
-                a.adId,
+                a.adId
                 FROM
                 ad a
                     JOIN
@@ -123,8 +123,8 @@ async function getFilteredAds(type, startLocation, endLocation, startDate, freig
 }
 
 // ---- Routes ----
-router.get('/searchbar', async function(req, res, next) {
-    const type = req.params.type;
+router.get('/search', async function(req, res, next) {
+    const typ = req.query.typ;
     const startLocation = req.query.startLocation;
     const endLocation = req.query.endLocation;
     const startDate = req.query.startDate;
@@ -132,7 +132,8 @@ router.get('/searchbar', async function(req, res, next) {
     const numSeats = req.query.numSeats;
     const userRating = req.query.userRating;
     try {
-        const ads = await getFilteredAds(type, startLocation, endLocation, startDate, freight, numSeats, userRating);
+        const ads = await getFilteredAds(typ, startLocation, endLocation, startDate, freight, numSeats, userRating);
+        console.log(ads);
         res.send(ads);
     } catch (error) {
         console.error(error);

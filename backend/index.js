@@ -11,4 +11,7 @@ const httpServer = require('http').createServer(app);
 const user = require('./routes/user');
 app.use('/user', user.router);
 
+const searchbar = require('./routes/searchbar');
+app.use('/searchbar', searchbar.router);
+
 httpServer.listen(port, () => console.log(`listening on port ${port}`));
