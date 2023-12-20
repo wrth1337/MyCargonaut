@@ -1,0 +1,28 @@
+<div>
+  <form #searchForm="ngForm" (ngSubmit)="onSubmit(searchForm)">
+    <div>
+      <input id="type" class="form-control type-input" type="text" name="typ"  placeholder="offer" ngModel>
+    </div>
+    <div>
+      <input id="startLocation" class="form-control startLocation-input" type="text" name="startLocation"  placeholder="Start Location" ngModel>
+    </div>
+    <div>
+      <input id="endLocation" class="form-control endLocation-input" type="text" name="endLocation"  placeholder="End Location" ngModel>
+    </div>
+    <div>
+      <input id="startDate" class="form-control date-input" type="date" name="startDate"  placeholder="Datum" ngModel>
+    </div>
+    <div>
+      <input id="freight" class="form-control freight-input" type="text" name="freight" placeholder="Fracht" ngModel>
+    </div>
+    <div>
+      <input id="numSeats" class="form-control numSeats-input" type="number" name="numSeats"  placeholder="Anzahl Plätze" ngModel>
+    </div>
+    <div>
+      <input id="userRating" class="form-control userRating-input" type="number" name="userRating"  placeholder="Bewertung" ngModel>
+    </div>
+    <div>
+      <input id="submitKnopf" class="submitButton" type="submit" value="Suchen" [disabled]="!searchForm.valid">
+    </div>
+  </form>
+</div>
