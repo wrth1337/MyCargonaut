@@ -37,7 +37,6 @@ export class ProfileComponent {
     this.api.getUserProfile().subscribe((res: any) => {
       this.userData = res.userData;
       this.rating = Math.round(res.userData.rating);
-      // gibt auch foreach
       this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
     });
     this.api.getUserVehicles().subscribe((res: any) => {

@@ -24,9 +24,6 @@ export class ApiService {
   }
 
   getUserProfile(): Observable<any> {
-    /*const data = this.auth.getUserData();
-    const obj = data ? JSON.parse(data) : null;
-    const email = obj.email;*/
     const email = this.getUserEmail();
     return this.http.get(`${this.baseUrl}profile?email=${email}`).pipe(map(res => res));
   }
