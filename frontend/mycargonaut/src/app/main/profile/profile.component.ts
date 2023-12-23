@@ -19,10 +19,13 @@ export class ProfileComponent {
   wantedData: any;
   uwtData: any;
   uotData: any;
+  rating: any;
   vehiclesAvailable = false;
   offersAvailable = false;
   wantedsAvailable = false;
   tripsAvailable = false;
+  tripCount: any;
+  stars: number[] = [1, 2, 3, 4, 5];
 
   constructor(
     private api: ApiService,
@@ -33,6 +36,7 @@ export class ProfileComponent {
     console.log("init");
     this.api.getUserProfile().subscribe((res: any) => {
       this.userData = res.userData;
+      this.rating = Math.round(res.userData.rating);
       this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
     });
     this.api.getUserVehicles().subscribe((res: any) => {
@@ -43,6 +47,7 @@ export class ProfileComponent {
       else {
         this.vehicleData = res.message;
       }
+      console.log(this.vehicleData);
     });
     this.api.getUserOffers().subscribe((res: any) => {
       if(res.status === 1) {
@@ -55,6 +60,7 @@ export class ProfileComponent {
       else {
         this.offerData = res.message;
       }
+      console.log(this.offerData);
     });
     this.api.getUserWanteds().subscribe((res: any) => {
       if(res.status === 1) {
@@ -67,6 +73,7 @@ export class ProfileComponent {
       else {
         this.wantedData = res.message;
       }
+      console.log(this.wantedData);
     });
     this.api.getUserTrips().subscribe((res: any) => {
       if(res.status === 1) {
@@ -79,9 +86,11 @@ export class ProfileComponent {
         for(let i = 0; i < this.uotData.length; i++) {
           this.uotData[i].startDate = this.datePipe.transform(res.uotData[i].startDate, 'dd.MM.yyyy');
         }
+        this.tripCount = this.uwtData.length + this.uotData.length;
       }
       else {
         this.uwtData = res.message;
+        this.tripCount = 0;
       }
     });
   }

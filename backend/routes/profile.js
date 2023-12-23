@@ -23,7 +23,7 @@ const pool = mariadb.createPool({
 
 async function getUser(email) {
     const uid = 'SELECT userId FROM user WHERE email = ?';
-    const userData = 'SELECT u.firstName, u.lastName, u.email, u.birthdate, u.phonenumber, u.coins, u.picture, u.description, u.experience, AVG((COALESCE(r.punctuality, 0) + COALESCE(r.agreement, 0) + COALESCE(r.pleasent, 0) + CASE WHEN r.freight IS NOT NULL THEN r.freight ELSE 0 END) / NULLIF(4.0 - CASE WHEN r.freight IS NULL THEN 1 ELSE 0 END, 0)) AS rating FROM user u JOIN rating r ON r.userWhoWasEvaluated = u.userId WHERE u.userId = ?';
+    const userData = 'SELECT u.firstName, u.lastName, u.birthdate, u.picture, u.description, u.experience, AVG((COALESCE(r.punctuality, 0) + COALESCE(r.agreement, 0) + COALESCE(r.pleasent, 0) + CASE WHEN r.freight IS NOT NULL THEN r.freight ELSE 0 END) / NULLIF(4.0 - CASE WHEN r.freight IS NULL THEN 1 ELSE 0 END, 0)) AS rating FROM user u JOIN rating r ON r.userWhoWasEvaluated = u.userId WHERE u.userId = ?';
 
     try {
       const conn = await pool.getConnection();

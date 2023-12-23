@@ -1,66 +1,177 @@
-<div>
-    <div> Name: {{userData.firstName}} {{userData.lastName}}</div>
-    <div> Geburtsdatum: {{userData.birthdate}}</div>
-    <div> Handynummer: {{userData.phonenumber}}</div>
-    <div> Email: {{userData.email}}</div>
-    <div> Coins: {{userData.coins}}</div>
-    <div>{{userData.picture}}</div>
-    <div> Kurzbeschreibung über mich: {{userData.description}}</div>
-    <div> Bewertung: {{userData.rating}}</div>
-    <div> Erfahrung: {{userData.experience}}</div>
-    <div> Anzahl Fahrten: {{uwtData.length + uotData.length}}</div>
 
-    <div>
-        <div *ngIf="!vehiclesAvailable">
-            <div>{{vehicleData}}</div>
+<div class="card h-100 p-3 m-2">
+<div class="row pb-3">
+    <div class="col-md-8">
+        <div class="row pb-3">
+            <div class="col">
+                <div class="d-flex justify-content-between">
+                <div>
+                    <button type="button" class=" btn returnButton">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                        </svg>
+                    </button>
+                </div>
+    
+                <img src={{userData.picture}} height="100" width="100">
+                </div>
+    
+            </div>
+            <div class="col">
+    
+                <div class="big center"> {{userData.firstName}} {{userData.lastName}} </div>
+    
+                <div class="center">
+                    <div class="rating">
+                        <span *ngFor="let star of stars" class="star" [class.highlight]="star <= this.rating">
+                            &#9733;
+                        </span>
+                    </div>
+                </div>
+                 
+            </div>
+            <div class="col d-flex justify-content-between">
+    
+                <div class="col">
+                    <div class="big"> {{userData.birthdate}}</div>
+    
+                    <div> Anzahl Fahrten: {{tripCount}}</div>
+                </div>
+                <div>
+                    <button type="button" class="btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="var(--primary)" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                        </svg>
+                    </button>
+                </div>
+    
+            </div>
+
         </div>
-        <div *ngIf="vehiclesAvailable">
-            <div> Meine Fahrzeuge: </div>
-            <div *ngFor="let item of vehicleData">
-                <div> {{item.name}} </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col">
+                        <div> Kurzbeschreibung über mich </div>
+                        <div class="card mb-3 p-2 ht1 overflow-auto d-flex justify-content-between"> {{userData.description}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="row">
+                    <div> Meine Erfahrungen </div>
+                    <div class="col-md-6">
+                        <div class="card mb-3 p-2 ht2 overflow-auto"> {{userData.experience}}</div>
+                        <label for="trips">Erfahrung<br/>
+                            <progress class="progressbar mb-3" value={{tripCount}} max="10"></progress>
+                        </label>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-title custom-border"> Sprachen: </div>
+                            <div class="card-body overflow-auto">
+                            </div>
+                        </div>
+                        </div>
+
+                        <div class="col">            
+                            <div class="card mb-3 ht3">
+                                <div class="card-title custom-border"> Meine Fahrzeuge: </div>
+                                <div class="card-body overflow-auto">
+                                    <div *ngIf="!vehiclesAvailable">
+                                        <div>{{vehicleData}}</div>
+                                    </div>
+                                    <div *ngIf="vehiclesAvailable">
+                                        <div *ngFor="let item of vehicleData">
+                                            <div> {{item.name}} </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn align-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 
-    <div>
-        <div *ngIf="!offersAvailable">
-            <div>{{offerData}}</div>
-        </div>
-        <div *ngIf="offersAvailable">
-            <div> Meine Angebote: </div>
-            <div *ngFor="let item of offerData">
-                <div> Biete Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
+    <div class="col-md-4">
+        <div class="row mb-3">
+        <div class="col">
+        <div class="card ht3">
+            <div class="card-title custom-border"> Meine Angebote: </div>
+            <div class="card-body overflow-auto" *ngIf="!offersAvailable">
+                <div>{{offerData}}</div>
             </div>
+            <div class="card-body ht3 overflow-auto" *ngIf="offersAvailable">
+                <div *ngFor="let item of offerData">
+                    <div> Biete Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
+                </div>
+            </div>
+            <button type="button" class="btn align-right">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                </svg>
+            </button>
         </div>
-    </div>
+        </div>
+        </div>
 
-    <div>
-        <div *ngIf="!wantedsAvailable">
-            <div>{{wantedData}}</div>
-        </div>
-        <div *ngIf="wantedsAvailable">
-            <div> Meine Gesuche: </div>
-            <div *ngFor="let item of wantedData">
-                <div> Suche Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
+        <div class="row mb-3">
+        <div class="col">
+        <div class="card ht3">
+            <div class="card-title custom-border"> Meine Gesuche: </div>
+            <div class="card-body overflow-auto" *ngIf="!wantedsAvailable">
+                <div>{{wantedData}}</div>
             </div>
+            <div class="card-body overflow-auto" *ngIf="wantedsAvailable">
+                <div *ngFor="let item of wantedData">
+                    <div> Suche Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
+                </div>
+            </div>
+            <button type="button" class="btn align-right">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                </svg>
+            </button>
         </div>
-    </div>
+        </div>
+        </div>
 
-    <div>
-        <div *ngIf="!tripsAvailable">
-            <div>{{uwtData}}</div>
-        </div>
-        <div *ngIf="tripsAvailable">
-            <div> Meine Fahrten: </div>
-            <div *ngFor="let item of uwtData">
-                <div> Suche Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
+        <div class="row">
+            <div class="col">
+            <div class="card ht3">
+                <div class="card-title custom-border"> Meine Fahrten: </div>
+                <div class="card-body overflow-auto" *ngIf="!tripsAvailable">
+                    <div>{{uwtData}}</div>
+                </div>
+                <div class="card-body overflow-auto" *ngIf="tripsAvailable">
+                    <div *ngFor="let item of uwtData">
+                        <div> Suche Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
+                    </div>
+                    <div *ngFor="let item of uotData">
+                        <div> Biete Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
+                    </div>
+                </div>
             </div>
-            <div *ngFor="let item of uotData">
-                <div> Biete Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
             </div>
         </div>
+
     </div>
 </div>
-
-
+</div>
   
