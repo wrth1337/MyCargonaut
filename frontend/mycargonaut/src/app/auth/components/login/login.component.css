@@ -1,0 +1,33 @@
+.modal-content{
+    border-color: var(--secondary);
+    border-width: 2px;
+}
+.modal{
+    /*backdrop-filter: blur(2px);*/
+    background-color: rgba(255, 255, 255, 0.5);
+}
+.modal-footer{
+    justify-content: center;
+}
+.returnButton{
+    text-align: left;
+}
+.input-text-field{
+    border-color: var(--secondary);
+    background-color: var(--secondary_light);
+}
+.submitButton{
+    background-color: var(--secondary);
+    color: white;
+}
+.center{
+    text-align: center;
+}
+.newAcc{
+    color: var(--primary);
+    cursor: pointer;
+}
+.logoutButton{
+    background-color: var(--secondary);
+    color: white;
+}
