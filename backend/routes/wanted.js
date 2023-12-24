@@ -54,12 +54,15 @@ router.get('/wanted', async function(req, res, next) {
   
       if (wanted.success) {
         console.log(wanted.data);
+        res.status(200);
         res.json({ status: 1, wantedData: wanted.data });
       } else {
+        res.status(200);
         res.json({ status: 0, message: wanted.message });
       }
     } catch (error) {
-        res.json({ status: 0, error: 'failed' });
+        res.status(500);
+        res.json({ status: 99, error: 'Fetching Wanted Data failed' });
     }
 });
   

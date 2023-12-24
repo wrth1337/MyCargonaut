@@ -92,6 +92,7 @@
                                     <div *ngIf="vehiclesAvailable">
                                         <div *ngFor="let item of vehicleData">
                                             <div> {{item.name}} </div>
+                                            <br>
                                         </div>
                                     </div>
                                 </div>
@@ -120,6 +121,7 @@
             <div class="card-body ht3 overflow-auto" *ngIf="offersAvailable">
                 <div *ngFor="let item of offerData">
                     <div> Biete Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
+                    <br>
                 </div>
             </div>
             <button type="button" class="btn align-right">
@@ -141,6 +143,7 @@
             <div class="card-body overflow-auto" *ngIf="wantedsAvailable">
                 <div *ngFor="let item of wantedData">
                     <div> Suche Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
+                    <br>
                 </div>
             </div>
             <button type="button" class="btn align-right">
@@ -162,9 +165,11 @@
                 <div class="card-body overflow-auto" *ngIf="tripsAvailable">
                     <div *ngFor="let item of uwtData">
                         <div> Suche Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
+                        <br>
                     </div>
                     <div *ngFor="let item of uotData">
                         <div> Biete Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
+                        <br>
                     </div>
                 </div>
             </div>

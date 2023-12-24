@@ -55,12 +55,15 @@ router.get('/trip', async function(req, res, next) {
   
       if (trip.success) {
         console.log(trip);
+        res.status(200);
         res.json({ status: 1, uwtData: trip.uwtdata, uotData: trip.uotData });
       } else {
+        res.status(200);
         res.json({ status: 0, message: trip.message });
       }
     } catch (error) {
-        res.json({ status: 0, error: 'failed' });
+        res.status(500);
+        res.json({ status: 99, error: 'Fetching Trip Data failed' });
     }
 });
   

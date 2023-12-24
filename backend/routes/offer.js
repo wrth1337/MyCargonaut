@@ -54,12 +54,15 @@ router.get('/offer', async function(req, res, next) {
   
       if (offer.success) {
         console.log(offer.data);
+        res.status(200);
         res.json({ status: 1, offerData: offer.data });
       } else {
+        res.status(200);
         res.json({ status: 0, message: offer.message });
       }
     } catch (error) {
-        res.json({ status: 0, error: 'failed' });
+        res.status(500);
+        res.json({ status: 99, error: 'Fetching Offer Data failed' });
     }
 });
   

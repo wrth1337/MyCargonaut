@@ -46,7 +46,26 @@ async function getUser(email) {
 }
 
 // ---Routes--- //
-
+/**
+ * @swagger
+ * tags:
+ *      - name: profile
+ *        description: Routes that are connected to the profile of an user
+ * /profile:
+ *      get:
+ *          summary: get user profile data.
+ *          description: get user profile data.
+ *          tags:
+ *              - profile
+ *          parameters:
+ *              - in: query
+ *                name: email
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                description: The email of the current user.
+ *                example: max@mustermann.com
+ */
 router.get('/profile', async function(req, res, next) {
     try {
       const email = req.query.email;
@@ -54,12 +73,15 @@ router.get('/profile', async function(req, res, next) {
   
       if (user.success) {
         console.log(user.data);
+        res.status(200);
         res.json({ status: 1, userData: user.data });
       } else {
+        res.status(200);
         res.json({ status: 0, error: user.message });
       }
     } catch (error) {
-        res.json({ status: 0, error: 'failed' });
+        res.status(500);
+        res.json({ status: 99, error: 'Fetching Profile Data failed' });
     }
 });
   

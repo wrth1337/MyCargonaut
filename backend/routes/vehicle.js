@@ -55,12 +55,15 @@ router.get('/vehicle', async function(req, res, next) {
       const vehicle = await getUserVehicles(email);
       if (vehicle.success) {
         console.log(vehicle.data);
+        res.status(200);
         res.json({ status: 1, vehicleData: vehicle.data });
       } else {
+        res.status(200);
         res.json({ status: 0, message: vehicle.message });
       }
     } catch (error) {
-        res.json({ status: 0, error: 'failed' });
+        res.status(500);
+        res.json({ status: 99, error: 'Fetching Vehicle Data failed' });
     }
 });
 
