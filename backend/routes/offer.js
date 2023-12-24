@@ -22,7 +22,6 @@ const pool = mariadb.createPool({
 // ---Methods--- //
 
 async function getUserOffers(email) {
-    //const id = getUserId(email);
     const uid = 'SELECT userId FROM user WHERE email = ?';
     const userOffers = 'SELECT a.startLocation, a.endLocation, a.startDate FROM ad a JOIN offer o ON o.adId = a.adId JOIN booking b ON b.adId = a.adId JOIN status s ON s.bookingId = b.bookingId WHERE s.endRide = FALSE AND a.userId = ?';
 
@@ -37,16 +36,69 @@ async function getUserOffers(email) {
             console.log(result);
             return { success: true, data: result };
         } else {
-            return { success: false, message: 'Keine Angebote vorhanden' };
+            return { success: false };
         }
     } catch (error) {
         console.error('Fehler bei der Abfrage:', error);
-        return { success: false, error: 'Fehler bei der Abfrage' };
+        throw error;
     }
 }
 
 // ---Routes--- //
-
+/**
+ * @swagger
+ * tags:
+ *      - name: offer
+ *        description: Routes that are connected to the offers of an user
+ * /offer:
+ *      get:
+ *          summary: get user offers.
+ *          description: get a list of the user offers.
+ *          tags:
+ *              - offer
+ *          parameters:
+ *              - in: query
+ *                name: email
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                description: The email of the current user.
+ *                example: max@example.com
+ *          responses:
+ *              200:
+ *                  description: user offer data successfully fetched.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  offerData:
+ *                                      type: array
+ *                                      description: The user offer data.
+ *                                      items:
+ *                                        $ref: '#/components/schemas/offer'
+ *              204:
+ *                  description: query was successful but contains no content.
+ *                  content: {}
+ * components:
+ *      schemas:
+ *          offer:
+ *              type: object
+ *              properties:
+ *                  startLocation:
+ *                      type: string
+ *                      description: The start location of the offer.
+ *                  endLocation:
+ *                      type: string
+ *                      description: The end location of the offer.
+ *                  startDate:
+ *                      type: string
+ *                      format: date
+ *                      description: The start date of the offer.
+ */
 router.get('/offer', async function(req, res, next) {
     try {
       const email = req.query.email;
@@ -57,8 +109,8 @@ router.get('/offer', async function(req, res, next) {
         res.status(200);
         res.json({ status: 1, offerData: offer.data });
       } else {
-        res.status(200);
-        res.json({ status: 0, message: offer.message });
+        res.status(204).json(null);
+        //res.json({ status: 0 });
       }
     } catch (error) {
         res.status(500);

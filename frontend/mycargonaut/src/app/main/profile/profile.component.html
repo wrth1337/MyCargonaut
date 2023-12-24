@@ -87,7 +87,7 @@
                                 <div class="card-title custom-border"> Meine Fahrzeuge: </div>
                                 <div class="card-body overflow-auto">
                                     <div *ngIf="!vehiclesAvailable">
-                                        <div>{{vehicleData}}</div>
+                                        <div> Keine Fahrzeuge vorhanden </div>
                                     </div>
                                     <div *ngIf="vehiclesAvailable">
                                         <div *ngFor="let item of vehicleData">
@@ -116,7 +116,7 @@
         <div class="card ht3">
             <div class="card-title custom-border"> Meine Angebote: </div>
             <div class="card-body overflow-auto" *ngIf="!offersAvailable">
-                <div>{{offerData}}</div>
+                <div> Keine Angebote vorhanden </div>
             </div>
             <div class="card-body ht3 overflow-auto" *ngIf="offersAvailable">
                 <div *ngFor="let item of offerData">
@@ -138,7 +138,7 @@
         <div class="card ht3">
             <div class="card-title custom-border"> Meine Gesuche: </div>
             <div class="card-body overflow-auto" *ngIf="!wantedsAvailable">
-                <div>{{wantedData}}</div>
+                <div> Keine Gesuche vorhanden </div>
             </div>
             <div class="card-body overflow-auto" *ngIf="wantedsAvailable">
                 <div *ngFor="let item of wantedData">
@@ -160,7 +160,7 @@
             <div class="card ht3">
                 <div class="card-title custom-border"> Meine Fahrten: </div>
                 <div class="card-body overflow-auto" *ngIf="!tripsAvailable">
-                    <div>{{uwtData}}</div>
+                    <div> Keine Fahrten vorhanden </div>
                 </div>
                 <div class="card-body overflow-auto" *ngIf="tripsAvailable">
                     <div *ngFor="let item of uwtData">

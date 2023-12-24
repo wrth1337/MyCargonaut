@@ -37,11 +37,11 @@ async function getUser(email) {
       if (result.length > 0) {
         return { success: true, data: result[0] };
       } else {
-        return { success: false, message: 'Benutzer nicht gefunden' };
+        return { success: false };
       }
     } catch (error) {
       console.error('Fehler bei der Abfrage:', error);
-      return { success: false, message: 'Fehler bei der Abfrage' };
+      throw error;
     }
 }
 
@@ -64,7 +64,47 @@ async function getUser(email) {
  *                schema:
  *                  type: string
  *                description: The email of the current user.
- *                example: max@mustermann.com
+ *                example: max@example.com
+ *          responses:
+ *              200:
+ *                  description: user profile data successfully fetched.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  userData:
+ *                                      type: object
+ *                                      description: The user profile data.
+ *                                      properties:
+ *                                          firstName:
+ *                                               type: string
+ *                                               description: The first name of the user.
+ *                                          lastName:
+ *                                               type: string
+ *                                               description: The last name of the user.
+ *                                          birthdate:
+ *                                               type: string
+ *                                               format: date
+ *                                               description: The birthdate of the user.
+ *                                          picture:
+ *                                               type: string
+ *                                               description: The profile picture of the user.
+ *                                          description:
+ *                                               type: string
+ *                                               description: The description of the user.
+ *                                          experience:
+ *                                               type: string
+ *                                               description: The experience of the user.
+ *                                          rating:
+ *                                               type: string
+ *                                               description: The rating of the user.
+ *              204:
+ *                  description: query was successful but contains no content.
+ *                  content: {}
  */
 router.get('/profile', async function(req, res, next) {
     try {
@@ -76,8 +116,8 @@ router.get('/profile', async function(req, res, next) {
         res.status(200);
         res.json({ status: 1, userData: user.data });
       } else {
-        res.status(200);
-        res.json({ status: 0, error: user.message });
+        res.status(204).json(null);
+        //res.json({ status: 0 });
       }
     } catch (error) {
         res.status(500);

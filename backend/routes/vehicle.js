@@ -23,7 +23,6 @@ const pool = mariadb.createPool({
 
 
 async function getUserVehicles(email) {
-    //const uid = getUserId(email);
     const uid = 'SELECT userId FROM user WHERE email = ?';
     const userVehicles = 'SELECT name FROM vehicle WHERE userId = ?';
 
@@ -38,16 +37,62 @@ async function getUserVehicles(email) {
             console.log(result[0].name);
             return { success: true, data: result };
         } else {
-            return { success: false, message: 'Keine Fahrzeuge vorhanden' };
+            return { success: false };
         }
     } catch (error) {
         console.error('Fehler bei der Abfrage:', error);
-        return { success: false, error: 'Fehler bei der Abfrage' };
+        throw error;
     }
 }
 
 // ---Routes--- //
-
+/**
+ * @swagger
+ * tags:
+ *      - name: vehicle
+ *        description: Routes that are connected to the vehicles of an user
+ * /vehicle:
+ *      get:
+ *          summary: get user vehicles.
+ *          description: get a list of the user vehicles.
+ *          tags:
+ *              - vehicle
+ *          parameters:
+ *              - in: query
+ *                name: email
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                description: The email of the current user.
+ *                example: max@example.com
+ *          responses:
+ *              200:
+ *                  description: user vehicle data successfully fetched.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  vehicleData:
+ *                                      type: array
+ *                                      description: The user vehicle data.
+ *                                      items:
+ *                                        $ref: '#/components/schemas/vehicle'
+ *              204:
+ *                  description: query was successful but contains no content.
+ *                  content: {}
+ * components:
+ *      schemas:
+ *          vehicle:
+ *              type: object
+ *              properties:
+ *                  name:
+ *                      type: string
+ *                      description: The name of the vehicle.
+ */
 
 router.get('/vehicle', async function(req, res, next) {
     try {
@@ -58,8 +103,8 @@ router.get('/vehicle', async function(req, res, next) {
         res.status(200);
         res.json({ status: 1, vehicleData: vehicle.data });
       } else {
-        res.status(200);
-        res.json({ status: 0, message: vehicle.message });
+        res.status(204).json(null);
+        //res.json({ status: 0 });
       }
     } catch (error) {
         res.status(500);

@@ -40,43 +40,34 @@ export class ProfileComponent {
       this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
     });
     this.api.getUserVehicles().subscribe((res: any) => {
-      if(res.status === 1) {
+      if(res != null) {
         this.vehiclesAvailable = true;
         this.vehicleData = res.vehicleData;
-      }
-      else {
-        this.vehicleData = res.message;
       }
       console.log(this.vehicleData);
     });
     this.api.getUserOffers().subscribe((res: any) => {
-      if(res.status === 1) {
+      if(res != null) {
         this.offersAvailable = true;
         this.offerData = res.offerData;
         for(let i = 0; i < this.offerData.length; i++) {
           this.offerData[i].startDate = this.datePipe.transform(res.offerData[i].startDate, 'dd.MM.yyyy');
         }
       }
-      else {
-        this.offerData = res.message;
-      }
       console.log(this.offerData);
     });
     this.api.getUserWanteds().subscribe((res: any) => {
-      if(res.status === 1) {
+      if(res != null) {
         this.wantedsAvailable = true;
         this.wantedData = res.wantedData;
         for(let i = 0; i < this.wantedData.length; i++) {
           this.wantedData[i].startDate = this.datePipe.transform(res.wantedData[i].startDate, 'dd.MM.yyyy');
         }
       }
-      else {
-        this.wantedData = res.message;
-      }
       console.log(this.wantedData);
     });
     this.api.getUserTrips().subscribe((res: any) => {
-      if(res.status === 1) {
+      if(res != null) {
         this.tripsAvailable = true;
         this.uwtData = res.uwtData;
         this.uotData = res.uotData;
@@ -89,7 +80,6 @@ export class ProfileComponent {
         this.tripCount = this.uwtData.length + this.uotData.length;
       }
       else {
-        this.uwtData = res.message;
         this.tripCount = 0;
       }
     });
