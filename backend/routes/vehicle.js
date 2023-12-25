@@ -32,9 +32,7 @@ async function getUserVehicles(email) {
         const id = resid[0].userId;
         const result = await conn.query(userVehicles, [id]);
         await conn.release();
-        console.log('User Vehicles fetched');
         if (result.length > 0) {
-            console.log(result[0].name);
             return { success: true, data: result };
         } else {
             return { success: false };
@@ -99,7 +97,6 @@ router.get('/vehicle', async function(req, res, next) {
       const email = req.query.email;
       const vehicle = await getUserVehicles(email);
       if (vehicle.success) {
-        console.log(vehicle.data);
         res.status(200);
         res.json({ status: 1, vehicleData: vehicle.data });
       } else {

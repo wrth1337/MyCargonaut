@@ -33,7 +33,6 @@ export class ProfileComponent {
   ){}
 
   ngOnInit() {
-    console.log("init");
     this.api.getUserProfile().subscribe((res: any) => {
       this.userData = res.userData;
       this.rating = Math.round(res.userData.rating);
@@ -44,7 +43,6 @@ export class ProfileComponent {
         this.vehiclesAvailable = true;
         this.vehicleData = res.vehicleData;
       }
-      console.log(this.vehicleData);
     });
     this.api.getUserOffers().subscribe((res: any) => {
       if(res != null) {
@@ -54,7 +52,6 @@ export class ProfileComponent {
           this.offerData[i].startDate = this.datePipe.transform(res.offerData[i].startDate, 'dd.MM.yyyy');
         }
       }
-      console.log(this.offerData);
     });
     this.api.getUserWanteds().subscribe((res: any) => {
       if(res != null) {
@@ -64,7 +61,6 @@ export class ProfileComponent {
           this.wantedData[i].startDate = this.datePipe.transform(res.wantedData[i].startDate, 'dd.MM.yyyy');
         }
       }
-      console.log(this.wantedData);
     });
     this.api.getUserTrips().subscribe((res: any) => {
       if(res != null) {

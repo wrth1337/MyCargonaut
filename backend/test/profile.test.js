@@ -15,10 +15,6 @@ const pool = mariadb.createPool({
     database: 'cargodb',
 });
 
-// ich kann hier ja noch gar nicht wirklich was testen wenn man noch keine Fahrzeuge oder Angebote hinzufügen kann und so löl
-// is hier aber auch nicht mal der richtige Branch grad, ganz tolle Organistaion Nico Danke
-
-// Test: get profile data from new registered user
 test('get profile data from new registered user', async () => {
     const firstName = 'testFirstName';
     const lastName = 'testLastName';
@@ -30,20 +26,14 @@ test('get profile data from new registered user', async () => {
     let conn;
 
     try {
-        // Call the function with test data
         const result = await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
 
-        // Expect the function to return 0 (success)
         expect(result).toBe(0);
 
-
-
-        // Verify the user is in the database
         conn = await pool.getConnection();
 
         const dbResult = getUser(email);
 
-        // Expect the user data in the database to match the test data
         expect((await dbResult).data[0].firstName).toBe(firstName);
         /*expect(dbResult[0].lastName).toBe(lastName);
         expect(dbResult[0].birthdate).toBe(birthdate);
@@ -52,24 +42,18 @@ test('get profile data from new registered user', async () => {
         expect(dbResult[0].rating).toBe(NULL);*/
 
     } finally {
-        // Always release the connection
         if (conn) await conn.release();
     }
 
     try {
-        // Clean up the test data from the database
         conn = await pool.getConnection();
         await conn.query('DELETE FROM user WHERE email = ?', [email]);
     } finally {
-        // Always release the connection
         if (conn) await conn.release();
     }
 });
 
-
-// Jest afterAll function
 afterAll(() => {
-    // Close the pool
     pool.end(err => {
         if (err) {
             console.error('Fehler beim Schließen der Datenbankverbindung:', err);

@@ -6,10 +6,10 @@
 }
 .card {
     border-width: 1px;
-    border-color: #005B52;
+    border-color: var(--primary);
 }
 .custom-border {
-    border-bottom: 1px solid #005B52;
+    border-bottom: 1px solid var(--primary);
 }
 .big {
     font-size: x-large;
@@ -17,18 +17,7 @@
 .center {
     text-align: center;
 }
-progress {
-    width: 100%; /* Breite der Fortschrittsleiste */
-    height: 20px; /* Höhe der Fortschrittsleiste */
-}
-  
-progress::-webkit-progress-value {
-    background-color: #007bff; /* Farbe der Fortschrittsleiste */
-}
-  
-progress::-webkit-progress-bar {
-    background-color: #929090; /* Farbe des Hintergrunds der Fortschrittsleiste */
-}
+
 .rating {
     font-size: 30px;
 }
@@ -53,9 +42,13 @@ progress::-webkit-progress-bar {
     font-size: large;
 }
 
-.progressbar {
+.custom-progress {
+    background-color: var(--primary);
+}
+
+.progress {
+    background-color: #e1e9be;
     height: 40px;
-    background-color: var(--light);
 }
   
   

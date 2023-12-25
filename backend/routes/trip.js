@@ -33,7 +33,6 @@ async function getUserTrips(email) {
         const uwtresult = await conn.query(userWantedTrips, [id]);
         const uotresult = await conn.query(userOfferedTrips, [id]);
         await conn.release();
-        console.log('User Trips fetched');
         if (uwtresult.length > 0 || uotresult.length > 0) {
             return { success: true, uwtdata: uwtresult, uotData: uotresult };
         } else {

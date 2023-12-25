@@ -31,9 +31,7 @@ async function getUserOffers(email) {
         const id = resid[0].userId;
         const result = await conn.query(userOffers, [id]);
         await conn.release();
-        console.log('User Offers fetched');
         if (result.length > 0) {
-            console.log(result);
             return { success: true, data: result };
         } else {
             return { success: false };
@@ -105,7 +103,6 @@ router.get('/offer', async function(req, res, next) {
       const offer = await getUserOffers(email);
   
       if (offer.success) {
-        console.log(offer.data);
         res.status(200);
         res.json({ status: 1, offerData: offer.data });
       } else {

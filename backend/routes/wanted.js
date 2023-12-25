@@ -31,9 +31,7 @@ async function getUserWanteds(email) {
         const id = resid[0].userId;
         const result = await conn.query(userWanted, [id]);
         await conn.release();
-        console.log('User Wanteds fetched');
         if (result.length > 0) {
-            console.log(result);
             return { success: true, data: result };
         } else {
             return { success: false };
@@ -105,7 +103,6 @@ router.get('/wanted', async function(req, res, next) {
       const wanted = await getUserWanteds(email);
   
       if (wanted.success) {
-        console.log(wanted.data);
         res.status(200);
         res.json({ status: 1, wantedData: wanted.data });
       } else {
