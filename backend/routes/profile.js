@@ -110,7 +110,6 @@ router.get('/profile', async function(req, res, next) {
       const user = await getUser(email);
   
       if (user.success) {
-        console.log(user.data);
         res.status(200);
         res.json({ status: 1, userData: user.data });
       } else {
