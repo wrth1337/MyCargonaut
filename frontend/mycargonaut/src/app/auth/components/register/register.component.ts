@@ -16,13 +16,17 @@ export class RegisterComponent implements OnInit{
   emailInvalid = false;
   phonenumberInvalid = false;
   zxcvbnFeedback = '';
+  arePasswordsMissmatching = false;
 
   constructor(
     private api: ApiService,
   ){}
 
   onSubmit(form: NgForm){
-    // TODO: code wird durch http-fehlercode abgebrochen. muss noch gefixt werden
+    if(form.value.password != form.value.passwordRepeat) {
+      this.arePasswordsMissmatching = true;
+      return;
+    }
     this.api.postRequest("user/register", form.value).subscribe((res:any) =>{
       console.log(res);
     }, (error:any) =>{
