@@ -34,4 +34,13 @@ export class HomeComponent implements OnInit{
     this.activeContent[2] = this.content[this.index]
 
   }
+  previous() {
+    console.log('prev');
+    this.index--;
+    this.index = this.index % 6;
+    this.activeContent[2] = this.activeContent[1];
+    this.activeContent[1] = this.activeContent[0];
+    this.activeContent[0] = this.content[(((this.index-2) % 6) + 6) % 6] //JS besitzt keinen Modulo operator wtffffff
+  }
 }
+
