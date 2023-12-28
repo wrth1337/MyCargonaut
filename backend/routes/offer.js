@@ -1,6 +1,7 @@
 const mariadb = require('mariadb');
 const express = require('express');
 const rateLimit = require('express-rate-limit');
+const authenticateToken = require('./auth');
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -21,14 +22,11 @@ const pool = mariadb.createPool({
 
 // ---Methods--- //
 
-async function getUserOffers(email) {
-    const uid = 'SELECT userId FROM user WHERE email = ?';
+async function getUserOffers(id) {
     const userOffers = 'SELECT a.startLocation, a.endLocation, a.startDate FROM ad a JOIN offer o ON o.adId = a.adId JOIN booking b ON b.adId = a.adId JOIN status s ON s.bookingId = b.bookingId WHERE s.endRide = FALSE AND a.userId = ?';
 
     try {
         const conn = await pool.getConnection();
-        const resid = await conn.query(uid, [email]);
-        const id = resid[0].userId;
         const result = await conn.query(userOffers, [id]);
         await conn.release();
         if (result.length > 0) {
@@ -97,17 +95,16 @@ async function getUserOffers(email) {
  *                      format: date
  *                      description: The start date of the offer.
  */
-router.get('/offer', async function(req, res, next) {
+router.get('/offer', authenticateToken, async function(req, res, next) {
     try {
-      const email = req.query.email;
-      const offer = await getUserOffers(email);
+      const id = req.user_id;
+      const offer = await getUserOffers(id);
   
       if (offer.success) {
         res.status(200);
         res.json({ status: 1, offerData: offer.data });
       } else {
         res.status(204).json(null);
-        //res.json({ status: 0 });
       }
     } catch (error) {
         res.status(500);

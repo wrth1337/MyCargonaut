@@ -93,8 +93,8 @@ describe('ProfileComponent', () => {
     expect(el.nativeElement.getAttribute('src')).toEqual('URL_DES_PROFILBILDS');
   });
 
-  it('should display the stars for the rating', () => {
-    component.rating = 3.5;
+  it('should highlight 4 stars for the rating', () => {
+    component.rating = 4;
     fixture.detectChanges();
     const stars = fixture.debugElement.queryAll(By.css('.star'));
     
@@ -102,8 +102,34 @@ describe('ProfileComponent', () => {
     expect(stars[0].classes['highlight']).toBeTruthy();
     expect(stars[1].classes['highlight']).toBeTruthy();
     expect(stars[2].classes['highlight']).toBeTruthy();
-    expect(stars[3].classes['highlight']).toBeFalsy();
+    expect(stars[3].classes['highlight']).toBeTruthy();
     expect(stars[4].classes['highlight']).toBeFalsy();
+});
+
+it('should highlight 5 stars for the rating', () => {
+  component.rating = 5;
+  fixture.detectChanges();
+  const stars = fixture.debugElement.queryAll(By.css('.star'));
+  
+  expect(stars.length).toBe(5);
+  expect(stars[0].classes['highlight']).toBeTruthy();
+  expect(stars[1].classes['highlight']).toBeTruthy();
+  expect(stars[2].classes['highlight']).toBeTruthy();
+  expect(stars[3].classes['highlight']).toBeTruthy();
+  expect(stars[4].classes['highlight']).toBeTruthy();
+});
+
+it('should highlight 3 stars for the rating', () => {
+  component.rating = 3;
+  fixture.detectChanges();
+  const stars = fixture.debugElement.queryAll(By.css('.star'));
+  
+  expect(stars.length).toBe(5);
+  expect(stars[0].classes['highlight']).toBeTruthy();
+  expect(stars[1].classes['highlight']).toBeTruthy();
+  expect(stars[2].classes['highlight']).toBeTruthy();
+  expect(stars[3].classes['highlight']).toBeFalsy();
+  expect(stars[4].classes['highlight']).toBeFalsy();
 });
 
 it('should have correct background color for edit button', () => {

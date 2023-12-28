@@ -1,6 +1,7 @@
 const mariadb = require('mariadb');
 const express = require('express');
 const rateLimit = require('express-rate-limit');
+const authenticateToken = require('./auth');
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -21,14 +22,11 @@ const pool = mariadb.createPool({
 
 // ---Methods--- //
 
-async function getUserWanteds(email) {
-    const uid = 'SELECT userId FROM user WHERE email = ?';
+async function getUserWanteds(id) {
     const userWanted = 'SELECT a.startLocation, a.endLocation, a.startDate FROM ad a JOIN wanted w ON w.adId = a.adId JOIN booking b ON b.adId = a.adId JOIN status s ON s.bookingId = b.bookingId WHERE s.endRide = FALSE AND a.userId = ?';
 
     try {
         const conn = await pool.getConnection();
-        const resid = await conn.query(uid, [email]);
-        const id = resid[0].userId;
         const result = await conn.query(userWanted, [id]);
         await conn.release();
         if (result.length > 0) {
@@ -97,17 +95,16 @@ async function getUserWanteds(email) {
  *                      format: date
  *                      description: The start date of the wanted.
  */
-router.get('/wanted', async function(req, res, next) {
+router.get('/wanted', authenticateToken, async function(req, res, next) {
     try {
-      const email = req.query.email;
-      const wanted = await getUserWanteds(email);
+      const id = req.user_id;
+      const wanted = await getUserWanteds(id);
   
       if (wanted.success) {
         res.status(200);
         res.json({ status: 1, wantedData: wanted.data });
       } else {
         res.status(204).json(null);
-        //res.json({ status: 0 });
       }
     } catch (error) {
         res.status(500);

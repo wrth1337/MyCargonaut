@@ -1,6 +1,7 @@
 const mariadb = require('mariadb');
 const express = require('express');
 const rateLimit = require('express-rate-limit');
+const authenticateToken = require('./auth');
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -22,14 +23,11 @@ const pool = mariadb.createPool({
 // ---Methods--- //
 
 
-async function getUserVehicles(email) {
-    const uid = 'SELECT userId FROM user WHERE email = ?';
+async function getUserVehicles(id) {
     const userVehicles = 'SELECT name FROM vehicle WHERE userId = ?';
 
     try {
         const conn = await pool.getConnection();
-        const resid = await conn.query(uid, [email]);
-        const id = resid[0].userId;
         const result = await conn.query(userVehicles, [id]);
         await conn.release();
         if (result.length > 0) {
@@ -92,16 +90,15 @@ async function getUserVehicles(email) {
  *                      description: The name of the vehicle.
  */
 
-router.get('/vehicle', async function(req, res, next) {
+router.get('/vehicle', authenticateToken, async function(req, res, next) {
     try {
-      const email = req.query.email;
-      const vehicle = await getUserVehicles(email);
+      const id = req.user_id;
+      const vehicle = await getUserVehicles(id);
       if (vehicle.success) {
         res.status(200);
         res.json({ status: 1, vehicleData: vehicle.data });
       } else {
         res.status(204).json(null);
-        //res.json({ status: 0 });
       }
     } catch (error) {
         res.status(500);

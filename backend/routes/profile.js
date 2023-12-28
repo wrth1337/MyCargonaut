@@ -1,6 +1,7 @@
 const mariadb = require('mariadb');
 const express = require('express');
 const rateLimit = require('express-rate-limit');
+const authenticateToken = require('./auth');
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -21,14 +22,11 @@ const pool = mariadb.createPool({
 
 // ---Methods--- //
 
-async function getUser(email) {
-    const uid = 'SELECT userId FROM user WHERE email = ?';
+async function getUser(id) {
     const userData = 'SELECT u.firstName, u.lastName, u.birthdate, u.picture, u.description, u.experience, AVG((COALESCE(r.punctuality, 0) + COALESCE(r.agreement, 0) + COALESCE(r.pleasent, 0) + CASE WHEN r.freight IS NOT NULL THEN r.freight ELSE 0 END) / NULLIF(4.0 - CASE WHEN r.freight IS NULL THEN 1 ELSE 0 END, 0)) AS rating FROM user u LEFT JOIN rating r ON r.userWhoWasEvaluated = u.userId WHERE u.userId = ?';
 
     try {
       const conn = await pool.getConnection();
-      const resid = await conn.query(uid, [email]);
-      const id = resid[0].userId;
       const result = await conn.query(userData, [id]);
       await conn.release();
   
@@ -104,17 +102,16 @@ async function getUser(email) {
  *                  description: query was successful but contains no content.
  *                  content: {}
  */
-router.get('/profile', async function(req, res, next) {
+router.get('/profile', authenticateToken, async function(req, res, next) {
     try {
-      const email = req.query.email;
-      const user = await getUser(email);
+      const id = req.user_id;
+      const user = await getUser(id);
   
       if (user.success) {
         res.status(200);
         res.json({ status: 1, userData: user.data });
       } else {
         res.status(204).json(null);
-        //res.json({ status: 0 });
       }
     } catch (error) {
         res.status(500);
