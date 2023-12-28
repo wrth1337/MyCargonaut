@@ -8,8 +8,6 @@ import { ApiService } from 'src/app/service/api.service';
 })
    
 export class HomeComponent implements OnInit{
-  public numbers = [1,2,3,4,5,6,7]
-  number = 1
   index = 2;
   public content = [{Title: 'Suche Transport von Gießen nach Marburg 1', Text: 'Ich Suche einen Transport meines Klaviers von Gießen nach Marburg bis ende des Jahres. Wenn Sie einen Kleintransporter oder ähnliches haben und auf dem Weg von Gießen nach Marburg sind, würde ich mich über ein Angebot freuen. 1'},{Title: 'Suche Transport von Gießen nach Marburg 2', Text: 'Ich Suche einen Transport meines Klaviers von Gießen nach Marburg bis ende des Jahres. Wenn Sie einen Kleintransporter oder ähnliches haben und auf dem Weg von Gießen nach Marburg sind, würde ich mich über ein Angebot freuen. 2'},{Title: 'Suche Transport von Gießen nach Marburg 3', Text: 'Ich Suche einen Transport meines Klaviers von Gießen nach Marburg bis ende des Jahres. Wenn Sie einen Kleintransporter oder ähnliches haben und auf dem Weg von Gießen nach Marburg sind, würde ich mich über ein Angebot freuen. 3'},{Title: 'Suche Transport von Gießen nach Marburg 4', Text: 'Ich Suche einen Transport meines Klaviers von Gießen nach Marburg bis ende des Jahres. Wenn Sie einen Kleintransporter oder ähnliches haben und auf dem Weg von Gießen nach Marburg sind, würde ich mich über ein Angebot freuen. 4'},{Title: 'Suche Transport von Gießen nach Marburg 5', Text: 'Ich Suche einen Transport meines Klaviers von Gießen nach Marburg bis ende des Jahres. Wenn Sie einen Kleintransporter oder ähnliches haben und auf dem Weg von Gießen nach Marburg sind, würde ich mich über ein Angebot freuen. 5'},{Title: 'Suche Transport von Gießen nach Marburg 6', Text: 'Ich Suche einen Transport meines Klaviers von Gießen nach Marburg bis ende des Jahres. Wenn Sie einen Kleintransporter oder ähnliches haben und auf dem Weg von Gießen nach Marburg sind, würde ich mich über ein Angebot freuen. 6'}];
   public activeContent = this.content.slice(0,3);
@@ -19,14 +17,11 @@ export class HomeComponent implements OnInit{
   ){}
   
   ngOnInit(): void {
-    console.log('init');
     this.api.getRequest('offer/last').subscribe((res:any) => {
       this.content = res.content;
     })
   }
-  next() {
-    console.log('next');
-    
+  next() {    
     this.index++;
     this.index = this.index % 6;
     this.activeContent[0] = this.activeContent[1];
@@ -35,7 +30,6 @@ export class HomeComponent implements OnInit{
 
   }
   previous() {
-    console.log('prev');
     this.index--;
     this.index = this.index % 6;
     this.activeContent[2] = this.activeContent[1];
