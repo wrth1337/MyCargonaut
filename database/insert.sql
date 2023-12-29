@@ -4,10 +4,10 @@ VALUES  ('Deutsch', 'deutschlandflagge.jpg'),
         ('Englisch', 'americanflag.jpg');
 
 -- Testdaten für die Tabelle 'user'
-INSERT INTO user (firstName, lastName, email, password, birthdate, phonenumber, coins, picture)
-VALUES ('Max', 'Mustermann', 'max@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg'),
-       ('Anna', 'Schmidt', 'anna@example.com', 'pass456', '1995-08-21', '987654321', 75.0, 'user2.jpg'),
-       ('John', 'Doe', 'john@example.com', 'pass789', '1988-12-03', '456789123', 50.0, 'user3.jpg');
+INSERT INTO user (firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience)
+VALUES ('Max', 'Mustermann', 'max@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung'),
+       ('Anna', 'Schmidt', 'anna@example.com', 'pass456', '1995-08-21', '987654321', 75.0, 'user2.jpg', 'Hi was geht so', 'Viel Erfahrung'),
+       ('John', 'Doe', 'john@example.com', 'pass789', '1988-12-03', '456789123', 50.0, 'user3.jpg', 'Hi was geht so', 'Viel Erfahrung');
 
 INSERT INTO userLanguage (userId, languageId)
 VALUES  (1,1),
@@ -25,6 +25,7 @@ VALUES ('City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed',
        ('Town X', 'Town Y', '2023-02-05', '2023-02-10', 1, 0, 'Smoking allowed', 2, null, 2),
        ('Village M', 'Village N', '2023-03-20', '2023-03-25', 0, 0, NULL, 6, 'village.jpg',3);
 
+
 INSERT INTO intermediateGoal(location, adId)
 VALUES ('City C', 1),
        ('City D', 1);
@@ -32,14 +33,11 @@ VALUES ('City C', 1),
 -- Testdaten für die Tabelle 'offer'
 INSERT INTO offer (vehicleId, adId, pricePerPerson, pricePerFreight)
 VALUES (1, 1, 50.0, 100.0),
-       (2, 2, 75.0, 150.0),
-       (3, 3, 40.0, 80.0);
+       (2, 2, 75.0, 150.0);
 
 -- Testdaten für die Tabelle 'wanted'
 INSERT INTO wanted (adId, freight)
-VALUES (1, 'Fragile items'),
-       (2, 'Documents'),
-       (3, 'General goods');
+VALUES (3, 'Fragile items');
 
 -- Testdaten für die Tabelle 'booking'
 INSERT INTO booking (adId, userId, price, numSeats, canceled)
@@ -51,7 +49,7 @@ VALUES (1, 2, 200.0, 4, FALSE),
 INSERT INTO status (bookingId, bookingConfirmation, paymentReceived, startRide, endRide)
 VALUES (1, TRUE, TRUE, TRUE, FALSE),
        (2, TRUE, FALSE, FALSE, FALSE),
-       (3, TRUE, TRUE, FALSE, TRUE);
+       (3, TRUE, TRUE, TRUE, TRUE);
 
 -- Testdaten für die Tabelle 'rating'
 INSERT INTO rating (bookingId, userWhoIsEvaluating, userWhoWasEvaluated, punctuality, agreement, pleasent, freight, comment)

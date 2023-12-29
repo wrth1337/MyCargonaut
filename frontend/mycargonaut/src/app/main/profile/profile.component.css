@@ -1,0 +1,56 @@
+.card-title {
+    text-align: center;
+}
+.card-body {
+    text-align: center;
+}
+.card {
+    border-width: 1px;
+    border-color: var(--primary);
+}
+.custom-border {
+    border-bottom: 1px solid var(--primary);
+}
+.big {
+    font-size: x-large;
+}
+.center {
+    text-align: center;
+}
+
+.rating {
+    font-size: 30px;
+}
+  
+.highlight {
+    color: rgb(255, 217, 0);
+}
+
+.ht3 {
+    height: 180px;
+}
+
+.ht1 {
+    height: 130px;
+}
+
+.ht2 {
+    height: 170px;
+}
+
+.card-title {
+    font-size: large;
+}
+
+.custom-progress {
+    background-color: var(--primary);
+}
+
+.progress {
+    background-color: #e1e9be;
+    height: 40px;
+}
+  
+  
+  
+  
