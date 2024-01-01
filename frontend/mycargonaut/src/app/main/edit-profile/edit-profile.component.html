@@ -1,0 +1,31 @@
+<form #profileForm="ngForm" (ngSubmit)="onSubmit(profileForm)">
+    <div>
+        Vorname
+          <input id="firstname" type="text" name="firstName" [(ngModel)]="userData.firstName">
+    </div>
+    <div>
+        Nachname
+          <input id="lastname" type="text" name="lastName" [(ngModel)]="userData.lastName">
+    </div>
+    <div>
+        Profilbild
+          <input type="text" name="profilepicture" [(ngModel)]="userData.picture">
+    </div>
+    <div>
+        Geburtstag
+          <input type="date" name="birthdate" [(ngModel)]="userData.birthdate">
+    </div>
+    <div>
+        Beschreibung
+          <input type="text" name="description" [(ngModel)]="userData.description">
+    </div>
+    <div>
+        Erfahrung
+          <input type="text" name="experience" [(ngModel)]="userData.experience">
+    </div>
+    <div>
+        <input id="submitButton" class="submitButton" type="submit" value="Speichern">
+    </div>
+</form>
+<div> Bewertung: {{rating}} </div>
+<div> Anzahl Fahrten: {{tripCount}} </div>
