@@ -41,6 +41,19 @@ async function getUser(id) {
     }
 }
 
+async function editProfile(firstName, lastName, picture, birthdate, description, experience, id) {
+  const edit ='UPDATE user SET firstName = ?, lastName = ?, picture = ?, birthdate = ?, description = ?, experience = ? WHERE userId = ?';
+
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(edit, [firstName, lastName, picture, birthdate, description, experience, id]);
+        await conn.release();
+        return 0;
+    } catch (error) {
+        return 1;
+    }
+}
+
 // ---Routes--- //
 /**
  * @swagger
@@ -102,7 +115,7 @@ async function getUser(id) {
  *                  description: query was successful but contains no content.
  *                  content: {}
  */
-router.get('/profile', authenticateToken, async function(req, res, next) {
+router.get('/userdata', authenticateToken, async function(req, res, next) {
     try {
       const id = req.user_id;
       const user = await getUser(id);
@@ -118,7 +131,24 @@ router.get('/profile', authenticateToken, async function(req, res, next) {
         res.json({ status: 99, error: 'Fetching Profile Data failed' });
     }
 });
+
+
+router.post('/edit_profile', authenticateToken, async function(req, res, next) {
+  try {
+    const id = req.user_id;
+    const {firstName, lastName, picture, birthdate, description, experience} = req.body;
+    const edit = await editProfile(firstName, lastName, picture, birthdate, description, experience, id);
+
+    if (edit === 0) {
+      res.status(200);
+      res.json({ status: 1 });
+    }
+  } catch (error) {
+      res.status(500);
+      res.json({ status: 99, error: 'Changing Profile Data failed' });
+  }
+});
   
 
 
-module.exports = { router, getUser };
+module.exports = { router, getUser, editProfile };
