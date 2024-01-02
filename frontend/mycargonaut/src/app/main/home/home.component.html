@@ -72,29 +72,79 @@
     </button>
   </div>
   <div class="col">
-    <div class="row m-0 justify-content-center active-recomended">
+    <div class="row m-0 justify-content-center active-recomended" *ngIf="loaded">
       <div class="card m-3" style="width: 20rem;">
         <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
         <div class="card-body">
-          <h5 class="card-title">{{activeContent[0].Title}}</h5>
-          <p class="card-text">{{activeContent[0].Text}}</p>
+          <h5 class="card-title">{{writeTitle(content[(((index +2) % 6) + 6) % 6])}}</h5>
+          <p class="card-text">{{content[(((index + 2) % 6) + 6) % 6].description}}</p>
+        </div>
+      </div>
+      
+      <div class="card m-3" style="width: 20rem;">
+        <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{writeTitle(content[(((index + 1) % 6) + 6) % 6])}}</h5>
+          <p class="card-text">{{content[(((index + 1) % 6) + 6) % 6].description}}</p>
         </div>
       </div>
       <div class="card m-3" style="width: 20rem;">
         <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
         <div class="card-body">
-          <h5 class="card-title">{{activeContent[1].Title}}</h5>
-          <p class="card-text">{{activeContent[1].Text}}</p>
-        </div>
-      </div>
-      <div class="card m-3" style="width: 20rem;">
-        <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">{{activeContent[2].Title}}</h5>
-          <p class="card-text">{{activeContent[2].Text}}</p>
+          <h5 class="card-title">{{writeTitle(content[(((index) % 6) + 6) % 6])}}</h5>
+          <p class="card-text">{{content[(((index) % 6) + 6) % 6].description}}</p>
         </div>
       </div>
     </div>
+    <div class="row m-0 justify-content-center active-recomended" *ngIf="!loaded">
+      <div class="card m-3" style="width: 20rem;" aria-hidden="true">
+        <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
+        <div class="card-body">
+          <h5 class="card-title placeholder-glow">
+            <span class="placeholder col-6"></span>
+          </h5>
+          <p class="card-text placeholder-glow">
+            <span class="placeholder col-7"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-6"></span>
+            <span class="placeholder col-8"></span>
+          </p>
+        </div>
+      </div>
+      <div class="card m-3" style="width: 20rem;" aria-hidden="true">
+        <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
+        <div class="card-body">
+          <h5 class="card-title placeholder-glow">
+            <span class="placeholder col-6"></span>
+          </h5>
+          <p class="card-text placeholder-glow">
+            <span class="placeholder col-7"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-6"></span>
+            <span class="placeholder col-8"></span>
+          </p>
+        </div>
+      </div>
+      <div class="card m-3" style="width: 20rem;" aria-hidden="true">
+        <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
+        <div class="card-body">
+          <h5 class="card-title placeholder-glow">
+            <span class="placeholder col-6"></span>
+          </h5>
+          <p class="card-text placeholder-glow">
+            <span class="placeholder col-7"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-6"></span>
+            <span class="placeholder col-8"></span>
+          </p>
+        </div>
+      </div>
+      
+    </div>
+
   </div>
   <div class="col-md-auto">
     <br>
