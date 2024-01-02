@@ -123,6 +123,65 @@ async function getFilteredAds(type, startLocation, endLocation, startDate, freig
 }
 
 // ---- Routes ----
+/**
+ * @swagger
+ * paths:
+ *   /search:
+ *     get:
+ *       summary: Get filtered ads
+ *       parameters:
+ *         - in: query
+ *           name: typ
+ *           schema:
+ *             type: string
+ *           description: Type of ad (offer or wanted)
+ *         - in: query
+ *           name: startLocation
+ *           schema:
+ *             type: string
+ *           description: Start location filter
+ *         - in: query
+ *           name: endLocation
+ *           schema:
+ *             type: string
+ *           description: End location filter
+ *         - in: query
+ *           name: startDate
+ *           schema:
+ *             type: string
+ *           description: Start date filter
+ *         - in: query
+ *           name: freight
+ *           schema:
+ *             type: boolean
+ *           description: Freight filter
+ *         - in: query
+ *           name: numSeats
+ *           schema:
+ *             type: integer
+ *           description: Minimum number of seats filter
+ *         - in: query
+ *           name: userRating
+ *           schema:
+ *             type: number
+ *           description: Minimum user rating filter
+ *
+ *       responses:
+ *         '200':
+ *           description: Successful response
+ *           content:
+ *             application/json:
+ *               example:
+ *                 adId: 123
+ *
+ * components:
+ *   schemas:
+ *     Ad:
+ *       type: object
+ *       properties:
+ *         adId:
+ *           type: integer
+ */
 router.get('/search', async function(req, res, next) {
     const typ = req.query.typ;
     const startLocation = req.query.startLocation;
