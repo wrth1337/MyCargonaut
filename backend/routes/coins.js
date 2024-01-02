@@ -86,14 +86,12 @@ async function getUserCoins(id) {
  *                                      description: The error message.
  */
 router.get('/', authenticateToken, async function(req, res, next) {
-    console.log('GET /coins');
     try {
         const id = req.user_id;
         console.log('id: ' + id);
         const userCoins = await getUserCoins(id);
 
         if (userCoins.success) {
-            console.log('Coins data successfully fetched');
             res.status(200);
             res.json({ status: 1, coins: userCoins.data });
         } else {

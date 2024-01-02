@@ -25,7 +25,6 @@ export class NavbarComponent {
     if (this.isLogin) {
       this.api.getRequest("coins").subscribe((res: any) => {
         this.coins = JSON.stringify(res.coins);
-        console.log(this.coins);
       });
     }
   }
