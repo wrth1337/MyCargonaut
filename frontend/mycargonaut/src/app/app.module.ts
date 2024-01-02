@@ -10,12 +10,13 @@ import {AuthModule} from "./auth/auth.module";
 import { InterceptorService } from './service/interceptor.service';
 import { HomeComponent } from './main/home/home.component';
 import {NavbarComponent} from "./navbar/navbar.component";
-
+import { ProfileComponent } from './main/profile/profile.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    ProfileComponent,
   ],
   imports: [
     AuthModule,
