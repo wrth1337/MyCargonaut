@@ -11,6 +11,9 @@ const httpServer = require('http').createServer(app);
 const user = require('./routes/user');
 app.use('/user', user.router);
 
+const coins = require('./routes/coins');
+app.use('/coins', coins.router);
+
 const profile = require('./routes/profile');
 app.use('', profile.router);
 
@@ -25,6 +28,7 @@ app.use('', wanted.router);
 
 const trip = require('./routes/trip');
 app.use('', trip.router);
+
 
 
 

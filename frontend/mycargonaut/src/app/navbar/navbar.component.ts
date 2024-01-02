@@ -1,14 +1,36 @@
 import { Component } from '@angular/core';
-import {NgOptimizedImage} from "@angular/common";
+import {DatePipe, NgIf, NgOptimizedImage} from "@angular/common";
+import { ApiService } from 'src/app/service/api.service';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   standalone: true,
   imports: [
-    NgOptimizedImage
+    NgOptimizedImage,
+    NgIf
   ],
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+  coins: String = "";
+  isLogin = false;
+  constructor(
+    private api: ApiService,
+    private auth: AuthService
+  ){}
+  ngOnInit() {
+    this.isUserLogin();
+    if (this.isLogin) {
+      this.api.getRequest("coins").subscribe((res: any) => {
+        this.coins = JSON.stringify(res.coins);
+        console.log(this.coins);
+      });
+    }
+  }
+  isUserLogin(){
+    if(this.auth.getToken() != null){this.isLogin = true}
+  }
+
 }

@@ -337,49 +337,4 @@ router.post('/login', async function(req, res, next) {
     }
 });
 
-
-/**
- * @swagger
- * /coins/{userId}:
- *   get:
- *     summary: Retrieve the number of coins for a specific user.
- *     description: Retrieve the number of coins for a specific user by their user ID.
- *     tags:
- *       - User
- *     parameters:
- *       - in: path
- *         name: userId
- *         required: true
- *         schema:
- *           type: string
- *         description: The user ID.
- *     responses:
- *       200:
- *         description: The number of coins for the user was retrieved successfully.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 coins:
- *                   type: integer
- *                   description: The number of coins for the user.
- *       400:
- *         description: Bad request, user ID was not provided in the request.
- *       404:
- *         description: A user with the specified ID was not found.
- *       500:
- *         description: There was an error executing the query.
- */
-router.get('/coins/:userId', (req, res) => {
-    const userId = req.params.userId;
-    const sql = 'SELECT coins FROM users WHERE id = ?';
-
-    db.query(sql, userId, (err, result) => {
-        if (err) throw err;
-        res.send(result[0]);
-    });
-});
-
-
 module.exports = {router, registerNewUser, isUserAlreadyRegistered, isEmailValid, isPhonenumberValid, isDateValid};

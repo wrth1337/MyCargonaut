@@ -10,6 +10,11 @@
       <div class="container">
         <div class="row">
           <div class="col d-flex justify-content-end">
+            <!-- Coin Anzeige... -->
+            <div class="coin" style="margin-right: 20px;" *ngIf="this.isLogin">
+              <span> {{ coins }}</span>
+            </div>
+            <!-- Ende Coin anzeige... -->
             <button>
               <span class="material-symbols-outlined navbarIcon">settings</span>
             </button>
