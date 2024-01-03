@@ -49,7 +49,15 @@ export class EditProfileComponent {
       form.value.lastName = this.userData.lastName;
     }
     if(!this.editBirth) {
+      const dateParts = this.userData.birthdate.split('.');
+      const day = parseInt(dateParts[0], 10);
+      const month = parseInt(dateParts[1], 10) - 1;
+      const year = parseInt(dateParts[2], 10);
+
+      const birthdate = new Date(year, month, day);
+      this.userData.birthdate = this.datePipe.transform(birthdate, 'yyyy-MM-dd');
       form.value.birthdate = this.userData.birthdate;
+      this.userData.birthdate = this.datePipe.transform(this.userData.birthdate, 'dd.MM.yyyy');
     }
     this.api.postRequest("profile/edit_profile", form.value).subscribe((res: any) => {
       console.log(res);
@@ -63,12 +71,6 @@ export class EditProfileComponent {
   editBirthdate() {
     this.editBirth = !this.editBirth;
     if(!this.editBirth) {
-      /*const dateParts = this.userData.birthdate.split('-');
-      const day = parseInt(dateParts[2], 10);
-      const month = parseInt(dateParts[1], 10) - 1;
-      const year = parseInt(dateParts[0], 10);
-
-      const birthdate = new Date(year, month, day);*/
       this.userData.birthdate = this.datePipe.transform(this.userData.birthdate, 'dd.MM.yyyy');
     }
     else {

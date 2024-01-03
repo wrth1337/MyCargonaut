@@ -36,14 +36,16 @@
 
         <div class="col-md-9 mb-3">
             <div class="row pb-3">
-                <div class="col-md-12">
+                <div class="col-md-8">
                     <div class="d-flex align-items-center justify-content-center">
                         <div *ngIf="!this.editUser" class="d-flex align-items-center">
                             <div class="big center username"> {{userData.firstName}} {{userData.lastName}} </div>
                         </div>
-                        <div *ngIf="this.editUser" class="d-flex align-items-center">
-                            <input id="firstname" class="big center username" type="text" name="firstName" [(ngModel)]="userData.firstName">
-                            <input id="lastname" class="big center username" type="text" name="lastName" [(ngModel)]="userData.lastName">
+                        <div *ngIf="this.editUser" class="col-md-4 d-flex align-items-center">
+                            <input id="firstname" class="edit m-1 form-control username-input" type="text" name="firstName" [(ngModel)]="userData.firstName">
+                        </div>
+                        <div *ngIf="this.editUser" class="col-md-4 d-flex align-items-center">
+                            <input id="lastname" class="edit m-1 form-control username-input" type="text" name="lastName" [(ngModel)]="userData.lastName">
                         </div>
                         <div>
                         <button type="button" class="btn" (click)="editUsername()">
@@ -76,7 +78,7 @@
                             <div class="big center birthdate"> {{userData.birthdate}} </div>
                         </div> 
                         <div *ngIf="editBirth" class="d-flex align-items-center">
-                            <input class="center big" type="date" name="birthdate" [(ngModel)]="userData.birthdate">
+                            <input class="center form-control edit" type="date" name="birthdate" [(ngModel)]="userData.birthdate">
                         </div>
                         <div>
                         <button type="button" class="btn" (click)="editBirthdate()">
@@ -95,7 +97,7 @@
         <div class="col">
             <div> Kurzbeschreibung über mich </div>
             <div>
-                <textarea class="card mb-3 p-2 ht1 w-100 overflow-auto description" name="description" [(ngModel)]="userData.description"></textarea>
+                <textarea class="card mb-3 p-2 ht1 w-100 form-control overflow-auto description" name="description" [(ngModel)]="userData.description"></textarea>
             </div>
         </div>
     </div>
@@ -104,7 +106,7 @@
         <div class="col">
             <div> Meine Erfahrungen </div>
             <div>
-                <textarea class="card mb-3 p-2 w-100 ht2 overflow-auto" name="experience" [(ngModel)]="userData.experience"></textarea>
+                <textarea class="card mb-3 p-2 w-100 ht2 form-control overflow-auto" name="experience" [(ngModel)]="userData.experience"></textarea>
             </div>
         </div>
     </div>
@@ -112,7 +114,19 @@
     <div class="row">
         <div class="col-md-4">
             <div class="card mb-3">
-                <div class="card-title custom-border"> Sprachen: </div>
+                <div class="card-title custom-border"> 
+                    <div class="d-flex align-items-center justify-content-center">
+                        Sprachen:
+                        <div>
+                        <button type="button" class="btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                            </svg>
+                        </button>
+                        </div>
+                    </div>
+                </div>
                 <div class="card-body overflow-auto"></div>
             </div>
         </div>
@@ -125,7 +139,7 @@
                 </div>
             </div>
         </div>
-        <div class="col md-4">
+        <div class="col md-4 center">
             <div>
                 <input id="submitButton" class="submitButton" type="submit" value="Speichern">
             </div>
