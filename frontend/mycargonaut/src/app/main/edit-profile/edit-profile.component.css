@@ -14,7 +14,7 @@
 .big {
     font-size: xx-large;
 }
-.edit {
+.medium {
     font-size: x-large;
 }
 .center {
@@ -93,6 +93,12 @@
 
 .upload {
     font-size: large;
+}
+
+.okButton {
+    width: 30%;
+    background-color: var(--secondary);
+    color: white;
 }
 
 

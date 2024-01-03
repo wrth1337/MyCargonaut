@@ -19,6 +19,7 @@ export class EditProfileComponent {
   stars: number[] = [1, 2, 3, 4, 5];
   editUser = false;
   editBirth = false;
+  success = false;
 
   constructor(
     private api: ApiService,
@@ -57,11 +58,15 @@ export class EditProfileComponent {
       const birthdate = new Date(year, month, day);
       this.userData.birthdate = this.datePipe.transform(birthdate, 'yyyy-MM-dd');
       form.value.birthdate = this.userData.birthdate;
-      this.userData.birthdate = this.datePipe.transform(this.userData.birthdate, 'dd.MM.yyyy');
     }
     this.api.postRequest("profile/edit_profile", form.value).subscribe((res: any) => {
-      console.log(res);
+      if(res.status === 1) {
+        this.success = true;
+      }
     });
+    this.userData.birthdate = this.datePipe.transform(this.userData.birthdate, 'dd.MM.yyyy');
+    this.editUser = false;
+    this.editBirth = false;
   }
 
   editUsername() {

@@ -42,10 +42,10 @@
                             <div class="big center username"> {{userData.firstName}} {{userData.lastName}} </div>
                         </div>
                         <div *ngIf="this.editUser" class="col-md-4 d-flex align-items-center">
-                            <input id="firstname" class="edit m-1 form-control username-input" type="text" name="firstName" [(ngModel)]="userData.firstName">
+                            <input id="firstname" class="medium m-1 form-control username-input" type="text" name="firstName" [(ngModel)]="userData.firstName">
                         </div>
                         <div *ngIf="this.editUser" class="col-md-4 d-flex align-items-center">
-                            <input id="lastname" class="edit m-1 form-control username-input" type="text" name="lastName" [(ngModel)]="userData.lastName">
+                            <input id="lastname" class="medium m-1 form-control username-input" type="text" name="lastName" [(ngModel)]="userData.lastName">
                         </div>
                         <div>
                         <button type="button" class="btn" (click)="editUsername()">
@@ -78,7 +78,7 @@
                             <div class="big center birthdate"> {{userData.birthdate}} </div>
                         </div> 
                         <div *ngIf="editBirth" class="d-flex align-items-center">
-                            <input class="center form-control edit" type="date" name="birthdate" [(ngModel)]="userData.birthdate">
+                            <input class="center form-control medium" type="date" name="birthdate" [(ngModel)]="userData.birthdate">
                         </div>
                         <div>
                         <button type="button" class="btn" (click)="editBirthdate()">
@@ -141,17 +141,17 @@
         </div>
         <div class="col md-4 center">
             <div>
-                <input id="submitButton" class="submitButton" type="submit" value="Speichern">
+                <button id="submitButton" type="submit" class="submitButton" value="Speichern" data-bs-toggle="modal" data-bs-target="#saveModal"> Speichern </button>
             </div>
         </div>
     
     </div>
-    </form>  
+    </form>
 </div>
 
 
 
-<div class="modal fade" id="pbModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!--<div class="modal fade" id="pbModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-m">
       <div class="modal-content">
         <div class="modal-body p-4">
@@ -173,6 +173,25 @@
             </div>
             <div>
               <button type="button" class="btn backButton p-2 m-3" data-bs-dismiss="modal" aria-label="Back" value="Abbrechen">Abbrechen</button>
+            </div>
+          </div>
+      </div>
+    </div>
+</div>-->
+
+<div class="modal fade" id="saveModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-m">
+      <div class="modal-content">
+        <div class="modal-body p-4">
+          <div class="center">
+            <div *ngIf="this.success" class="medium center">
+                Daten erfolgreich geändert.
+            </div>
+            <div *ngIf="!this.success" class="medium center">
+                Fehler bei Änderung der Daten.
+            </div>
+            <div class="mt-4">
+              <button type="button" class="btn okButton p-2 m-3" data-bs-dismiss="modal" aria-label="Ok" value="Ok">OK</button>
             </div>
           </div>
       </div>
