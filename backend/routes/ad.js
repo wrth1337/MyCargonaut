@@ -21,7 +21,7 @@ const pool = mariadb.createPool({
 
 // ---Methods--- //
 
-async function getLastAds(id) {
+async function getLastAds() {
     // eslint-disable-next-line max-len
     const lastAds = 'SELECT * FROM ad ORDER BY adId DESC LIMIT 6';
     const intermediateGoalsQuery = 'SELECT * FROM intermediateGoal WHERE adId = ?';
@@ -155,8 +155,7 @@ async function getLastAds(id) {
  */
 router.get('/last', async function(req, res, next) {
     try {
-        const id = req.user_id;
-        const ad = await getLastAds(id);
+        const ad = await getLastAds();
 
         if (ad.success) {
             res.status(200);
