@@ -2,6 +2,7 @@ const mariadb = require('mariadb');
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 
+// eslint-disable-next-line new-cap
 const router = express.Router();
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000,
@@ -22,7 +23,6 @@ const pool = mariadb.createPool({
 async function getFilteredAds(type, startLocation, endLocation, startDate, freight, numSeats, userRating) {
     let query;
     const filters = [];
-   // let havingClause;
 
     if (startLocation) {
         filters.push(`a.startLocation='${startLocation}' OR i.location='${startLocation}'`);

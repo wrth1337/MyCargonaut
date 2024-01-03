@@ -1,5 +1,4 @@
 const {expect, test, beforeEach, afterEach} = require('@jest/globals');
-const {router, getFilteredAds} = require('../routes/searchbar');
 const mariadb = require('mariadb');
 
 let adIdFromFirstInsert;
@@ -12,7 +11,7 @@ const pool = mariadb.createPool({
     database: 'cargodb',
 });
 
-beforeEach(async() => {
+beforeEach(async () => {
     const conn = await pool.getConnection();
 
     const firstVehicleIdResult = await conn.query('INSERT INTO vehicle (name, numSeats, maxWeight, picture, loadingAreaDimensions, specialFeautures, userId) VALUES (?,?,?,?,?,?,?)', ['Lightning McQueen', 2, 500.0, 'car1.jpg', '2x2x2', 'GPS, Bluetooth', 1]);
@@ -24,12 +23,10 @@ beforeEach(async() => {
     await conn.query('INSERT INTO offer (vehicleId, adId, pricePerPerson, pricePerFreight) VALUES (?,?,?,?)', [firstVehicleId, adIdFromFirstInsert, 50.0, 100.0]);
     const bookingIdFromQuery = await conn.query('INSERT INTO booking (adId, userId, price, numSeats, canceled) VALUES (?, ?, ?, ?, ?)', [adIdFromFirstInsert, 1, 10.0, 1, false]);
     const bookingId = bookingIdFromQuery.insertId;
-
     await conn.query('INSERT INTO rating (bookingId, userWhoIsEvaluating, userWhoWasEvaluated, punctuality, agreement, pleasent, freight, comment) VALUES (?,?,?,?,?,?,?,?)', [bookingId, 2, 1, 5, 4, 5, null, 'Great service']);
-
 });
 
-afterEach(async() => {
+afterEach(async () => {
     const conn = await pool.getConnection();
     await conn.query('DELETE FROM offer;');
     await conn.query('DELETE FROM ad;');
@@ -39,10 +36,8 @@ afterEach(async() => {
     await conn.release();
 });
 
-test('get all offers', async() => {
-
+test('get all offers', async () => {
     const result = await getFilteredAds('offer', null, null, null, null, null, null);
-
     expect(result).toEqual([{adId: Number(adIdFromFirstInsert)}]);
 });
 
