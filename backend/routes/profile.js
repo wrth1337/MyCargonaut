@@ -41,12 +41,11 @@ async function getUser(id) {
     }
 }
 
-async function editProfile(firstName, lastName, picture, birthdate, description, experience, id) {
-  const edit ='UPDATE user SET firstName = ?, lastName = ?, picture = ?, birthdate = ?, description = ?, experience = ? WHERE userId = ?';
-
+async function editProfile(firstName, lastName, birthdate, description, experience, id) {
+  const edit ='UPDATE user SET firstName = ?, lastName = ?, birthdate = ?, description = ?, experience = ? WHERE userId = ?';
     try {
         const conn = await pool.getConnection();
-        const result = await conn.query(edit, [firstName, lastName, picture, birthdate, description, experience, id]);
+        const result = await conn.query(edit, [firstName, lastName, birthdate, description, experience, id]);
         await conn.release();
         return 0;
     } catch (error) {
@@ -136,8 +135,8 @@ router.get('/userdata', authenticateToken, async function(req, res, next) {
 router.post('/edit_profile', authenticateToken, async function(req, res, next) {
   try {
     const id = req.user_id;
-    const {firstName, lastName, picture, birthdate, description, experience} = req.body;
-    const edit = await editProfile(firstName, lastName, picture, birthdate, description, experience, id);
+    const {firstName, lastName, birthdate, description, experience} = req.body;
+    const edit = await editProfile(firstName, lastName, birthdate, description, experience, id);
 
     if (edit === 0) {
       res.status(200);
