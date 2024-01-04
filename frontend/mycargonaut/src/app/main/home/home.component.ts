@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/service/api.service';
 import { Ad } from '../ad';
+import { intermediateGoal } from '../intermediateGoal';
 
 @Component({
   selector: 'app-home',
@@ -37,8 +38,8 @@ export class HomeComponent implements OnInit{
     let res = '';
     res += input.type === 'offer' ? 'Biete ' : 'Suche ';
     res += 'Fahrt von ' + input.startLocation;
-    input.intermediateGoals.forEach((element: string) => {
-      res += 'über ' +element
+    input.intermediateGoals.forEach((element: intermediateGoal) => {
+      res += ' über ' +element.location
     });
 
     res += ' nach ' + input.endLocation;

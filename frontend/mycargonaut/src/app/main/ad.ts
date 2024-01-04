@@ -1,9 +1,11 @@
+import { intermediateGoal } from "./intermediateGoal";
+
 export interface Ad {
     adId: number;
     description: string;
     startLocation: string;
     endLocation: string;
-    intermediateGoals: [];
+    intermediateGoals: intermediateGoal[];
     type: string;
     startDate: Date;
     endDate: Date;
