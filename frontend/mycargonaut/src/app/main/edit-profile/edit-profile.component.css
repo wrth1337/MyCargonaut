@@ -14,7 +14,7 @@
 .big {
     font-size: xx-large;
 }
-.edit {
+.medium {
     font-size: x-large;
 }
 .center {
@@ -93,6 +93,11 @@
 
 .upload {
     font-size: large;
+}
+
+.flash {
+    background-color: #e1e9be;
+    outline: 1px var(--primary) solid;
 }
 
 

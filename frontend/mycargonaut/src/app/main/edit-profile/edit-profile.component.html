@@ -1,9 +1,19 @@
 <div class="card h-100 p-3 m-2">
     <form #profileForm="ngForm" (ngSubmit)="onSubmit(profileForm)">
+    <div *ngIf="showFlashMessage" class="alert alert-success alert-dismissible fade show flash" role="alert">
+        <div class="center">
+            <div *ngIf="this.success" class="medium center">
+                Daten erfolgreich aktualisiert.
+            </div>
+            <div *ngIf="!this.success" class="medium center">
+                Fehler bei Aktualisierung der Daten.
+            </div>
+        </div>
+    </div>
     <div class="row pb-3">
         <div class="col-md-1">
             <div>
-                <button type="button" class=" btn returnButton">
+                <button type="button" class=" btn returnButton" routerLink="/profile">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
                         <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
                     </svg>
@@ -14,7 +24,7 @@
             <div class="d-flex align-items-center justify-content-center">
                 
                 <div *ngIf="userData.picture; else placeholder" class="d-flex align-items-center">
-                    <img class="profilepicture" [src]="userData.picture" height="100" width="100">
+                    <img class="profilepicture" [src]="userData.picture" height="130" width="130">
                 </div>
                 <ng-template #placeholder class="d-flex align-items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="130" height="130" fill="var(--primary)" class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -42,10 +52,10 @@
                             <div class="big center username"> {{userData.firstName}} {{userData.lastName}} </div>
                         </div>
                         <div *ngIf="this.editUser" class="col-md-4 d-flex align-items-center">
-                            <input id="firstname" class="edit m-1 form-control username-input" type="text" name="firstName" [(ngModel)]="userData.firstName">
+                            <input id="firstname" class="medium m-1 form-control username-input" type="text" name="firstName" [(ngModel)]="userData.firstName">
                         </div>
                         <div *ngIf="this.editUser" class="col-md-4 d-flex align-items-center">
-                            <input id="lastname" class="edit m-1 form-control username-input" type="text" name="lastName" [(ngModel)]="userData.lastName">
+                            <input id="lastname" class="medium m-1 form-control username-input" type="text" name="lastName" [(ngModel)]="userData.lastName">
                         </div>
                         <div>
                         <button type="button" class="btn" (click)="editUsername()">
@@ -78,7 +88,7 @@
                             <div class="big center birthdate"> {{userData.birthdate}} </div>
                         </div> 
                         <div *ngIf="editBirth" class="d-flex align-items-center">
-                            <input class="center form-control edit" type="date" name="birthdate" [(ngModel)]="userData.birthdate">
+                            <input class="center form-control medium" type="date" name="birthdate" [(ngModel)]="userData.birthdate">
                         </div>
                         <div>
                         <button type="button" class="btn" (click)="editBirthdate()">
@@ -141,12 +151,12 @@
         </div>
         <div class="col md-4 center">
             <div>
-                <input id="submitButton" class="submitButton" type="submit" value="Speichern">
+                <button id="submitButton" type="submit" class="submitButton" value="Speichern" data-toggle="toast" data-target="#saveToast"> Speichern </button>
             </div>
         </div>
     
     </div>
-    </form>  
+    </form>
 </div>
 
 

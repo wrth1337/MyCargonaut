@@ -47,9 +47,9 @@ async function editProfile(firstName, lastName, birthdate, description, experien
         const conn = await pool.getConnection();
         const result = await conn.query(edit, [firstName, lastName, birthdate, description, experience, id]);
         await conn.release();
-        return 0;
-    } catch (error) {
         return 1;
+    } catch (error) {
+        return 0;
     }
 }
 
@@ -138,9 +138,12 @@ router.post('/edit_profile', authenticateToken, async function(req, res, next) {
     const {firstName, lastName, birthdate, description, experience} = req.body;
     const edit = await editProfile(firstName, lastName, birthdate, description, experience, id);
 
-    if (edit === 0) {
+    if (edit === 1) {
       res.status(200);
       res.json({ status: 1 });
+    } else {
+      res.status(500);
+      res.json({ status: 0 });
     }
   } catch (error) {
       res.status(500);
