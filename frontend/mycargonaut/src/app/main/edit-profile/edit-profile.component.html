@@ -1,5 +1,15 @@
 <div class="card h-100 p-3 m-2">
     <form #profileForm="ngForm" (ngSubmit)="onSubmit(profileForm)">
+    <div *ngIf="showFlashMessage" class="alert alert-success alert-dismissible fade show flash" role="alert">
+        <div class="center">
+            <div *ngIf="this.success" class="medium center">
+                Daten erfolgreich aktualisiert.
+            </div>
+            <div *ngIf="!this.success" class="medium center">
+                Fehler bei Aktualisierung der Daten.
+            </div>
+        </div>
+    </div>
     <div class="row pb-3">
         <div class="col-md-1">
             <div>
@@ -141,7 +151,7 @@
         </div>
         <div class="col md-4 center">
             <div>
-                <button id="submitButton" type="submit" class="submitButton" value="Speichern" data-bs-toggle="modal" data-bs-target="#saveModal"> Speichern </button>
+                <button id="submitButton" type="submit" class="submitButton" value="Speichern" data-toggle="toast" data-target="#saveToast"> Speichern </button>
             </div>
         </div>
     
@@ -151,7 +161,7 @@
 
 
 
-<!--<div class="modal fade" id="pbModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="pbModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-m">
       <div class="modal-content">
         <div class="modal-body p-4">
@@ -173,25 +183,6 @@
             </div>
             <div>
               <button type="button" class="btn backButton p-2 m-3" data-bs-dismiss="modal" aria-label="Back" value="Abbrechen">Abbrechen</button>
-            </div>
-          </div>
-      </div>
-    </div>
-</div>-->
-
-<div class="modal fade" id="saveModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-m">
-      <div class="modal-content">
-        <div class="modal-body p-4">
-          <div class="center">
-            <div *ngIf="this.success" class="medium center">
-                Daten erfolgreich geändert.
-            </div>
-            <div *ngIf="!this.success" class="medium center">
-                Fehler bei Änderung der Daten.
-            </div>
-            <div class="mt-4">
-              <button type="button" class="btn okButton p-2 m-3" data-bs-dismiss="modal" aria-label="Ok" value="Ok">OK</button>
             </div>
           </div>
       </div>

@@ -95,10 +95,9 @@
     font-size: large;
 }
 
-.okButton {
-    width: 30%;
-    background-color: var(--secondary);
-    color: white;
+.flash {
+    background-color: #e1e9be;
+    outline: 1px var(--primary) solid;
 }
 
 

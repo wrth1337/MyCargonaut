@@ -21,6 +21,21 @@ export class EditProfileComponent {
   editBirth = false;
   success = false;
 
+
+  showFlashMessage = false;
+
+  showFlash() {
+    this.showFlashMessage = true;
+
+    setTimeout(() => {
+      this.closeFlashMessage();
+    }, 5000);
+  }
+
+  closeFlashMessage() {
+    this.showFlashMessage = false;
+  }
+
   constructor(
     private api: ApiService,
     private datePipe: DatePipe
@@ -50,12 +65,7 @@ export class EditProfileComponent {
       form.value.lastName = this.userData.lastName;
     }
     if(!this.editBirth) {
-      const dateParts = this.userData.birthdate.split('.');
-      const day = parseInt(dateParts[0], 10);
-      const month = parseInt(dateParts[1], 10) - 1;
-      const year = parseInt(dateParts[2], 10);
-
-      const birthdate = new Date(year, month, day);
+      const birthdate = this.formatBirthdate();
       this.userData.birthdate = this.datePipe.transform(birthdate, 'yyyy-MM-dd');
       form.value.birthdate = this.userData.birthdate;
     }
@@ -67,6 +77,8 @@ export class EditProfileComponent {
     this.userData.birthdate = this.datePipe.transform(this.userData.birthdate, 'dd.MM.yyyy');
     this.editUser = false;
     this.editBirth = false;
+
+    this.showFlash();
   }
 
   editUsername() {
@@ -79,14 +91,19 @@ export class EditProfileComponent {
       this.userData.birthdate = this.datePipe.transform(this.userData.birthdate, 'dd.MM.yyyy');
     }
     else {
-      const dateParts = this.userData.birthdate.split('.');
-      const day = parseInt(dateParts[0], 10);
-      const month = parseInt(dateParts[1], 10) - 1;
-      const year = parseInt(dateParts[2], 10);
-
-      const birthdate = new Date(year, month, day);
+      const birthdate = this.formatBirthdate();
       this.userData.birthdate = this.datePipe.transform(birthdate, 'yyyy-MM-dd');
     }
+  }
+
+  formatBirthdate() {
+    const dateParts = this.userData.birthdate.split('.');
+    const day = parseInt(dateParts[0], 10);
+    const month = parseInt(dateParts[1], 10) - 1;
+    const year = parseInt(dateParts[2], 10);
+
+    const birthdate = new Date(year, month, day);
+    return birthdate;
   }
 
 }
