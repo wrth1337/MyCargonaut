@@ -1,8 +1,102 @@
 <div class="container-fluid p-5">
   <div class="row row-cols-3">
-    <div id="UserOverview" class="col"></div>
-    <div id="OfferCard" class="col"></div>
-    <div id="VehicleSelection" class="col container borderPrimary g-0">
+    <div id="UserOverview" class="col-3 container borderPrimary g-0">
+      <div class="row" style="border-bottom: 1px solid var(--primary)">
+        <div class="col">
+          <div class="row">
+            <div class="col">
+              <p>Bitte überprüfe</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <p>deine Angaben!</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <button class="buttonPrimary">Bestätigen</button>
+        </div>
+      </div>
+      <div id="personalData" class="container borderPrimary">
+        <!--Profile Picture, Name, Rating, Age, Amount of Offers-->
+        <div class="row">
+          <div class="col" style="border-radius: 50%">
+            <img src="assets/ProfilePicture/CharlieDieMaus.jpg" alt="Profilbild" class="cropped-img" style="display: flex; justify-content: center; align-self: center">
+          </div>
+          <div class="col">
+            <div class="row">
+              <p class="FormInputLight">Max M.</p>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="row">
+                  <span class="col p-0 material-symbols-outlined">grade</span>
+                  <span class="col p-0 material-symbols-outlined">grade</span>
+                  <span class="col p-0 material-symbols-outlined">grade</span>
+                  <span class="col p-0 material-symbols-outlined">grade</span>
+                  <span class="col p-0 material-symbols-outlined">grade</span>
+                </div>
+              </div>
+              <div class="col">
+                <p class="FormInputLight">30 Jahre</p>
+              </div>
+            </div>
+            <div class="row">
+              <p class="FormInputLight">Anzahl Fahrten: 10</p>
+            </div>
+          </div>
+        </div>
+        <!--"About me"-->
+        <div class="row">
+          <p class="FormInputLight">Über mich...</p>
+        </div>
+        <!--Experience-->
+        <div>
+          <p>Erfahrung</p>
+          <div id="ExperienceFrame" style="height: 10px; width: 100%; border: solid var(--primary)">
+            <div id="ExperienceBar" style="background-color: var(--primary); height: 6px; width: 45%; border: solid var(--primary)"></div>
+          </div>
+        </div>
+        <!--Languages, Preferences-->
+        <div class="row">
+          <div class="col">
+            <p>Sprachen</p>
+            <div class="row">
+              <div class="col">
+                <img src="assets/LanguageIcons/Deutsch.png" alt="Deutsche Sprache" class="cropped-img" style="display: flex; justify-content: center; align-self: center">
+              </div>
+              <div class="col">
+                <img src="assets/LanguageIcons/Englisch.png" alt="Englische Sprache" class="cropped-img" style="display: flex; justify-content: center; align-self: center">
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="row">
+              <div class="col">
+                <span class="material-symbols-outlined">smoke_free</span>
+              </div>
+              <div class="col">
+                <span class="material-symbols-outlined">pets</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="buttonPrimary">Ändern</button>
+      <div id="CalculatedPrice" class="container borderPrimary">
+        <div class="row">
+          <div class="col">
+            <h2>50</h2>
+          </div>
+          <div class="col">
+            <span class="material-symbols-outlined">toll</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="OfferCard" class="col-6"></div>
+    <div id="VehicleSelection" class="col-3 container borderPrimary g-0">
       <div id="VehicleSelectionHeader" class="col container-fluid">
         <div class="row-cols-1">
           <div class="col">
@@ -24,12 +118,12 @@
           </div>
           <div class="col g-0 m-0" style="width: 100%">
             <div class="row g-0">
-              <div class="col FormInputLight">
+              <div class="col FormInputLight m-2">
                 <p class="p-2 m-0">Transporter mit x Volumen</p>
               </div>
             </div>
             <div class="row g-0">
-                <div class="col FormInputLight">
+                <div class="col FormInputLight m-2">
                   <p class="p-2 m-0">Transporter</p>
                 </div>
               </div>
