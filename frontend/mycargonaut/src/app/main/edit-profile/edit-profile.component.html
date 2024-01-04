@@ -2,7 +2,7 @@
     <form #profileForm="ngForm" (ngSubmit)="onSubmit(profileForm)">
     <div *ngIf="showFlashMessage" class="alert alert-success alert-dismissible fade show flash" role="alert">
         <div class="center">
-            <div *ngIf="this.success" class="medium center">
+            <div *ngIf="this.success" class="medium center flashmessage">
                 Daten erfolgreich aktualisiert.
             </div>
             <div *ngIf="!this.success" class="medium center">
@@ -88,7 +88,7 @@
                             <div class="big center birthdate"> {{userData.birthdate}} </div>
                         </div> 
                         <div *ngIf="editBirth" class="d-flex align-items-center">
-                            <input class="center form-control medium" type="date" name="birthdate" [(ngModel)]="userData.birthdate">
+                            <input class="center form-control-birthdate medium" type="date" name="birthdate" [(ngModel)]="userData.birthdate">
                         </div>
                         <div>
                         <button type="button" class="btn" (click)="editBirthdate()">
@@ -116,7 +116,7 @@
         <div class="col">
             <div> Meine Erfahrungen </div>
             <div>
-                <textarea class="card mb-3 p-2 w-100 ht2 form-control overflow-auto" name="experience" [(ngModel)]="userData.experience"></textarea>
+                <textarea class="card mb-3 p-2 w-100 ht2 form-control overflow-auto experience" name="experience" [(ngModel)]="userData.experience"></textarea>
             </div>
         </div>
     </div>
