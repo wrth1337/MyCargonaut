@@ -1,0 +1,56 @@
+span#rating label {
+  line-height: 45px;
+  cursor: Pointer;
+}
+
+span#rating input[type="radio"] {
+
+}
+
+div.starrating {
+  float: Left;
+  clear: both;
+}
+
+div.starrating:not(:checked) > input {
+  display: None;
+}
+
+div.starrating:not(:checked) > label {
+  float: Right;
+  width: 1em;
+  padding: 0 .1em;
+  overflow: Hidden;
+  white-space: Nowrap;
+  cursor: Pointer;
+  font-size: 200%;
+  line-height: 1.2;
+  color: #D0D0D0;
+}
+
+div.starrating:not(:checked) > label::before {
+  content: '★ ';
+}
+
+div.starrating > input:checked ~ label {
+  color: #FFD700;
+}
+
+div.starrating:not(:checked) > label:hover,
+div.starrating:not(:checked) > label:hover ~ label {
+  color: #FECF41;
+}
+
+div.starrating > input:checked + label:hover,
+div.starrating > input:checked + label:hover ~ label,
+div.starrating > input:checked ~ label:hover,
+div.starrating > input:checked ~ label:hover ~ label,
+div.starrating > label:hover ~ input:checked ~ label {
+  color: #FBB600;
+}
+
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}

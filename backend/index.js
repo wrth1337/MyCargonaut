@@ -26,6 +26,8 @@ app.use('', wanted.router);
 const trip = require('./routes/trip');
 app.use('', trip.router);
 
+const rating = require('./routes/rating');
+app.use('', rating.router);
 
 
 // app.js
