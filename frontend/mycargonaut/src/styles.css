@@ -29,6 +29,10 @@ button {
   border: none;
 }
 
+.FontPrimary {
+  color: var(--primary);
+}
+
 #SearchFormSection,
 .FormInputColor {
   border: 2px solid var(--primary);
@@ -54,4 +58,9 @@ button {
   border: 2px solid var(--primary);
   border-radius: 10px;
   color: var(--primary);
+}
+
+#OfferCard {
+  background-color: var(--secondary_light);
+  border-radius: 10px;
 }
