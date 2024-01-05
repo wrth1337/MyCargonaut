@@ -20,8 +20,6 @@ export class EditProfileComponent {
   editUser = false;
   editBirth = false;
   success = false;
-
-
   showFlashMessage = false;
 
   showFlash() {
@@ -69,6 +67,7 @@ export class EditProfileComponent {
       this.userData.birthdate = this.datePipe.transform(birthdate, 'yyyy-MM-dd');
       form.value.birthdate = this.userData.birthdate;
     }
+    form.value.picture = this.userData.picture;
     this.api.postRequest("profile/edit_profile", form.value).subscribe((res: any) => {
       if(res.status === 1) {
         this.success = true;

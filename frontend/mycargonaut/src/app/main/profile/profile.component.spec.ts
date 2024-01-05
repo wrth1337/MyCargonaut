@@ -39,23 +39,6 @@ describe('ProfileComponent', () => {
     component.uwtData = [{startLocation: 'Stuttgart', endLocation: 'Dresden', startDate: '05.05.2023'}];
     component.tripsAvailable = true;
 
-    const dummyUserData = {
-      email: 'test@example.com'
-    };
-
-    const dummyToken = 'dummyToken';
-
-    spyOn(localStorage, 'getItem').and.callFake((key: string) => {
-      switch (key) {
-        case 'userData':
-          return JSON.stringify(dummyUserData);
-        case 'token':
-          return dummyToken;
-        default:
-          return null;
-      }
-    });
-
     fixture.detectChanges();
   });
 
