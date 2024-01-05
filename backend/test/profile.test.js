@@ -41,9 +41,7 @@ test('get profile data from new registered user', async () => {
         expect(dbResult.data.firstName).toEqual(firstName);
         expect(dbResult.data.lastName).toEqual(lastName);
 
-        const expectedBirthdate = new Date(birthdate);
-        dbResult.data.birthdate.setUTCHours(dbResult.data.birthdate.getUTCHours() + 1);
-        expect(dbResult.data.birthdate).toEqual(expectedBirthdate);
+        expect(dbResult.data.birthdate).toEqual(new Date(birthdate));
 
         expect(dbResult.data.description).toBeNull();
         expect(dbResult.data.experience).toBeNull();
@@ -98,9 +96,7 @@ test('change profile data from user', async () => {
         expect(dbResult.data.firstName).toEqual(newFirstName);
         expect(dbResult.data.lastName).toEqual(newLastName);
 
-        const expectedBirthdate = new Date(newBirthdate);
-        dbResult.data.birthdate.setUTCHours(dbResult.data.birthdate.getUTCHours() + 1);
-        expect(dbResult.data.birthdate).toEqual(expectedBirthdate);
+        expect(dbResult.data.birthdate).toEqual(new Date(newBirthdate));
 
         expect(dbResult.data.picture).toEqual(picture);
         expect(dbResult.data.description).toEqual(description);
