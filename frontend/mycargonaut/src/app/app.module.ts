@@ -10,6 +10,7 @@ import {AuthModule} from "./auth/auth.module";
 import { InterceptorService } from './service/interceptor.service';
 import { HomeComponent } from './main/home/home.component';
 import { ProfileComponent } from './main/profile/profile.component';
+import { AdComponent } from './main/ad/ad.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { ProfileComponent } from './main/profile/profile.component';
     AppComponent,
     HomeComponent,
     ProfileComponent,
+    AdComponent,
   ],
   imports: [
     AuthModule,
