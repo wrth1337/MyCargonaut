@@ -88,7 +88,6 @@ async function getUserCoins(id) {
 router.get('/', authenticateToken, async function(req, res, next) {
     try {
         const id = req.user_id;
-        console.log('id: ' + id);
         const userCoins = await getUserCoins(id);
 
         if (userCoins.success) {
