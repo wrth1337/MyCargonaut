@@ -22,7 +22,6 @@ export class HomeComponent implements OnInit{
     this.api.getRequest('ad/last').subscribe((res:any) => {
       this.content = res.data.result;
       this.loaded = true;
-      console.log(res.data.result);
     })
   }
   next() {
@@ -32,7 +31,6 @@ export class HomeComponent implements OnInit{
   previous() {
     this.index--;
     this.index = (((this.index) % 6) + 6) % 6;
-//JS besitzt keinen Modulo operator wtffffff
   }
   writeTitle(input:Ad) {
     let res = '';
@@ -41,7 +39,6 @@ export class HomeComponent implements OnInit{
     input.intermediateGoals.forEach((element: intermediateGoal) => {
       res += ' über ' +element.location
     });
-
     res += ' nach ' + input.endLocation;
     return res;
   }

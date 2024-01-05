@@ -22,7 +22,6 @@ const pool = mariadb.createPool({
 // ---Methods--- //
 
 async function getLastAds() {
-    // eslint-disable-next-line max-len
     const lastAds = 'SELECT * FROM ad ORDER BY adId DESC LIMIT 6';
     const intermediateGoalsQuery = 'SELECT * FROM intermediateGoal WHERE adId = ?';
     const isOfferQuery = 'SELECT 1 FROM offer WHERE adId = ?';
