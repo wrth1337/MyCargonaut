@@ -1,6 +1,6 @@
 const {expect, test, afterAll} = require('@jest/globals');
 const {registerNewUser} = require('../routes/user');
-const {getUser} = require('../routes/profile');
+const {getUser, editProfile} = require('../routes/profile');
 const {getUserOffers} = require('../routes/offer');
 const {getUserTrips} = require('../routes/trip');
 const {getUserVehicles} = require('../routes/vehicle');
@@ -23,23 +23,91 @@ test('get profile data from new registered user', async () => {
     const birthdate = '1990-01-01';
     const phonenumber = '1234567890';
 
+    const result = await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
+
+    expect(result).toBe(0);
+    
     let conn;
 
     try {
-        const result = await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
-
-        expect(result).toBe(0);
 
         conn = await pool.getConnection();
 
-        const dbResult = getUser(email);
+        const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
+        const userId = id[0].userId;
 
-        expect((await dbResult).data[0].firstName).toBe(firstName);
-        /*expect(dbResult[0].lastName).toBe(lastName);
-        expect(dbResult[0].birthdate).toBe(birthdate);
-        expect(dbResult[0].description).toBe(NULL);
-        expect(dbResult[0].experience).toBe(NULL);
-        expect(dbResult[0].rating).toBe(NULL);*/
+        const dbResult = await getUser(userId);
+
+        expect(dbResult.data.firstName).toEqual(firstName);
+        expect(dbResult.data.lastName).toEqual(lastName);
+
+        //expect(dbResult.data.birthdate).toEqual(new Date(birthdate));
+        const expectedBirthdate = new Date(birthdate);
+        dbResult.data.birthdate.setUTCHours(dbResult.data.birthdate.getUTCHours() + 1);
+        expect(dbResult.data.birthdate).toEqual(expectedBirthdate);
+
+        expect(dbResult.data.description).toBeNull();
+        expect(dbResult.data.experience).toBeNull();
+        expect(dbResult.data.rating).toEqual('0.00000000');
+
+    } finally {
+        if (conn) await conn.release();
+    }
+
+    try {
+        conn = await pool.getConnection();
+        await conn.query('DELETE FROM user WHERE email = ?', [email]);
+    } finally {
+        if (conn) await conn.release();
+    }
+});
+
+test('change profile data from user', async () => {
+    const firstName = 'testFirstName';
+    const lastName = 'testLastName';
+    const email = 'testEmail@test.com';
+    const password = 'testPassword';
+    const birthdate = '1990-01-01';
+    const phonenumber = '1234567890';
+
+    const description = 'testDescription';
+    const experience = 'testExperience';
+    const newFirstName = 'testFirstName2';
+    const newLastName = 'testLastName2';
+    const newBirthdate = '1990-01-02';
+    const picture = 'testPicture.jpg';
+
+    const result = await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
+
+    expect(result).toBe(0);
+
+    let conn;
+
+    try {
+
+        conn = await pool.getConnection();
+
+        const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
+        const userId = id[0].userId;
+
+        const res = await editProfile(newFirstName, newLastName, newBirthdate, picture, description, experience, userId);
+
+        expect(res).toBe(1);
+
+        const dbResult = await getUser(userId);
+
+        expect(dbResult.data.firstName).toEqual(newFirstName);
+        expect(dbResult.data.lastName).toEqual(newLastName);
+
+        //expect(dbResult.data.birthdate).toEqual(new Date(newBirthdate));
+        const expectedBirthdate = new Date(newBirthdate);
+        dbResult.data.birthdate.setUTCHours(dbResult.data.birthdate.getUTCHours() + 1);
+        expect(dbResult.data.birthdate).toEqual(expectedBirthdate);
+
+        expect(dbResult.data.picture).toEqual(picture);
+        expect(dbResult.data.description).toEqual(description);
+        expect(dbResult.data.experience).toEqual(experience);
+        expect(dbResult.data.rating).toEqual('0.00000000');
 
     } finally {
         if (conn) await conn.release();
