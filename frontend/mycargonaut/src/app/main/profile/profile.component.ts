@@ -36,7 +36,6 @@ export class ProfileComponent {
 
   ngOnInit() {
     const res = this.auth.getUserData();
-    console.log(res)
     this.api.getRequest("profile/"+JSON.parse(res!).user_id).subscribe((res: any) => {
       this.userData = res.userData;
       this.rating = Math.round(res.userData.rating);
