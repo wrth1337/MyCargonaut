@@ -17,6 +17,7 @@ import { ProfileComponent } from './main/profile/profile.component';
     AppComponent,
     HomeComponent,
     ProfileComponent,
+    NavbarComponent,
   ],
   imports: [
     AuthModule,
@@ -25,7 +26,6 @@ import { ProfileComponent } from './main/profile/profile.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NavbarComponent
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true}],
   bootstrap: [AppComponent]

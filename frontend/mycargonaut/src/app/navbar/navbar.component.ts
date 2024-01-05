@@ -1,16 +1,11 @@
 import { Component } from '@angular/core';
-import {DatePipe, NgIf, NgOptimizedImage} from "@angular/common";
+import {NgIf, NgOptimizedImage} from "@angular/common";
 import { ApiService } from 'src/app/service/api.service';
 import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  standalone: true,
-  imports: [
-    NgOptimizedImage,
-    NgIf
-  ],
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
