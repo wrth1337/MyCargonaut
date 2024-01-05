@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ApiService } from 'src/app/service/api.service';
 import { DatePipe } from '@angular/common';
+import { AuthService } from 'src/app/service/auth.service';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { DatePipe } from '@angular/common';
 
 
 export class ProfileComponent {
-
+  id = 0;
   userData: any;
   vehicleData: any;
   offerData: any;
@@ -29,12 +30,14 @@ export class ProfileComponent {
 
   constructor(
     private api: ApiService,
+    private auth: AuthService,
     private datePipe: DatePipe
   ){}
 
   ngOnInit() {
-
-    this.api.getRequest("profile").subscribe((res: any) => {
+    const res = this.auth.getUserData();
+    console.log(res)
+    this.api.getRequest("profile/"+JSON.parse(res!).user_id).subscribe((res: any) => {
       this.userData = res.userData;
       this.rating = Math.round(res.userData.rating);
       this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
