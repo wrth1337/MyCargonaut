@@ -13,7 +13,8 @@ test('get ad by correct Id', async () =>{
     let conn;
     try {
         conn = await pool.getConnection();
-
+        conn.query(`DELETE FROM ad WHERE adId = 10`);
+        conn.query(`DELETE FROM offer WHERE offerId = 10`);
         conn.query(`INSERT INTO ad (adId,description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) \
                 VALUES (10,'Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 1)`);
         conn.query(`INSERT INTO offer (offerId, vehicleId, adId, pricePerPerson, pricePerFreight) \
