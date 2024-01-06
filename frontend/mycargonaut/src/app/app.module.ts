@@ -27,6 +27,9 @@ import { ProfileComponent } from './main/profile/profile.component';
     ReactiveFormsModule,
     HttpClientModule,
   ],
+  exports:[
+    NavbarComponent
+  ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true}],
   bootstrap: [AppComponent]
 })
