@@ -12,7 +12,7 @@ export class AdComponent implements OnInit{
   id = 0;
   ad: any; //Use Ad type later on when dev has been merged into this branch 
   user: any;
-  authorId = 0;
+  authorId = 4;
   isLogin = false;
   state = '';
   type = '';
@@ -33,11 +33,14 @@ export class AdComponent implements OnInit{
       this.ad = res.data;
       this.authorId = res.data.userId;
     })
-    //reuse parts of profile here 
-    this.api.getRequest('/profile').subscribe((res:any) => {
-      this.user = res.data;
+    
+    this.api.getRequest("profile/"+this.authorId).subscribe((res:any) => {
+      this.user = res.userData;
+      console.log(res.userData)
     })
+    console.log(this.user)
   }
+
 
   isUserLogin(){
     if(this.auth.getToken() != null){this.isLogin = true}
