@@ -13,12 +13,12 @@ test('get ad by correct Id', async () =>{
     let conn;
     try {
         conn = await pool.getConnection();
-        await conn.query(`INSERT INTO user (firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience) \
-                VALUES ('Max', 'Mustermann', 'max@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
+        await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience) \
+                VALUES (10,'Max', 'Mustermann', 'max@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
         await conn.query(`INSERT INTO ad (adId,description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) \
-                VALUES (10,'Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 1)`);
+                VALUES (10,'Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 10)`);
         await conn.query(`INSERT INTO vehicle (name, numSeats, maxWeight, picture, loadingAreaDimensions, specialFeautures, userId) \
-                VALUES ('Car1', 4, 500.0, 'car1.jpg', '2x2x2', 'GPS, Bluetooth', 1)`);
+                VALUES ('Car1', 4, 500.0, 'car1.jpg', '2x2x2', 'GPS, Bluetooth', 10)`);
         await conn.query(`INSERT INTO offer (offerId, vehicleId, adId, pricePerPerson, pricePerFreight) \
                 VALUES (10, 1, 10, 50.0, 100.0)`);
         const res = (await ad.getAdById(10));
@@ -37,11 +37,12 @@ test('get ad by correct Id', async () =>{
                 'notes': 'No pets allowed',
                 'numSeats': 4,
                 'active': 1,
-                'userId': 1,
+                'userId': 10,
             });
     } finally {
         conn.query(`DELETE FROM ad WHERE adId = 10`);
         conn.query(`DELETE FROM offer WHERE offerId = 10`);
+        conn.query(`DELETE FROM user WHERE userId = 10`);
         if (conn) await conn.release();
     };
 });
