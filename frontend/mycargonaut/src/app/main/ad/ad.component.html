@@ -1,4 +1,7 @@
 <div class="row">
+    <button class="trackingBtn btn">Tracking</button>
+</div>
+<div class="row">
     <div class="col">
         <span>Übersicht</span><br>
         Die ID des passenden Nutzers ist {{authorId}}
@@ -8,6 +11,7 @@
     </div>
     <div class="col">
         Die ID dieser ad ist: {{id}}
+        <button class="bookingBtn btn" (click)="handleButton()">{{this.state}}</button>
     </div>
     <div class="col">
         Chat 

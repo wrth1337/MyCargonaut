@@ -1,0 +1,12 @@
+.bookingBtn{
+    background-color: var(--secondary);
+    color: white;
+    border-radius: 100%;
+    width: 100px;
+    height: 100px;
+}
+.trackingBtn{
+    background-color: var(--secondary);
+    color: white;
+    width: fit-content;
+}

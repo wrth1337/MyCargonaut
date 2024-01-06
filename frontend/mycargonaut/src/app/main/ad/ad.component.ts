@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/service/api.service';
 import { AuthService } from 'src/app/service/auth.service';
+import { Ad } from '../ad';
 
 @Component({
   selector: 'app-ad',
@@ -10,7 +11,22 @@ import { AuthService } from 'src/app/service/auth.service';
 })
 export class AdComponent implements OnInit{
   id = 0;
-  ad: any; //Use Ad type later on when dev has been merged into this branch 
+  ad: Ad = {
+    adId: 0,
+    description: '',
+    startLocation: '',
+    endLocation: '',
+    intermediateGoals: [],
+    type: '',
+    startDate: new Date,
+    endDate: new Date,
+    animals: false,
+    smoker: false,
+    notes: '',
+    numSeats: 0,
+    active: false,
+    userId: 0
+  };
   user: any;
   authorId = 4;
   isLogin = false;
@@ -24,6 +40,7 @@ export class AdComponent implements OnInit{
   ){}
 
   ngOnInit(): void {
+    this.getState();
     this.isUserLogin();
     this.route.params.subscribe(params => {
       this.id = params['id'];
@@ -34,14 +51,30 @@ export class AdComponent implements OnInit{
       this.authorId = res.data.userId;
     })
     
-    this.api.getRequest("profile/"+this.authorId).subscribe((res:any) => {
+    this.api.getRequest("profile/userdata/"+this.authorId).subscribe((res:any) => {
       this.user = res.userData;
       console.log(res.userData)
     })
     console.log(this.user)
   }
 
+  getState(){
+    this.state = 'Stornieren';
+  }
+  handleButton(){
+    switch (this.state){
+      case 'Buchen':
+        //trigger booking modal
+        break;
+      case 'Stornieren':
+        //trigger cancel modal
+        break;
+      case 'Bewerten':
+        //trigger evaluation
+        break;
 
+    }
+  }
   isUserLogin(){
     if(this.auth.getToken() != null){this.isLogin = true}
   }
