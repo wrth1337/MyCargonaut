@@ -13,11 +13,9 @@ test('get ad by correct Id', async () =>{
     let conn;
     try {
         conn = await pool.getConnection();
-        conn.query(`DELETE FROM ad WHERE adId = 10`);
-        conn.query(`DELETE FROM offer WHERE offerId = 10`);
-        conn.query(`INSERT INTO ad (adId,description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) \
+        await conn.query(`INSERT INTO ad (adId,description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) \
                 VALUES (10,'Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 1)`);
-        conn.query(`INSERT INTO offer (offerId, vehicleId, adId, pricePerPerson, pricePerFreight) \
+        await conn.query(`INSERT INTO offer (offerId, vehicleId, adId, pricePerPerson, pricePerFreight) \
                 VALUES (10, 1, 10, 50.0, 100.0)`);
         const res = (await ad.getAdById(10));
         expect(res.data.result[0]).toEqual(
