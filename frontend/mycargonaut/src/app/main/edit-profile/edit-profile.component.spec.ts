@@ -1,21 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProfileComponent } from './profile.component';
+import { EditProfileComponent } from './edit-profile.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-describe('ProfileComponent', () => {
-  let component: ProfileComponent;
-  let fixture: ComponentFixture<ProfileComponent>;
+describe('EditProfileComponent', () => {
+  let component: EditProfileComponent;
+  let fixture: ComponentFixture<EditProfileComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ProfileComponent],
-      imports: [HttpClientTestingModule, RouterModule, RouterTestingModule],
+      declarations: [EditProfileComponent],
+      imports: [HttpClientTestingModule, FormsModule, RouterModule, RouterTestingModule],
     });
   
-    fixture = TestBed.createComponent(ProfileComponent);
+    fixture = TestBed.createComponent(EditProfileComponent);
     component = fixture.componentInstance;
   
     component.userData = {
@@ -25,19 +26,6 @@ describe('ProfileComponent', () => {
       description: 'Beschreibung',
       experience: 'Erfahrung'
     };
-
-    component.vehicleData = [{name: 'Car1'}, {name: 'Car2'}];
-    component.vehiclesAvailable = true;
-
-    component.offerData = [{startLocation: 'Berlin', endLocation: 'Hamburg', startDate: '01.01.2024'}];
-    component.offersAvailable = true;
-
-    component.wantedData = [{startLocation: 'Hamburg', endLocation: 'Berlin', startDate: '02.02.2024'}, {startLocation: 'München', endLocation: 'Frankfurt', startDate: '03.03.2024'}];
-    component.wantedsAvailable = true;
-
-    component.uotData = [{startLocation: 'Köln', endLocation: 'Düsseldorf', startDate: '04.04.2023'}];
-    component.uwtData = [{startLocation: 'Stuttgart', endLocation: 'Dresden', startDate: '05.05.2023'}];
-    component.tripsAvailable = true;
 
     fixture.detectChanges();
   });
@@ -52,12 +40,38 @@ describe('ProfileComponent', () => {
     expect(el).toBe('Max Mustermann');
   });
 
-  it('should display short description', () => {
-  
-    const el = fixture.debugElement.query(By.css('.description')).nativeElement.textContent.trim();
-    expect(el).toBe('Beschreibung');
+  it('should have birthdate input with type = date when editBirth is true', () => {
+    component.editBirth = true;
+    fixture.detectChanges();
+    const el = fixture.debugElement.query(By.css('.form-control-birthdate'));
+    expect(el.nativeElement.getAttribute('type')).toBe('date');
   });
-  
+
+  it('should display correctly formatted birthdate when editBirth is false', () => {
+    component.editBirth = false;
+    fixture.detectChanges();
+    const el = fixture.debugElement.query(By.css('.birthdate')).nativeElement.textContent.trim();
+    expect(el).toBe('01.01.2000');
+  });
+
+  it('should display [Daten erfolgreich aktualisiert] when changing profile data successfully', () => {  
+    component.success = true;
+    component.showFlashMessage = true;
+    fixture.detectChanges();
+    const el = fixture.debugElement.query(By.css('.flashmessage')).nativeElement.textContent.trim();
+    expect(el).toBe('Daten erfolgreich aktualisiert.');
+  });
+
+  it('should have the correct color for the upload button', () => {
+    const el = fixture.debugElement.query(By.css('#pbModal .uploadButton .bi-image'));
+    const color = window.getComputedStyle(el.nativeElement).fill;
+    expect(color).toBe('rgb(0, 91, 82)');
+  });
+
+  it('should have the correct text for the upload button', () => {
+    const el = fixture.debugElement.query(By.css('#pbModal .uploadButton .upload .col.center')).nativeElement.textContent.trim();
+    expect(el).toBe('Bild hochladen');
+  });
   
   it('should display placeholder when no profile picture is available', () => {
     const el = fixture.debugElement.query(By.css('.bi-person-circle'));
@@ -120,9 +134,9 @@ it('should have correct background color for edit button', () => {
   expect(getComputedStyle(button.nativeElement).fill).toEqual('rgb(0, 91, 82)');
 });
 
-it('should have correct background color for plus button', () => {
-  const button = fixture.debugElement.query(By.css('.bi-plus-circle-fill'));
-  expect(getComputedStyle(button.nativeElement).fill).toEqual('rgb(0, 91, 82)');
+it('should have correct background color for submit button', () => {
+  const button = fixture.debugElement.query(By.css('.submitButton'));
+  expect(getComputedStyle(button.nativeElement).backgroundColor).toEqual('rgb(0, 91, 82)');
 });
 
 it('should have correct background color for back button', () => {
@@ -157,79 +171,8 @@ it('should update progress bar width based on tripCount', () => {
   expect(progressBar.styles['width']).toBe(expectedWidth);
 });
 
-it('should display vehicles if vehicles are available', () => {
-
-  const vehic = fixture.debugElement.query(By.css('.vehicles')).nativeElement.textContent.trim();
-
-  expect(vehic).toBe('Car1  Car2');
-});
-
-it('should display [keine Fahrzeuge vorhanden] if no vehicles are available', () => {
-  component.vehicleData = [];
-  component.vehiclesAvailable = false;
-  fixture.detectChanges();
-
-  const vehic = fixture.debugElement.query(By.css('.vehicles')).nativeElement.textContent.trim();
-
-  expect(vehic).toBe('Keine Fahrzeuge vorhanden');
-});
-
-it('should display offers if offers are available', () => {
-
-  const offer = fixture.debugElement.query(By.css('.offer')).nativeElement.textContent.trim();
-
-  expect(offer).toBe('Biete Fahrt von Berlin nach Hamburg am 01.01.2024');
-});
-
-it('should display [keine Angebote vorhanden] if no offers are available', () => {
-  component.offerData = [];
-  component.offersAvailable = false;
-  fixture.detectChanges();
-
-  const offer = fixture.debugElement.query(By.css('.offer')).nativeElement.textContent.trim();
-
-  expect(offer).toBe('Keine Angebote vorhanden');
-});
-
-it('should display wanteds if wanteds are available', () => {
-
-  const wanted = fixture.debugElement.query(By.css('.wanted')).nativeElement.textContent.trim();
-
-  expect(wanted).toBe('Suche Fahrt von Hamburg nach Berlin am 02.02.2024  Suche Fahrt von München nach Frankfurt am 03.03.2024');
-});
-
-it('should display [keine Gesuche vorhanden] if no wanteds are available', () => {
-  component.wantedData = [];
-  component.wantedsAvailable = false;
-  fixture.detectChanges();
-
-  const wanted = fixture.debugElement.query(By.css('.wanted')).nativeElement.textContent.trim();
-
-  expect(wanted).toBe('Keine Gesuche vorhanden');
-});
-
-it('should display trips if trips are available', () => {
-
-  const wanted = fixture.debugElement.query(By.css('.trip')).nativeElement.textContent.trim();
-
-  expect(wanted).toBe('Suche Fahrt von Stuttgart nach Dresden am 05.05.2023  Biete Fahrt von Köln nach Düsseldorf am 04.04.2023');
-});
-
-it('should display [keine Fahrten vorhanden] if no trips are available', () => {
-  component.uotData = [];
-  component.uwtData = [];
-  component.tripsAvailable = false;
-  fixture.detectChanges();
-
-  const trip = fixture.debugElement.query(By.css('.trip')).nativeElement.textContent.trim();
-
-  expect(trip).toBe('Keine Fahrten vorhanden');
-});
-
 
   afterEach(() => {
     localStorage.clear();
   });
 });
-
-

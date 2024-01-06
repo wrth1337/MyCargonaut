@@ -11,6 +11,8 @@ import { InterceptorService } from './service/interceptor.service';
 import { HomeComponent } from './main/home/home.component';
 import {NavbarComponent} from "./navbar/navbar.component";
 import { ProfileComponent } from './main/profile/profile.component';
+import { EditProfileComponent } from './main/edit-profile/edit-profile.component';
+
 
 @NgModule({
   declarations: [
@@ -18,6 +20,7 @@ import { ProfileComponent } from './main/profile/profile.component';
     HomeComponent,
     ProfileComponent,
     NavbarComponent,
+    EditProfileComponent,
   ],
   imports: [
     AuthModule,

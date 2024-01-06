@@ -28,22 +28,3 @@
 button {
   border: none;
 }
-
-#SearchFormSection,
-.SearchFormInput {
-  border: 2px solid var(--primary);
-  border-radius: 10px;
-  background-color: var(--light);
-  color: var(--primary);
-}
-
-#SearchFormButton {
-  border: 1px solid var(--primary);
-  border-radius: 10px;
-  background-color: var(--primary);
-  color: var(--light);
-}
-
-#carouselExampleControls.card {
-  background-color: var(--secondary_light);
-}
