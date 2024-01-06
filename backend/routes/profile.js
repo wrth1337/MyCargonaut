@@ -114,7 +114,7 @@ async function editProfile(firstName, lastName, birthdate, picture, description,
  *                  description: query was successful but contains no content.
  *                  content: {}
  */
-router.get('/userdata', authenticateToken, async function(req, res, next) {
+router.get('/userdata/:id', async function(req, res, next) {
     try {
       const user = await getUser(req.params.id);
   
