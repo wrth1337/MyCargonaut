@@ -34,8 +34,8 @@ async function getLastAds() {
             const intermediateGoals = await conn.query(intermediateGoalsQuery, element.adId);
             element.intermediateGoals = intermediateGoals;
         });
-        element.type = '';
         result.forEach(async (element) => {
+            element.type = '';
             const isOffer = await conn.query(isOfferQuery, element.adId);
             if (isOffer.length > 0) {
                 element.type = 'offer';
@@ -73,8 +73,8 @@ async function getAdById(id) {
             const intermediateGoals = await conn.query(intermediateGoalsQuery, element.adId);
             element.intermediateGoals = intermediateGoals;
         });
-        element.type = '';
         result.forEach(async (element) => {
+            element.type = '';
             const isOffer = await conn.query(isOfferQuery, element.adId);
             if (isOffer.length > 0) {
                 element.type = 'offer';
