@@ -41,6 +41,18 @@ async function getUser(id) {
     }
 }
 
+async function editProfile(firstName, lastName, birthdate, picture, description, experience, id) {
+  const edit ='UPDATE user SET firstName = ?, lastName = ?, birthdate = ?, picture = ?, description = ?, experience = ? WHERE userId = ?';
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(edit, [firstName, lastName, birthdate, picture, description, experience, id]);
+        await conn.release();
+        return 1;
+    } catch (error) {
+        return 0;
+    }
+}
+
 // ---Routes--- //
 /**
  * @swagger
@@ -102,7 +114,7 @@ async function getUser(id) {
  *                  description: query was successful but contains no content.
  *                  content: {}
  */
-router.get('/profile', authenticateToken, async function(req, res, next) {
+router.get('/userdata', authenticateToken, async function(req, res, next) {
     try {
       const id = req.user_id;
       const user = await getUser(id);
@@ -118,7 +130,102 @@ router.get('/profile', authenticateToken, async function(req, res, next) {
         res.json({ status: 99, error: 'Fetching Profile Data failed' });
     }
 });
+
+/**
+ * @swagger
+ * tags:
+ *      - name: profile
+ *        description: Routes that are connected to the profile of an user.
+ * /edit_profile:
+ *    post:
+ *         summary: Change user profile data.
+ *         description: Change user profile data.
+ *         tags:
+ *             - profile
+ *         parameters:
+ *             - in: query
+ *               name: firstName
+ *               required: true
+ *               schema:
+ *                 type: string
+ *               description: The first name of the user.
+ *               example: Max
+ *             - in: query
+ *               name: lastName
+ *               required: true
+ *               schema:
+ *                 type: string
+ *               description: The last name of the user.
+ *               example: Mustermann
+ *             - in: query
+ *               name: birthdate
+ *               required: true
+ *               schema:
+ *                 type: string
+ *               description: The birthdate of the user.
+ *               example: 2000-01-01
+ *             - in: query
+ *               name: picture
+ *               required: true
+ *               schema:
+ *                 type: string
+ *               description: The profile picture of the user.
+ *               example: profilepicture.jpg
+ *             - in: query
+ *               name: description
+ *               required: true
+ *               schema:
+ *                 type: string
+ *               description: The description of the user.
+ *               example: Hallo das ist meine Beschreibung.
+ *             - in: query
+ *               name: experience
+ *               required: true
+ *               schema:
+ *                 type: string
+ *               description: The experience of the user.
+ *               example: Hallo das sind meine Erfahrungen.
+ *         responses:
+ *              200:
+ *                  description: user profile data successfully changed.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *              500:
+ *                  description: changing user profile data failed.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ */
+router.post('/edit_profile', authenticateToken, async function(req, res, next) {
+  try {
+    const id = req.user_id;
+    const {firstName, lastName, birthdate, picture, description, experience} = req.body;
+    const edit = await editProfile(firstName, lastName, birthdate, picture, description, experience, id);
+
+    if (edit === 1) {
+      res.status(200);
+      res.json({ status: 1 });
+    } else {
+      res.status(500);
+      res.json({ status: 0 });
+    }
+  } catch (error) {
+      res.status(500);
+      res.json({ status: 99, error: 'Changing Profile Data failed' });
+  }
+});
   
 
 
-module.exports = { router, getUser };
+module.exports = { router, getUser, editProfile };
