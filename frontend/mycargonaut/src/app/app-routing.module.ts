@@ -13,7 +13,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: '', component: HomeComponent},
   {path: 'profile', component: ProfileComponent, canActivate: [authguardGuard]},
-  {path: 'edit_profile', component: EditProfileComponent},
+  {path: 'edit_profile', component: EditProfileComponent, canActivate: [authguardGuard]},
   {path: 'ad/:id', component: AdComponent},
 
   //{path: 'test', component: TestComponent,canActivate: [authguardGuard]} Beispiel einer Route mit authguard
