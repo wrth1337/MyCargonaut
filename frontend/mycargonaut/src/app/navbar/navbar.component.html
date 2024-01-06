@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.min.css">
 <div id="Navbar" class="container-fluid p-2">
   <div class="row p-3">
     <div class="col">
@@ -10,11 +11,10 @@
       <div class="container">
         <div class="row">
           <div class="col d-flex justify-content-end">
-            <!-- Coin Anzeige... -->
-            <div class="coin" style="margin-right: 20px;" *ngIf="this.isLogin">
-              <span> {{ coins }}</span>
+            <div class="coin d-flex align-items-center" style="margin-right: 20px;" *ngIf="this.isLogin">
+              <i class="bi bi-coin"> </i>
+              <span>{{ coins }}</span>
             </div>
-            <!-- Ende Coin anzeige... -->
             <button>
               <span class="material-symbols-outlined navbarIcon">settings</span>
             </button>
