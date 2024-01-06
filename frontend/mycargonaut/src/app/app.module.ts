@@ -25,6 +25,9 @@ import { HomeComponent } from './main/home/home.component';
     ReactiveFormsModule,
     HttpClientModule
   ],
+  exports:[
+    SearchbarComponent
+  ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true}],
   bootstrap: [AppComponent, SearchbarComponent]
 })
