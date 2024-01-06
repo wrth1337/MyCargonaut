@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {NgIf, NgOptimizedImage} from "@angular/common";
 import { ApiService } from 'src/app/service/api.service';
 import { AuthService } from 'src/app/service/auth.service';
 
