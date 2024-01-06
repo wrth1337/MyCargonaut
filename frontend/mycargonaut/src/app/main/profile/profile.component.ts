@@ -35,8 +35,8 @@ export class ProfileComponent {
   ){}
 
   ngOnInit() {
-    const res = this.auth.getUserData();
-    this.api.getRequest("profile/"+JSON.parse(res!).user_id).subscribe((res: any) => {
+
+    this.api.getRequest("profile/userdata").subscribe((res: any) => {
       this.userData = res.userData;
       this.rating = Math.round(res.userData.rating);
       this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
