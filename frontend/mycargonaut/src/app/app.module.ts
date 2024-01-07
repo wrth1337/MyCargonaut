@@ -10,6 +10,7 @@ import {AuthModule} from "./auth/auth.module";
 import { InterceptorService } from './service/interceptor.service';
 import { HomeComponent } from './main/home/home.component';
 import { ProfileComponent } from './main/profile/profile.component';
+import { AdComponent } from './main/ad/ad.component';
 import { EditProfileComponent } from './main/edit-profile/edit-profile.component';
 
 
@@ -18,6 +19,7 @@ import { EditProfileComponent } from './main/edit-profile/edit-profile.component
     AppComponent,
     HomeComponent,
     ProfileComponent,
+    AdComponent,
     EditProfileComponent,
   ],
   imports: [
