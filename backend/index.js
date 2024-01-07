@@ -12,7 +12,7 @@ const user = require('./routes/user');
 app.use('/user', user.router);
 
 const profile = require('./routes/profile');
-app.use('', profile.router);
+app.use('/profile', profile.router);
 
 const vehicle = require('./routes/vehicle');
 app.use('', vehicle.router);
@@ -22,6 +22,9 @@ app.use('', offer.router);
 
 const wanted = require('./routes/wanted');
 app.use('', wanted.router);
+
+const ad = require('./routes/ad');
+app.use('/ad', ad.router);
 
 const trip = require('./routes/trip');
 app.use('', trip.router);
