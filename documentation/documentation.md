@@ -35,10 +35,10 @@ Diese Konfiguration hilft dabei, einen konsistenten Code-Stil im gesamten Projek
 In diesem Projekt werden verschiedene Maßnahmen ergriffen, um die Sicherheit des Codes zu gewährleisten:
 
 ## Dependabot
-Dependabot ist ein Tool von GitHub, das automatisch Pull-Anfragen erstellt, um die Abhängigkeiten in Ihrem Projekt auf den neuesten Stand zu bringen. Es überprüft täglich die Abhängigkeiten Ihres Projekts auf bekannte Sicherheitslücken und erstellt bei Bedarf eine Pull-Anfrage mit der Aktualisierung.
+Dependabot ist ein Tool von GitHub, das automatisch Pull-Anfragen erstellt, um die Abhängigkeiten in Ihrem Projekt auf den neuesten Stand zu bringen. Es überprüft täglich die Abhängigkeiten dieses Projekts auf bekannte Sicherheitslücken und erstellt bei Bedarf eine Pull-Anfrage mit der Aktualisierung.
 
 ## GitHub CodeQL Code Scan
-Zusätzlich zu Dependabot verwenden wir auch GitHub CodeQL für die statische Code-Analyse. CodeQL ist ein leistungsstarkes Analysewerkzeug, das potenzielle Sicherheitslücken in Ihrem Code findet und behebt. Es scannt den Code, um Muster zu finden, die auf Sicherheitslücken hinweisen könnten, und gibt Empfehlungen zur Behebung dieser Probleme.
+Zusätzlich zu Dependabot wird auch GitHub CodeQL für die statische Code-Analyse verwendet. CodeQL ist ein leistungsstarkes Analysewerkzeug, das potenzielle Sicherheitslücken im Code findet und behebt. Es scannt den Code, um Muster zu finden, die auf Sicherheitslücken hinweisen könnten, und gibt Empfehlungen zur Behebung dieser Probleme.
 
 Durch die Kombination von Dependabot und CodeQL stellen wir sicher, dass unser Code sowohl aktuell als auch sicher ist.
 
