@@ -40,6 +40,21 @@ async function getUserWanteds(id) {
     }
 }
 
+async function addNewWanted(description, startLoc, endLoc, startDate, endDate, animals, smoker, notes, numSeats, userId, freight) {
+    const addWantedAd = 'INSERT INTO ad (description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) VALUES (?,?,?,?,?,?,?,?,?,?)';
+    const addWanted = 'INSERT INTO wanted (LAST_INSERT_ID(), freight) VALUES (freight)';
+
+    try {
+        const conn = await pool.getConnection();
+        const resA = await conn.query(addWantedAd, [description, startLoc, endLoc, startDate, endDate, animals, smoker, notes, numSeats, userId]);
+        const resW = await conn.query(addWanted, [freight]);
+        await conn.release();
+        return 1;
+    } catch (error) {
+        return 0;
+    }
+}
+
 // ---Routes--- //
 /**
  * @swagger
@@ -111,7 +126,26 @@ router.get('/wanted', authenticateToken, async function(req, res, next) {
         res.json({ status: 99, error: 'Fetching Wanted Data failed' });
     }
 });
+
+router.post('wanted', authenticateToken, async function(req, res, next) {
+    try {
+        const id = req.user_id;
+        const {description, startLoc, endLoc, startDate, endDate, animals, smoker, notes, numSeats, freight} = req.body;
+        const wanted = await addNewWanted(description, startLoc, endLoc, startDate, endDate, animals, smoker, notes, numSeats, id, freight);
+
+        if (wanted === 1) {
+            res.status(200);
+            res.json({ status: 1 });
+          } else {
+            res.status(500);
+            res.json({ status: 0 });
+          }
+      } catch (error) {
+          res.status(500);
+          res.json({ status: 99, error: 'Fetching Wanted Data failed' });
+      }
+});
   
 
 
-module.exports = { router, getUserWanteds };
+module.exports = { router, getUserWanteds, addNewWanted };
