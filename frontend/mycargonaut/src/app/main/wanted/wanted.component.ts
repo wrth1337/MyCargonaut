@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { NgForm } from '@angular/forms';
+import { ApiService } from 'src/app/service/api.service';
 
 @Component({
   selector: 'app-wanted',
@@ -7,4 +10,13 @@ import { Component } from '@angular/core';
 })
 export class WantedComponent {
 
+  constructor(
+    private api: ApiService
+  ) {}
+
+  onSubmit(form: NgForm) {
+    this.api.postRequest("wanted", form.value).subscribe((res: any) => {
+      
+    });
+  }
 }
