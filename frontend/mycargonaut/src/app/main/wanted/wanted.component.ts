@@ -14,9 +14,24 @@ export class WantedComponent {
     private api: ApiService
   ) {}
 
+  smoke: boolean = true;
+  pet: boolean = true;
+
   onSubmit(form: NgForm) {
-    this.api.postRequest("wanted", form.value).subscribe((res: any) => {
-      
+    form.value.endDate = null;
+    form.value.smoker = this.smoke;
+    form.value.animals = this.pet;
+    form.value.notes = null;
+
+    this.api.postRequest("wanted/createWanted", form.value).subscribe((res: any) => {
     });
+  }
+
+  updateSmoke() {
+    this.smoke = !this.smoke;
+  }
+
+  updatePet() {
+    this.pet = !this.pet;
   }
 }

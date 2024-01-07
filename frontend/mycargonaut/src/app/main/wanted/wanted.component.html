@@ -1,4 +1,197 @@
-<form #profileForm="ngForm" (ngSubmit)="onSubmit(profileForm)">
+<!--<div class="container-fluid p-5">
+    <div class="row row-cols-2">
+      <div id="UserOverview" class="col-3 container borderPrimary g-0">
+        <div class="container">
+          <div class="row p-2" style="border-bottom: 2px solid var(--primary)">
+            <div class="col">
+              <p class="m-0">Bitte überprüfe deine Angaben!</p>
+            </div>
+            <div class="col" style="display: flex; justify-content: center; align-items: center">
+              <button id="ConfirmUserData" class="buttonPrimary">Bestätigen</button>
+            </div>
+          </div>
+        </div>
+        <div class="p-3">
+          <div id="personalData" class="container borderPrimary p-2 position-relative">
+            <div class="container p-0">
+              <div class="row mt-3">
+                <div class="col-4" style="border-radius: 50%">
+                  <img src="assets/ProfilePicture/CharlieDieMaus.jpg" alt="Profilbild" class="cropped-img pictureCircle" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center">
+                </div>
+                <div class="col-8">
+                  <div>
+                    <p class="FormInputLight mb-0">Max M.</p>
+                  </div>
+                  <div>
+                    <p>30 Jahre</p>
+                  </div>
+                  <div>
+                    <p class="FormInputLight">Anzahl Fahrten: 10</p>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <span class="col p-0 material-symbols-outlined">grade</span>
+                <span class="col p-0 material-symbols-outlined">grade</span>
+                <span class="col p-0 material-symbols-outlined">grade</span>
+                <span class="col p-0 material-symbols-outlined">grade</span>
+                <span class="col p-0 material-symbols-outlined">grade</span>
+              </div>
+            </div>
+            <div class="container p-0 mb-3">
+              <textarea placeholder="Über mich..." class="FormInputLight w-100" rows="5"></textarea>
+            </div>
+            <div class="mb-3">
+              <p>Erfahrung</p>
+              <div id="ExperienceFrame" style="height: 10px; width: 100%; border: solid var(--primary)">
+                <div id="ExperienceBar" style="background-color: var(--primary); height: 6px; width: 45%; border: solid var(--primary)"></div>
+              </div>
+            </div>
+            <div class="col mb-5">
+              <p class="mb-1">Sprachen</p>
+              <div class="row">
+                <div class="col">
+                  <img src="assets/LanguageIcons/Deutsch.png" alt="Deutsche Sprache" class="cropped-img" style="width:25px; height: 25px; display: flex; justify-content: center; align-self: center">
+                </div>
+                <div class="col">
+                  <img src="assets/LanguageIcons/Englisch.png" alt="Englische Sprache" class="cropped-img" style="width:25px; height: 25px; display: flex; justify-content: center; align-self: center">
+                </div>
+              </div>
+            </div>
+            <button id="ChangePersonalData" class="buttonPrimary position-absolute top-100 start-50 translate-middle">Ändern</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 px-5">
+        <div id="OfferCard" class="container p-5 position-relative">
+          <form id="OfferInputForm" class="FormInputLight p-3 mb-3" #profileForm="ngForm" (ngSubmit)="onSubmit(profileForm)">
+            <div class="row p-3">
+              <div class="col g-0 pe-2">
+                <input class="FormInputColor w-100" type="text" placeholder="Von...">
+              </div>
+              <div class="col g-0 ps-2">
+                <input class="FormInputColor w-100" type="text" placeholder="Nach...">
+              </div>
+            </div>
+            <div class="row p-3">
+              <div class="col g-0 pe-2">
+                <input class="FormInputColor w-100" type="date">
+              </div>
+              <div class="col g-0 px-2">
+                <input class="FormInputColor w-100" type="text" placeholder="Fracht in kg?m^3?">
+              </div>
+              <div class="col g-0 ps-2">
+                
+                <i><span class="material-symbols-outlined">person_add</span></i>
+                
+                <input class="FormInputColor w-100" type="number">
+              </div>
+            </div>
+          <div class="row p-3 mb-3">
+            <div class="col-4 container overflow-hidden">
+              <img src="assets/ProfilePicture/CharlieDieMaus.jpg" alt="Profilbild" class="cropped-img pictureCircle" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center">
+            </div>
+            <div class="col-1"></div>
+            <div class="col-7">
+              <div class="row">
+                <p class="FontPrimary fs-3 fw-semibold g-0">Max M.</p>
+              </div>
+              <div class="row w-75" style="color: var(--primary)">
+                <span class="col p-0 material-symbols-outlined">grade</span>
+                <span class="col p-0 material-symbols-outlined">grade</span>
+                <span class="col p-0 material-symbols-outlined">grade</span>
+                <span class="col p-0 material-symbols-outlined">grade</span>
+                <span class="col p-0 material-symbols-outlined">grade</span>
+              </div>
+            </div>
+          </div>
+          <div class="container g-0 mb-5">
+            <textarea placeholder="Schreibe etwas zur dir, zu der Fahrt..." class="FormInputLight w-100" rows="10"></textarea>
+          </div>
+          
+          <div class="row mb-3">
+            <div class="col" style="display: flex; justify-content: center; align-items: center">
+              <div class="row g-0 w-75">
+                <div class="col">
+                  <button style="background-color: transparent; color: var(--primary)">
+                    <span class="material-symbols-outlined" style="font-size: xxx-large">smoke_free</span>
+                  </button>
+                </div>
+                <div class="col">
+                  <button style="background-color: transparent; color: var(--primary)">
+                    <span class="material-symbols-outlined" style="font-size: xxx-large">pets</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div id="CalculatedPrice" class="container borderPrimary p-3 h-100">
+                <div class="row">
+                  <div class="col" style="display: flex; align-items: center; justify-content: end">
+                    <h2 class="fs-1">50</h2>
+                  </div>
+                  <div class="col" style="display: flex; align-items: center">
+                    <span class="material-symbols-outlined" style="font-size: xxx-large">toll</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="submit" id="ConfirmOffer" class="buttonPrimary fs-4 position-absolute top-100 start-50 translate-middle">Angebot bestätigen</button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>-->
+
+
+<form #wantedForm="ngForm" (ngSubmit)="onSubmit(wantedForm)">
+    <div>
+        <input name="startLocation" type="text" placeholder="Von..." ngModel>
+    </div>
+    <div>
+        <input name="endLocation" type="text" placeholder="Nach..." ngModel>
+    </div>
+    <div>
+        <input name="startDate" type="date" ngModel>
+    </div>
+    <div>
+        <input name="freight" type="text" placeholder="Fracht in kg?m^3?" ngModel>
+    </div>
+    <div>
+        <input name="numSeats" type="number" placeholder="Anzahl Sitze" ngModel>
+    </div>
     
+    <div>
+        <textarea name="description" placeholder="Schreibe etwas zur dir, zu der Fahrt..." ngModel></textarea>
+    </div>
+    
+    <div *ngIf="!this.smoke">
+    <button style="background-color: transparent; color: var(--primary)" (click)="updateSmoke()">
+        <span class="material-symbols-outlined" style="font-size: xxx-large">smoke_free</span>
+    </button>
+    </div>
+
+    <div *ngIf="this.smoke">
+        <button style="background-color: transparent; color: var(--primary)" (click)="updateSmoke()">
+            <span class="material-symbols-outlined" style="font-size: xxx-large">smoking_rooms</span>
+        </button>
+        </div>
+    
+    <div *ngIf="this.pet">
+    <button style="background-color: transparent; color: var(--primary)" (click)="updatePet()">
+        <span class="material-symbols-outlined" style="font-size: xxx-large">pets</span>
+    </button>
+    </div>
+
+    <div *ngIf="!this.pet">
+        <button style="background-color: transparent; color: var(--primary)" (click)="updatePet()">
+            <span class="material-symbols-outlined" style="font-size: xxx-large">pets</span>
+        </button>
+        </div>
+    
+       
+    <button type="submit" id="confirmWanted" class="btn">Angebot bestätigen</button>
 </form>
+  
 
