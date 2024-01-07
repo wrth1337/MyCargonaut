@@ -34,6 +34,8 @@ export class AdComponent implements OnInit{
   isLogin = false;
   state = '';
   type = '';
+  stars: number[] = [1, 2, 3, 4, 5];
+userData: any;
 
   constructor(
     private route: ActivatedRoute,

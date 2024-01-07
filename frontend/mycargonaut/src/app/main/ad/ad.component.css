@@ -10,3 +10,38 @@
     color: white;
     width: fit-content;
 }
+.card-header{
+    border-color: var(--secondary);
+    background-color: white;
+    text-align: center;
+}
+.card{
+    border-color: var(--secondary);
+}
+.profile{
+    border-width: 1px;
+    border-style: double;
+    border-radius: 5px;
+    border-color: var(--secondary);
+}
+.centre{
+    text-align: center;
+}
+.description{
+    border-width: 1px;
+    border-style: double;
+    border-radius: 5px;
+    border-color: rgba(29,143,131, 0.4);
+    padding: 0.5rem;
+}
+.star{
+    color: yellow;
+}
+.custom-progress {
+    background-color: var(--secondary);
+}
+
+.progress {
+    background-color: #e1e9be;
+    border-radius: 0;
+}
