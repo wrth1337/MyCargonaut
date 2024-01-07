@@ -5,13 +5,12 @@ import { ApiService } from 'src/app/service/api.service';
 @Component({
   selector: 'app-searchbar',
   templateUrl: './searchbar.component.html',
-  styleUrls: ['./searchbar.component.css']
+  styleUrls: ['./searchbar.component.css'],
+  exportAs: 'SearchbarComponent'
 })
 export class SearchbarComponent {
   constructor(private api: ApiService) {}
   onSubmit(form: NgForm) {
-    console.log("Form triggered");
-    console.log(form.value);
 
     const queryParams = Object.keys(form.value)
       .map(key => {
@@ -22,8 +21,6 @@ export class SearchbarComponent {
       .join('&');
     const url = `searchbar/search?${queryParams}`;
 
-    this.api.getRequest(url).subscribe((res: any) => {
-        console.log(res);
-    });
+    this.api.getRequest(url).subscribe((res: any) => { });
   }
 }

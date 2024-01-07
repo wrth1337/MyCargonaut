@@ -16,8 +16,8 @@ import { EditProfileComponent } from './main/edit-profile/edit-profile.component
 @NgModule({
   declarations: [
     AppComponent,
-    SearchbarComponent,
     HomeComponent,
+    SearchbarComponent,
     ProfileComponent,
     EditProfileComponent,
   ],
@@ -27,10 +27,10 @@ import { EditProfileComponent } from './main/edit-profile/edit-profile.component
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
-  exports:[
-    SearchbarComponent
+  exports: [
+    SearchbarComponent,
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true}],
   bootstrap: [AppComponent]
