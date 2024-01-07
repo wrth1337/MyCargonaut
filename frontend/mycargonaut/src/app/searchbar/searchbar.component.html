@@ -1,71 +1,87 @@
-<div id="SearchFormSection" class="container p-3 my-5">
+<div id="SearchFormSection" class="container px-3 my-5">
   <form #searchForm="ngForm" (ngSubmit)="onSubmit(searchForm)">
-    <div class="row p-2">
-      <div class="col-2 ps-0 pe-2">
-        <select class="form-control SearchFormInput w-100 h-100" id="type" name="typ" ngModel>
-          <option value="offer" >Offer</option>
-          <option value="wanted">Wanted</option>
-        </select>
+    <div class="row p-3">
+      <div class="col-md-5">
+        <div class="row p-2">
+          <input class="form-control SearchFormInput w-100" id="startLocation" type="text" name="startLocation" placeholder="Von..." ngModel>
+        </div>
+        <div class="row p-2">
+          <div class="col ps-0 pe-2">
+            <input class="form-control SearchFormInput w-100" id="startDate" type="date" name="startDate" placeholder="Datum" ngModel>
+          </div>
+          <div class="col ps-2 pe-0">
+            <input class="form-control SearchFormInput w-100" id="freight" type="text" name="freight" placeholder="Fracht in kg?m^3?" ngModel>
+          </div>
+        </div>
       </div>
-      <div class="col-4 ps-2 pe-2">
-        <input class="form-control SearchFormInput w-100" id="startLocation" type="text" name="startLocation" placeholder="Start Location" ngModel>
+      <div class="col-md-5">
+        <div class="row p-2">
+          <input class="form-control SearchFormInput w-100" id="endLocation" type="text" name="endLocation" placeholder="Nach..." ngModel>
+        </div>
+        <div class="row p-2">
+          <div class="col ps-0 pe-2">
+            <input class="form-control SearchFormInput w-100 passengers-input" id="numSeats" type="number" name="numSeats" placeholder="Anzahl Plätze" ngModel>
+          </div>
+          <div class="col ps-2 pe-0">
+            <select class="form-control SearchFormInput w-100 h-100 rating-input" id="userRating" name="userRating" ngModel>
+              <option name="" value="" selected>
+                <div class="row">
+                  <div class="col">
+                    <span class="material-symbols-outlined"> </span>
+                  </div>
+                </div>
+              </option>
+              <option name="one">
+                <div class="row">
+                  <div class="col">
+                    <span class="material-symbols-outlined">1</span>
+                  </div>
+                </div>
+              </option>
+              <option name="two">
+                <div class="row">
+                  <div class="col">
+                    <span class="material-symbols-outlined">2</span>
+                  </div>
+                </div>
+              </option>
+              <option name="three">
+                <div class="row">
+                  <div class="col">
+                    <span class="material-symbols-outlined">3</span>
+                  </div>
+                </div>
+              </option>
+              <option name="four">
+                <div class="row">
+                  <div class="col">
+                    <span class="material-symbols-outlined">4</span>
+                  </div>
+                </div>
+              </option>
+              <option name="five">
+                <div class="row">
+                  <div class="col">
+                    <span class="material-symbols-outlined">5</span>
+                  </div>
+                </div>
+              </option>
+            </select>
+          </div>
+        </div>
       </div>
-      <div class="col-4 ps-2 pe-2">
-        <input class="form-control SearchFormInput w-100" id="endLocation" type="text" name="endLocation" placeholder="End Location" ngModel>
-      </div>
-      <div class="col-1 align-self-center">
-        <button class="px-3 py-2" id="submitKnopf" type="submit" value="Suchen" [disabled]="!searchForm.valid">Suchen</button>
-      </div>
-    </div>
-    <div class="row p-2">
-      <div class="col-3 ps-0 pe-2">
-        <input class="form-control SearchFormInput w-100" id="startDate" type="date" name="startDate" placeholder="Datum" ngModel>
-      </div>
-      <div class="col-3 ps-2 pe-2">
-        <input class="form-control SearchFormInput w-100" id="freight" type="text" name="freight" placeholder="Fracht" ngModel>
-      </div>
-      <div class="col-3 ps-2 pe-2">
-        <input class="form-control SearchFormInput w-100" id="numSeats" type="number" name="numSeats" placeholder="Anzahl Plätze" ngModel>
-      </div>
-      <div class="col-3 ps-2 pe-2">
-        <select class="form-control SearchFormInput w-100 h-100" id="userRating" name="userRating" ngModel>
-          <option name="" disabled selected hidden>Bewertung ></option>
-          <option name="one">
-            <div class="row">
-              <div class="col">
-                <span class="material-symbols-outlined">1</span>
-              </div>
-            </div>
-          </option>
-          <option name="two">
-            <div class="row">
-              <div class="col">
-                <span class="material-symbols-outlined">2</span>
-              </div>
-            </div>
-          </option>
-          <option name="three">
-            <div class="row">
-              <div class="col">
-                <span class="material-symbols-outlined">3</span>
-              </div>
-            </div>
-          </option>
-          <option name="four">
-            <div class="row">
-              <div class="col">
-                <span class="material-symbols-outlined">4</span>
-              </div>
-            </div>
-          </option>
-          <option name="five">
-            <div class="row">
-              <div class="col">
-                <span class="material-symbols-outlined">5</span>
-              </div>
-            </div>
-          </option>
-        </select>
+      <div class="col-md-2">
+        <div class="row p-2">
+          <select class="SearchFormInput w-100" id="typ" name="typ" ngModel>
+            <option value="offer" selected >Angebot</option>
+            <option value="wanted">Gesuch</option>
+          </select>
+         </div>
+        <div class="row p-2">
+          <div class="col">
+            <button class="SearchFormButton px-3 py-2 align-top" id="submitKnopf" type="submit" value="Suchen" [disabled]="!searchForm.valid">Suchen</button>
+          </div>
+        </div>
       </div>
     </div>
   </form>

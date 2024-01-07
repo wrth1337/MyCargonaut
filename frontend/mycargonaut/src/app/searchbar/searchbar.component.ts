@@ -23,11 +23,7 @@ export class SearchbarComponent {
     const url = `searchbar/search?${queryParams}`;
 
     this.api.getRequest(url).subscribe((res: any) => {
-      if(res == null){ console
-        .log("res leer");
-      }else {
         console.log(res);
-      }
     });
   }
 }

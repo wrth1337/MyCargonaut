@@ -33,6 +33,6 @@ import { EditProfileComponent } from './main/edit-profile/edit-profile.component
     SearchbarComponent
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true}],
-  bootstrap: [AppComponent, SearchbarComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

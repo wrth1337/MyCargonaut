@@ -192,7 +192,6 @@ router.get('/search', async function(req, res, next) {
     const userRating = req.query.userRating;
     try {
         const ads = await getFilteredAds(typ, startLocation, endLocation, startDate, freight, numSeats, userRating);
-        console.log(ads);
         res.send(ads);
     } catch (error) {
         console.error(error);
