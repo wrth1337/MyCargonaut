@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/service/api.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { Ad } from '../ad';
+import { intermediateGoal } from '../intermediateGoal';
 
 @Component({
   selector: 'app-ad',
@@ -27,7 +28,8 @@ export class AdComponent implements OnInit{
     active: false,
     userId: 0
   };
-  user: any;
+  typeSpecificContent:any = {};
+  user: any = {};
   authorId = 4;
   isLogin = false;
   state = '';
@@ -45,21 +47,21 @@ export class AdComponent implements OnInit{
     this.route.params.subscribe(params => {
       this.id = params['id'];
     })
-    console.log(this.id);
-    this.api.getRequest('/ad/'+this.id).subscribe((res:any) => {
+    this.api.getRequest('ad/'+this.id).subscribe((res:any) => {
       this.ad = res.data;
       this.authorId = res.data.userId;
+      this.type = res.data.type;
+      this.api.getRequest('ad/'+res.data.type + '/' + res.data.adId).subscribe((res:any) => {
+        this.typeSpecificContent = res.data;
+      })
     })
-    
     this.api.getRequest("profile/userdata/"+this.authorId).subscribe((res:any) => {
       this.user = res.userData;
-      console.log(res.userData)
     })
-    console.log(this.user)
   }
 
   getState(){
-    this.state = 'Stornieren';
+    this.state = 'Buchen';
   }
   handleButton(){
     switch (this.state){
@@ -77,5 +79,15 @@ export class AdComponent implements OnInit{
   }
   isUserLogin(){
     if(this.auth.getToken() != null){this.isLogin = true}
+  }
+  writeTitle(input:Ad) {
+    let res = '';
+    res += input.type === 'offer' ? 'Biete ' : 'Suche ';
+    res += 'Fahrt von ' + input.startLocation;
+    input.intermediateGoals.forEach((element: intermediateGoal) => {
+      res += ' über ' +element.location
+    });
+    res += ' nach ' + input.endLocation;
+    return res;
   }
 }

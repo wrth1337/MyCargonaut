@@ -8,9 +8,19 @@
         <div>
             Firstname: {{user.firstName}} Lastname: {{user.lastName}}
         </div>
+        <div *ngIf="this.type === 'offer'">
+            Price per Person: {{typeSpecificContent.pricePerPerson}} <br>
+            Price per Freight: {{typeSpecificContent.pricePerFreight}}
+        </div>
+        <div *ngIf="this.type === 'wanted'">
+            Freight: {{typeSpecificContent.freight}}
+        </div>
     </div>
     <div class="col">
-        Die ID dieser ad ist: {{id}}
+        Die ID dieser ad ist: {{id}} <br>
+        Title: {{writeTitle(ad)}} <br>
+        Description: {{ad.description}} <br>
+
         <button class="bookingBtn btn" (click)="handleButton()">{{this.state}}</button>
     </div>
     <div class="col">
