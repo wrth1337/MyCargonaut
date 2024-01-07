@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/service/api.service';
 import { DatePipe } from '@angular/common';
 import { NgForm } from '@angular/forms';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -36,11 +37,13 @@ export class EditProfileComponent {
 
   constructor(
     private api: ApiService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private auth: AuthService
   ){}
 
   ngOnInit() {
-    this.api.getRequest("profile/userdata").subscribe((res: any) => {
+    const userId = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;
+    this.api.getRequest("profile/userdata/"+userId).subscribe((res: any) => {
       this.userData = res.userData;
       this.rating = Math.round(res.userData.rating);
       this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
