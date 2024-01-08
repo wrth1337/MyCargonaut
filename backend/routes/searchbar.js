@@ -100,8 +100,8 @@ async function getFilteredAds(type, startLocation, endLocation, startDate, freig
     }
 
     if (userRating) {
-        const userRatingFloat = parseFloat(userRating);
-        query += ` HAVING AVG((r.punctuality + r.agreement + r.pleasant + COALESCE(r.freight, 0)) / 4)>=?`;
+        const userRatingFloat = parseInt(userRating);
+        query += ` HAVING AVG((r.punctuality + r.agreement + r.pleasent + COALESCE(r.freight, 0)) / 4)>=? ;`;
         params.push(userRatingFloat);
     } else {
         query += `;`;
