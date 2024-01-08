@@ -99,3 +99,13 @@
 .returnBtn{
     text-align: left;
 }
+.infront{
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: 10;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+}

@@ -67,7 +67,7 @@ userData: any;
   }
 
   getState(){
-    this.state = 'Stornieren';
+    this.state = 'Bewerten';
   }
   handleButton(){
     switch (this.state){
