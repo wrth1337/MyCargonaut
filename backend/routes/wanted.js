@@ -115,7 +115,7 @@ async function addNewWanted(description, startLocation, endLocation, startDate, 
  *                      format: date
  *                      description: The start date of the wanted.
  */
-router.get('/wanted', authenticateToken, async function(req, res, next) {
+router.get('/getUserWanted', authenticateToken, async function(req, res, next) {
     try {
       const id = req.user_id;
       const wanted = await getUserWanteds(id);
@@ -132,11 +132,11 @@ router.get('/wanted', authenticateToken, async function(req, res, next) {
     }
 });
 
-router.post('wanted', authenticateToken, async function(req, res, next) {
+router.post('/createWanted', authenticateToken, async function(req, res, next) {
     try {
         const id = req.user_id;
-        const {description, startLoc, endLoc, startDate, endDate, animals, smoker, notes, numSeats, freight} = req.body;
-        const wanted = await addNewWanted(description, startLoc, endLoc, startDate, endDate, animals, smoker, notes, numSeats, id, freight);
+        const {description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, freight} = req.body;
+        const wanted = await addNewWanted(description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, id, freight);
 
         if (wanted === 1) {
             res.status(200);
