@@ -4,11 +4,13 @@ import { ApiService } from 'src/app/service/api.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { Ad } from '../ad';
 import { intermediateGoal } from '../intermediateGoal';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-ad',
   templateUrl: './ad.component.html',
-  styleUrls: ['./ad.component.css']
+  styleUrls: ['./ad.component.css'],
+  providers: [DatePipe]
 })
 export class AdComponent implements OnInit{
   id = 0;
@@ -41,6 +43,7 @@ userData: any;
     private route: ActivatedRoute,
     private api: ApiService,
     private auth: AuthService,
+    private datepipe: DatePipe,
   ){}
 
   ngOnInit(): void {
@@ -59,11 +62,12 @@ userData: any;
     })
     this.api.getRequest("profile/userdata/"+this.authorId).subscribe((res:any) => {
       this.user = res.userData;
+      this.user.birthdate = this.datepipe.transform(res.userData.birthdate, 'dd.MM.yyyy')
     })
   }
 
   getState(){
-    this.state = 'Buchen';
+    this.state = 'Stornieren';
   }
   handleButton(){
     switch (this.state){
@@ -90,6 +94,8 @@ userData: any;
       res += ' über ' +element.location
     });
     res += ' nach ' + input.endLocation;
+    const test = this.datepipe.transform(input.startDate, 'dd.MM.yyyy');
+    res += ' am ' + test
     return res;
   }
 }

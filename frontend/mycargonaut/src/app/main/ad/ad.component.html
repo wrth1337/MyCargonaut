@@ -1,16 +1,20 @@
 <div class="row">
-    <button class="trackingBtn btn" *ngIf="this.state === 'Stornieren'">Tracking</button>
-    <button class="btn returnBtn">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
-        <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
-        </svg>
-    </button>
-
+    <div class="col">
+        <button class="btn returnBtn mx-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="var(--primary)" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+            </svg>
+        </button>
+    </div>
+    <div class="col mx-3 mt-2 centre">
+        <button class="trackingBtn btn fs-5" *ngIf="this.state === 'Stornieren'">Tracking</button>
+    </div>
+    <div class="col"></div>
 </div>
 <div class="row p-3">
-    <div class="col">
+    <div class="col-md">
         <div class="card">
-            <div class="card-header p-3">
+            <div class="card-header p-3 fs-5">
                 Übersicht
             </div>
             <div class="card-body p-2">
@@ -50,11 +54,11 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <div class="card">
-                                <div class="card-header p-0 left">
-                                    <span class="left">Sprachen</span>
+                            <div class="card flagCard m-2">
+                                <div class="card-header flagCardHeader">
+                                    <span class="">Sprachen</span>
                                 </div>
-                                <div class="card-body left">
+                                <div class="card-body">
                                     Flaggen JUHU
                                 </div>
                             </div>
@@ -64,30 +68,38 @@
                             <span class="material-symbols-outlined" style="font-size: xxx-large">pets</span>
                         </div>
                     </div>
+
                 </div>
+                <div class="profile m-2">
+                    <div *ngIf="this.type === 'offer'">
+                        Price per Person: {{typeSpecificContent.pricePerPerson}} <br>
+                        Price per Freight: {{typeSpecificContent.pricePerFreight}}
+                    </div>
+                    <div *ngIf="this.type === 'wanted'">
+                        Freight: {{typeSpecificContent.freight}}
+                    </div>
+                </div>
+
             </div>
         </div>
-        <span>Übersicht</span><br>
-        Die ID des passenden Nutzers ist {{authorId}}
-        <div>
-            Firstname: {{user.firstName}} Lastname: {{user.lastName}}
-        </div>
-        <div *ngIf="this.type === 'offer'">
-            Price per Person: {{typeSpecificContent.pricePerPerson}} <br>
-            Price per Freight: {{typeSpecificContent.pricePerFreight}}
-        </div>
-        <div *ngIf="this.type === 'wanted'">
-            Freight: {{typeSpecificContent.freight}}
-        </div>
     </div>
-    <div class="col">
-        Die ID dieser ad ist: {{id}} <br>
-        Title: {{writeTitle(ad)}} <br>
-        Description: {{ad.description}} <br>
+    <div class="col-md">
+        <div class="card adCard p-3">
+            <img src="https://placehold.jp/380x210.png" class="card-img-top adCardImg p-3" alt="...">
+            <div class="card-body adCardBody">
+                <h5 class="card-title adCardTitle p-1">{{writeTitle(ad)}}</h5>
+                <p class="card-text adCardText p-1 lh-xl">{{ad.description}}</p>
+            </div>
+          </div>
+          <button class="bookingBtn btn fs-4 fw-bolder" (click)="handleButton()">{{this.state}}</button>
 
-        <button class="bookingBtn btn" (click)="handleButton()">{{this.state}}</button>
     </div>
-    <div class="col">
-        Chat 
+    <div class="col-md">
+        <div class="card chatCard mx-5">
+            <div class="card-header p-3 fs-5 chatCardHeader">
+                Chat mit Nutzer
+            </div>
+        </div>
     </div>
 </div>
+
