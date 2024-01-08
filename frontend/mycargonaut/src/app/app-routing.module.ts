@@ -4,12 +4,13 @@ import { RegisterComponent } from './auth/components/register/register.component
 import { LoginComponent } from './auth/components/login/login.component';
 import { HomeComponent } from './main/home/home.component';
 import {CreateOfferComponent} from "./main/create-offer/create-offer.component";
+import {authguardGuard} from "./guard/authguard.guard";
 
 const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
   {path: '', component: HomeComponent},
-  {path: 'createOffer', component: CreateOfferComponent},
+  {path: 'createOffer', component: CreateOfferComponent, canActivate: [authguardGuard]},
 //{path: 'test', component: TestComponent,canActivate: [authguardGuard]} Beispiel einer Route mit authguard
 ];
 
