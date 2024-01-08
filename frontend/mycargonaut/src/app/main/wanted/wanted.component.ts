@@ -6,16 +6,28 @@ import { ApiService } from 'src/app/service/api.service';
 @Component({
   selector: 'app-wanted',
   templateUrl: './wanted.component.html',
-  styleUrls: ['./wanted.component.css']
+  styleUrls: ['./wanted.component.css'],
+  providers: [DatePipe]
 })
 export class WantedComponent {
 
   constructor(
-    private api: ApiService
+    private api: ApiService,
+    private datePipe: DatePipe
   ) {}
 
+  userData: any;
+  rating: any;
   smoke: boolean = true;
   pet: boolean = true;
+
+  ngOnInit() {
+    this.api.getRequest("profile/userdata").subscribe((res: any) => {
+      this.userData = res.userData;
+      this.rating = Math.round(res.userData.rating);
+      this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
+    });
+  }
 
   onSubmit(form: NgForm) {
     form.value.endDate = null;

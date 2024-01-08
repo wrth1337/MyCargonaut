@@ -1,6 +1,7 @@
-<!--<div class="container-fluid p-5">
-    <div class="row row-cols-2">
-      <div id="UserOverview" class="col-3 container borderPrimary g-0">
+<!--
+<div class="container-fluid p-5">
+  <div class="row row-cols-3">
+    <div id="UserOverview" class="col-3 container borderPrimary g-0">
         <div class="container">
           <div class="row p-2" style="border-bottom: 2px solid var(--primary)">
             <div class="col">
@@ -64,7 +65,7 @@
       </div>
       <div class="col-6 px-5">
         <div id="OfferCard" class="container p-5 position-relative">
-          <form id="OfferInputForm" class="FormInputLight p-3 mb-3" #profileForm="ngForm" (ngSubmit)="onSubmit(profileForm)">
+          <form id="OfferInputForm" class="FormInputLight p-3 mb-3">
             <div class="row p-3">
               <div class="col g-0 pe-2">
                 <input class="FormInputColor w-100" type="text" placeholder="Von...">
@@ -81,12 +82,11 @@
                 <input class="FormInputColor w-100" type="text" placeholder="Fracht in kg?m^3?">
               </div>
               <div class="col g-0 ps-2">
-                
                 <i><span class="material-symbols-outlined">person_add</span></i>
-                
                 <input class="FormInputColor w-100" type="number">
               </div>
             </div>
+          </form>
           <div class="row p-3 mb-3">
             <div class="col-4 container overflow-hidden">
               <img src="assets/ProfilePicture/CharlieDieMaus.jpg" alt="Profilbild" class="cropped-img pictureCircle" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center">
@@ -108,7 +108,27 @@
           <div class="container g-0 mb-5">
             <textarea placeholder="Schreibe etwas zur dir, zu der Fahrt..." class="FormInputLight w-100" rows="10"></textarea>
           </div>
-          
+          <div class="FormInputLight mb-5">
+            <div class="row p-3">
+              <div class="col-3" style="display: flex; justify-content: center; align-self: center">
+                <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:75px; height: 75px">
+              </div>
+              <div class="col-9">
+                <div class="container">
+                  <div class="row">
+                    <div class="col FormInputLight m-2">
+                      <p class="p-2 m-0">Transporter</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col FormInputLight m-2">
+                      <p class="p-2 m-0">Transporter mit x Volumen</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="row mb-3">
             <div class="col" style="display: flex; justify-content: center; align-items: center">
               <div class="row g-0 w-75">
@@ -137,13 +157,120 @@
               </div>
             </div>
           </div>
-          <button type="submit" id="ConfirmOffer" class="buttonPrimary fs-4 position-absolute top-100 start-50 translate-middle">Angebot bestätigen</button>
-        </form>
+          <button id="ConfirmOffer" class="buttonPrimary fs-4 position-absolute top-100 start-50 translate-middle">Angebot bestätigen</button>
+        </div>
+      </div>
+      <div id="VehicleSelection" class="col-3 container borderPrimary g-0">
+        <div id="VehicleSelectionHeader" class="col container-fluid">
+          <div class="row-cols-1">
+            <div class="col">
+              <h3>Welches Fahrzeug</h3>
+            </div>
+          </div>
+          <div class="row-cols-1">
+            <div class="col">
+              <h3>wirst du benutzen?</h3>
+            </div>
+          </div>
+        </div>
+        <div id="VehicleSelectionBody" class="col container g-0 p-3">
+          <button style="background-color: transparent">
+            <div class="FormInputLight">
+              <div class="row p-3">
+                <div class="col-3" style="display: flex; justify-content: center; align-self: center">
+                  <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:50px; height: 50px">
+                </div>
+                <div class="col-9">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col FormInputLight m-2">
+                        <p class="p-2 m-0">Transporter</p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col FormInputLight m-2">
+                        <p class="p-2 m-0">Transporter mit x Volumen</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </button>
+          <button style="background-color: transparent">
+            <div class="FormInputLight">
+              <div class="row p-3">
+                <div class="col-3" style="display: flex; justify-content: center; align-self: center">
+                  <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:50px; height: 50px">
+                </div>
+                <div class="col-9">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col FormInputLight m-2">
+                        <p class="p-2 m-0">Transporter</p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col FormInputLight m-2">
+                        <p class="p-2 m-0">Transporter mit x Volumen</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </button>
+          <button style="background-color: transparent">
+            <div class="FormInputLight">
+              <div class="row p-3">
+                <div class="col-3" style="display: flex; justify-content: center; align-self: center">
+                  <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:50px; height: 50px">
+                </div>
+                <div class="col-9">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col FormInputLight m-2">
+                        <p class="p-2 m-0">Transporter</p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col FormInputLight m-2">
+                        <p class="p-2 m-0">Transporter mit x Volumen</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </button>
+          <button style="background-color: transparent">
+            <div class="FormInputLight">
+              <div class="row p-3">
+                <div class="col-3" style="display: flex; justify-content: center; align-self: center">
+                  <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:50px; height: 50px">
+                </div>
+                <div class="col-9">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col FormInputLight m-2">
+                        <p class="p-2 m-0">Transporter</p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col FormInputLight m-2">
+                        <p class="p-2 m-0">Transporter mit x Volumen</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </button>
         </div>
       </div>
     </div>
-  </div>-->
-
+  </div>
+-->
 
 <form #wantedForm="ngForm" (ngSubmit)="onSubmit(wantedForm)">
     <div>
@@ -165,7 +292,7 @@
     <div>
         <textarea name="description" placeholder="Schreibe etwas zur dir, zu der Fahrt..." ngModel></textarea>
     </div>
-    
+
     <div *ngIf="!this.smoke">
     <button style="background-color: transparent; color: var(--primary)" (click)="updateSmoke()">
         <span class="material-symbols-outlined" style="font-size: xxx-large">smoke_free</span>
