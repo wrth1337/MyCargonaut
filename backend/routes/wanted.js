@@ -40,17 +40,18 @@ async function getUserWanteds(id) {
     }
 }
 
-async function addNewWanted(description, startLoc, endLoc, startDate, endDate, animals, smoker, notes, numSeats, userId, freight) {
+async function addNewWanted(description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId, freight) {
     const addWantedAd = 'INSERT INTO ad (description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) VALUES (?,?,?,?,?,?,?,?,?,?)';
-    const addWanted = 'INSERT INTO wanted (LAST_INSERT_ID(), freight) VALUES (freight)';
-    const addBooking = 'INSERT INTO booking (adId, userId, price, timeBooking, numSeats, canceled) VALUES (LAST_INSERT_ID(),0,0,0,0,0)';
-    const addStatus = 'INSERT INTO status (bookingId, bookingConfirmation, paymentReceived, startRide, endRide) VALUES (LAST_INSERT_ID(),0,0,0,0)';
+    const addWanted = 'INSERT INTO wanted (adId, freight) VALUES (LAST_INSERT_ID(), ?)';
+    const addBooking = 'INSERT INTO booking (adId, userId, price, numSeats) VALUES (?,?,0.0,0)';
+    const addStatus = 'INSERT INTO status (bookingId) VALUES (LAST_INSERT_ID())';
 
     try {
         const conn = await pool.getConnection();
-        const resA = await conn.query(addWantedAd, [description, startLoc, endLoc, startDate, endDate, animals, smoker, notes, numSeats, userId]);
+        const resA = await conn.query(addWantedAd, [description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId]);
+        const adId = resA.insertId;
         const resW = await conn.query(addWanted, [freight]);
-        const resB = await conn.query(addBooking, []);
+        const resB = await conn.query(addBooking, [adId, userId]);
         const resS = await conn.query(addStatus, []);
         await conn.release();
         return 1;
