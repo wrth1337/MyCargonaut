@@ -23,29 +23,34 @@ const pool = mariadb.createPool({
 async function getFilteredAds(type, startLocation, endLocation, startDate, freight, numSeats, userRating) {
     let query;
     const filters = [];
+    const params = [];
 
     if (startLocation) {
-        filters.push(`a.startLocation='${startLocation}' OR i.location='${startLocation}'`);
+        filters.push(`(a.startLocation=? OR i.location=?)`);
+        params.push(startLocation, startLocation);
     }
 
     if (endLocation) {
-        filters.push(`a.endLocation='${endLocation}' OR i.location='${endLocation}'`);
+        filters.push(`(a.endLocation=? OR i.location=?)`);
+        params.push(endLocation, endLocation);
     }
 
     if (startDate) {
-        filters.push(`a.startDate='${startDate}'`);
+        filters.push(`a.startDate=?`);
+        params.push(startDate);
     }
 
     if (freight) {
-        if (type==='offer') {
+        if (type === 'offer') {
             filters.push(`v.loadingAreaDimensions IS NOT NULL`);
-        } else if (type==='wanted') {
+        } else if (type === 'wanted') {
             filters.push('w.freight IS NOT NULL');
         }
     }
 
     if (numSeats) {
-        filters.push(`a.numSeats>=${numSeats}`);
+        filters.push(`a.numSeats>=?`);
+        params.push(numSeats);
     }
 
     const whereClause = filters.length > 0 ? filters.join(' AND ') : '1';
@@ -71,19 +76,11 @@ async function getFilteredAds(type, startLocation, endLocation, startDate, freig
             GROUP BY
                 a.adId
         `;
-        if (userRating) {
-            userRatingFloat = parseFloat(userRating);
-            query += `
-                 HAVING
-                    AVG((r.punctuality + r.agreement + r.pleasent + COALESCE(r.freight, 0)) / 4)>=${userRatingFloat}`;
-        } else {
-            query += `;`;
-        }
     } else if (type === 'wanted') {
         query = `
             SELECT
                 a.adId
-                FROM
+            FROM
                 ad a
                     JOIN
                 wanted w ON w.adId = a.adId
@@ -98,21 +95,21 @@ async function getFilteredAds(type, startLocation, endLocation, startDate, freig
             GROUP BY
                 a.adId
         `;
-        if (userRating) {
-            userRatingFloat = parseFloat(userRating);
-            query += `
-                 HAVING
-                    AVG((r.punctuality + r.agreement + r.pleasent + COALESCE(r.freight, 0)) / 4)>=${userRatingFloat}`;
-        } else {
-            query += `;`;
-        }
     } else {
         throw new Error('Invalid type parameter. Use "offer" or "wanted".');
     }
 
+    if (userRating) {
+        const userRatingFloat = parseFloat(userRating);
+        query += ` HAVING AVG((r.punctuality + r.agreement + r.pleasant + COALESCE(r.freight, 0)) / 4)>=?`;
+        params.push(userRatingFloat);
+    } else {
+        query += `;`;
+    }
+
     try {
         const conn = await pool.getConnection();
-        const result = await conn.query(query);
+        const result = await conn.query(query, params);
         conn.release();
 
         return result;
