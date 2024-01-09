@@ -1,20 +1,20 @@
 <div class="container-fluid p-5">
   <div class="col col-rows-2">
-    <div id="UserOverview" class="row-3 container borderPrimary g-0">
+    <div id="UserOverview" class="row-3 mb-5 card container borderPrimary g-0">
         <div class="container">
-          <div class="row p-2" style="border-bottom: 2px solid var(--primary)">
+          <div class="row p-2" style="border-bottom: 1px solid var(--primary)">
             <div class="col">
-              <p class="m-0">Bitte überprüfe deine Angaben!</p>
+              <p class="m-0 medium">Bitte überprüfe deine Angaben!</p>
             </div>
             <div class="col" style="display: flex; justify-content: center; align-items: center">
-              <button id="ConfirmUserData" class="buttonPrimary">Bestätigen</button>
+                <button id="ChangePersonalData" routerLink="/edit_profile" class="buttonPrimary fs-5">Ändern</button>
             </div>
           </div>
         </div>
-        <div class="row p-4" style="border-bottom: 2px solid var(--primary)">
+        <div class="row p-5">
           <div id="personalData" class="container borderPrimary p-2 position-relative">
             <div class="container p-0">
-              <div class="row mt-3 mb-5">
+              <div class="row mt-1 mb-5">
                 <div class="col-md-4 center mb-3" style="border-radius: 50%">
                     <div *ngIf="userData.picture; else placeholder">
                         <img class="profilepicture" [src]="userData.picture" style="width:100px; height: 100px">
@@ -45,18 +45,11 @@
                   </div>
                 </div>
               </div>
-              <!--<div class="mb-3">
-                <div class="center">
-                    <div class="rating">
-                        <span *ngFor="let star of stars" class="star" [class.highlight]="star <= this.rating">
-                            &#9733;
-                        </span>
-                    </div>
-                </div>
-              </div>-->
+              
             </div>
             <div class="container p-0 mb-3">
-              <textarea placeholder="Über mich..." class="FormInputLight w-100" rows="5" [(ngModel)]="userData.description"></textarea>
+                <div class="card mb-3 p-2 ht1 overflow-auto d-flex justify-content-between description"> {{userData.description}}</div>
+                <!--<textarea placeholder="Über mich..." class="FormInputLight w-100" rows="5" [(ngModel)]="userData.description"></textarea>-->
             </div>
             <div class="row mb-5">
                 <div class="col-md-6">
@@ -65,28 +58,44 @@
                         <div class="progress-bar custom-progress" role="progressbar" [style.width]="(tripCount / 10) * 100 + '%'" aria-valuemin="0" aria-valuemax="10"></div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div>Sprachen</div>
                     <div class="row">
                         <div class="col d-flex">
-                        <div class="mr-3">
-                            <img src="../../../assets/icons/flag-for-flag-germany-svgrepo-com.svg" alt="DE" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
-                        </div>
-                        <div class="mx-3">
-                            <img src="../../../assets/icons/flag-for-flag-united-kingdom-svgrepo-com.svg" alt="EN" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
-                        </div>
+                            <div class="mr-3">
+                                <img src="../../../assets/icons/flag-for-flag-germany-svgrepo-com.svg" alt="DE" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                            </div>
+                            <div class="mx-3">
+                                <img src="../../../assets/icons/flag-for-flag-united-kingdom-svgrepo-com.svg" alt="EN" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <button id="ChangePersonalData" class="buttonPrimary position-absolute top-100 start-50 translate-middle">Ändern</button>
           </div>
+          <button id="ConfirmUserData" class="buttonPrimary fs-5 position-absolute top-100 start-50 translate-middle" (click)="approveUserdata()">
+            <div *ngIf="!this.approved"> Bestätigen </div>
+            <div *ngIf="this.approved">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-check-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                    <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+                </svg>
+                Daten bestätigt
+            </div>
+          </button>
         </div>
     </div>
 
 
-    <div id="OfferCard" class="row-3 container p-3 position-relative">
-        <form class="FormInputLight p-3 mb-3" #wantedForm="ngForm" (ngSubmit)="onSubmit(wantedForm)">
+    <div id="OfferCard" class="row-3 mb-5 card container borderPrimary g-0">
+        <div class="container">
+            <div class="row p-2" style="border-bottom: 1px solid var(--primary)">
+              <div class="col">
+                <p class="m-0 medium">Bitte gib Details zu deinem Gesuch an!</p>
+              </div>
+            </div>
+        </div>
+        <form class="FormInputLight p-3 mb-3 mt-3" #wantedForm="ngForm" (ngSubmit)="onSubmit(wantedForm)">
             <div class="row p-3">
               <div class="col g-0 pe-2">
                 <input name="startLocation" class="FormInputColor w-100" type="text" placeholder="Von..." ngModel>
@@ -139,7 +148,7 @@
                 <textarea name="description" placeholder="Schreibe etwas zur dir, zu der Fahrt..." class="FormInputLight w-100" rows="10" ngModel></textarea>
             </div>
           
-          <div class="row mb-3">
+          <div class="row mb-5">
             <div class="col">
                 <div class="d-flex justify-content-center align-items-center">
                     <div class="mx-4" *ngIf="!this.smoke">
@@ -170,57 +179,16 @@
           <button type="submit" id="ConfirmWanted" class="buttonPrimary fs-4 position-absolute top-100 start-50 translate-middle">Gesuch bestätigen</button>
           </form>
         </div>
+        <div *ngIf="showFlashMessage" class="alert alert-success alert-dismissible fade show flash" role="alert">
+            <div class="center">
+                <div *ngIf="this.success" class="medium center flashmessage">
+                    Gesuch erfolgreich erstellt.
+                </div>
+                <div *ngIf="!this.success" class="medium center">
+                    Fehler bei Erstellung.
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-<!--
-<form #wantedForm="ngForm" (ngSubmit)="onSubmit(wantedForm)">
-    <div>
-        <input name="startLocation" type="text" placeholder="Von..." ngModel>
-    </div>
-    <div>
-        <input name="endLocation" type="text" placeholder="Nach..." ngModel>
-    </div>
-    <div>
-        <input name="startDate" type="date" ngModel>
-    </div>
-    <div>
-        <input name="freight" type="text" placeholder="Fracht in kg?m^3?" ngModel>
-    </div>
-    <div>
-        <input name="numSeats" type="number" placeholder="Anzahl Sitze" ngModel>
-    </div>
-    
-    <div>
-        <textarea name="description" placeholder="Schreibe etwas zur dir, zu der Fahrt..." ngModel></textarea>
-    </div>
-
-    <div *ngIf="!this.smoke">
-    <button style="background-color: transparent; color: var(--primary)" (click)="updateSmoke()">
-        <span class="material-symbols-outlined" style="font-size: xxx-large">smoke_free</span>
-    </button>
-    </div>
-
-    <div *ngIf="this.smoke">
-        <button style="background-color: transparent; color: var(--primary)" (click)="updateSmoke()">
-            <span class="material-symbols-outlined" style="font-size: xxx-large">smoking_rooms</span>
-        </button>
-    </div>
-    
-    <div *ngIf="this.pet">
-    <button style="background-color: transparent; color: var(--primary)" (click)="updatePet()">
-        <span class="material-symbols-outlined" style="font-size: xxx-large">pets</span>
-    </button>
-    </div>
-
-    <div *ngIf="!this.pet">
-        <button style="background-color: transparent; color: var(--primary)" (click)="updatePet()">
-            <span class="material-symbols-outlined" style="font-size: xxx-large">pets</span>
-        </button>
-    </div>
-    
-       
-    <button type="submit" id="confirmWanted" class="btn">Angebot bestätigen</button>
-</form>
--->
 

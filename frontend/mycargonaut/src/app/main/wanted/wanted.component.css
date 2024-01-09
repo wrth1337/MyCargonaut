@@ -1,4 +1,8 @@
-  
+.card {
+    border-width: 1px;
+    border-color: var(--primary);
+}
+
 .cropped-img {
     width: 100px;
     height: 100px;
@@ -34,16 +38,17 @@
     height: 40px;
 }
 
-.submitButton {
-    width: 100px;
-    height: 100px;
-    border-radius: 50px;
+.buttonPrimary {
+    width: auto;
+    height: auto;
     background-color: var(--primary);
     color: white;
     font-size: large;
+    padding: 10px;
+    border-radius: 5px;
 }
   
-.submitButton:hover {
+.buttonPrimary:hover {
     background-color: var(--secondary);
 }
 
@@ -54,5 +59,9 @@
 .progress {
     background-color: #e1e9be;
     height: 40px;
+}
+
+.ht1 {
+    height: 130px;
 }
   
