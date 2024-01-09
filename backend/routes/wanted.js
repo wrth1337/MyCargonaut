@@ -147,7 +147,7 @@ router.post('/createWanted', authenticateToken, async function(req, res, next) {
           }
       } catch (error) {
           res.status(500);
-          res.json({ status: 99, error: 'Fetching Wanted Data failed' });
+          res.json({ status: 99, error: 'Creating Wanted Ad failed' });
       }
 });
   
