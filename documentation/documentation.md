@@ -21,7 +21,7 @@
 # Code Style and Linting
 # ESLint-Konfiguration
 
-Die ESLint-Konfiguration für dieses Projekt ist in der Datei `.eslintrc.json` im Backend-Verzeichnis definiert. Hier ist eine Übersicht über die Konfiguration:
+Die ESLint-Konfiguration für dieses Projekt ist in der Datei `.eslintrc.json` im Backend-Verzeichnis definiert. Hier ist eine Übersicht der Konfiguration:
 
 - `env`: Definiert die Umgebungen, in denen Ihr Code ausgeführt wird. In diesem Fall sind das `browser`, `commonjs` und `es2021`.
 - `extends`: Gibt an, welche Basiskonfigurationen verwendet werden. In diesem Fall wird die Google-Stilrichtlinie verwendet.
@@ -46,7 +46,7 @@ Durch die Kombination von Dependabot und CodeQL stellen wir sicher, dass unser C
 
 
 # API Documentation
-In diesem Projekt verwenden wir Swagger zur Dokumentation unserer Backend-Routen. Swagger ist ein Open-Source-Software-Framework, das von Entwicklern weltweit genutzt wird, um APIs zu entwerfen, zu bauen, zu dokumentieren und zu konsumieren.
+In diesem Projekt verwenden wir Swagger zur Dokumentation unserer Backend-Routen. Swagger ist ein Open-Source-Software-Framework, das von Entwicklern weltweit genutzt wird, um APIs zu entwerfen, zu bauen und zu dokumentieren.
 
 Mit Swagger können wir eine interaktive Dokumentation unserer API erstellen, die es Entwicklern ermöglicht, die API zu verstehen und mit ihr zu interagieren, ohne in den Code schauen zu müssen. Es bietet eine visuelle Darstellung aller API-Endpunkte, der erwarteten Anforderungen und der Antworten, die sie liefern.
 
@@ -76,10 +76,6 @@ Der Deployment-Prozess in diesem Projekt nutzt Docker und Docker Compose, um ein
 2. **Starten der Anwendung**: Nachdem das Docker-Image erstellt wurde, können Sie die Anwendung starten, indem Sie den Befehl `docker-compose up` ausführen. Dieser Befehl startet alle in der `docker-compose.yml`-Datei definierten Dienste in der richtigen Reihenfolge.
 
 Bitte beachten Sie, dass Sie Docker und Docker Compose auf Ihrem Computer installiert haben müssen, um diese Schritte ausführen zu können.
-
-
-# Contribution Guidelines
-Geben Sie Anweisungen, wie andere Entwickler zu Ihrem Projekt beitragen können.
 
 # Project Structure
 Das Projekt gliedert sich in Front / Backend / Database und Dokumenatation
