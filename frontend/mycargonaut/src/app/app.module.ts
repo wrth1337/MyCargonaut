@@ -11,6 +11,7 @@ import { InterceptorService } from './service/interceptor.service';
 import { HomeComponent } from './main/home/home.component';
 import { ProfileComponent } from './main/profile/profile.component';
 import { EditProfileComponent } from './main/edit-profile/edit-profile.component';
+import { CreateOfferComponent } from './main/create-offer/create-offer.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { EditProfileComponent } from './main/edit-profile/edit-profile.component
     HomeComponent,
     ProfileComponent,
     EditProfileComponent,
+    CreateOfferComponent,
   ],
   imports: [
     AuthModule,
