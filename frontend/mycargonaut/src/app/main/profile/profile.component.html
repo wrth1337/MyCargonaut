@@ -87,6 +87,18 @@
                         <div class="card mb-3">
                             <div class="card-title custom-border"> Sprachen: </div>
                             <div class="card-body overflow-auto">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div *ngIf="this.german">
+                                            DE
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div *ngIf="this.english">
+                                            EN
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         </div>

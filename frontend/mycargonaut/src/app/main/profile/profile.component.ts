@@ -20,12 +20,15 @@ export class ProfileComponent {
   uwtData: any;
   uotData: any;
   rating: any;
+  languages: any;
   vehiclesAvailable = false;
   offersAvailable = false;
   wantedsAvailable = false;
   tripsAvailable = false;
   tripCount: any;
   stars: number[] = [1, 2, 3, 4, 5];
+  german = false;
+  english = false;
 
   constructor(
     private api: ApiService,
@@ -36,6 +39,16 @@ export class ProfileComponent {
 
     this.api.getRequest("profile/userdata").subscribe((res: any) => {
       this.userData = res.userData;
+      this.languages = res.languages;
+      for(let i = 0; i < this.languages.length; i++) {
+        if(this.languages[i].languageId === 1) {
+          this.german = true;
+        }
+        else if(this.languages[i].languageId === 2) {
+          this.english = true;
+        }
+      }
+
       this.rating = Math.round(res.userData.rating);
       this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
     });

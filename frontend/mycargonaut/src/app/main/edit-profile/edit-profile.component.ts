@@ -16,11 +16,15 @@ export class EditProfileComponent {
   userData: any;
   rating: any;
   tripCount: any;
+  languages: any;
   stars: number[] = [1, 2, 3, 4, 5];
   editUser = false;
   editBirth = false;
+  editLang = false;
   success = false;
   showFlashMessage = false;
+  german = false;
+  english = false;
 
   showFlash() {
     this.showFlashMessage = true;
@@ -42,6 +46,15 @@ export class EditProfileComponent {
   ngOnInit() {
     this.api.getRequest("profile/userdata").subscribe((res: any) => {
       this.userData = res.userData;
+      this.languages = res.languages;
+      for(let i = 0; i < this.languages.length; i++) {
+        if(this.languages[i].languageId === 1) {
+          this.german = true;
+        }
+        else if(this.languages[i].languageId === 2) {
+          this.english = true;
+        }
+      }
       this.rating = Math.round(res.userData.rating);
       this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
     });
@@ -103,6 +116,19 @@ export class EditProfileComponent {
 
     const birthdate = new Date(year, month, day);
     return birthdate;
+  }
+
+  editLanguages() {
+    this.editLang =!this.editLang;
+  }
+
+  checkboxChanged(name: string) {
+    if(name === 'de') {
+      this.german = !this.german;
+    }
+    if(name === 'en') {
+      this.english = !this.english;
+    }
   }
 
 }

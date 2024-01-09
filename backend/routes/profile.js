@@ -24,14 +24,15 @@ const pool = mariadb.createPool({
 
 async function getUser(id) {
     const userData = 'SELECT u.firstName, u.lastName, u.birthdate, u.picture, u.description, u.experience, AVG((COALESCE(r.punctuality, 0) + COALESCE(r.agreement, 0) + COALESCE(r.pleasent, 0) + CASE WHEN r.freight IS NOT NULL THEN r.freight ELSE 0 END) / NULLIF(4.0 - CASE WHEN r.freight IS NULL THEN 1 ELSE 0 END, 0)) AS rating FROM user u LEFT JOIN rating r ON r.userWhoWasEvaluated = u.userId WHERE u.userId = ?';
-
+    const languages = 'SELECT languageId FROM userLanguage WHERE userId = ?';
     try {
       const conn = await pool.getConnection();
       const result = await conn.query(userData, [id]);
+      const lang = await conn.query(languages, [id]);
       await conn.release();
   
       if (result.length > 0) {
-        return { success: true, data: result[0] };
+        return { success: true, data: result[0], lang: lang };
       } else {
         return { success: false };
       }
@@ -41,11 +42,18 @@ async function getUser(id) {
     }
 }
 
-async function editProfile(firstName, lastName, birthdate, picture, description, experience, id) {
+async function editProfile(firstName, lastName, birthdate, picture, description, experience, id, german, english) {
   const edit ='UPDATE user SET firstName = ?, lastName = ?, birthdate = ?, picture = ?, description = ?, experience = ? WHERE userId = ?';
+  const editLang = 'UPDATE userLanguage SET languageId = ? WHERE userId = ?';
     try {
         const conn = await pool.getConnection();
         const result = await conn.query(edit, [firstName, lastName, birthdate, picture, description, experience, id]);
+        if(german) {
+          const res = await conn.query(editLang, [1, id]);
+        }
+        if(english) {
+          const res = await conn.query(editLang, [2, id]);
+        }
         await conn.release();
         return 1;
     } catch (error) {
@@ -121,7 +129,7 @@ router.get('/userdata', authenticateToken, async function(req, res, next) {
   
       if (user.success) {
         res.status(200);
-        res.json({ status: 1, userData: user.data });
+        res.json({ status: 1, userData: user.data, languages: user.lang });
       } else {
         res.status(204).json(null);
       }
@@ -210,8 +218,8 @@ router.get('/userdata', authenticateToken, async function(req, res, next) {
 router.post('/edit_profile', authenticateToken, async function(req, res, next) {
   try {
     const id = req.user_id;
-    const {firstName, lastName, birthdate, picture, description, experience} = req.body;
-    const edit = await editProfile(firstName, lastName, birthdate, picture, description, experience, id);
+    const {firstName, lastName, birthdate, picture, description, experience, german, english} = req.body;
+    const edit = await editProfile(firstName, lastName, birthdate, picture, description, experience, id, german, english);
 
     if (edit === 1) {
       res.status(200);
