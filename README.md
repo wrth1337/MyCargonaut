@@ -101,8 +101,8 @@ The project places a strong emphasis on collaborative development using SCRUM, p
 
 ## Roadmap
 
-- [x] 15.01.2024: First showcase of the current state of development
-- [x] 03/2024: Finish the project and hand in for inspection
+- [ ] 15.01.2024: First showcase of the current state of development
+- [ ] 03/2024: Finish the project and hand in for inspection
 
 See the [open issues](https://github.com/wrth1337/MyCargonaut/issues) for a full list of proposed features (and known issues).
 
