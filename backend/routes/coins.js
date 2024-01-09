@@ -27,7 +27,6 @@ async function getUserCoins(id) {
             return { success: false };
         }
     } catch (error) {
-        console.error('Fehler bei der Abfrage:', error);
         throw error;
     }
 }
