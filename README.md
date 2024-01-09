@@ -4,21 +4,43 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 
-# MyCargonaut
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/wrth1337/MyCargonaut">
+    <img src="documentation/images/Logo.png" alt="Logo">
+  </a>
 
-<sub><sup>Disclaimer: This project is part of the "Konzepte moderner Softwareentwicklung" module, led by Lukas Maximilian Kimpel. This web application, MyCargonaut, is a student initiative aimed at exploring and implementing modern software development concepts.</sub></sup>
+  <p align="center">
+    A brandnew unique car-sharing Webapp!
+    <br />
+    <a href="https://github.com/wrth1337/MyCargonaut/tree/develop/documentation"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    ·
+    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+    ·
+  </p>
+</div>
+
+<sub><sup>Disclaimer: This project is part of the "Konzepte moderner Softwareentwicklung" module from the "Technische Hochschule Mittelhessen", led by Lukas Maximilian Kimpel. This web application, MyCargonaut, is a student initiative aimed at exploring and implementing modern software development concepts.</sub></sup>
 
 Welcome to MyCargonaut, your go-to platform for facilitating ride and delivery services! Our web application is designed to seamlessly connect individuals with transportation needs to those who have available space and are willing to help.
 
-## Features
+## About The Project
 
-### Feature 1
-Text
-### Feature 2
-Text
-### Feature 3
-Text
+[![Product Name Screen Shot][product-screenshot]](https://example.com)
+
+"My Cargonaut" is an innovative student project developed within the scope of the "Konzepte moderner Softwareentwicklung" module at the "Technische Hochschule Mittelhessen" under the guidance of Lukas Maximilian Kimpel. This web application serves as a classic car-sharing platform, empowering users to seamlessly find and offer rides.
+
+Key-Features:
+* Users can effortlessly search for available rides or offer their own, promoting a collaborative and sustainable approach to transportation.
+* Enhancing user experience, "My Cargonaut" allows individuals to provide ratings for rides, fostering a sense of community trust. Additionally, the platform facilitates secure payment transactions for added convenience.
+* Each user enjoys the benefits of a personalized profile, enabling them to manage their ride history, preferences, and other relevant details, contributing to a tailored and user-centric experience.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Installation
 - Clone Repository
