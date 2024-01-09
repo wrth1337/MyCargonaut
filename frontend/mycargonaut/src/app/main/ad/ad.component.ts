@@ -58,7 +58,6 @@ userData: any;
       this.type = res.data.type;
       this.api.getRequest(res.data.type + '/' + res.data.adId).subscribe((res:any) => {
         this.typeSpecificContent = res.data;
-        console.log(res.data);
       })
     })
     this.api.getRequest("profile/userdata/"+this.authorId).subscribe((res:any) => {
