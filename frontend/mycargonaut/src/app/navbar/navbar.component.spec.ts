@@ -16,6 +16,18 @@ describe('NavbarComponent', () => {
     fixture.detectChanges();
   });
 
+  it('should have isLogin property initially set to false', () => {
+    expect(component.isLogin).toBe(false);
+  });
+
+  it('should have coins property initially set to -1', () => {
+    expect(component.coins).toBe(-1);
+  });
+
+  it('should have a coins property', () => {
+    expect(component.hasOwnProperty('coins')).toBe(true);
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
