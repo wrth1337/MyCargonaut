@@ -101,15 +101,15 @@ All members of "Group 2" were involved in the project.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/wrth1337/MyCargonaut.svg?style=for-the-badge
 [contributors-url]: https://github.com/wrth1337/MyCargonaut/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/wrth1337/MyCargonaut.svg?style=for-the-badge
 [forks-url]: https://github.com/wrth1337/MyCargonaut/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/wrth1337/MyCargonaut.svg?style=for-the-badge
 [stars-url]: https://github.com/wrth1337/MyCargonaut/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/wrth1337/MyCargonaut.svg?style=for-the-badge
 [issues-url]: https://github.com/wrth1337/MyCargonaut/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/wrth1337/MyCargonaut.svg?style=for-the-badge
 [license-url]: https://github.com/wrth1337/MyCargonaut/blob/develop/LICENSE
 [product-screenshot]: documentation/images/Webapp-Example.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
