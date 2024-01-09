@@ -65,40 +65,6 @@ The project places a strong emphasis on collaborative development using SCRUM, p
 
 
 
-
-## Getting Started
-- Clone Repository
-- Go to frontend/mycargonaut and run npm i
-- Go to backend and run npm i
-### Frontend
-#### Start
-- ng serve
-#### Test
-- ng test
-#### Lint
-- ng lint / npm run lint
-### Backend
-#### Start
-- npm run dev
-#### Test
-- npm run test
-#### Lint
-- npx eslint .
-### Start Database
-- docker compose build
-- docker compose up
-
-
-
-
-
-
-
-
-
-
-
-
 ## Roadmap
 
 - [ ] 15.01.2024: First showcase of the current state of development
@@ -125,12 +91,12 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## Contributors
 All members of "Group 2" were involved in the project.
 
-* Marcel Kaiser     - [Gitlab](https://git.thm.de/mpks28)   - [Github](https://github.com/marcel951)
-* Jonathan Rech     - [Gitlab](https://git.thm.de/jwhr06)   - [Github](https://github.com/JonathanRech)
-* Benjamin Wirth    - [Gitlab](https://git.thm.de/bwrt47)   - [Github](https://github.com/wrth1337)
-* Ella Maria Herr   - [Gitlab](https://git.thm.de/emhr14)
-* Nicolas Daniel Binder -  [Giblab](https://git.thm.de/ndbn17)
-* Hanna Feddersen   -[Gitlab](https://git.thm.de/hfdd02)
+* [Marcel Kaiser](https://github.com/marcel951)
+* [Jonathan Rech](https://github.com/JonathanRech)
+* [Benjamin Wirth](https://github.com/wrth1337)
+* [Ella Maria Herr](https://github.com/3llla)
+* [Nicolas Binder](https://github.com/Schniggelz)
+* [Hanna Feddersen](https://github.com/hannafeddersen) 
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
