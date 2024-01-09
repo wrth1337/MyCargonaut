@@ -1,4 +1,4 @@
-<div id="SearchFormSection" class="container p-3 my-5">
+<div id="SearchFormSection" class="container px-3 my-5">
   <form id="SearchForm">
     <div class="row p-3">
       <div class="col">
@@ -7,7 +7,7 @@
         </div>
         <div class="row p-2">
           <div class="col ps-0 pe-2">
-            <input class="FormInputColor w-100" type="date">
+            <input class="SearchFormInput w-100 " type="date">
           </div>
           <div class="col ps-2 pe-0">
             <input class="FormInputColor w-100" type="text" placeholder="Fracht in kg?m^3?">
@@ -23,137 +23,138 @@
             <!--
             <i><span class="material-symbols-outlined">person_add</span></i>
             -->
-            <input class="FormInputColor w-100" type="number">
+            <input class="SearchFormInput w-100 passengers-input" type="number">
           </div>
           <div class="col ps-2 pe-0">
-            <select class="FormInputColor w-100 h-100" name="rating" required>
+            <select class="SearchFormInput w-100 h-100 rating-input" name="rating" required>
               <option name="" disabled selected hidden>Bewertung</option>
               <option name="one">
-                <div class="row">
-                  <div class="col">
-                    <span class="material-symbols-outlined">grade</span>
-                  </div>
-                </div>
+                1
               </option>
               <option name="two">
                 <div class="row">
                   <div class="col">
-                    <span class="material-symbols-outlined">grade</span>
-                  </div>
-                  <div class="col">
-                    <span class="material-symbols-outlined">grade</span>
+                    <span class="material-symbols-outlined">2</span>
                   </div>
                 </div>
               </option>
               <option name="three">
-                <div class="row">
-                  <div class="col">
-                    <span class="material-symbols-outlined">grade</span>
-                  </div>
-                  <div class="col">
-                    <span class="material-symbols-outlined">grade</span>
-                  </div>
-                  <div class="col">
-                    <span class="material-symbols-outlined">grade</span>
-                  </div>
-                </div>
+                3
               </option>
               <option name="four">
-                <div class="row">
-                  <div class="col">
-                    <span class="material-symbols-outlined">grade</span>
-                  </div>
-                  <div class="col">
-                    <span class="material-symbols-outlined">grade</span>
-                  </div>
-                  <div class="col">
-                    <span class="material-symbols-outlined">grade</span>
-                  </div>
-                  <div class="col">
-                    <span class="material-symbols-outlined">grade</span>
-                  </div>
-                </div>
+                4
               </option>
               <option name="five">
-                <div class="row">
-                  <div class="col">
-                    <span class="material-symbols-outlined">grade</span>
-                  </div>
-                  <div class="col">
-                    <span class="material-symbols-outlined">grade</span>
-                  </div>
-                  <div class="col">
-                    <span class="material-symbols-outlined">grade</span>
-                  </div>
-                  <div class="col">
-                    <span class="material-symbols-outlined">grade</span>
-                  </div>
-                  <div class="col">
-                    <span class="material-symbols-outlined">grade</span>
-                  </div>
-                </div>
+                5
               </option>
             </select>
           </div>
         </div>
       </div>
-      <div class="col-1 align-self-center">
-        <button id="SearchFormButton" class="px-3 py-2">Suchen</button>
+      <div class="col-md-auto p-0 ps-2">
+        <button id="SearchFormButton" class="px-3 py-2 mt-2 align-top">Suchen</button>
       </div>
     </div>
   </form>
 </div>
-<div id="RecommendedOffers" class="container p-3">
-  <div class="row">
-    <div class="col-1">
-      <button class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-        <span class="material-symbols-outlined">arrow_back_ios</span>
-        <span class="sr-only">Previous</span>
-      </button>
-    </div>
-    <div class="col">
-      <div id="carouselExampleControls" class="carousel slide container" data-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active container">
-            <div class="row">
-              <div class="col ">
-                <div class="card justify-content-center" style="width: 18rem;">
-                  <img class="card-img-top" src="..." alt="Card image cap">
-                  <div class="card-body">
-                    <h5 class="card-title">Suche Fahrt von X nach Y</h5>
-                    <p class="card-text">Ich biete eine einfache Fahrt von Hamburg nach Berlin am 22.12.2023 an. Ich werde am Berliner HBF starten und die Fahrt am Hamburger HBF beenden.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card" style="width: 18rem;">
-                  <img class="card-img-top" src="..." alt="Card image cap">
-                  <div class="card-body">
-                    <h5 class="card-title">Suche Fahrt von X nach Y</h5>
-                    <p class="card-text">Ich biete eine einfache Fahrt von Hamburg nach Berlin am 22.12.2023 an. Ich werde am Berliner HBF starten und die Fahrt am Hamburger HBF beenden.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card" style="width: 18rem;">
-                  <img class="card-img-top" src="..." alt="Card image cap">
-                  <div class="card-body">
-                    <h5 class="card-title">Suche Fahrt von X nach Y</h5>
-                    <p class="card-text">Ich biete eine einfache Fahrt von Hamburg nach Berlin am 22.12.2023 an. Ich werde am Berliner HBF starten und die Fahrt am Hamburger HBF beenden.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+
+<div id="RecomendedOffers" class="row">
+  <div class="col-md-auto">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <button class="btn ms-5 align-middle" type="button" (click)="previous()">
+      <div class="btn-text">
+        <
+      </div>
+    </button>
+  </div>
+  <div class="col">
+    <div class="row m-0 justify-content-center active-recomended" *ngIf="loaded">
+      <div class="card m-3" style="width: 20rem;">
+        <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{writeTitle(content[(((index +2) % 6) + 6) % 6])}}</h5>
+          <p class="card-text">{{content[(((index + 2) % 6) + 6) % 6].description}}</p>
+        </div>
+      </div>
+      
+      <div class="card m-3" style="width: 20rem;">
+        <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{writeTitle(content[(((index + 1) % 6) + 6) % 6])}}</h5>
+          <p class="card-text">{{content[(((index + 1) % 6) + 6) % 6].description}}</p>
+        </div>
+      </div>
+      <div class="card m-3" style="width: 20rem;">
+        <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{writeTitle(content[(((index) % 6) + 6) % 6])}}</h5>
+          <p class="card-text">{{content[(((index) % 6) + 6) % 6].description}}</p>
         </div>
       </div>
     </div>
-  <div class="col-1 position-relative">
-    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
+    <div class="row m-0 justify-content-center active-recomended" *ngIf="!loaded">
+      <div class="card m-3" style="width: 20rem;" aria-hidden="true">
+        <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
+        <div class="card-body">
+          <h5 class="card-title placeholder-glow">
+            <span class="placeholder col-6"></span>
+          </h5>
+          <p class="card-text placeholder-glow">
+            <span class="placeholder col-7"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-6"></span>
+            <span class="placeholder col-8"></span>
+          </p>
+        </div>
+      </div>
+      <div class="card m-3" style="width: 20rem;" aria-hidden="true">
+        <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
+        <div class="card-body">
+          <h5 class="card-title placeholder-glow">
+            <span class="placeholder col-6"></span>
+          </h5>
+          <p class="card-text placeholder-glow">
+            <span class="placeholder col-7"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-6"></span>
+            <span class="placeholder col-8"></span>
+          </p>
+        </div>
+      </div>
+      <div class="card m-3" style="width: 20rem;" aria-hidden="true">
+        <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
+        <div class="card-body">
+          <h5 class="card-title placeholder-glow">
+            <span class="placeholder col-6"></span>
+          </h5>
+          <p class="card-text placeholder-glow">
+            <span class="placeholder col-7"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-6"></span>
+            <span class="placeholder col-8"></span>
+          </p>
+        </div>
+      </div>
+      
+    </div>
   </div>
+  <div class="col-md-auto">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <button class="btn me-5" type="button" (click)="next()">
+      <div class="btn-text">
+        >
+      </div>
+    </button>
   </div>
-
 </div>

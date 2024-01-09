@@ -8,6 +8,7 @@ const zxcvbnDePackage = require('@zxcvbn-ts/language-de');
 const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
 
+// eslint-disable-next-line new-cap
 const router = express.Router();
 
 // Express Limiter
@@ -28,7 +29,7 @@ const pool = mariadb.createPool({
 
 // ZXCVBN settings
 const zxcvbnSettings = {
-    translations: zxcvbnEnPackage.translations,
+    translations: zxcvbnDePackage.translations,
     graphs: zxcvbnCommonPackage.adjacencyGraphs,
     dictionary: {
         ...zxcvbnCommonPackage.dictionary,
@@ -49,7 +50,6 @@ async function registerNewUser(firstName, lastName, email, password, birthdate, 
         // eslint-disable-next-line no-unused-vars
         const result = await conn.query(newUser, [firstName, lastName, email, hashedPassword, birthdate, phonenumber]);
         await conn.release();
-        console.log('User registered successfully');
         return 0;
     } catch (error) {
         return 1;
@@ -206,8 +206,8 @@ router.post('/register', async function(req, res, next) {
     const conn = await pool.getConnection();
     zxcvbnOptions.setOptions(zxcvbnSettings);
     try {
-        const {firstName, lastName, email, passwords, birthdate, phonenumber} = req.body;
-        const zxcvbnResults = zxcvbn(passwords, [firstName, lastName, email, birthdate, phonenumber]);
+        const {firstName, lastName, email, password, birthdate, phonenumber} = req.body;
+        const zxcvbnResults = zxcvbn(password, [firstName, lastName, email, birthdate, phonenumber]);
         const zxcvbnScore = zxcvbnResults.score;
         const zxcvbnFeedback = zxcvbnResults.feedback;
         if (!await isPhonenumberValid(phonenumber)) {
@@ -229,7 +229,7 @@ router.post('/register', async function(req, res, next) {
                 res.send({status: 1, msg: 'Your email is already taken.'});
             } else {
                 // eslint-disable-next-line no-unused-vars
-                const newUser = await registerNewUser(firstName, lastName, email, passwords, birthdate, phonenumber);
+                const newUser = await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
                 res.status(201);
                 res.send({status: 0, msg: 'User created'});
             }
@@ -318,9 +318,9 @@ router.post('/login', async function(req, res, next) {
             const hashedPassword = result[0].password;
             const passwordIsCorrect = await argon2.verify(hashedPassword, password.toString());
             if (passwordIsCorrect) {
-                const token = jwt.sign({email: email, user_id: result[0].user_id}, jwtSecret, {expiresIn: '1h'});
+                const token = jwt.sign({email: email, user_id: result[0].userId}, jwtSecret, {expiresIn: '1h'});
                 res.status(200);
-                res.send({status: 1, data: {email, user_id: result[0].user_id}, token: token});
+                res.send({status: 1, data: {email, user_id: result[0].userId}, token: token});
             } else {
                 res.status(200);
                 res.send({status: 0, error: 'error'});

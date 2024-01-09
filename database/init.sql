@@ -1,3 +1,10 @@
+
+CREATE OR REPLACE TABLE language (
+    languageId int not null PRIMARY KEY auto_increment,
+    languageName VARCHAR(255),
+    languagePicture VARCHAR(1024)
+);
+
 CREATE OR REPLACE TABLE user (
     userId int not null PRIMARY KEY auto_increment,
     firstName VARCHAR(100) NOT NULL,
@@ -7,7 +14,23 @@ CREATE OR REPLACE TABLE user (
     birthdate DATE NOT NULL,
     phonenumber VARCHAR(100),
     coins DOUBLE,
-    picture VARCHAR(1024)
+    picture VARCHAR(1024),
+    description TEXT,
+    experience TEXT
+);
+
+CREATE OR REPLACE TABLE userLanguage (
+    userLanguageId int not null PRIMARY KEY auto_increment,
+    userId int not null,
+    languageId int not null,
+    CONSTRAINT fk_userLanguage_userId
+   	FOREIGN KEY (userId) REFERENCES user (userId)
+   	ON DELETE CASCADE
+   	ON UPDATE CASCADE,
+    CONSTRAINT fk_userLanguage_languageId
+   	FOREIGN KEY (languageId) REFERENCES language (languageId)
+   	ON DELETE CASCADE
+   	ON UPDATE CASCADE
 );
 
 CREATE OR REPLACE TABLE vehicle (
@@ -27,9 +50,9 @@ CREATE OR REPLACE TABLE vehicle (
 
 CREATE OR REPLACE TABLE ad (
      adId int not null PRIMARY KEY auto_increment,
+     description TEXT,
      startLocation VARCHAR(255),
      endLocation VARCHAR(255),
-     intermediateGoals VARCHAR(255),
      startDate DATE,
      endDate DATE,
      animals BOOLEAN,
@@ -37,10 +60,11 @@ CREATE OR REPLACE TABLE ad (
      notes TEXT,
      numSeats SMALLINT,
      active BOOLEAN DEFAULT TRUE,
+     picture VARCHAR(1024),
      userId int not null,
      CONSTRAINT fk_user_id2
    	FOREIGN KEY (userId) REFERENCES user (userId)
-   	ON DELETE RESTRICT
+    ON DELETE CASCADE
    	ON UPDATE CASCADE
 );
     
@@ -62,7 +86,6 @@ CREATE OR REPLACE TABLE offer(
     pricePerFreight DOUBLE,
     CONSTRAINT fk_vehicle_id_offer
    	FOREIGN KEY (vehicleId) REFERENCES vehicle (vehicleId)
-   	ON DELETE RESTRICT
 	ON UPDATE CASCADE,
     CONSTRAINT fk_ad_id_offer
    	FOREIGN KEY (adId) REFERENCES ad(adId)
@@ -76,8 +99,8 @@ CREATE OR REPLACE TABLE wanted(
     freight VARCHAR(1024),
     CONSTRAINT fk_ad_id_wanted
    	FOREIGN KEY (adId) REFERENCES ad(adId)
-   	ON DELETE CASCADE
-   	ON UPDATE CASCADE
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
 CREATE OR REPLACE TABLE booking(
@@ -94,7 +117,7 @@ CREATE OR REPLACE TABLE booking(
         ON UPDATE CASCADE,
     CONSTRAINT fk_user_id_booking
         FOREIGN KEY (userId) REFERENCES user (userId)
-        ON DELETE RESTRICT
+        ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
@@ -107,8 +130,6 @@ CREATE OR REPLACE TABLE status(
     endRide BOOLEAN DEFAULT FALSE,
     CONSTRAINT fk_booking_id_status
    	FOREIGN KEY (bookingId) REFERENCES booking (bookingId)
-   	ON DELETE CASCADE
-   	ON UPDATE CASCADE
 ); 
 
 CREATE OR REPLACE TABLE rating(

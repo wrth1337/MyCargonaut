@@ -1,0 +1,9 @@
+dod:
+  - 'Frontend'
+  - '➡️Are all functions implemented?'
+  - '➡️Are there front-end tests that test the appearance of the mockup?'
+  - '➡️Do the associated components look like the mockup?'
+  - 'Backend'
+  - '➡️Are all necessary routes documented via swagger?'
+  - '➡️Are all necessary methods tested via Jest (positive and negative tests)?'
+  - 'Is the user story finished to such an extent that no further work is required after the pull request (excluding hotfixes and adjustments)?'
