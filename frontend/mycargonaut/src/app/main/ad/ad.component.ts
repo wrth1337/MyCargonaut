@@ -59,10 +59,10 @@ userData: any;
       this.api.getRequest(res.data.type + '/' + res.data.adId).subscribe((res:any) => {
         this.typeSpecificContent = res.data;
       })
-    })
-    this.api.getRequest("profile/userdata/"+this.authorId).subscribe((res:any) => {
-      this.user = res.userData;
-      this.user.birthdate = this.datepipe.transform(res.userData.birthdate, 'dd.MM.yyyy')
+      this.api.getRequest("profile/userdata/"+this.authorId).subscribe((res:any) => {
+        this.user = res.userData;
+        this.user.birthdate = this.datepipe.transform(res.userData.birthdate, 'dd.MM.yyyy')
+      })
     })
   }
 
