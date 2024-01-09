@@ -20,6 +20,8 @@ export class WantedComponent {
   rating: any;
   smoke: boolean = true;
   pet: boolean = true;
+  stars: number[] = [1, 2, 3, 4, 5];
+  tripCount: any;
 
   ngOnInit() {
     this.api.getRequest("profile/userdata").subscribe((res: any) => {
@@ -27,10 +29,18 @@ export class WantedComponent {
       this.rating = Math.round(res.userData.rating);
       this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
     });
+    this.api.getRequest("trip").subscribe((res: any) => {
+      if(res != null) {
+        this.tripCount = res.uwtData.length + res.uotData.length;
+      }
+      else {
+        this.tripCount = 0;
+      }
+    });
   }
 
   onSubmit(form: NgForm) {
-    form.value.endDate = null;
+    form.value.endDate = form.value.startDate;
     form.value.smoker = this.smoke;
     form.value.animals = this.pet;
     form.value.notes = null;

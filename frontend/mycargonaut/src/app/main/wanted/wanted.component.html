@@ -1,7 +1,6 @@
-<!--
 <div class="container-fluid p-5">
-  <div class="row row-cols-3">
-    <div id="UserOverview" class="col-3 container borderPrimary g-0">
+  <div class="col col-rows-2">
+    <div id="UserOverview" class="row-3 container borderPrimary g-0">
         <div class="container">
           <div class="row p-2" style="border-bottom: 2px solid var(--primary)">
             <div class="col">
@@ -12,266 +11,169 @@
             </div>
           </div>
         </div>
-        <div class="p-3">
+        <div class="row p-4" style="border-bottom: 2px solid var(--primary)">
           <div id="personalData" class="container borderPrimary p-2 position-relative">
             <div class="container p-0">
-              <div class="row mt-3">
-                <div class="col-4" style="border-radius: 50%">
-                  <img src="assets/ProfilePicture/CharlieDieMaus.jpg" alt="Profilbild" class="cropped-img pictureCircle" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center">
+              <div class="row mt-3 mb-5">
+                <div class="col-md-4 center mb-3" style="border-radius: 50%">
+                    <div *ngIf="userData.picture; else placeholder">
+                        <img class="profilepicture" [src]="userData.picture" style="width:100px; height: 100px">
+                    </div>
+                    <ng-template #placeholder>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="var(--primary)" class="bi bi-person-circle" viewBox="0 0 16 16" style="width:100px; height: 100px;">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                        </svg>
+                    </ng-template>
                 </div>
-                <div class="col-8">
+                <div class="col-md-4 center">
                   <div>
-                    <p class="FormInputLight mb-0">Max M.</p>
+                    <p class="medium FormInputLight mb-4"> {{userData.firstName}} {{userData.lastName}} </p>
                   </div>
                   <div>
-                    <p>30 Jahre</p>
+                    <p class="medium"> {{userData.birthdate}} </p>
                   </div>
+                </div>
+                <div class="col-md-4 center">
                   <div>
-                    <p class="FormInputLight">Anzahl Fahrten: 10</p>
+                    <p class="FormInputLight medium">Anzahl Fahrten: {{this.tripCount}} </p>
+                  </div>
+                  <div class="rating">
+                    <span *ngFor="let star of stars" class="star" [class.highlight]="star <= this.rating">
+                        &#9733;
+                    </span>
                   </div>
                 </div>
               </div>
-              <div class="mb-3">
-                <span class="col p-0 material-symbols-outlined">grade</span>
-                <span class="col p-0 material-symbols-outlined">grade</span>
-                <span class="col p-0 material-symbols-outlined">grade</span>
-                <span class="col p-0 material-symbols-outlined">grade</span>
-                <span class="col p-0 material-symbols-outlined">grade</span>
-              </div>
+              <!--<div class="mb-3">
+                <div class="center">
+                    <div class="rating">
+                        <span *ngFor="let star of stars" class="star" [class.highlight]="star <= this.rating">
+                            &#9733;
+                        </span>
+                    </div>
+                </div>
+              </div>-->
             </div>
             <div class="container p-0 mb-3">
-              <textarea placeholder="Über mich..." class="FormInputLight w-100" rows="5"></textarea>
+              <textarea placeholder="Über mich..." class="FormInputLight w-100" rows="5" [(ngModel)]="userData.description"></textarea>
             </div>
-            <div class="mb-3">
-              <p>Erfahrung</p>
-              <div id="ExperienceFrame" style="height: 10px; width: 100%; border: solid var(--primary)">
-                <div id="ExperienceBar" style="background-color: var(--primary); height: 6px; width: 45%; border: solid var(--primary)"></div>
-              </div>
-            </div>
-            <div class="col mb-5">
-              <p class="mb-1">Sprachen</p>
-              <div class="row">
-                <div class="col">
-                  <img src="assets/LanguageIcons/Deutsch.png" alt="Deutsche Sprache" class="cropped-img" style="width:25px; height: 25px; display: flex; justify-content: center; align-self: center">
+            <div class="row mb-5">
+                <div class="col-md-6">
+                    <div> Erfahrung </div>
+                    <div class="progress w-75">
+                        <div class="progress-bar custom-progress" role="progressbar" [style.width]="(tripCount / 10) * 100 + '%'" aria-valuemin="0" aria-valuemax="10"></div>
+                    </div>
                 </div>
-                <div class="col">
-                  <img src="assets/LanguageIcons/Englisch.png" alt="Englische Sprache" class="cropped-img" style="width:25px; height: 25px; display: flex; justify-content: center; align-self: center">
+                <div class="col-md-6">
+                    <div>Sprachen</div>
+                    <div class="row">
+                        <div class="col d-flex">
+                        <div class="mr-3">
+                            <img src="../../../assets/icons/flag-for-flag-germany-svgrepo-com.svg" alt="DE" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                        </div>
+                        <div class="mx-3">
+                            <img src="../../../assets/icons/flag-for-flag-united-kingdom-svgrepo-com.svg" alt="EN" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                        </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
             <button id="ChangePersonalData" class="buttonPrimary position-absolute top-100 start-50 translate-middle">Ändern</button>
           </div>
         </div>
-      </div>
-      <div class="col-6 px-5">
-        <div id="OfferCard" class="container p-5 position-relative">
-          <form id="OfferInputForm" class="FormInputLight p-3 mb-3">
+    </div>
+
+
+    <div id="OfferCard" class="row-3 container p-3 position-relative">
+        <form class="FormInputLight p-3 mb-3" #wantedForm="ngForm" (ngSubmit)="onSubmit(wantedForm)">
             <div class="row p-3">
               <div class="col g-0 pe-2">
-                <input class="FormInputColor w-100" type="text" placeholder="Von...">
+                <input name="startLocation" class="FormInputColor w-100" type="text" placeholder="Von..." ngModel>
               </div>
               <div class="col g-0 ps-2">
-                <input class="FormInputColor w-100" type="text" placeholder="Nach...">
+                <input name="endLocation" class="FormInputColor w-100" type="text" placeholder="Nach..." ngModel>
               </div>
             </div>
             <div class="row p-3">
               <div class="col g-0 pe-2">
-                <input class="FormInputColor w-100" type="date">
+                <input name="startDate" class="FormInputColor w-100" type="date" ngModel>
               </div>
               <div class="col g-0 px-2">
-                <input class="FormInputColor w-100" type="text" placeholder="Fracht in kg?m^3?">
+                <input name="freight" class="FormInputColor w-100" type="text" placeholder="Fracht in kg?m^3?" ngModel>
               </div>
               <div class="col g-0 ps-2">
-                <i><span class="material-symbols-outlined">person_add</span></i>
-                <input class="FormInputColor w-100" type="number">
+                <input name="numSeats" class="FormInputColor w-100" type="number" placeholder="Anzahl benötigter Sitze" ngModel>
               </div>
             </div>
-          </form>
-          <div class="row p-3 mb-3">
-            <div class="col-4 container overflow-hidden">
-              <img src="assets/ProfilePicture/CharlieDieMaus.jpg" alt="Profilbild" class="cropped-img pictureCircle" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center">
-            </div>
-            <div class="col-1"></div>
-            <div class="col-7">
-              <div class="row">
-                <p class="FontPrimary fs-3 fw-semibold g-0">Max M.</p>
-              </div>
-              <div class="row w-75" style="color: var(--primary)">
-                <span class="col p-0 material-symbols-outlined">grade</span>
-                <span class="col p-0 material-symbols-outlined">grade</span>
-                <span class="col p-0 material-symbols-outlined">grade</span>
-                <span class="col p-0 material-symbols-outlined">grade</span>
-                <span class="col p-0 material-symbols-outlined">grade</span>
-              </div>
-            </div>
-          </div>
-          <div class="container g-0 mb-5">
-            <textarea placeholder="Schreibe etwas zur dir, zu der Fahrt..." class="FormInputLight w-100" rows="10"></textarea>
-          </div>
-          <div class="FormInputLight mb-5">
-            <div class="row p-3">
-              <div class="col-3" style="display: flex; justify-content: center; align-self: center">
-                <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:75px; height: 75px">
-              </div>
-              <div class="col-9">
-                <div class="container">
-                  <div class="row">
-                    <div class="col FormInputLight m-2">
-                      <p class="p-2 m-0">Transporter</p>
+            
+            <div class="row p-3 mb-3 mt-3">
+                <div class="col-md-3 container">
+                    <div *ngIf="userData.picture; else placeholder" class="d-flex align-items-center">
+                        <img class="profilepicture" [src]="userData.picture" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center">
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col FormInputLight m-2">
-                      <p class="p-2 m-0">Transporter mit x Volumen</p>
-                    </div>
-                  </div>
+                    <ng-template #placeholder class="d-flex align-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="var(--primary)" class="bi bi-person-circle" viewBox="0 0 16 16" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                        </svg>
+                    </ng-template>
+                
                 </div>
-              </div>
+                <div class="col-md-6 center">
+                    <div class="row">
+                        <p class="FontPrimary fs-3 fw-semibold g-0"> {{userData.firstName}} {{userData.lastName}} </p>
+                    </div>
+                    <div class="row">
+                        <div class="rating">
+                            <span *ngFor="let star of stars" class="star" [class.highlight]="star <= this.rating">
+                                &#9733;
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
             </div>
-          </div>
+        
+            <div class="container g-0 mb-5">
+                <textarea name="description" placeholder="Schreibe etwas zur dir, zu der Fahrt..." class="FormInputLight w-100" rows="10" ngModel></textarea>
+            </div>
+          
           <div class="row mb-3">
-            <div class="col" style="display: flex; justify-content: center; align-items: center">
-              <div class="row g-0 w-75">
-                <div class="col">
-                  <button style="background-color: transparent; color: var(--primary)">
-                    <span class="material-symbols-outlined" style="font-size: xxx-large">smoke_free</span>
-                  </button>
-                </div>
-                <div class="col">
-                  <button style="background-color: transparent; color: var(--primary)">
-                    <span class="material-symbols-outlined" style="font-size: xxx-large">pets</span>
-                  </button>
-                </div>
-              </div>
-            </div>
             <div class="col">
-              <div id="CalculatedPrice" class="container borderPrimary p-3 h-100">
-                <div class="row">
-                  <div class="col" style="display: flex; align-items: center; justify-content: end">
-                    <h2 class="fs-1">50</h2>
-                  </div>
-                  <div class="col" style="display: flex; align-items: center">
-                    <span class="material-symbols-outlined" style="font-size: xxx-large">toll</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <button id="ConfirmOffer" class="buttonPrimary fs-4 position-absolute top-100 start-50 translate-middle">Angebot bestätigen</button>
-        </div>
-      </div>
-      <div id="VehicleSelection" class="col-3 container borderPrimary g-0">
-        <div id="VehicleSelectionHeader" class="col container-fluid">
-          <div class="row-cols-1">
-            <div class="col">
-              <h3>Welches Fahrzeug</h3>
-            </div>
-          </div>
-          <div class="row-cols-1">
-            <div class="col">
-              <h3>wirst du benutzen?</h3>
-            </div>
-          </div>
-        </div>
-        <div id="VehicleSelectionBody" class="col container g-0 p-3">
-          <button style="background-color: transparent">
-            <div class="FormInputLight">
-              <div class="row p-3">
-                <div class="col-3" style="display: flex; justify-content: center; align-self: center">
-                  <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:50px; height: 50px">
-                </div>
-                <div class="col-9">
-                  <div class="container">
-                    <div class="row">
-                      <div class="col FormInputLight m-2">
-                        <p class="p-2 m-0">Transporter</p>
-                      </div>
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="mx-4" *ngIf="!this.smoke">
+                        <button style="background-color: transparent; color: var(--primary)" (click)="updateSmoke()">
+                            <img width="50" heigth="50" src="../../../assets/icons/smoke-free-svgrepo-com.svg">
+                        </button>
                     </div>
-                    <div class="row">
-                      <div class="col FormInputLight m-2">
-                        <p class="p-2 m-0">Transporter mit x Volumen</p>
-                      </div>
+                    <div class="mx-4" *ngIf="this.smoke">
+                        <button style="background-color: transparent; color: var(--primary)" (click)="updateSmoke()">
+                            <img width="50" heigth="50" src="../../../assets/icons/smoke-svgrepo-com.svg">
+                        </button>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </button>
-          <button style="background-color: transparent">
-            <div class="FormInputLight">
-              <div class="row p-3">
-                <div class="col-3" style="display: flex; justify-content: center; align-self: center">
-                  <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:50px; height: 50px">
-                </div>
-                <div class="col-9">
-                  <div class="container">
-                    <div class="row">
-                      <div class="col FormInputLight m-2">
-                        <p class="p-2 m-0">Transporter</p>
-                      </div>
+                    <div class="mx-4" *ngIf="this.pet">
+                        <button style="background-color: transparent; color: var(--primary)" (click)="updatePet()">
+                            <img width="50" heigth="50" src="../../../assets/icons/walking-dog-sign-svgrepo-com.svg">
+                        </button>
                     </div>
-                    <div class="row">
-                      <div class="col FormInputLight m-2">
-                        <p class="p-2 m-0">Transporter mit x Volumen</p>
-                      </div>
+                    <div class="mx-4" *ngIf="!this.pet">
+                        <button style="background-color: transparent; color: var(--primary)" (click)="updatePet()">
+                            <img width="50" heigth="50" src="../../../assets/icons/no-pets-svgrepo-com.svg">
+                        </button>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </button>
-          <button style="background-color: transparent">
-            <div class="FormInputLight">
-              <div class="row p-3">
-                <div class="col-3" style="display: flex; justify-content: center; align-self: center">
-                  <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:50px; height: 50px">
-                </div>
-                <div class="col-9">
-                  <div class="container">
-                    <div class="row">
-                      <div class="col FormInputLight m-2">
-                        <p class="p-2 m-0">Transporter</p>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col FormInputLight m-2">
-                        <p class="p-2 m-0">Transporter mit x Volumen</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </button>
-          <button style="background-color: transparent">
-            <div class="FormInputLight">
-              <div class="row p-3">
-                <div class="col-3" style="display: flex; justify-content: center; align-self: center">
-                  <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:50px; height: 50px">
-                </div>
-                <div class="col-9">
-                  <div class="container">
-                    <div class="row">
-                      <div class="col FormInputLight m-2">
-                        <p class="p-2 m-0">Transporter</p>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col FormInputLight m-2">
-                        <p class="p-2 m-0">Transporter mit x Volumen</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
--->
 
+                </div>
+            </div>
+            
+          </div>
+          <button type="submit" id="ConfirmWanted" class="buttonPrimary fs-4 position-absolute top-100 start-50 translate-middle">Gesuch bestätigen</button>
+          </form>
+        </div>
+    </div>
+</div>
+
+<!--
 <form #wantedForm="ngForm" (ngSubmit)="onSubmit(wantedForm)">
     <div>
         <input name="startLocation" type="text" placeholder="Von..." ngModel>
@@ -303,7 +205,7 @@
         <button style="background-color: transparent; color: var(--primary)" (click)="updateSmoke()">
             <span class="material-symbols-outlined" style="font-size: xxx-large">smoking_rooms</span>
         </button>
-        </div>
+    </div>
     
     <div *ngIf="this.pet">
     <button style="background-color: transparent; color: var(--primary)" (click)="updatePet()">
@@ -315,10 +217,10 @@
         <button style="background-color: transparent; color: var(--primary)" (click)="updatePet()">
             <span class="material-symbols-outlined" style="font-size: xxx-large">pets</span>
         </button>
-        </div>
+    </div>
     
        
     <button type="submit" id="confirmWanted" class="btn">Angebot bestätigen</button>
 </form>
-  
+-->
 
