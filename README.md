@@ -29,20 +29,44 @@
 
 Welcome to MyCargonaut, your go-to platform for facilitating ride and delivery services! Our web application is designed to seamlessly connect individuals with transportation needs to those who have available space and are willing to help.
 
+
+
+
+
+
+
+
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![My Cargonaut Screen Shot][product-screenshot]](https://github.com/wrth1337/MyCargonaut)
 
-"My Cargonaut" is an innovative student project developed within the scope of the "Konzepte moderner Softwareentwicklung" module at the "Technische Hochschule Mittelhessen" under the guidance of Lukas Maximilian Kimpel. This web application serves as a classic car-sharing platform, empowering users to seamlessly find and offer rides.
+"My Cargonaut" is a student project developed within the scope of the "Konzepte moderner Softwareentwicklung" module at the "Technische Hochschule Mittelhessen" under the guidance of Lukas Maximilian Kimpel. This web application serves as a classic car-sharing platform, empowering users to seamlessly find and offer rides.
 
 Key-Features:
 * Users can effortlessly search for available rides or offer their own, promoting a collaborative and sustainable approach to transportation.
 * Enhancing user experience, "My Cargonaut" allows individuals to provide ratings for rides, fostering a sense of community trust. Additionally, the platform facilitates secure payment transactions for added convenience.
 * Each user enjoys the benefits of a personalized profile, enabling them to manage their ride history, preferences, and other relevant details, contributing to a tailored and user-centric experience.
 
+My Cargonaut" not only serves as a practical car-sharing solution but also stands as a living project for the exploration of modern software development concepts.
+The project places a strong emphasis on collaborative development using SCRUM, providing students with hands-on experience in agile methodologies and effective teamwork.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Installation
+### Built With
+* [![Angular][Angular.io]][Angular-url]
+* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+
+
+
+
+
+
+## Getting Started
 - Clone Repository
 - Go to frontend/mycargonaut and run npm i
 - Go to backend and run npm i
@@ -63,6 +87,39 @@ Key-Features:
 ### Start Database
 - docker compose build
 - docker compose up
+
+
+
+
+
+
+
+
+
+
+
+
+## Roadmap
+
+- [x] 15.01.2024: First showcase of the current state of development
+- [x] 03/2024: Finish the project and hand in for inspection
+
+See the [open issues](https://github.com/wrth1337/MyCargonaut/issues) for a full list of proposed features (and known issues).
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+
+
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
 
 
 ## Contributors
@@ -88,7 +145,7 @@ All members of "Group 2" were involved in the project.
 [issues-url]: https://github.com/wrth1337/MyCargonaut/issues
 [license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
 [license-url]: https://github.com/wrth1337/MyCargonaut/blob/develop/LICENSE
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: documentation/images/Webapp-Example.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
