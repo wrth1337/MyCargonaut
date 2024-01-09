@@ -99,44 +99,6 @@ async function getAdById(id) {
     }
 }
 
-async function getOfferById(id) {
-    const query = 'SELECT * FROM offer WHERE adId = ?';
-
-    try {
-        const conn = await pool.getConnection();
-        const result = await conn.query(query, id);
-        await conn.release();
-
-        if (result.length > 0) {
-            return {success: true, data: result[0]};
-        } else {
-            return {success: false};
-        }
-    } catch (error) {
-        console.error('Fehler bei der Abfrage:', error);
-        throw error;
-    }
-}
-
-async function getWantedById(id) {
-    const query = 'SELECT * FROM wanted WHERE adId = ?';
-
-    try {
-        const conn = await pool.getConnection();
-        const result = await conn.query(query, id);
-        await conn.release();
-
-        if (result.length > 0) {
-            return {success: true, data: result[0]};
-        } else {
-            return {success: false};
-        }
-    } catch (error) {
-        console.error('Fehler bei der Abfrage:', error);
-        throw error;
-    }
-}
-
 // ---Routes--- //
 /**
  * @swagger
@@ -193,54 +155,6 @@ async function getWantedById(id) {
  *              204:
  *                  description: query was successful but contains no content.
  *                  content: {}
- * offer/:id:
- *      get:
- *          summary: get one offer.
- *          description: gets the offer with the specified adId.
- *          tags:
- *              - ad
- *
- *          responses:
- *              200:
- *                  description: offer data successfully fetched.
- *                  content:
- *                      application/json:
- *                          schema:
- *                              type: object
- *                              properties:
- *                                  status:
- *                                      type: integer
- *                                      description: The status-code.
- *                                  data:
- *                                      type: #/components/schemas/offer
- *                                      description: The requested offer.
- *              204:
- *                  description: query was successful but contains no content.
- *                  content: {}
- * wanted/:id:
- *      get:
- *          summary: get one wanted.
- *          description: gets the wanted with the specified adId.
- *          tags:
- *              - ad
- *
- *          responses:
- *              200:
- *                  description: wanted data successfully fetched.
- *                  content:
- *                      application/json:
- *                          schema:
- *                              type: object
- *                              properties:
- *                                  status:
- *                                      type: integer
- *                                      description: The status-code.
- *                                  data:
- *                                      type: #/components/schemas/wanted
- *                                      description: The requested wanted.
- *              204:
- *                  description: query was successful but contains no content.
- *                  content: {}
  * components:
  *      schemas:
  *          intermediateGoal:
@@ -252,30 +166,6 @@ async function getWantedById(id) {
  *                  adId:
  *                      type: integer
  *                      description: Id of the ad the intermediate Goal is a part of
- *          offer:
- *              type: object
- *              properties:
- *                  vehicleId:
- *                      type: number
- *                      description: Id of the connected vehicle
- *                  adId:
- *                      type: number
- *                      description: Id of the connected ad
- *                  pricePerPerson:
- *                      type: number
- *                      description: Price per person of this offer
- *                  pricePerFreight:
- *                      type: number
- *                      description: Price per freight of this offer
- *          wanted:
- *              type: object
- *              properties:
- *                  adId:
- *                      type: number
- *                      description: Id of the connected ad
- *                  freight:
- *                      type: string
- *                      description: Description of the freight
  *          ad:
  *              type: object
  *              properties:
@@ -358,36 +248,4 @@ router.get('/:id', async function(req, res, next) {
     }
 });
 
-router.get('/offer/:id', async function(req, res, next) {
-    try {
-        const offer = await getOfferById(req.params.id);
-
-        if (offer.success) {
-            res.status(200);
-            res.json({status: 1, data: offer.data});
-        } else {
-            res.status(204).json(null);
-        }
-    } catch (error) {
-        res.status(500);
-        res.json({status: 99, error: 'Fetching offer Data failed'});
-    }
-});
-
-router.get('/wanted/:id', async function(req, res, next) {
-    try {
-        const wanted = await getWantedById(req.params.id);
-
-        if (wanted.success) {
-            res.status(200);
-            res.json({status: 1, data: wanted.data});
-        } else {
-            res.status(204).json(null);
-        }
-    } catch (error) {
-        res.status(500);
-        res.json({status: 99, error: 'Fetching wanted Data failed'});
-    }
-});
-
-module.exports = {router, getLastAds, getAdById, getOfferById, getWantedById};
+module.exports = {router, getLastAds, getAdById};
