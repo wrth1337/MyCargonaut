@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/service/auth.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  coins: String = "";
+  coins: number = -1;
   isLogin = false;
   constructor(
     private api: ApiService,
@@ -18,7 +18,8 @@ export class NavbarComponent {
     this.isUserLogin();
     if (this.isLogin) {
       this.api.getRequest("coins").subscribe((res: any) => {
-        this.coins = JSON.stringify(res.coins);
+        this.coins = parseInt(res.coins.coins);
+
       });
     }
   }
