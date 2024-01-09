@@ -2,11 +2,110 @@
     background-color: var(--secondary);
     color: white;
     border-radius: 100%;
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
+    z-index: 999;
+    left: 90%;
+    bottom: 20%;
+    position: relative;
 }
 .trackingBtn{
     background-color: var(--secondary);
     color: white;
     width: fit-content;
+    border-radius: 5px;
+    height: 48px;
+}
+.card-header{
+    border-color: var(--secondary);
+    background-color: white;
+    text-align: center;
+}
+.card{
+    border-color: var(--secondary);
+}
+.profile{
+    border-width: 1px;
+    border-style: double;
+    border-radius: 5px;
+    border-color: var(--secondary);
+}
+.centre{
+    text-align: center;
+}
+.description{
+    border-width: 1px;
+    border-style: double;
+    border-radius: 5px;
+    border-color: rgba(29,143,131, 0.4);
+    padding: 0.5rem;
+    max-height: 180px;
+    overflow: scroll;
+}
+.star{
+    color: yellow;
+}
+.custom-progress {
+    background-color: var(--secondary);
+}
+
+.progress {
+    background-color: #e1e9be;
+    border-radius: 0;
+}
+.flagCard{
+    border-color: rgba(29,143,131, 0.4);
+    padding: 0;
+}
+.flagCardHeader{
+    border-color: rgba(29,143,131, 0.4);
+    text-align: left;
+    padding:0;
+}
+.adCard{
+    background-color: rgba(29,143,131, 0.4);
+    border:none;
+    height: 100%;
+}
+.adCardTitle{
+    background-color: white;
+    border-radius: 5px;
+    min-height: 5rem;
+}
+.adCardText{
+    background-color: white;
+    border-radius: 5px;
+    min-height:8rem;
+}
+.adCardBody{
+    height: 0;
+}
+.adCardImg{
+    border-radius: 5px;
+}
+.col{
+    height: 100%;
+}
+.chatCardHeader{
+    border-color: var(--secondary);
+    background-color: white;
+    text-align: center;
+}
+.chatCard{
+    border-color: var(--secondary);
+    height: 100%;
+    border-radius: 1px;
+}
+.returnBtn{
+    text-align: left;
+}
+.infront{
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 10;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
 }
