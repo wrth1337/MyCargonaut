@@ -44,15 +44,32 @@ async function getUser(id) {
 
 async function editProfile(firstName, lastName, birthdate, picture, description, experience, id, german, english) {
   const edit ='UPDATE user SET firstName = ?, lastName = ?, birthdate = ?, picture = ?, description = ?, experience = ? WHERE userId = ?';
-  const editLang = 'UPDATE userLanguage SET languageId = ? WHERE userId = ?';
+  const insertLang = 'INSERT INTO userLanguage(userId, languageId) VALUES (?, ?)';
+  const existLang = 'SELECT * FROM userLanguage WHERE languageId = ? AND userId = ?';
+  const deleteLang = 'DELETE FROM userLanguage WHERE userId = ? AND languageId = ?';
     try {
         const conn = await pool.getConnection();
         const result = await conn.query(edit, [firstName, lastName, birthdate, picture, description, experience, id]);
-        if(german) {
-          const res = await conn.query(editLang, [1, id]);
+        const ger = await conn.query(existLang, [1, id]);
+        const eng = await conn.query(existLang, [2, id]);
+        if(ger.length === 0) {
+          if(german) {
+            const res = await conn.query(insertLang, [id, 1]);
+          }
+        } else {
+          if(!german) {
+            const res = await conn.query(deleteLang, [id, 1]);
+          }
         }
-        if(english) {
-          const res = await conn.query(editLang, [2, id]);
+        if(eng.length === 0) {
+          if(english) {
+            const res = await conn.query(insertLang, [id, 2]);
+          }
+        }
+        else {
+          if(!english) {
+            const res = await conn.query(deleteLang, [id, 2]);
+          }
         }
         await conn.release();
         return 1;
@@ -218,6 +235,7 @@ router.get('/userdata', authenticateToken, async function(req, res, next) {
 router.post('/edit_profile', authenticateToken, async function(req, res, next) {
   try {
     const id = req.user_id;
+    console.log(req.body);
     const {firstName, lastName, birthdate, picture, description, experience, german, english} = req.body;
     const edit = await editProfile(firstName, lastName, birthdate, picture, description, experience, id, german, english);
 

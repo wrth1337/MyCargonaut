@@ -80,6 +80,10 @@ export class EditProfileComponent {
       this.userData.birthdate = this.datePipe.transform(birthdate, 'yyyy-MM-dd');
       form.value.birthdate = this.userData.birthdate;
     }
+    if(!this.editLang) {
+      form.value.german = this.german;
+      form.value.english = this.english
+    }
     form.value.picture = this.userData.picture;
     this.api.postRequest("profile/edit_profile", form.value).subscribe((res: any) => {
       if(res.status === 1) {
@@ -119,18 +123,8 @@ export class EditProfileComponent {
   }
 
   editLanguages() {
-    this.editLang =!this.editLang;
+    this.editLang = !this.editLang;
   }
-
-  checkboxChanged(name: string) {
-    if(name === 'de') {
-      this.german = !this.german;
-    }
-    if(name === 'en') {
-      this.english = !this.english;
-    }
-  }
-
 }
 
 
