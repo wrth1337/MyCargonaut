@@ -18,3 +18,9 @@
   object-fit: cover;
   object-position: 25% 25%;
 }
+
+#PriceInput {
+  background-color: transparent;
+  border: none;
+  resize: none;
+}
