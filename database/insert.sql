@@ -20,10 +20,14 @@ VALUES ('Car1', 4, 500.0, 'car1.jpg', '2x2x2', 'GPS, Bluetooth', 1),
        ('Van1', 6, 800.0, 'van1.jpg', '3x3x2', 'Roof Rack', 3);
 
 -- Testdaten für die Tabelle 'ad'
-INSERT INTO ad (startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, picture, userId)
-VALUES ('City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 'pic.jpg', 1),
-       ('Town X', 'Town Y', '2023-02-05', '2023-02-10', 1, 0, 'Smoking allowed', 2, null, 2),
-       ('Village M', 'Village N', '2023-03-20', '2023-03-25', 0, 0, NULL, 6, 'village.jpg',3);
+
+INSERT INTO ad (description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId)
+VALUES ('Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 1),
+       ('Ja Beschreibung halt so lololol', 'Town X', 'Town Y', '2023-02-05', '2023-02-10', 1, 0, 'Smoking allowed', 2, 2),
+       ('Ja Beschreibung halt so lololol', 'City C', 'City D', '2024-03-24', '2024-03-25', 0, 0, NULL, 6, 1),
+       ('Beschreibung smth', 'Somestandt M', 'Somestadt N', '2098-03-20', '2098-03-25', 0, 0, 'No something allowed', 6, 1),
+        ('Beschreibungstext der etwas länger sein sollte blalala lbla lalshlw ashiw siwl w hil wdwi dhwlid hwid hwlidwh dliw dhw', 'Village M', 'Village N', '2023-03-20', '2023-03-25', 0, 0, NULL, 6, 2),
+      ('Ja Beschreibung halt so lololol', 'Village M', 'Village N', '2023-03-20', '2023-03-25', 0, 0, NULL, 6, 3);
 
 
 INSERT INTO intermediateGoal(location, adId)
@@ -33,11 +37,14 @@ VALUES ('City C', 1),
 -- Testdaten für die Tabelle 'offer'
 INSERT INTO offer (vehicleId, adId, pricePerPerson, pricePerFreight)
 VALUES (1, 1, 50.0, 100.0),
-       (2, 2, 75.0, 150.0);
+       (2, 2, 75.0, 150.0),
+       (4, 4, 50.0, 100.0),
+       (5, 5, 50.0, 100.0);
 
 -- Testdaten für die Tabelle 'wanted'
 INSERT INTO wanted (adId, freight)
-VALUES (3, 'Fragile items');
+VALUES (3, 'Fragile items'),
+       (6, 'Fragile items 2');
 
 -- Testdaten für die Tabelle 'booking'
 INSERT INTO booking (adId, userId, price, numSeats, canceled)

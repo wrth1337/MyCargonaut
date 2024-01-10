@@ -1,0 +1,195 @@
+<div class="card h-100 p-3 m-2">
+    <form #profileForm="ngForm" (ngSubmit)="onSubmit(profileForm)">
+    <div *ngIf="showFlashMessage" class="alert alert-success alert-dismissible fade show flash" role="alert">
+        <div class="center">
+            <div *ngIf="this.success" class="medium center flashmessage">
+                Daten erfolgreich aktualisiert.
+            </div>
+            <div *ngIf="!this.success" class="medium center">
+                Fehler bei Aktualisierung der Daten.
+            </div>
+        </div>
+    </div>
+    <div class="row pb-3">
+        <div class="col-md-1">
+            <div>
+                <button type="button" class=" btn returnButton" routerLink="/profile">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                        <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-2 mb-3">
+            <div class="d-flex align-items-center justify-content-center">
+                
+                <div *ngIf="userData.picture; else placeholder" class="d-flex align-items-center">
+                    <img class="profilepicture" [src]="userData.picture" height="130" width="130">
+                </div>
+                <ng-template #placeholder class="d-flex align-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="130" height="130" fill="var(--primary)" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                    </svg>
+                </ng-template>
+
+                <div class="col-md-1 align-self-end mt-auto d-flex align-items-center">
+                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#pbModal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>        
+        </div>
+
+        <div class="col-md-9 mb-3">
+            <div class="row pb-3">
+                <div class="col-md-8">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div *ngIf="!this.editUser" class="d-flex align-items-center">
+                            <div class="big center username"> {{userData.firstName}} {{userData.lastName}} </div>
+                        </div>
+                        <div *ngIf="this.editUser" class="col-md-4 d-flex align-items-center">
+                            <input id="firstname" class="medium m-1 form-control username-input" type="text" name="firstName" [(ngModel)]="userData.firstName">
+                        </div>
+                        <div *ngIf="this.editUser" class="col-md-4 d-flex align-items-center">
+                            <input id="lastname" class="medium m-1 form-control username-input" type="text" name="lastName" [(ngModel)]="userData.lastName">
+                        </div>
+                        <div>
+                        <button type="button" class="btn" (click)="editUsername()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                            </svg>
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pb-3">
+                <div class="col-md-4">
+                    <div class="center">
+                        <div class="rating">
+                            <span *ngFor="let star of stars" class="star" [class.highlight]="star <= this.rating">
+                                &#9733;
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="center big"> Anzahl Fahrten: {{tripCount}}</div>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div *ngIf="!this.editBirth" class="d-flex align-items-center">
+                            <div class="big center birthdate"> {{userData.birthdate}} </div>
+                        </div> 
+                        <div *ngIf="editBirth" class="d-flex align-items-center">
+                            <input class="center form-control-birthdate medium" type="date" name="birthdate" [(ngModel)]="userData.birthdate">
+                        </div>
+                        <div>
+                        <button type="button" class="btn" (click)="editBirthdate()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                            </svg>
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div> Kurzbeschreibung über mich </div>
+            <div>
+                <textarea class="card mb-3 p-2 ht1 w-100 form-control overflow-auto description" name="description" [(ngModel)]="userData.description"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="row pb-3">
+        <div class="col">
+            <div> Meine Erfahrungen </div>
+            <div>
+                <textarea class="card mb-3 p-2 w-100 ht2 form-control overflow-auto experience" name="experience" [(ngModel)]="userData.experience"></textarea>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-title custom-border"> 
+                    <div class="d-flex align-items-center justify-content-center">
+                        Sprachen:
+                        <div>
+                        <button type="button" class="btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                            </svg>
+                        </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body overflow-auto"></div>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-4 mb-3">
+            <div> Erfahrung </div>
+            <div class="col-md-10">
+                <div class="progress">
+                    <div class="progress-bar custom-progress" role="progressbar" [style.width]="(tripCount / 10) * 100 + '%'" aria-valuemin="0" aria-valuemax="10"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col md-4 center">
+            <div>
+                <button id="submitButton" type="submit" class="submitButton" value="Speichern" data-toggle="toast" data-target="#saveToast"> Speichern </button>
+            </div>
+        </div>
+    
+    </div>
+    </form>
+</div>
+
+
+
+<div class="modal fade" id="pbModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-m">
+      <div class="modal-content">
+        <div class="modal-body p-4">
+          <div class="center">
+
+            <div>
+                <button type="button" class="btn uploadButton p-2 m-3" aria-label="Upload" value="Upload"> 
+                    
+                    <div class="row p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="var(--primary)" class="bi bi-image" viewBox="0 0 16 16">
+                        <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                        <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12"/>
+                    </svg>
+                    </div>
+                    <div class="row p-2 upload">
+                        <div class="col center"> Bild hochladen </div>
+                    </div>
+                </button>
+            </div>
+            <div>
+              <button type="button" class="btn backButton p-2 m-3" data-bs-dismiss="modal" aria-label="Back" value="Abbrechen">Abbrechen</button>
+            </div>
+          </div>
+      </div>
+    </div>
+</div>
+
+
+
+      
+    

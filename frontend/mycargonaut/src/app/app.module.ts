@@ -9,7 +9,9 @@ import { AppComponent } from './app.component';
 import {AuthModule} from "./auth/auth.module";
 import { InterceptorService } from './service/interceptor.service';
 import { HomeComponent } from './main/home/home.component';
+import {NavbarComponent} from "./navbar/navbar.component";
 import { ProfileComponent } from './main/profile/profile.component';
+import { EditProfileComponent } from './main/edit-profile/edit-profile.component';
 import { RatingComponent } from './rating/rating.component';
 
 
@@ -18,6 +20,8 @@ import { RatingComponent } from './rating/rating.component';
     AppComponent,
     HomeComponent,
     ProfileComponent,
+    NavbarComponent,
+    EditProfileComponent,
     RatingComponent,
   ],
   imports: [
@@ -26,7 +30,10 @@ import { RatingComponent } from './rating/rating.component';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+  ],
+  exports:[
+    NavbarComponent
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true}],
   bootstrap: [AppComponent]

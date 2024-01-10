@@ -1,33 +1,4 @@
-<div id="Navbar" class="container-fluid p-2">
-  <div class="row p-3">
-    <div class="col">
-      <img src="./frontend/myCargonaut/src/img/Logo/SVG/semi_androidMyCargonaut.svg" alt="Unser Logo: MyCargonaut" height="116">
-    </div>
-    <div class="col-6 d-flex justify-content-center align-self-center">
-      <h1 id="Motto">My Cargonaut</h1>
-    </div>
-    <div class="col align-self-center">
-      <div class="container">
-        <div class="row">
-          <div class="col d-flex justify-content-end">
-            <button>
-              <span class="material-symbols-outlined navbarIcon">settings</span>
-            </button>
-          </div>
-          <div class="col">
-            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#loginModal">
-                <span class="material-symbols-outlined navbarIcon">
-                account_circle
-                </span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
+<app-navbar></app-navbar>
 <app-login></app-login>
 <app-register></app-register>
-
 <router-outlet></router-outlet>
