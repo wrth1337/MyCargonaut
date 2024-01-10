@@ -41,7 +41,7 @@ async function isRatingAlreadyDone(bookingId, userId){
         const conn = await pool.getConnection();
         const result = await conn.query(checkRatingExists, [bookingId, userId]);
         await conn.release();
-        return (result[0].count > 0);
+        return (result[0].count = 0);
     } catch (error) {
         console.error(error);
         throw error;

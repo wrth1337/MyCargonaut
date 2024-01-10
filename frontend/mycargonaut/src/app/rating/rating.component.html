@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <title></title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="rating.component.css">
-</head>
-<body>
-<div class="container">
+<link rel="stylesheet" href="rating.component.css">
+<div id="SearchFormSection" class="container">
+  <form #searchform="ngForm" (ngSubmit)="onSubmit(searchform)">
   <div class="row">
     <div class="col">
       Punctuality Rating
@@ -16,11 +9,11 @@
   <div class="row">
     <div class="col">
       <div class="starrating">
-        <input type="radio" id="punctualityStar5" name="punctualityRating" value="5"><label for="punctualityStar5" title="5 Sterne">5 Sterne</label>
-        <input type="radio" id="punctualityStar4" name="punctualityRating" value="4"><label for="punctualityStar4" title="4 Sterne">4 Sterne</label>
-        <input type="radio" id="punctualityStar3" name="punctualityRating" value="3"><label for="punctualityStar3" title="3 Sterne">3 Sterne</label>
-        <input type="radio" id="punctualityStar2" name="punctualityRating" value="2"><label for="punctualityStar2" title="2 Sterne">2 Sterne</label>
-        <input type="radio" id="punctualityStar1" name="punctualityRating" value="1"><label for="punctualityStar1" title="1 Stern">1 Stern</label>
+        <input class="form-control SearchFormInput" type="radio" id="punctualityStar5" name="punctualityRating" value="5" ngModel><label for="punctualityStar5" title="5 Sterne">5 Sterne</label>
+        <input class="form-control SearchFormInput" type="radio" id="punctualityStar4" name="punctualityRating" value="4" ngModel><label for="punctualityStar4" title="4 Sterne">4 Sterne</label>
+        <input class="form-control SearchFormInput" type="radio" id="punctualityStar3" name="punctualityRating" value="3" ngModel><label for="punctualityStar3" title="3 Sterne">3 Sterne</label>
+        <input class="form-control SearchFormInput" type="radio" id="punctualityStar2" name="punctualityRating" value="2" ngModel><label for="punctualityStar2" title="2 Sterne">2 Sterne</label>
+        <input class="form-control SearchFormInput" type="radio" id="punctualityStar1" name="punctualityRating" value="1" ngModel><label for="punctualityStar1" title="1 Stern">1 Stern</label>
       </div>
       <div class="clearfix"></div>
     </div>
@@ -32,12 +25,12 @@
   </div>
   <div class="row">
     <div class="col">
-      <div class="starrating">
-        <input type="radio" id="agreementStar5" name="agreementRating" value="5"><label for="agreementStar5" title="5 Sterne">5 Sterne</label>
-        <input type="radio" id="agreementStar4" name="agreementRating" value="4"><label for="agreementStar4" title="4 Sterne">4 Sterne</label>
-        <input type="radio" id="agreementStar3" name="agreementRating" value="3"><label for="agreementStar3" title="3 Sterne">3 Sterne</label>
-        <input type="radio" id="agreementStar2" name="agreementRating" value="2"><label for="agreementStar2" title="2 Sterne">2 Sterne</label>
-        <input type="radio" id="agreementStar1" name="agreementRating" value="1"><label for="agreementStar1" title="1 Stern">1 Stern</label>
+      <div class="form-control SearchFormInput starrating">
+        <input class="form-control SearchFormInput" type="radio" id="agreementStar5" name="agreementRating" value="5" ngModel><label for="agreementStar5" title="5 Sterne">5 Sterne</label>
+        <input class="form-control SearchFormInput" type="radio" id="agreementStar4" name="agreementRating" value="4" ngModel><label for="agreementStar4" title="4 Sterne">4 Sterne</label>
+        <input class="form-control SearchFormInput" type="radio" id="agreementStar3" name="agreementRating" value="3" ngModel><label for="agreementStar3" title="3 Sterne">3 Sterne</label>
+        <input class="form-control SearchFormInput" type="radio" id="agreementStar2" name="agreementRating" value="2" ngModel><label for="agreementStar2" title="2 Sterne">2 Sterne</label>
+        <input class="form-control SearchFormInput" type="radio" id="agreementStar1" name="agreementRating" value="1" ngModel><label for="agreementStar1" title="1 Stern">1 Stern</label>
       </div>
       <div class="clearfix"></div>
     </div>
@@ -49,12 +42,12 @@
   </div>
   <div class="row">
     <div class="col">
-      <div class="starrating">
-        <input type="radio" id="pleasentStar5" name="pleasentRating" value="5"><label for="pleasentStar5" title="5 Sterne">5 Sterne</label>
-        <input type="radio" id="pleasentStar4" name="pleasentRating" value="4"><label for="pleasentStar4" title="4 Sterne">4 Sterne</label>
-        <input type="radio" id="pleasentStar3" name="pleasentRating" value="3"><label for="pleasentStar3" title="3 Sterne">3 Sterne</label>
-        <input type="radio" id="pleasentStar2" name="pleasentRating" value="2"><label for="pleasentStar2" title="2 Sterne">2 Sterne</label>
-        <input type="radio" id="pleasentStar1" name="pleasentRating" value="1"><label for="pleasentStar1" title="1 Stern">1 Stern</label>
+      <div class="form-control SearchFormInput starrating">
+        <input class="form-control SearchFormInput" type="radio" id="pleasentStar5" name="pleasentRating" value="5" ngModel><label for="pleasentStar5" title="5 Sterne">5 Sterne</label>
+        <input class="form-control SearchFormInput" type="radio" id="pleasentStar4" name="pleasentRating" value="4" ngModel><label for="pleasentStar4" title="4 Sterne">4 Sterne</label>
+        <input class="form-control SearchFormInput" type="radio" id="pleasentStar3" name="pleasentRating" value="3" ngModel><label for="pleasentStar3" title="3 Sterne">3 Sterne</label>
+        <input class="form-control SearchFormInput" type="radio" id="pleasentStar2" name="pleasentRating" value="2" ngModel><label for="pleasentStar2" title="2 Sterne">2 Sterne</label>
+        <input class="form-control SearchFormInput" type="radio" id="pleasentStar1" name="pleasentRating" value="1" ngModel><label for="pleasentStar1" title="1 Stern">1 Stern</label>
       </div>
       <div class="clearfix"></div>
     </div>
@@ -66,12 +59,12 @@
   </div>
   <div class="row">
     <div class="col">
-      <div class="starrating">
-        <input type="radio" id="freightStar5" name="freightRating" value="5"><label for="freightStar5" title="5 Sterne">5 Sterne</label>
-        <input type="radio" id="freightStar4" name="freightRating" value="4"><label for="freightStar4" title="4 Sterne">4 Sterne</label>
-        <input type="radio" id="freightStar3" name="freightRating" value="3"><label for="freightStar3" title="3 Sterne">3 Sterne</label>
-        <input type="radio" id="freightStar2" name="freightRating" value="2"><label for="freightStar2" title="2 Sterne">2 Sterne</label>
-        <input type="radio" id="freightStar1" name="freightRating" value="1"><label for="freightStar1" title="1 Stern">1 Stern</label>
+      <div class="form-control SearchFormInput starrating">
+        <input class="form-control SearchFormInput" type="radio" id="freightStar5" name="freightRating" value="5" ngModel><label for="freightStar5" title="5 Sterne">5 Sterne</label>
+        <input class="form-control SearchFormInput" type="radio" id="freightStar4" name="freightRating" value="4" ngModel><label for="freightStar4" title="4 Sterne">4 Sterne</label>
+        <input class="form-control SearchFormInput" type="radio" id="freightStar3" name="freightRating" value="3" ngModel><label for="freightStar3" title="3 Sterne">3 Sterne</label>
+        <input class="form-control SearchFormInput" type="radio" id="freightStar2" name="freightRating" value="2" ngModel><label for="freightStar2" title="2 Sterne">2 Sterne</label>
+        <input class="form-control SearchFormInput" type="radio" id="freightStar1" name="freightRating" value="1" ngModel><label for="freightStar1" title="1 Stern">1 Stern</label>
       </div>
       <div class="clearfix"></div>
     </div>
@@ -83,14 +76,13 @@
   </div>
   <div class="row">
     <div class="col">
-      <textarea id="comment" ></textarea>
+      <textarea class="form-control SearchFormInput" id="comment" ></textarea>
     </div>
   </div>
   <div class="row">
     <div class="col">
-      <button type="button" id="submitRating" name="submitRating" >Bewertung abschicken</button>
+      <button class="SearchFormButton px-3 py-2" type="submit" id="submitButton" name="submitRating" [disabled]="!searchform.valid">Bewertung abschicken</button>
     </div>
   </div>
+  </form>
 </div>
-</body>
-</html>
