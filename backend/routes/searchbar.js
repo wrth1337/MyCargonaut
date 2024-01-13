@@ -86,9 +86,9 @@ async function getFilteredAds(type, startLocation, endLocation, startDate, freig
                 wanted w ON w.adId = a.adId
                     JOIN
                 user u ON a.userId = u.userId
-                    JOIN
+                    LEFT JOIN
                 rating r ON r.userWhoWasEvaluated = u.userId
-                    JOIN
+                    LEFT JOIN
                 intermediateGoal i ON i.adId = a.adId
             WHERE
                 ${whereClause}

@@ -78,6 +78,26 @@ async function getAdById(adId) {
     }
 }
 
+async function getTypeById(adId) {
+    const offer = 'SELECT o.offerId FROM ad JOIN offer o ON ad.adId = o.adId WHERE ad.adId = ?';
+    let res;
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(offer, [adId]);
+        await conn.release();
+        if (result.length > 0) {
+            res = 'offer';
+            return {success: true, data: res};
+        } else {
+            res = 'wanted';
+            return {success: true, data: res};
+        }
+    } catch (error) {
+        console.error('Fehler bei der Abfrage:', error);
+        throw error;
+    }
+}
+
 
 // ---Routes--- //
 /**
@@ -205,4 +225,19 @@ router.get('/byId', async function(req, res, next) {
     }
 });
 
-module.exports = {router, getLastAds, getAdById};
+router.get('/type', async function(req, res, next) {
+    try {
+        const type = await getTypeById(req.query.adId);
+        if (type.success) {
+            res.status(200);
+            res.json({status: 1, data: type.data});
+        } else {
+            res.status(204).json(null);
+        }
+    } catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Type not found'});
+    }
+});
+
+module.exports = {router, getLastAds, getAdById, getTypeById};
