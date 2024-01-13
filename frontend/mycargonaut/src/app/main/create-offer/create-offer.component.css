@@ -22,5 +22,6 @@
 #PriceInput {
   background-color: transparent;
   border: none;
-  resize: none;
+  color: var(--primary);
+  -moz-appearance: textfield;
 }

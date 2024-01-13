@@ -71,106 +71,128 @@
     <!--Middle part of page-->
     <div class="col-6 px-5">
       <div id="OfferCard" class="container p-5 position-relative">
-        <!--From - To; Passengers and Cargo; Date-->
-        <form id="OfferInputForm" class="FormInputLight p-3 mb-3">
-          <div class="row p-3">
-            <div class="col g-0 pe-2">
-              <input class="FormInputColor w-100" type="text" placeholder="Von...">
+        <form  #offerForm="ngForm"  (ngSubmit)="onSubmit(offerForm)">
+          <!--From - To; Passengers and Cargo; Date-->
+          <div class="FormInputLight p-3 mb-3">
+            <div class="row p-3">
+              <div class="col g-0 pe-2">
+                <input class="FormInputColor w-100" type="text" name="startLocation" placeholder="Von..." ngModel>
+              </div>
+              <div class="col g-0 ps-2">
+                <input class="FormInputColor w-100" type="text" name="endLocation" placeholder="Nach..." ngModel>
+              </div>
             </div>
-            <div class="col g-0 ps-2">
-              <input class="FormInputColor w-100" type="text" placeholder="Nach...">
-            </div>
-          </div>
-          <div class="row p-3">
-            <div class="col g-0 pe-2">
-              <input class="FormInputColor w-100" type="date">
-            </div>
-            <div class="col g-0 px-2">
-              <input class="FormInputColor w-100" type="text" placeholder="Fracht in kg?m^3?">
-            </div>
-            <div class="col g-0 ps-2">
-              <!--
-              <i><span class="material-symbols-outlined">person_add</span></i>
-              -->
-              <input class="FormInputColor w-100" type="number">
-            </div>
-          </div>
-        </form>
-        <!--User-->
-        <div class="row p-3 mb-3">
-          <div class="col-4 container overflow-hidden">
-            <img src="assets/ProfilePicture/CharlieDieMaus.jpg" alt="Profilbild" class="cropped-img pictureCircle" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center">
-          </div>
-          <div class="col-1"></div>
-          <div class="col-7">
-            <div class="row">
-              <p class="FontPrimary fs-3 fw-semibold g-0">Max M.</p>
-            </div>
-            <div class="row w-75" style="color: var(--primary)">
-              <span class="col p-0 material-symbols-outlined">grade</span>
-              <span class="col p-0 material-symbols-outlined">grade</span>
-              <span class="col p-0 material-symbols-outlined">grade</span>
-              <span class="col p-0 material-symbols-outlined">grade</span>
-              <span class="col p-0 material-symbols-outlined">grade</span>
-            </div>
-          </div>
-        </div>
-        <!--Description-->
-        <div class="container g-0 mb-5">
-          <textarea placeholder="Schreibe etwas zur dir, zu der Fahrt..." class="FormInputLight w-100" rows="10"></textarea>
-        </div>
-        <!--Vehicle-->
-        <div class="FormInputLight mb-5">
-          <div class="row p-3">
-            <div class="col-3" style="display: flex; justify-content: center; align-self: center">
-              <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:75px; height: 75px">
-            </div>
-            <div class="col-9">
-              <div class="container">
-                <div class="row">
-                  <div class="col FormInputLight m-2">
-                    <p class="p-2 m-0">Transporter</p>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col FormInputLight m-2">
-                    <p class="p-2 m-0">Transporter mit x Volumen</p>
-                  </div>
-                </div>
+            <div class="row p-3">
+              <div class="col g-0 pe-2">
+                <input class="FormInputColor w-100" type="date" name="startDate"  ngModel>
+              </div>
+              <div class="col g-0 px-2">
+                <input class="FormInputColor w-100" type="text" name="freight" placeholder="Fracht in kg?m^3?" ngModel>
+              </div>
+              <div class="col g-0 ps-2">
+                <!--
+                <i><span class="material-symbols-outlined">person_add</span></i>
+                -->
+                <input class="FormInputColor w-100" type="number" name="numSeats" ngModel>
               </div>
             </div>
           </div>
-        </div>
-        <!--Preferences and price-->
-        <div class="row mb-3">
-          <div class="col" style="display: flex; justify-content: center; align-items: center">
-            <div class="row g-0 w-75">
-              <div class="col">
-                <button style="background-color: transparent; color: var(--primary)">
-                  <span class="material-symbols-outlined" style="font-size: xxx-large">smoke_free</span>
-                </button>
-              </div>
-              <div class="col">
-                <button style="background-color: transparent; color: var(--primary)">
-                  <span class="material-symbols-outlined" style="font-size: xxx-large">pets</span>
-                </button>
-              </div>
+          <!--User-->
+          <div class="row p-3 mb-3">
+            <div class="col-4 container overflow-hidden">
+              <img src="assets/ProfilePicture/CharlieDieMaus.jpg" alt="Profilbild" class="cropped-img pictureCircle" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center">
             </div>
-          </div>
-          <div class="col">
-            <div id="CalculatedPrice" class="container borderPrimary p-3 h-100">
+            <div class="col-1"></div>
+            <div class="col-7">
               <div class="row">
-                <div class="col" style="display: flex; align-items: center; justify-content: end">
-                  <textarea  id="PriceInput" placeholder="50" class="fs-2 w-75" rows="1"></textarea>
-                </div>
-                <div class="col" style="display: flex; align-items: center">
-                  <span class="material-symbols-outlined" style="font-size: xxx-large">toll</span>
+                <p class="FontPrimary fs-3 fw-semibold g-0">Max M.</p>
+              </div>
+              <div class="row w-75" style="color: var(--primary)">
+                <span class="col p-0 material-symbols-outlined">grade</span>
+                <span class="col p-0 material-symbols-outlined">grade</span>
+                <span class="col p-0 material-symbols-outlined">grade</span>
+                <span class="col p-0 material-symbols-outlined">grade</span>
+                <span class="col p-0 material-symbols-outlined">grade</span>
+              </div>
+            </div>
+          </div>
+          <!--Description-->
+          <div class="container g-0 mb-5">
+            <textarea name="OfferDescription" placeholder="Schreibe etwas zur dir, zu der Fahrt..." class="FormInputLight w-100" rows="10" ngModel></textarea>
+          </div>
+          <!--Vehicle-->
+          <div class="FormInputLight mb-5">
+            <div class="row p-3">
+              <div class="col-3" style="display: flex; justify-content: center; align-self: center">
+                <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:75px; height: 75px">
+              </div>
+              <div class="col-9">
+                <div class="container">
+                  <div class="row">
+                    <div class="col FormInputLight m-2">
+                      <p class="p-2 m-0">Transporter</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col FormInputLight m-2">
+                      <p class="p-2 m-0">Transporter mit x Volumen</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <!--Preferences and price-->
+          <div class="row mb-5">
+            <div class="col">
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="mx-4" *ngIf="!this.smoke">
+                  <button style="background-color: transparent; color: var(--primary)" (click)="updateSmoke()">
+                    <img width="50" heigth="50" src="../../../assets/icons/smoke-free-svgrepo-com.svg">
+                  </button>
+                </div>
+                <div class="mx-4" *ngIf="this.smoke">
+                  <button style="background-color: transparent; color: var(--primary)" (click)="updateSmoke()">
+                    <img width="50" heigth="50" src="../../../assets/icons/smoke-svgrepo-com.svg">
+                  </button>
+                </div>
+                <div class="mx-4" *ngIf="this.pet">
+                  <button style="background-color: transparent; color: var(--primary)" (click)="updatePet()">
+                    <img width="50" heigth="50" src="../../../assets/icons/walking-dog-sign-svgrepo-com.svg">
+                  </button>
+                </div>
+                <div class="mx-4" *ngIf="!this.pet">
+                  <button style="background-color: transparent; color: var(--primary)" (click)="updatePet()">
+                    <img width="50" heigth="50" src="../../../assets/icons/no-pets-svgrepo-com.svg">
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div id="CalculatedPrice" class="container borderPrimary p-3 h-100">
+                <div class="row">
+                  <div class="col" style="display: flex; align-items: center; justify-content: end">
+                    <input id="PriceInput" name="pricePerPerson" type="number" placeholder="50" class="fs-2 w-75" ngModel>
+                  </div>
+                  <div class="col" style="display: flex; align-items: center">
+                    <span class="material-symbols-outlined" style="font-size: xxx-large">toll</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button id="ConfirmOffer" type="submit" class="buttonPrimary fs-4 position-absolute top-100 start-50 translate-middle p-3">Angebot bestätigen</button>
+        </form>
+        <div *ngIf="showFlashMessage" class="alert alert-success alert-dismissible fade show flash" role="alert">
+          <div class="center">
+            <div *ngIf="this.success" class="medium center flashmessage">
+              Gesuch erfolgreich erstellt.
+            </div>
+            <div *ngIf="!this.success" class="medium center">
+              Fehler bei Erstellung.
+            </div>
+          </div>
         </div>
-        <button id="ConfirmOffer" type="submit" class="buttonPrimary fs-4 position-absolute top-100 start-50 translate-middle p-3">Angebot bestätigen</button>
       </div>
     </div>
     <!--Left part of page-->

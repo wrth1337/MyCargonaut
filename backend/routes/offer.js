@@ -40,6 +40,45 @@ async function getUserOffers(id) {
     }
 }
 
+async function addOffer(description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId, vehicleId, pricePerPerson, pricePerFreight) {
+    const addOfferAd = 'INSERT INTO ad (description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) VALUES (?,?,?,?,?,?,?,?,?,?)';
+    const addOffer = 'INSERT INTO offer (vehicleId, adId, pricePerPerson, pricePerFreight) VALUES (?, LAST_INSERT_ID(), ?, ?)';
+    const addBooking = 'INSERT INTO booking (adId, userId, price, numSeats) VALUES (?,?,0.0,0)';
+    const addStatus = 'INSERT INTO status (bookingId) VALUES (LAST_INSERT_ID())';
+
+    try {
+        const conn = await pool.getConnection();
+        const resA = await conn.query(addOfferAd, [description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId]);
+        const adId = resA.insertId;
+        const resO = await conn.query(addOffer, [vehicleId, adId, pricePerPerson, pricePerFreight]);
+        const resB = await conn.query(addBooking, [adId, userId]);
+        const resS = await conn.query(addStatus, []);
+        await conn.release();
+        return 1;
+    } catch (error) {
+        return 0;
+    }
+}
+
+router.post('/createOffer', authenticateToken, async function(req, res, next) {
+    try {
+        const id = req.user_id;
+        const {OfferDescription, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, vehicleId, pricePerPerson, pricePerFreight} = req.body;
+        const offer = await addOffer(OfferDescription, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, id, vehicleId, pricePerPerson, pricePerFreight);
+
+        if (offer === 1) {
+            res.status(200);
+            res.json({status: 1});
+        } else {
+            res.status(500);
+            res.json({status: 0});
+        }
+    }catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Fetching Offer Data failed'});
+    }
+});
+
 // ---Routes--- //
 /**
  * @swagger
@@ -95,11 +134,11 @@ async function getUserOffers(id) {
  *                      format: date
  *                      description: The start date of the offer.
  */
-router.get('/offer', authenticateToken, async function(req, res, next) {
+router.get('/getUserOffer', authenticateToken, async function(req, res, next) {
     try {
       const id = req.user_id;
       const offer = await getUserOffers(id);
-  
+
       if (offer.success) {
         res.status(200);
         res.json({ status: 1, offerData: offer.data });
@@ -111,7 +150,8 @@ router.get('/offer', authenticateToken, async function(req, res, next) {
         res.json({ status: 99, error: 'Fetching Offer Data failed' });
     }
 });
-  
 
 
-module.exports = { router, getUserOffers };
+
+
+module.exports = { router, getUserOffers, addOffer };
