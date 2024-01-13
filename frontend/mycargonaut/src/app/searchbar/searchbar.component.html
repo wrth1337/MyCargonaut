@@ -87,6 +87,10 @@
     </div>
   </form>
 </div>
-<div *ngFor="let a of ads">
-  <app-ad-card [ad]="a"></app-ad-card>
+<div class="container">
+  <div class="row">
+    <div *ngFor="let a of ads" class="col-md-4">
+      <app-ad-card [ad]="a"></app-ad-card>
+    </div>
+  </div>
 </div>
