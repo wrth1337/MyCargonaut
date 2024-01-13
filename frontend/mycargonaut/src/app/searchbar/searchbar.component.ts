@@ -31,5 +31,9 @@ export class SearchbarComponent {
         });
       }
     });
+    this.navigateWithData();
+  }
+  navigateWithData(){
+    this.router.navigate(['/resultpage'], {state: { data: this.ads}});
   }
 }

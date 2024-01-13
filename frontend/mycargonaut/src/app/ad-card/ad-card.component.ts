@@ -9,7 +9,7 @@ import { intermediateGoal } from '../main/intermediateGoal';
   styleUrls: ['./ad-card.component.css']
 })
 export class AdCardComponent {
-  @Input() ad: number | null = null;
+  @Input({transform: numberAttribute}) ad: number | null = null;
   index = 0;
   public content: any;
   loaded = false;

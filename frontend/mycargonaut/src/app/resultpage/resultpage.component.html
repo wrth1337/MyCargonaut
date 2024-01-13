@@ -1,0 +1,10 @@
+<app-searchbar></app-searchbar>
+<div class="container">
+  <div class="row">
+    <div *ngFor="let a of ads" class="col-md-4">
+      <app-ad-card [ad]="a"></app-ad-card>
+    </div>
+  </div>
+</div>
+
+
