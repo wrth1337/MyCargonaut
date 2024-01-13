@@ -7,6 +7,7 @@ import { ProfileComponent } from './main/profile/profile.component';
 import { EditProfileComponent } from './main/edit-profile/edit-profile.component';
 import { authguardGuard } from './guard/authguard.guard';
 import { SearchbarComponent } from "./searchbar/searchbar.component";
+import {ResultpageComponent} from "./resultpage/resultpage.component";
 
 const routes: Routes = [
   {path: 'register', component: RegisterComponent},
@@ -14,7 +15,8 @@ const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'profile', component: ProfileComponent, canActivate: [authguardGuard]},
   {path: 'edit_profile', component: EditProfileComponent},
-  {path: 'searchbar/search', component: SearchbarComponent}
+  {path: 'searchbar/search', component: SearchbarComponent},
+  {path: 'resultpage', component: ResultpageComponent},
   //{path: 'test', component: TestComponent,canActivate: [authguardGuard]} Beispiel einer Route mit authguard
 ];
 

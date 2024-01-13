@@ -13,6 +13,8 @@ import { HomeComponent } from './main/home/home.component';
 import {NavbarComponent} from "./navbar/navbar.component";
 import { ProfileComponent } from './main/profile/profile.component';
 import { EditProfileComponent } from './main/edit-profile/edit-profile.component';
+import { ResultpageComponent } from './resultpage/resultpage.component';
+import { AdCardComponent } from './ad-card/ad-card.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { EditProfileComponent } from './main/edit-profile/edit-profile.component
     ProfileComponent,
     NavbarComponent,
     EditProfileComponent,
+    ResultpageComponent,
+    AdCardComponent,
   ],
   imports: [
     AuthModule,

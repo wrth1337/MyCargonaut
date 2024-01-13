@@ -59,6 +59,26 @@ async function getLastAds() {
     }
 }
 
+async function getAdById(adId) {
+    const ad = 'SELECT * FROM ad WHERE ad.adId = ?';
+
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(ad, [adId]);
+        await conn.release();
+
+        if (result.length > 0) {
+            return {success: true, data: result};
+        } else {
+            return {success: false};
+        }
+    } catch (error) {
+        console.error('Fehler bei der Abfrage:', error);
+        throw error;
+    }
+}
+
+
 // ---Routes--- //
 /**
  * @swagger
@@ -168,5 +188,21 @@ router.get('/last', async function(req, res, next) {
     }
 });
 
+router.get('/byId', async function(req, res, next) {
+    try {
+        console.log(req.query.adId);
+        const ad = await getAdById(req.query.adId);
 
-module.exports = {router, getLastAds};
+        if (ad.success) {
+            res.status(200);
+            res.json({status: 1, data: ad.data});
+        } else {
+            res.status(204).json(null);
+        }
+    } catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Fetching Ad Data failed'});
+    }
+});
+
+module.exports = {router, getLastAds, getAdById};
