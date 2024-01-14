@@ -171,7 +171,94 @@ async function getTypeById(adId) {
  *              204:
  *                  description: query was successful but contains no content.
  *                  content: {}
-  components:
+* /:id:
+ *      get:
+ *          summary: get one ad.
+ *          description: gets the ad with the specified id.
+ *          tags:
+ *              - ad
+ *
+ *          responses:
+ *              200:
+ *                  description: ad data successfully fetched.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  data:
+ *                                      type: #/components/schemas/ad
+ *                                      description: The requested ad.
+ *              204:
+ *                  description: query was successful but contains no content.
+ *                  content: {}
+ *                   * /byId:
+ *   get:
+ *      summary: Retrieve an advertisement by its ID to use on Add-Card
+ *      description: Get a specific advertisement's details by providing its ID.
+ *      parameters:
+ *       - in: query
+ *          name: adId
+ *          required: true
+ *         description: Numeric ID of the advertisement to retrieve.
+ *          schema:
+ *            type: integer
+ *      responses:
+ *        200:
+ *          description: Advertisement data retrieved successfully.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  status:
+ *                    type: integer
+ *                    example: 1
+ *                  data:
+ *                    type: object
+ *                    $ref: '#/components/schemas/Ad'
+ *        204:
+ *          description: No content, advertisement not found.
+ *        500:
+ *          description: Server error.
+ *          * /type:
+ *    get:
+ *      summary: Retrieve the type of an advertisement by its ID
+ *      description: Get the type of a specific advertisement by providing its ID.
+ *      parameters:
+ *        - in: query
+ *          name: adId
+ *          required: true
+ *          description: Numeric ID of the advertisement to retrieve its type.
+ *          schema:
+ *            type: integer
+ *      responses:
+ *        200:
+ *          description: Type of the advertisement retrieved successfully.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  status:
+ *                    type: integer
+ *                    example: 1
+ *                  data:
+ *                    type: object
+ *                    properties:
+ *                      type:
+ *                        type: string
+ *                        example: offer
+ *        204:
+ *          description: No content, type not found for the given advertisement ID.
+ *        500:
+ *          description: Server error or unable to fetch the type.
+ *
+ *
+ * components:
  *      schemas:
  *          intermediateGoal:
  *              type: object
@@ -248,32 +335,6 @@ router.get('/last', async function(req, res, next) {
     }
 });
 
-/**
- * /:id:
- *      get:
- *          summary: get one ad.
- *          description: gets the ad with the specified id.
- *          tags:
- *              - ad
- *
- *          responses:
- *              200:
- *                  description: ad data successfully fetched.
- *                  content:
- *                      application/json:
- *                          schema:
- *                              type: object
- *                              properties:
- *                                  status:
- *                                      type: integer
- *                                      description: The status-code.
- *                                  data:
- *                                      type: #/components/schemas/ad
- *                                      description: The requested ad.
- *              204:
- *                  description: query was successful but contains no content.
- *                  content: {}
- */
 router.get('/:id', async function(req, res, next) {
     try {
         const ad = await getAdById(req.params.id);
