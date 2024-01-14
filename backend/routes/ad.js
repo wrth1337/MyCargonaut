@@ -59,7 +59,7 @@ async function getLastAds() {
     }
 }
 
-async function getAdById(adId) {
+async function getAdCardById(adId) {
     const ad = 'SELECT * FROM ad WHERE ad.adId = ?';
 
     try {
@@ -211,7 +211,7 @@ router.get('/last', async function(req, res, next) {
 router.get('/byId', async function(req, res, next) {
     try {
         console.log(req.query.adId);
-        const ad = await getAdById(req.query.adId);
+        const ad = await getAdCardById(req.query.adId);
 
         if (ad.success) {
             res.status(200);
@@ -240,4 +240,4 @@ router.get('/type', async function(req, res, next) {
     }
 });
 
-module.exports = {router, getLastAds, getAdById, getTypeById};
+module.exports = {router, getLastAds, getAdCardById, getTypeById};
