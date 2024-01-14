@@ -35,6 +35,7 @@ async function getLastAds() {
             element.intermediateGoals = intermediateGoals;
         });
         result.forEach(async (element) => {
+            element.type = '';
             const isOffer = await conn.query(isOfferQuery, element.adId);
             if (isOffer.length > 0) {
                 element.type = 'offer';
@@ -50,6 +51,45 @@ async function getLastAds() {
 
         if (result.length > 0) {
             return {success: true, data: {result}};
+        } else {
+            return {success: false};
+        }
+    } catch (error) {
+        console.error('Fehler bei der Abfrage:', error);
+        throw error;
+    }
+}
+
+async function getAdById(id) {
+    const query = 'SELECT * FROM ad WHERE adId = ?';
+    const intermediateGoalsQuery = 'SELECT * FROM intermediateGoal WHERE adId = ?';
+    const isOfferQuery = 'SELECT 1 FROM offer WHERE adId = ?';
+    const isWantedQuery = 'SELECT 1 FROM wanted WHERE adId = ?';
+
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(query, id);
+        result.forEach(async (element) => {
+            const intermediateGoals = await conn.query(intermediateGoalsQuery, element.adId);
+            element.intermediateGoals = intermediateGoals;
+        });
+        result.forEach(async (element) => {
+            element.type = '';
+            const isOffer = await conn.query(isOfferQuery, element.adId);
+            if (isOffer.length > 0) {
+                element.type = 'offer';
+            }
+        });
+        result.forEach(async (element) => {
+            const isWanted = await conn.query(isWantedQuery, element.adId);
+            if (isWanted.length > 0) {
+                element.type = 'wanted';
+            }
+        });
+        await conn.release();
+
+        if (result.length > 0) {
+            return {success: true, data: result[0]};
         } else {
             return {success: false};
         }
@@ -131,7 +171,7 @@ async function getTypeById(adId) {
  *              204:
  *                  description: query was successful but contains no content.
  *                  content: {}
- * components:
+  components:
  *      schemas:
  *          intermediateGoal:
  *              type: object
@@ -205,6 +245,48 @@ router.get('/last', async function(req, res, next) {
     } catch (error) {
         res.status(500);
         res.json({status: 99, error: 'Fetching Last Ad Data failed'});
+    }
+});
+
+/**
+ * /:id:
+ *      get:
+ *          summary: get one ad.
+ *          description: gets the ad with the specified id.
+ *          tags:
+ *              - ad
+ *
+ *          responses:
+ *              200:
+ *                  description: ad data successfully fetched.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  data:
+ *                                      type: #/components/schemas/ad
+ *                                      description: The requested ad.
+ *              204:
+ *                  description: query was successful but contains no content.
+ *                  content: {}
+ */
+router.get('/:id', async function(req, res, next) {
+    try {
+        const ad = await getAdById(req.params.id);
+
+        if (ad.success) {
+            res.status(200);
+            res.json({status: 1, data: ad.data});
+        } else {
+            res.status(204).json(null);
+        }
+    } catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Fetching Ad Data failed'});
     }
 });
 
