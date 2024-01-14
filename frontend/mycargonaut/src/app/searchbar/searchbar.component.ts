@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ApiService } from 'src/app/service/api.service';
 import {Router} from "@angular/router";
@@ -11,13 +11,12 @@ import {SearchService} from "../service/search.service";
   exportAs: 'SearchbarComponent'
 })
 export class SearchbarComponent {
-  constructor(private searchService: SearchService, private api: ApiService, protected router: Router) {}
-  ads: Array<number> = [];
+  @Output() searchEvent = new EventEmitter<any>();
+
+  constructor(private api: ApiService, private searchService: SearchService, protected router: Router) {}
+
   onSubmit(form: NgForm) {
-    this.navigateWithData(form);
-  }
-  navigateWithData(form: NgForm){
     this.searchService.setSearchParameters(form.value);
-    this.router.navigate(['/resultpage']); //, {state: { data: this.ads}});
+    this.router.navigate(['/resultpage']);
   }
 }

@@ -17,7 +17,6 @@ const routes: Routes = [
   {path: 'profile', component: ProfileComponent, canActivate: [authguardGuard]},
   {path: 'edit_profile', component: EditProfileComponent, canActivate: [authguardGuard]},
   {path: 'ad/:id', component: AdComponent},
-
   {path: 'searchbar/search', component: SearchbarComponent},
   {path: 'resultpage', component: ResultpageComponent},
   //{path: 'test', component: TestComponent,canActivate: [authguardGuard]} Beispiel einer Route mit authguard

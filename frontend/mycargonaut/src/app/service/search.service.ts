@@ -1,18 +1,17 @@
-import { Injectable } from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchService {
-  private searchParams: any;
-
+  searchEvent = new EventEmitter<any>();
+  private currentSearchParams: any;
   constructor() { }
-
   setSearchParameters(params: any) {
-    this.searchParams = params;
+    this.currentSearchParams = params;
+    this.searchEvent.emit(params);
   }
-
-  getSearchParameters() {
-    return this.searchParams;
+  getCurrentSearchParams() {
+    return this.currentSearchParams;
   }
 }

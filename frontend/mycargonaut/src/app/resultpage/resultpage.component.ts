@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 import {ApiService} from "../service/api.service";
 import {SearchService} from "../service/search.service";
@@ -9,18 +9,28 @@ import {SearchService} from "../service/search.service";
   styleUrls: ['./resultpage.component.css']
 })
 
-export class ResultpageComponent {
+export class ResultpageComponent{
   ads: Array<number> = [];
 
-  constructor(protected router: Router, private api: ApiService, private searchService: SearchService) {}
+  constructor(private router: Router, private api: ApiService, private searchService: SearchService) {}
 
   ngOnInit() {
-    const searchParams = this.searchService.getSearchParameters();
+    this.searchService.searchEvent.subscribe((searchParams) => {
+      this.loadSearchResults(searchParams);
+    });
+    const existingSearchParams = this.searchService.getCurrentSearchParams();
+    if (existingSearchParams) {
+      this.loadSearchResults(existingSearchParams);
+    }
+  }
+
+  loadSearchResults(searchParams:any) {
     if (searchParams) {
       const queryParams = this.createQueryParams(searchParams);
       const url = `searchbar/search?${queryParams}`;
 
-      this.api.getRequest(url).subscribe((res: any) => {
+      this.api.getRequest(url).subscribe((res: any
+      ) => {
         if (Array.isArray(res)) {
           this.ads = res.map(item => item.adId);
         }
