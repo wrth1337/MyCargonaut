@@ -79,17 +79,10 @@
          </div>
         <div class="row p-2">
           <div class="col">
-            <button class="SearchFormButton px-3 py-2 align-top" id="submitKnopf" type="submit" value="Suchen" [disabled]="!searchForm.valid" (click)="navigateWithData()">Suchen</button>
+            <button class="SearchFormButton px-3 py-2 align-top" id="submitKnopf" type="submit" value="Suchen" [disabled]="!searchForm.valid" (click)="navigateWithData(searchForm)">Suchen</button>
           </div>
         </div>
       </div>
     </div>
   </form>
-</div>
-<div class="container">
-  <div class="row">
-    <div *ngFor="let a of ads" class="col-md-4">
-      <app-ad-card [ad]="a"></app-ad-card>
-    </div>
-  </div>
 </div>
