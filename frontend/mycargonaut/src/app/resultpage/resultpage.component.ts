@@ -6,12 +6,24 @@ import {Router} from "@angular/router";
   templateUrl: './resultpage.component.html',
   styleUrls: ['./resultpage.component.css']
 })
+
 export class ResultpageComponent {
   ads: Array<number> = [];
-  constructor(private router: Router) {
+  constructor(protected router: Router) {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as { data: any};
     console.log(state.data);
     this.ads = state.data;
+  }
+
+  ngOnInit(): void {
+    const navigation = this.router.getCurrentNavigation();
+    const state = navigation?.extras.state as { data: any};
+    console.log(state.data);
+    this.ads = state.data;
+  }
+
+  navigateToHome(){
+    this.router.navigate(['/']);
   }
 }

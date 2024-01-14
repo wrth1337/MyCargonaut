@@ -13,7 +13,6 @@ export class SearchbarComponent {
   constructor(private api: ApiService, protected router: Router) {}
   ads: Array<number> = [];
   onSubmit(form: NgForm) {
-
     const queryParams = Object.keys(form.value)
       .map(key => {
         const value = form.value[key];

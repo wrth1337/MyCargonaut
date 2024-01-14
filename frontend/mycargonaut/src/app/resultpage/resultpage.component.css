@@ -1,0 +1,17 @@
+.modal-content{
+  border-color: var(--secondary);
+  border-width: 2px;
+}
+.modal{
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.modal-footer{
+  justify-content: center;
+}
+.returnButton{
+  text-align: left;
+}
+.center{
+  text-align: center;
+}
+
