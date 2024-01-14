@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ResultpageComponent } from './resultpage.component';
+import {HttpClientModule} from "@angular/common/http";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {SearchbarComponent} from "../searchbar/searchbar.component";
 
 describe('ResultpageComponent', () => {
   let component: ResultpageComponent;
@@ -8,7 +11,8 @@ describe('ResultpageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ResultpageComponent]
+      imports: [HttpClientModule, FormsModule, ReactiveFormsModule],
+      declarations: [ResultpageComponent, SearchbarComponent]
     });
     fixture = TestBed.createComponent(ResultpageComponent);
     component = fixture.componentInstance;
