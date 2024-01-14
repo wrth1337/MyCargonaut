@@ -383,4 +383,4 @@ router.get('/type', async function(req, res, next) {
     }
 });
 
-module.exports = {router, getLastAds, getAdCardById, getTypeById};
+module.exports = {router, getLastAds, getAdById, getAdCardById, getTypeById};
