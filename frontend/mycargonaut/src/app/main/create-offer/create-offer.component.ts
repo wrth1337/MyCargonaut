@@ -33,7 +33,6 @@ export class CreateOfferComponent {
     form.value.animals = this.pet;
     form.value.notes = null;
     form.value.pricePerFreight = form.value.pricePerPerson;
-    //Fake-ID Fahrzeug
     form.value.vehicleId = 2;
 
     this.api.postRequest("offer/createOffer", form.value).subscribe((res: any) => {
