@@ -7,7 +7,7 @@
               <p class="m-0 medium">Bitte überprüfe deine Angaben!</p>
             </div>
             <div class="col" style="display: flex; justify-content: center; align-items: center">
-                <button id="ChangePersonalData" routerLink="/edit_profile" class="buttonPrimary fs-5">Ändern</button>
+                <button id="ChangePersonalData" routerLink="/edit_profile" class="buttonPrimary fs-5 editButton">Ändern</button>
             </div>
           </div>
         </div>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="col-md-4 center">
                   <div>
-                    <p class="medium FormInputLight mb-4"> {{userData.firstName}} {{userData.lastName}} </p>
+                    <p class="medium FormInputLight mb-4 username"> {{userData.firstName}} {{userData.lastName}} </p>
                   </div>
                   <div>
                     <p class="medium"> {{userData.birthdate}} </p>
@@ -73,7 +73,7 @@
                 </div>
             </div>
           </div>
-          <button id="ConfirmUserData" class="buttonPrimary fs-5 position-absolute top-100 start-50 translate-middle" (click)="approveUserdata()">
+          <button id="ConfirmUserData" class="buttonPrimary fs-5 position-absolute top-100 start-50 translate-middle okButton" (click)="approveUserdata()">
             <div *ngIf="!this.approved"> Bestätigen </div>
             <div *ngIf="this.approved">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-check-circle" viewBox="0 0 16 16">
@@ -98,21 +98,21 @@
         <form class="FormInputLight p-3 mb-3 mt-3" #wantedForm="ngForm" (ngSubmit)="onSubmit(wantedForm)">
             <div class="row p-3">
               <div class="col g-0 pe-2">
-                <input name="startLocation" class="FormInputColor w-100" type="text" placeholder="Von..." ngModel>
+                <input name="startLocation" class="FormInputColor w-100 startLoc-input" type="text" placeholder="Von..." ngModel>
               </div>
               <div class="col g-0 ps-2">
-                <input name="endLocation" class="FormInputColor w-100" type="text" placeholder="Nach..." ngModel>
+                <input name="endLocation" class="FormInputColor w-100 endLoc-input" type="text" placeholder="Nach..." ngModel>
               </div>
             </div>
             <div class="row p-3">
               <div class="col g-0 pe-2">
-                <input name="startDate" class="FormInputColor w-100" type="date" ngModel>
+                <input name="startDate" class="FormInputColor w-100 startDate-input" type="date" ngModel>
               </div>
               <div class="col g-0 px-2">
-                <input name="freight" class="FormInputColor w-100" type="text" placeholder="Fracht in kg?m^3?" ngModel>
+                <input name="freight" class="FormInputColor w-100 freight-input" type="text" placeholder="Fracht in kg?m^3?" ngModel>
               </div>
               <div class="col g-0 ps-2">
-                <input name="numSeats" class="FormInputColor w-100" type="number" placeholder="Anzahl benötigter Sitze" ngModel>
+                <input name="numSeats" class="FormInputColor w-100 numSeats-input" type="number" placeholder="Anzahl benötigter Sitze" ngModel>
               </div>
             </div>
             
@@ -131,7 +131,7 @@
                 </div>
                 <div class="col-md-6 center">
                     <div class="row">
-                        <p class="FontPrimary fs-3 fw-semibold g-0"> {{userData.firstName}} {{userData.lastName}} </p>
+                        <p class="FontPrimary fs-3 fw-semibold g-0 username"> {{userData.firstName}} {{userData.lastName}} </p>
                     </div>
                     <div class="row">
                         <div class="rating">
@@ -153,22 +153,22 @@
                 <div class="d-flex justify-content-center align-items-center">
                     <div class="mx-4" *ngIf="!this.smoke">
                         <button style="background-color: transparent; color: var(--primary)" (click)="updateSmoke()">
-                            <img width="50" heigth="50" src="../../../assets/icons/smoke-free-svgrepo-com.svg">
+                            <img class="smokefree" width="50" heigth="50" src="../../../assets/icons/smoke-free-svgrepo-com.svg">
                         </button>
                     </div>
                     <div class="mx-4" *ngIf="this.smoke">
                         <button style="background-color: transparent; color: var(--primary)" (click)="updateSmoke()">
-                            <img width="50" heigth="50" src="../../../assets/icons/smoke-svgrepo-com.svg">
+                            <img class="smoke" width="50" heigth="50" src="../../../assets/icons/smoke-svgrepo-com.svg">
                         </button>
                     </div>
                     <div class="mx-4" *ngIf="this.pet">
                         <button style="background-color: transparent; color: var(--primary)" (click)="updatePet()">
-                            <img width="50" heigth="50" src="../../../assets/icons/walking-dog-sign-svgrepo-com.svg">
+                            <img class="pets" width="50" heigth="50" src="../../../assets/icons/walking-dog-sign-svgrepo-com.svg">
                         </button>
                     </div>
                     <div class="mx-4" *ngIf="!this.pet">
                         <button style="background-color: transparent; color: var(--primary)" (click)="updatePet()">
-                            <img width="50" heigth="50" src="../../../assets/icons/no-pets-svgrepo-com.svg">
+                            <img class="nopets" width="50" heigth="50" src="../../../assets/icons/no-pets-svgrepo-com.svg">
                         </button>
                     </div>
 
@@ -176,7 +176,7 @@
             </div>
             
           </div>
-          <button type="submit" id="ConfirmWanted" class="buttonPrimary fs-4 position-absolute top-100 start-50 translate-middle">Gesuch bestätigen</button>
+          <button type="submit" id="ConfirmWanted" class="buttonPrimary fs-4 position-absolute top-100 start-50 translate-middle submitButton">Gesuch bestätigen</button>
           </form>
         </div>
         <div *ngIf="showFlashMessage" class="alert alert-success alert-dismissible fade show flash" role="alert">
