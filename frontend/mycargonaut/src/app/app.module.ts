@@ -7,20 +7,30 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {AuthModule} from "./auth/auth.module";
+import { SearchbarComponent } from './searchbar/searchbar.component';
 import { InterceptorService } from './service/interceptor.service';
 import { HomeComponent } from './main/home/home.component';
+import {NavbarComponent} from "./navbar/navbar.component";
 import { ProfileComponent } from './main/profile/profile.component';
+import { AdComponent } from './main/ad/ad.component';
 import { EditProfileComponent } from './main/edit-profile/edit-profile.component';
 import { WantedComponent } from './main/wanted/wanted.component';
-
+import { ResultpageComponent } from './resultpage/resultpage.component';
+import { AdCardComponent } from './ad-card/ad-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    SearchbarComponent,
     ProfileComponent,
+    AdComponent,
+    NavbarComponent,
+    AdComponent,
     EditProfileComponent,
     WantedComponent,
+    ResultpageComponent,
+    AdCardComponent,
   ],
   imports: [
     AuthModule,
@@ -28,7 +38,13 @@ import { WantedComponent } from './main/wanted/wanted.component';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+  ],
+  exports:[
+    NavbarComponent,
+    HttpClientModule,
+    SearchbarComponent,
+
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true}],
   bootstrap: [AppComponent]

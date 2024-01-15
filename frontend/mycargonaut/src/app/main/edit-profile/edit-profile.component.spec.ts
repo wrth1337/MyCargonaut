@@ -26,7 +26,7 @@ describe('EditProfileComponent', () => {
       description: 'Beschreibung',
       experience: 'Erfahrung'
     };
-
+    localStorage.setItem('userData','{"email":"mails@mails.de","user_id":4}');
     fixture.detectChanges();
   });
 
@@ -101,75 +101,75 @@ describe('EditProfileComponent', () => {
     expect(stars[2].classes['highlight']).toBeTruthy();
     expect(stars[3].classes['highlight']).toBeTruthy();
     expect(stars[4].classes['highlight']).toBeFalsy();
-});
+  });
 
-it('should highlight 5 stars for the rating', () => {
-  component.rating = 5;
-  fixture.detectChanges();
-  const stars = fixture.debugElement.queryAll(By.css('.star'));
-  
-  expect(stars.length).toBe(5);
-  expect(stars[0].classes['highlight']).toBeTruthy();
-  expect(stars[1].classes['highlight']).toBeTruthy();
-  expect(stars[2].classes['highlight']).toBeTruthy();
-  expect(stars[3].classes['highlight']).toBeTruthy();
-  expect(stars[4].classes['highlight']).toBeTruthy();
-});
+  it('should highlight 5 stars for the rating', () => {
+    component.rating = 5;
+    fixture.detectChanges();
+    const stars = fixture.debugElement.queryAll(By.css('.star'));
+    
+    expect(stars.length).toBe(5);
+    expect(stars[0].classes['highlight']).toBeTruthy();
+    expect(stars[1].classes['highlight']).toBeTruthy();
+    expect(stars[2].classes['highlight']).toBeTruthy();
+    expect(stars[3].classes['highlight']).toBeTruthy();
+    expect(stars[4].classes['highlight']).toBeTruthy();
+  });
 
-it('should highlight 3 stars for the rating', () => {
-  component.rating = 3;
-  fixture.detectChanges();
-  const stars = fixture.debugElement.queryAll(By.css('.star'));
-  
-  expect(stars.length).toBe(5);
-  expect(stars[0].classes['highlight']).toBeTruthy();
-  expect(stars[1].classes['highlight']).toBeTruthy();
-  expect(stars[2].classes['highlight']).toBeTruthy();
-  expect(stars[3].classes['highlight']).toBeFalsy();
-  expect(stars[4].classes['highlight']).toBeFalsy();
-});
+  it('should highlight 3 stars for the rating', () => {
+    component.rating = 3;
+    fixture.detectChanges();
+    const stars = fixture.debugElement.queryAll(By.css('.star'));
+    
+    expect(stars.length).toBe(5);
+    expect(stars[0].classes['highlight']).toBeTruthy();
+    expect(stars[1].classes['highlight']).toBeTruthy();
+    expect(stars[2].classes['highlight']).toBeTruthy();
+    expect(stars[3].classes['highlight']).toBeFalsy();
+    expect(stars[4].classes['highlight']).toBeFalsy();
+  });
 
-it('should have correct background color for edit button', () => {
-  const button = fixture.debugElement.query(By.css('.bi-pencil-square'));
-  expect(getComputedStyle(button.nativeElement).fill).toEqual('rgb(0, 91, 82)');
-});
+  it('should have correct background color for edit button', () => {
+    const button = fixture.debugElement.query(By.css('.bi-pencil-square'));
+    expect(getComputedStyle(button.nativeElement).fill).toEqual('rgb(0, 91, 82)');
+  });
 
-it('should have correct background color for submit button', () => {
-  const button = fixture.debugElement.query(By.css('.submitButton'));
-  expect(getComputedStyle(button.nativeElement).backgroundColor).toEqual('rgb(0, 91, 82)');
-});
+  it('should have correct background color for submit button', () => {
+    const button = fixture.debugElement.query(By.css('.submitButton'));
+    expect(getComputedStyle(button.nativeElement).backgroundColor).toEqual('rgb(0, 91, 82)');
+  });
 
-it('should have correct background color for back button', () => {
-  const button = fixture.debugElement.query(By.css('.bi-arrow-left-circle-fill'));
-  expect(getComputedStyle(button.nativeElement).fill).toEqual('rgb(0, 91, 82)');
-});
+  it('should have correct background color for back button', () => {
+    const button = fixture.debugElement.query(By.css('.bi-arrow-left-circle-fill'));
+    expect(getComputedStyle(button.nativeElement).fill).toEqual('rgb(0, 91, 82)');
+  });
 
-it('should have correct color for card outline', () => {
-  const button = fixture.debugElement.query(By.css('.card'));
-  expect(getComputedStyle(button.nativeElement).borderColor).toEqual('rgb(0, 91, 82)');
-});
+  it('should have correct color for card outline', () => {
+    const button = fixture.debugElement.query(By.css('.card'));
+    expect(getComputedStyle(button.nativeElement).borderColor).toEqual('rgb(0, 91, 82)');
+  });
 
-it('should have correct color for progressbar', () => {
-  const bar = fixture.debugElement.query(By.css('.progress'));
-  expect(getComputedStyle(bar.nativeElement).backgroundColor).toEqual('rgb(225, 233, 190)');
-});
+  it('should have correct color for progressbar', () => {
+    const bar = fixture.debugElement.query(By.css('.progress'));
+    expect(getComputedStyle(bar.nativeElement).backgroundColor).toEqual('rgb(225, 233, 190)');
+  });
 
-it('should have correct color for progress', () => {
-  const bar = fixture.debugElement.query(By.css('.custom-progress'));
-  expect(getComputedStyle(bar.nativeElement).backgroundColor).toEqual('rgb(0, 91, 82)');
-});
+  it('should have correct color for progress', () => {
+    const bar = fixture.debugElement.query(By.css('.custom-progress'));
+    expect(getComputedStyle(bar.nativeElement).backgroundColor).toEqual('rgb(0, 91, 82)');
+  });
 
-// Test muss angepasst werden wenn Algorithmus für Erfahrung implementiert wurde
-it('should update progress bar width based on tripCount', () => {
-  component.tripCount = 5;
-  fixture.detectChanges();
+  // Test muss angepasst werden wenn Algorithmus für Erfahrung implementiert wurde
+  it('should update progress bar width based on tripCount', () => {
+    component.tripCount = 5;
+    fixture.detectChanges();
 
-  const progressBar = fixture.debugElement.query(By.css('.progress-bar'));
+    const progressBar = fixture.debugElement.query(By.css('.progress-bar'));
 
-  const expectedWidth = (component.tripCount / 10) * 100 + '%';
+    const expectedWidth = (component.tripCount / 10) * 100 + '%';
 
-  expect(progressBar.styles['width']).toBe(expectedWidth);
-});
+    expect(progressBar.styles['width']).toBe(expectedWidth);
+  });
 
 
   afterEach(() => {

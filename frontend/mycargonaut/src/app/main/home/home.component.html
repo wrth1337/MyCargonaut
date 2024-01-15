@@ -1,63 +1,4 @@
-<div id="SearchFormSection" class="container px-3 my-5">
-  <form id="SearchForm">
-    <div class="row p-3">
-      <div class="col">
-        <div class="row p-2">
-          <input class="SearchFormInput" type="text" placeholder="Von...">
-        </div>
-        <div class="row p-2">
-          <div class="col ps-0 pe-2">
-            <input class="SearchFormInput w-100 " type="date">
-          </div>
-          <div class="col ps-2 pe-0">
-            <input class="SearchFormInput w-100" type="text" placeholder="Fracht in kg?m^3?">
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="row p-2">
-          <input class="SearchFormInput" type="text" placeholder="Nach...">
-        </div>
-        <div class="row p-2">
-          <div class="col ps-0 pe-2">
-            <!--
-            <i><span class="material-symbols-outlined">person_add</span></i>
-            -->
-            <input class="SearchFormInput w-100 passengers-input" type="number">
-          </div>
-          <div class="col ps-2 pe-0">
-            <select class="SearchFormInput w-100 h-100 rating-input" name="rating" required>
-              <option name="" disabled selected hidden>Bewertung</option>
-              <option name="one">
-                1
-              </option>
-              <option name="two">
-                <div class="row">
-                  <div class="col">
-                    <span class="material-symbols-outlined">2</span>
-                  </div>
-                </div>
-              </option>
-              <option name="three">
-                3
-              </option>
-              <option name="four">
-                4
-              </option>
-              <option name="five">
-                5
-              </option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-auto p-0 ps-2">
-        <button id="SearchFormButton" class="px-3 py-2 mt-2 align-top">Suchen</button>
-      </div>
-    </div>
-  </form>
-</div>
-
+<app-searchbar></app-searchbar>
 <div id="RecomendedOffers" class="row">
   <div class="col-md-auto">
     <br>
@@ -73,22 +14,21 @@
   </div>
   <div class="col">
     <div class="row m-0 justify-content-center active-recomended" *ngIf="loaded">
-      <div class="card m-3" style="width: 20rem;">
+      <div class="card m-3" style="width: 20rem;" [routerLink]="['/ad', content[(((index +2) % 6) + 6) % 6].adId]">
         <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
         <div class="card-body">
           <h5 class="card-title">{{writeTitle(content[(((index +2) % 6) + 6) % 6])}}</h5>
           <p class="card-text">{{content[(((index + 2) % 6) + 6) % 6].description}}</p>
         </div>
       </div>
-      
-      <div class="card m-3" style="width: 20rem;">
+      <div class="card m-3" style="width: 20rem;" [routerLink]="['/ad', content[(((index +1) % 6) + 6) % 6].adId]">
         <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
         <div class="card-body">
           <h5 class="card-title">{{writeTitle(content[(((index + 1) % 6) + 6) % 6])}}</h5>
           <p class="card-text">{{content[(((index + 1) % 6) + 6) % 6].description}}</p>
         </div>
       </div>
-      <div class="card m-3" style="width: 20rem;">
+      <div class="card m-3" style="width: 20rem;" [routerLink]="['/ad', content[(((index) % 6) + 6) % 6].adId]">
         <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
         <div class="card-body">
           <h5 class="card-title">{{writeTitle(content[(((index) % 6) + 6) % 6])}}</h5>
@@ -142,7 +82,7 @@
           </p>
         </div>
       </div>
-      
+
     </div>
 
   </div>

@@ -57,6 +57,24 @@ async function addNewWanted(description, startLocation, endLocation, startDate, 
         return 1;
     } catch (error) {
         return 0;
+
+async function getWantedById(id) {
+    const query = 'SELECT * FROM wanted WHERE adId = ?';
+
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(query, id);
+        await conn.release();
+
+        if (result.length > 0) {
+            return {success: true, data: result[0]};
+        } else {
+            return {success: false};
+        }
+    } catch (error) {
+        console.error('Fehler bei der Abfrage:', error);
+        throw error;
+
     }
 }
 
@@ -66,20 +84,44 @@ async function addNewWanted(description, startLocation, endLocation, startDate, 
  * tags:
  *      - name: wanted
  *        description: Routes that are connected to the wanteds of an user
+ * /wanted/:id:
+ *      get:
+ *          summary: get wanted data by adId.
+ *          description: get the wanted data for a specified ad.
+ *          tags:
+ *              - wanted
+ *
+ *          parameters:
+ *              - in: query
+ *                name: id
+ *                required: true
+ *                schema:
+ *                  type: number
+ *                description: AdId the wanted data is connected to.
+ *                example: 2
+ *
+ *          responses:
+ *              200:
+ *                  description: wanted data successfully fetched.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  data:
+ *                                      $ref: '#/components/schemas/wanted'
+ *              204:
+ *                  description: query was successful but contains no content.
+ *                  content: {}
  * /wanted:
  *      get:
  *          summary: get user wanteds.
  *          description: get a list of the user wanteds.
  *          tags:
  *              - wanted
- *          parameters:
- *              - in: query
- *                name: email
- *                required: true
- *                schema:
- *                  type: string
- *                description: The email of the current user.
- *                example: max@example.com
  *          responses:
  *              200:
  *                  description: user wanted data successfully fetched.
@@ -93,15 +135,15 @@ async function addNewWanted(description, startLocation, endLocation, startDate, 
  *                                      description: The status-code.
  *                                  wantedData:
  *                                      type: array
- *                                      description: The user wanted data.
+ *                                      description: The user wanted ad data.
  *                                      items:
- *                                        $ref: '#/components/schemas/wanted'
+ *                                        $ref: '#/components/schemas/wanted_ad'
  *              204:
  *                  description: query was successful but contains no content.
  *                  content: {}
  * components:
  *      schemas:
- *          wanted:
+ *          wanted_ad:
  *              type: object
  *              properties:
  *                  startLocation:
@@ -114,6 +156,15 @@ async function addNewWanted(description, startLocation, endLocation, startDate, 
  *                      type: string
  *                      format: date
  *                      description: The start date of the wanted.
+ *          wanted:
+ *              type: object
+ *              properties:
+ *                  adId:
+ *                      type: number
+ *                      description: Id of the connected ad
+ *                  freight:
+ *                      type: string
+ *                      description: Description of the freight
  */
 router.get('/getUserWanted', authenticateToken, async function(req, res, next) {
     try {
@@ -153,4 +204,20 @@ router.post('/createWanted', authenticateToken, async function(req, res, next) {
   
 
 
-module.exports = { router, getUserWanteds, addNewWanted };
+router.get('/wanted/:id', async function(req, res, next) {
+    try {
+        const wanted = await getWantedById(req.params.id);
+
+        if (wanted.success) {
+            res.status(200);
+            res.json({status: 1, data: wanted.data});
+        } else {
+            res.status(204).json(null);
+        }
+    } catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Fetching wanted Data failed'});
+    }
+});
+
+module.exports = { router, getUserWanteds, getWantedById, addNewWanted };
