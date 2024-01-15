@@ -55,6 +55,9 @@ The project places a strong emphasis on collaborative development using SCRUM, p
 ### Built With
 * [![Angular][Angular.io]][Angular-url]
 * [![Bootstrap][Bootstrap.com]][Bootstrap-url]
+* [![Express.js][Expressjs.com]][Expressjs-url]
+* [![MariaDB][MariaDB.com]][MariaDB-url]
+* [![Docker][Docker.com]][Docker-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -128,3 +131,9 @@ All members of "Group 2" were involved in the project.
 [Bootstrap-url]: https://getbootstrap.com
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
 [JQuery-url]: https://jquery.com 
+[Expressjs.com]: https://img.shields.io/badge/Express.js-FFBF00?style=for-the-badge&logo=express&logoColor=black
+[Expressjs-url]: https://expressjs.com/
+[MariaDB.com]: https://img.shields.io/badge/MariaDB-c27957?style=for-the-badge&logo=mariadb&logoColor=white
+[MariaDB-url]: https://mariadb.org/
+[Docker.com]: https://img.shields.io/badge/Docker-308fbf?style=for-the-badge&logo=docker&logoColor=white
+[Docker-url]: https://www.docker.com/
