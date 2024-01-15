@@ -142,12 +142,12 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div *ngIf="this.german">
-                                DE
+                                <img src="../../../assets/icons/flag-for-flag-germany-svgrepo-com.svg" alt="DE" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div *ngIf="this.english">
-                                EN
+                                <img src="../../../assets/icons/flag-for-flag-united-kingdom-svgrepo-com.svg" alt="EN" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
                             </div>
                         </div>
                     </div>
@@ -157,13 +157,17 @@
                             <div class="col-md-6 center">
                               <div class="custom-control custom-checkbox">
                                 <input type="checkbox" name="german" class="custom-control-input" id="de" [(ngModel)]="this.german">
-                                <label class="custom-control-label" for="de">DE</label>
+                                <label class="custom-control-label" for="de">
+                                    <img src="../../../assets/icons/flag-for-flag-germany-svgrepo-com.svg" alt="DE" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                                </label>
                               </div>
                             </div>
                             <div class="col-md-6 center">
                               <div class="custom-control custom-checkbox">
                                 <input type="checkbox" name="english" class="custom-control-input" id="en" [(ngModel)]="this.english">
-                                <label class="custom-control-label" for="en">EN</label>
+                                <label class="custom-control-label" for="en">
+                                    <img src="../../../assets/icons/flag-for-flag-united-kingdom-svgrepo-com.svg" alt="EN" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                                </label>
                               </div>
                             </div>
                         </div>
