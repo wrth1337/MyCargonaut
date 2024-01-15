@@ -42,6 +42,7 @@
 
 .card{
     background-color: rgba(29,143,131, 0.34);
+    cursor:pointer;
 }
 
 .card-title{
