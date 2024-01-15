@@ -171,7 +171,7 @@ async function getTypeById(adId) {
  *              204:
  *                  description: query was successful but contains no content.
  *                  content: {}
-* /:id:
+ * /:id:
  *      get:
  *          summary: get one ad.
  *          description: gets the ad with the specified id.
@@ -195,16 +195,16 @@ async function getTypeById(adId) {
  *              204:
  *                  description: query was successful but contains no content.
  *                  content: {}
- *                   * /byId:
+ * /byId:
  *   get:
  *      summary: Retrieve an advertisement by its ID to use on Add-Card
  *      description: Get a specific advertisement's details by providing its ID.
  *      parameters:
  *       - in: query
- *          name: adId
- *          required: true
+ *         name: adId
+ *         required: true
  *         description: Numeric ID of the advertisement to retrieve.
- *          schema:
+ *         schema:
  *            type: integer
  *      responses:
  *        200:
@@ -224,7 +224,7 @@ async function getTypeById(adId) {
  *          description: No content, advertisement not found.
  *        500:
  *          description: Server error.
- *          * /type:
+ * /type:
  *    get:
  *      summary: Retrieve the type of an advertisement by its ID
  *      description: Get the type of a specific advertisement by providing its ID.
