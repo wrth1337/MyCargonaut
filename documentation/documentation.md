@@ -57,6 +57,8 @@ Mit Swagger können wir eine interaktive Dokumentation unserer API erstellen, di
 
 Unsere API-Dokumentation ist unter der URL `backend:3000/docs` erreichbar. Dort sind detaillierte Informationen zu jeder Route, einschließlich der erwarteten Anforderungen, der Antwortstruktur und der möglichen Fehlercodes.
 
+![img.png](images/Swagger_API_DOC.png)
+
 # Environment Setup
 Um die Entwicklungsumgebung für dieses Projekt einzurichten, folgen Sie bitte den unten aufgeführten Schritten:
 
