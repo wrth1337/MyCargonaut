@@ -27,10 +27,6 @@ export class CreateOfferComponent {
   success: boolean = false;
   approved: boolean = false;
 
-  ngOnInit() {
-    console.log("Init");
-  }
-
   onSubmit(form: NgForm) {
     form.value.endDate = form.value.startDate;
     form.value.smoker = this.smoke;
