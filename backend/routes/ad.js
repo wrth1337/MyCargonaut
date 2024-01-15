@@ -55,7 +55,6 @@ async function getLastAds() {
             return {success: false};
         }
     } catch (error) {
-        console.error('Fehler bei der Abfrage:', error);
         throw error;
     }
 }
@@ -94,7 +93,6 @@ async function getAdById(id) {
             return {success: false};
         }
     } catch (error) {
-        console.error('Fehler bei der Abfrage:', error);
         throw error;
     }
 }
@@ -113,7 +111,6 @@ async function getAdCardById(adId) {
             return {success: false};
         }
     } catch (error) {
-        console.error('Fehler bei der Abfrage:', error);
         throw error;
     }
 }
@@ -133,7 +130,6 @@ async function getTypeById(adId) {
             return {success: true, data: res};
         }
     } catch (error) {
-        console.error('Fehler bei der Abfrage:', error);
         throw error;
     }
 }
@@ -352,7 +348,6 @@ router.get('/:id', async function(req, res, next) {
 
 router.get('/byId', async function(req, res, next) {
     try {
-        console.log(req.query.adId);
         const ad = await getAdCardById(req.query.adId);
 
         if (ad.success) {
