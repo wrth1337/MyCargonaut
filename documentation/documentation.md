@@ -21,7 +21,7 @@
 
 ### Mockup
 https://www.figma.com/file/KKf76zk0DRwQwSF8pQnTUf/MyCargonaut---Wireframe?type=design&node-id=93-2&mode=design
-![img.png](images/Mochup.png)
+![img.png](images/Mockup.png)
 
 # Code Style and Linting
 # ESLint-Konfiguration
