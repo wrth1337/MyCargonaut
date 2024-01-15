@@ -14,9 +14,14 @@
 
 # Designs
 ### Wireframe
-[- Insert Picture/URL here -]
+
+ https://www.figma.com/file/KKf76zk0DRwQwSF8pQnTUf/MyCargonaut---Wireframe?type=design&node-id=0-1&mode=design
+
+![img.png](images/Wireframe.png)
+
 ### Mockup
-[- Insert Picture/URL here -]
+https://www.figma.com/file/KKf76zk0DRwQwSF8pQnTUf/MyCargonaut---Wireframe?type=design&node-id=93-2&mode=design
+![img.png](images/Mochup.png)
 
 # Code Style and Linting
 # ESLint-Konfiguration
@@ -42,7 +47,7 @@ Zusätzlich zu Dependabot wird auch GitHub CodeQL für die statische Code-Analys
 
 Durch die Kombination von Dependabot und CodeQL stellen wir sicher, dass unser Code sowohl aktuell als auch sicher ist.
 
-# Error Handling and Logging
+# 
 
 
 # API Documentation
@@ -50,7 +55,7 @@ In diesem Projekt verwenden wir Swagger zur Dokumentation unserer Backend-Routen
 
 Mit Swagger können wir eine interaktive Dokumentation unserer API erstellen, die es Entwicklern ermöglicht, die API zu verstehen und mit ihr zu interagieren, ohne in den Code schauen zu müssen. Es bietet eine visuelle Darstellung aller API-Endpunkte, der erwarteten Anforderungen und der Antworten, die sie liefern.
 
-Unsere API-Dokumentation ist unter der URL `backend:3000/docs` erreichbar. Dort finden Sie detaillierte Informationen zu jedem Endpunkt, einschließlich der erwarteten Anforderungen, der Antwortstruktur und der möglichen Fehlercodes.
+Unsere API-Dokumentation ist unter der URL `backend:3000/docs` erreichbar. Dort sind detaillierte Informationen zu jeder Route, einschließlich der erwarteten Anforderungen, der Antwortstruktur und der möglichen Fehlercodes.
 
 # Environment Setup
 Um die Entwicklungsumgebung für dieses Projekt einzurichten, folgen Sie bitte den unten aufgeführten Schritten:
@@ -79,8 +84,3 @@ Bitte beachten Sie, dass Sie Docker und Docker Compose auf Ihrem Computer instal
 
 # Project Structure
 Das Projekt gliedert sich in Front / Backend / Database und Dokumenatation
-# Known Issues
-So einige ;) 
-
-# Future Plans
-Bis zum 15.01.2024 eine Vorzeigefähige Version zusammen schustern.
