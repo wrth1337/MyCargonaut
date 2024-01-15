@@ -55,7 +55,6 @@ async function getLastAds() {
             return {success: false};
         }
     } catch (error) {
-        console.error('Fehler bei der Abfrage:', error);
         throw error;
     }
 }
@@ -94,7 +93,43 @@ async function getAdById(id) {
             return {success: false};
         }
     } catch (error) {
-        console.error('Fehler bei der Abfrage:', error);
+        throw error;
+    }
+}
+
+async function getAdCardById(adId) {
+    const ad = 'SELECT * FROM ad WHERE ad.adId = ?';
+
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(ad, [adId]);
+        await conn.release();
+
+        if (result.length > 0) {
+            return {success: true, data: result};
+        } else {
+            return {success: false};
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function getTypeById(adId) {
+    const offer = 'SELECT o.offerId FROM ad JOIN offer o ON ad.adId = o.adId WHERE ad.adId = ?';
+    let res;
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(offer, [adId]);
+        await conn.release();
+        if (result.length > 0) {
+            res = 'offer';
+            return {success: true, data: res};
+        } else {
+            res = 'wanted';
+            return {success: true, data: res};
+        }
+    } catch (error) {
         throw error;
     }
 }
@@ -155,6 +190,69 @@ async function getAdById(id) {
  *              204:
  *                  description: query was successful but contains no content.
  *                  content: {}
+ * /byId:
+ *   get:
+ *      summary: Retrieve an advertisement by its ID to use on Add-Card
+ *      description: Get a specific advertisement's details by providing its ID.
+ *      parameters:
+ *       - in: query
+ *         name: adId
+ *         required: true
+ *         description: Numeric ID of the advertisement to retrieve.
+ *         schema:
+ *            type: integer
+ *      responses:
+ *        200:
+ *          description: Advertisement data retrieved successfully.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  status:
+ *                    type: integer
+ *                    example: 1
+ *                  data:
+ *                    type: object
+ *                    $ref: '#/components/schemas/Ad'
+ *        204:
+ *          description: No content, advertisement not found.
+ *        500:
+ *          description: Server error.
+ * /type:
+ *    get:
+ *      summary: Retrieve the type of an advertisement by its ID
+ *      description: Get the type of a specific advertisement by providing its ID.
+ *      parameters:
+ *        - in: query
+ *          name: adId
+ *          required: true
+ *          description: Numeric ID of the advertisement to retrieve its type.
+ *          schema:
+ *            type: integer
+ *      responses:
+ *        200:
+ *          description: Type of the advertisement retrieved successfully.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  status:
+ *                    type: integer
+ *                    example: 1
+ *                  data:
+ *                    type: object
+ *                    properties:
+ *                      type:
+ *                        type: string
+ *                        example: offer
+ *        204:
+ *          description: No content, type not found for the given advertisement ID.
+ *        500:
+ *          description: Server error or unable to fetch the type.
+ *
+ *
  * components:
  *      schemas:
  *          intermediateGoal:
@@ -248,4 +346,35 @@ router.get('/:id', async function(req, res, next) {
     }
 });
 
-module.exports = {router, getLastAds, getAdById};
+router.get('/byId', async function(req, res, next) {
+    try {
+        const ad = await getAdCardById(req.query.adId);
+
+        if (ad.success) {
+            res.status(200);
+            res.json({status: 1, data: ad.data});
+        } else {
+            res.status(204).json(null);
+        }
+    } catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Fetching Ad Data failed'});
+    }
+});
+
+router.get('/type', async function(req, res, next) {
+    try {
+        const type = await getTypeById(req.query.adId);
+        if (type.success) {
+            res.status(200);
+            res.json({status: 1, data: type.data});
+        } else {
+            res.status(204).json(null);
+        }
+    } catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Type not found'});
+    }
+});
+
+module.exports = {router, getLastAds, getAdById, getAdCardById, getTypeById};
