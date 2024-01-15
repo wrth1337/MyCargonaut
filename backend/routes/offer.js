@@ -40,29 +40,72 @@ async function getUserOffers(id) {
     }
 }
 
+async function getOfferById(id) {
+    const query = 'SELECT * FROM offer WHERE adId = ?';
+
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(query, id);
+        await conn.release();
+
+        if (result.length > 0) {
+            return {success: true, data: result[0]};
+        } else {
+            return {success: false};
+        }
+    } catch (error) {
+        console.error('Fehler bei der Abfrage:', error);
+        throw error;
+    }
+}
+
 // ---Routes--- //
 /**
  * @swagger
  * tags:
  *      - name: offer
  *        description: Routes that are connected to the offers of an user
- * /offer:
+ *
+ * offer/:id:
  *      get:
- *          summary: get user offers.
- *          description: get a list of the user offers.
+ *          summary: get one offer.
+ *          description: gets the offer with the specified adId.
  *          tags:
  *              - offer
  *          parameters:
  *              - in: query
- *                name: email
+ *                name: id
  *                required: true
  *                schema:
- *                  type: string
- *                description: The email of the current user.
- *                example: max@example.com
+ *                  type: number
+ *                description: AdId the wanted data is connected to.
+ *                example: 2
  *          responses:
  *              200:
- *                  description: user offer data successfully fetched.
+ *                  description: offer data successfully fetched.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  data:
+ *                                      $ref: '#/components/schemas/offer'
+ *                                      description: The requested offer.
+ *              204:
+ *                  description: query was successful but contains no content.
+ *                  content: {}
+ * /offer:
+ *      get:
+ *          summary: get user offers.
+ *          description: get a list of the user offer ads.
+ *          tags:
+ *              - offer
+ *          responses:
+ *              200:
+ *                  description: user offer ad data successfully fetched.
  *                  content:
  *                      application/json:
  *                          schema:
@@ -75,13 +118,28 @@ async function getUserOffers(id) {
  *                                      type: array
  *                                      description: The user offer data.
  *                                      items:
- *                                        $ref: '#/components/schemas/offer'
+ *                                        $ref: '#/components/schemas/offer_ad'
  *              204:
  *                  description: query was successful but contains no content.
  *                  content: {}
  * components:
  *      schemas:
  *          offer:
+ *              type: object
+ *              properties:
+ *                  vehicleId:
+ *                      type: number
+ *                      description: Id of the connected vehicle
+ *                  adId:
+ *                      type: number
+ *                      description: Id of the connected ad
+ *                  pricePerPerson:
+ *                      type: number
+ *                      description: Price per person of this offer
+ *                  pricePerFreight:
+ *                      type: number
+ *                      description: Price per freight of this offer
+ *          offer_ad:
  *              type: object
  *              properties:
  *                  startLocation:
@@ -95,7 +153,7 @@ async function getUserOffers(id) {
  *                      format: date
  *                      description: The start date of the offer.
  */
-router.get('/offer', authenticateToken, async function(req, res, next) {
+router.get('', authenticateToken, async function(req, res, next) {
     try {
       const id = req.user_id;
       const offer = await getUserOffers(id);
@@ -111,7 +169,22 @@ router.get('/offer', authenticateToken, async function(req, res, next) {
         res.json({ status: 99, error: 'Fetching Offer Data failed' });
     }
 });
+router.get('/:id', async function(req, res, next) {
+    try {
+        const offer = await getOfferById(req.params.id);
+
+        if (offer.success) {
+            res.status(200);
+            res.json({status: 1, data: offer.data});
+        } else {
+            res.status(204).json(null);
+        }
+    } catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Fetching offer Data failed'});
+    }
+});
   
 
 
-module.exports = { router, getUserOffers };
+module.exports = { router, getUserOffers, getOfferById };

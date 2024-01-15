@@ -25,7 +25,7 @@ describe('ProfileComponent', () => {
       description: 'Beschreibung',
       experience: 'Erfahrung'
     };
-
+    localStorage.setItem('userData','{"email":"mails@mails.de","user_id":4}');
     component.vehicleData = [{name: 'Car1'}, {name: 'Car2'}];
     component.vehiclesAvailable = true;
 
