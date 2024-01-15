@@ -220,4 +220,5 @@ router.get('/wanted/:id', async function(req, res, next) {
     }
 });
 
+
 module.exports = { router, getUserWanteds, getWantedById, addNewWanted };
