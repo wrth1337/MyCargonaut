@@ -1,14 +1,13 @@
-# Technology selection
+# Technologie Auswahl
 ##### **Frontend**: Angular
 ##### **Backend**: ExpressJS
 ##### **Database**: MariaDB
 ##### **Documentation**: Swagger
 ##### **Testing**: Jest as Testframework for Frontend and Backend
 ##### **CI/CD-Pipeline**:
-* **Commit-Phase**: ESLint, Backend Test vis Jest, auch gegen die Datenbank
-* **Report-Phase**: 
-* **UAT-Phase**:
-* **PAT-Phase**: 
+* **Commit-Phase**: ESLint ; Backend Test ; Frontend Test
+* **Report-Phase**: CodeQL
+* **UAT-Phase**: -WIP-
 * **SAT-Phase**: Dependabot
 * **Deploy-Phase**: Building a Docker-Container from master branch
 
@@ -23,9 +22,7 @@
 https://www.figma.com/file/KKf76zk0DRwQwSF8pQnTUf/MyCargonaut---Wireframe?type=design&node-id=93-2&mode=design
 ![img.png](images/Mockup.png)
 
-# Code Style and Linting
-# ESLint-Konfiguration
-
+# Code Style und Linting
 Die ESLint-Konfiguration für dieses Projekt ist in der Datei `.eslintrc.json` im Backend-Verzeichnis definiert. Hier ist eine Übersicht der Konfiguration:
 
 - `env`: Definiert die Umgebungen, in denen Ihr Code ausgeführt wird. In diesem Fall sind das `browser`, `commonjs` und `es2021`.
@@ -36,19 +33,18 @@ Die ESLint-Konfiguration für dieses Projekt ist in der Datei `.eslintrc.json` i
     - `max-len`: Begrenzt die maximale Zeilenlänge auf 165 Zeichen.
 Diese Konfiguration hilft dabei, einen konsistenten Code-Stil im gesamten Projekt zu gewährleisten.
 
+Generell wird das Clean-Code Paradigma angestrebt -> Kommentare, console.logs usw. sind nicht konform.
+
 # Security
 In diesem Projekt werden verschiedene Maßnahmen ergriffen, um die Sicherheit des Codes zu gewährleisten:
 
 ## Dependabot
-Dependabot ist ein Tool von GitHub, das automatisch Pull-Anfragen erstellt, um die Abhängigkeiten in Ihrem Projekt auf den neuesten Stand zu bringen. Es überprüft täglich die Abhängigkeiten dieses Projekts auf bekannte Sicherheitslücken und erstellt bei Bedarf eine Pull-Anfrage mit der Aktualisierung.
+Dependabot ist ein Tool von GitHub, das automatisch Pull-Anfragen erstellt, um die Dependencies in Ihrem Projekt auf den neuesten Stand zu bringen. Es überprüft täglich die Dependencies dieses Projekts auf bekannte Sicherheitslücken und erstellt bei Bedarf eine Pull-Anfrage mit der Aktualisierung.
 
 ## GitHub CodeQL Code Scan
 Zusätzlich zu Dependabot wird auch GitHub CodeQL für die statische Code-Analyse verwendet. CodeQL ist ein leistungsstarkes Analysewerkzeug, das potenzielle Sicherheitslücken im Code findet und behebt. Es scannt den Code, um Muster zu finden, die auf Sicherheitslücken hinweisen könnten, und gibt Empfehlungen zur Behebung dieser Probleme.
 
 Durch die Kombination von Dependabot und CodeQL stellen wir sicher, dass unser Code sowohl aktuell als auch sicher ist.
-
-# 
-
 
 # API Documentation
 In diesem Projekt verwenden wir Swagger zur Dokumentation unserer Backend-Routen. Swagger ist ein Open-Source-Software-Framework, das von Entwicklern weltweit genutzt wird, um APIs zu entwerfen, zu bauen und zu dokumentieren.
@@ -86,3 +82,16 @@ Bitte beachten Sie, dass Sie Docker und Docker Compose auf Ihrem Computer instal
 
 # Project Structure
 Das Projekt gliedert sich in Front / Backend / Database und Dokumenatation
+
+# Definition of Done
+- 'Frontend'
+  - '➡️Are all functions implemented?'
+  - '➡️Are there front-end tests that test the appearance of the mockup?'
+  - '➡️Do the associated components look like the mockup?'
+- 'Backend'
+  - '➡️Are all necessary routes documented via swagger?'
+  - '➡️Are all necessary methods tested via Jest (positive and negative tests)?'
+  - 'Is the user story finished to such an extent that no further work is required after the pull request (excluding hotfixes and adjustments)?'
+
+# Test Strategie
+Jede Funktion wird in sofern sinnvoll umsetzbar mit Unittests getestet. Dies gilt für sowohl Front- als auch Backend. Im Frontend wird Jasmin/Karma mit der Angular Integration genutzt, Im Backend wird Jest verwendet. Zu jeder sinnvoll zu testenden Funktion sollten mindestens zwei Unittests geschrieben werden, welche die korrekte Funktionalität der jeweiligen Funktion sicherstellt.
