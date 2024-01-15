@@ -1,5 +1,5 @@
 <div class="row m-0 justify-content-center active-recomended" *ngIf="loaded">
-  <div class="card m-3" style="width: 20rem;" [routerLink]="['/ad', content[(((index) % 6) + 6) % 6].adId]">
+  <div class="card m-3" style="width: 20rem;" [routerLink]="['/ad', content.adId]">
     <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
     <div class="card-body">
       <h5 class="card-title">{{writeTitle(content)}}</h5>
