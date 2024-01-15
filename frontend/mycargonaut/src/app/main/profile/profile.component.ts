@@ -59,7 +59,7 @@ export class ProfileComponent {
       }
     });
 
-    this.api.getRequest("wanted").subscribe((res: any) => {
+    this.api.getRequest("wanted/getUserWanted").subscribe((res: any) => {
       if(res != null) {
         this.wantedsAvailable = true;
         this.wantedData = res.wantedData;

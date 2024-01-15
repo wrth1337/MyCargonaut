@@ -14,6 +14,7 @@ import {NavbarComponent} from "./navbar/navbar.component";
 import { ProfileComponent } from './main/profile/profile.component';
 import { AdComponent } from './main/ad/ad.component';
 import { EditProfileComponent } from './main/edit-profile/edit-profile.component';
+import { WantedComponent } from './main/wanted/wanted.component';
 import { CreateOfferComponent } from './main/create-offer/create-offer.component';
 import { ResultpageComponent } from './resultpage/resultpage.component';
 import { AdCardComponent } from './ad-card/ad-card.component';
@@ -28,6 +29,7 @@ import { AdCardComponent } from './ad-card/ad-card.component';
     NavbarComponent,
     AdComponent,
     EditProfileComponent,
+    WantedComponent,
     CreateOfferComponent,
     ResultpageComponent,
     AdCardComponent,

@@ -24,7 +24,7 @@ const offer = require('./routes/offer');
 app.use('/offer', offer.router);
 
 const wanted = require('./routes/wanted');
-app.use('', wanted.router);
+app.use('/wanted', wanted.router);
 
 const ad = require('./routes/ad');
 app.use('/ad', ad.router);
