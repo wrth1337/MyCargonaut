@@ -3,7 +3,7 @@
 ##### **Backend**: ExpressJS
 ##### **Database**: MariaDB
 ##### **Documentation**: Swagger
-##### **Testing**: Jest as Testframework for Frontend and Backend
+##### **Testing**: Jest für Backend ; Karma/Jasmin für Frontend
 ##### **CI/CD-Pipeline**:
 * **Commit-Phase**: ESLint ; Backend Test ; Frontend Test
 * **Report-Phase**: CodeQL
@@ -95,3 +95,6 @@ Das Projekt gliedert sich in Front / Backend / Database und Dokumenatation
 
 # Test Strategie
 Jede Funktion wird in sofern sinnvoll umsetzbar mit Unittests getestet. Dies gilt für sowohl Front- als auch Backend. Im Frontend wird Jasmin/Karma mit der Angular Integration genutzt, Im Backend wird Jest verwendet. Zu jeder sinnvoll zu testenden Funktion sollten mindestens zwei Unittests geschrieben werden, welche die korrekte Funktionalität der jeweiligen Funktion sicherstellt.
+
+# Entity Relationship Diagramm
+![img.png](images/ERDCargonaut.png)
