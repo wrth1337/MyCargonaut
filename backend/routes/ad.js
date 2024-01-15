@@ -138,7 +138,6 @@ async function getTypeById(adId) {
     }
 }
 
-
 // ---Routes--- //
 /**
  * @swagger

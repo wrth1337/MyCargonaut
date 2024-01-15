@@ -23,6 +23,7 @@ import { AdCardComponent } from './ad-card/ad-card.component';
     HomeComponent,
     SearchbarComponent,
     ProfileComponent,
+    AdComponent,
     NavbarComponent,
     AdComponent,
     EditProfileComponent,
