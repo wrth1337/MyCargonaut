@@ -51,7 +51,7 @@ export class EditProfileComponent {
         if(this.languages[i].languageId === 1) {
           this.german = true;
         }
-        else if(this.languages[i].languageId === 2) {
+        if(this.languages[i].languageId === 2) {
           this.english = true;
         }
       }
@@ -82,7 +82,7 @@ export class EditProfileComponent {
     }
     if(!this.editLang) {
       form.value.german = this.german;
-      form.value.english = this.english
+      form.value.english = this.english;
     }
     form.value.picture = this.userData.picture;
     this.api.postRequest("profile/edit_profile", form.value).subscribe((res: any) => {

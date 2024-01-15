@@ -235,7 +235,6 @@ router.get('/userdata', authenticateToken, async function(req, res, next) {
 router.post('/edit_profile', authenticateToken, async function(req, res, next) {
   try {
     const id = req.user_id;
-    console.log(req.body);
     const {firstName, lastName, birthdate, picture, description, experience, german, english} = req.body;
     const edit = await editProfile(firstName, lastName, birthdate, picture, description, experience, id, german, english);
 
