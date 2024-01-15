@@ -1,0 +1,309 @@
+<div class="container-fluid p-5">
+  <div class="row row-cols-3">
+    <!--Left part of page-->
+    <div id="UserOverview" class="col-3 container borderPrimary g-0">
+      <!--"Bestätigen Button"-->
+      <div class="container">
+        <div class="row p-2" style="border-bottom: 2px solid var(--primary)">
+          <div class="col">
+            <p class="m-0">Bitte überprüfe deine Angaben!</p>
+          </div>
+          <div class="col" style="display: flex; justify-content: center; align-items: center">
+            <button id="ConfirmUserData" class="buttonPrimary">Bestätigen</button>
+          </div>
+        </div>
+      </div>
+      <div class="p-3">
+        <!--Profile Picture, Name, Rating, Age, Amount of Offers-->
+        <div id="personalData" class="container borderPrimary p-2 position-relative">
+          <div class="container p-0">
+            <div class="row mt-3">
+              <div class="col-4" style="border-radius: 50%">
+                <img src="assets/ProfilePicture/CharlieDieMaus.jpg" alt="Profilbild" class="cropped-img pictureCircle" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center">
+              </div>
+              <div class="col-8">
+                <div>
+                  <p class="FormInputLight mb-0">Max M.</p>
+                </div>
+                <div>
+                  <p>30 Jahre</p>
+                </div>
+                <div>
+                  <p class="FormInputLight">Anzahl Fahrten: 10</p>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <span class="col p-0 material-symbols-outlined">grade</span>
+              <span class="col p-0 material-symbols-outlined">grade</span>
+              <span class="col p-0 material-symbols-outlined">grade</span>
+              <span class="col p-0 material-symbols-outlined">grade</span>
+              <span class="col p-0 material-symbols-outlined">grade</span>
+            </div>
+          </div>
+          <!--"About me"-->
+          <div class="container p-0 mb-3">
+            <textarea placeholder="Über mich..." class="FormInputLight w-100" rows="5"></textarea>
+          </div>
+          <!--Experience-->
+          <div class="mb-3">
+            <p>Erfahrung</p>
+            <div id="ExperienceFrame" style="height: 10px; width: 100%; border: solid var(--primary)">
+              <div id="ExperienceBar" style="background-color: var(--primary); height: 6px; width: 45%; border: solid var(--primary)"></div>
+            </div>
+          </div>
+          <!--Languages-->
+          <div class="col mb-5">
+            <p class="mb-1">Sprachen</p>
+            <div class="row">
+              <div class="col">
+                <img src="assets/LanguageIcons/Deutsch.png" alt="Deutsche Sprache" class="cropped-img" style="width:25px; height: 25px; display: flex; justify-content: center; align-self: center">
+              </div>
+              <div class="col">
+                <img src="assets/LanguageIcons/Englisch.png" alt="Englische Sprache" class="cropped-img" style="width:25px; height: 25px; display: flex; justify-content: center; align-self: center">
+              </div>
+            </div>
+          </div>
+          <button id="ChangePersonalData" class="buttonPrimary position-absolute top-100 start-50 translate-middle">Ändern</button>
+        </div>
+      </div>
+    </div>
+    <!--Middle part of page-->
+    <div class="col-6 px-5">
+      <div id="OfferCard" class="container p-5 position-relative">
+        <form  #offerForm="ngForm"  (ngSubmit)="onSubmit(offerForm)">
+          <!--From - To; Passengers and Cargo; Date-->
+          <div class="FormInputLight p-3 mb-3">
+            <div class="row p-3">
+              <div class="col g-0 pe-2">
+                <input class="FormInputColor w-100" type="text" name="startLocation" placeholder="Von..." ngModel>
+              </div>
+              <div class="col g-0 ps-2">
+                <input class="FormInputColor w-100" type="text" name="endLocation" placeholder="Nach..." ngModel>
+              </div>
+            </div>
+            <div class="row p-3">
+              <div class="col g-0 pe-2">
+                <input class="FormInputColor w-100" type="date" name="startDate"  ngModel>
+              </div>
+              <div class="col g-0 px-2">
+                <input class="FormInputColor w-100" type="text" name="freight" placeholder="Fracht in kg?m^3?" ngModel>
+              </div>
+              <div class="col g-0 ps-2">
+                <!--
+                <i><span class="material-symbols-outlined">person_add</span></i>
+                -->
+                <input class="FormInputColor w-100" type="number" name="numSeats" ngModel>
+              </div>
+            </div>
+          </div>
+          <!--User-->
+          <div class="row p-3 mb-3">
+            <div class="col-4 container overflow-hidden">
+              <img src="assets/ProfilePicture/CharlieDieMaus.jpg" alt="Profilbild" class="cropped-img pictureCircle" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center">
+            </div>
+            <div class="col-1"></div>
+            <div class="col-7">
+              <div class="row">
+                <p class="FontPrimary fs-3 fw-semibold g-0">Max M.</p>
+              </div>
+              <div class="row w-75" style="color: var(--primary)">
+                <span class="col p-0 material-symbols-outlined">grade</span>
+                <span class="col p-0 material-symbols-outlined">grade</span>
+                <span class="col p-0 material-symbols-outlined">grade</span>
+                <span class="col p-0 material-symbols-outlined">grade</span>
+                <span class="col p-0 material-symbols-outlined">grade</span>
+              </div>
+            </div>
+          </div>
+          <!--Description-->
+          <div class="container g-0 mb-5">
+            <textarea name="OfferDescription" placeholder="Schreibe etwas zur dir, zu der Fahrt..." class="FormInputLight w-100" rows="10" ngModel></textarea>
+          </div>
+          <!--Vehicle-->
+          <div class="FormInputLight mb-5">
+            <div class="row p-3">
+              <div class="col-3" style="display: flex; justify-content: center; align-self: center">
+                <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:75px; height: 75px">
+              </div>
+              <div class="col-9">
+                <div class="container">
+                  <div class="row">
+                    <div class="col FormInputLight m-2">
+                      <p class="p-2 m-0">Transporter</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col FormInputLight m-2">
+                      <p class="p-2 m-0">Transporter mit x Volumen</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Preferences and price-->
+          <div class="row mb-5">
+            <div class="col">
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="mx-4" *ngIf="!this.smoke">
+                  <button style="background-color: transparent; color: var(--primary)" (click)="updateSmoke()">
+                    <img width="50" heigth="50" src="../../../assets/icons/smoke-free-svgrepo-com.svg">
+                  </button>
+                </div>
+                <div class="mx-4" *ngIf="this.smoke">
+                  <button style="background-color: transparent; color: var(--primary)" (click)="updateSmoke()">
+                    <img width="50" heigth="50" src="../../../assets/icons/smoke-svgrepo-com.svg">
+                  </button>
+                </div>
+                <div class="mx-4" *ngIf="this.pet">
+                  <button style="background-color: transparent; color: var(--primary)" (click)="updatePet()">
+                    <img width="50" heigth="50" src="../../../assets/icons/walking-dog-sign-svgrepo-com.svg">
+                  </button>
+                </div>
+                <div class="mx-4" *ngIf="!this.pet">
+                  <button style="background-color: transparent; color: var(--primary)" (click)="updatePet()">
+                    <img width="50" heigth="50" src="../../../assets/icons/no-pets-svgrepo-com.svg">
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div id="CalculatedPrice" class="container borderPrimary p-3 h-100">
+                <div class="row">
+                  <div class="col" style="display: flex; align-items: center; justify-content: end">
+                    <input id="PriceInput" name="pricePerPerson" type="number" placeholder="50" class="fs-2 w-75" ngModel>
+                  </div>
+                  <div class="col" style="display: flex; align-items: center">
+                    <span class="material-symbols-outlined" style="font-size: xxx-large">toll</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button id="ConfirmOffer" type="submit" class="buttonPrimary fs-4 position-absolute top-100 start-50 translate-middle p-3">Angebot bestätigen</button>
+        </form>
+        <div *ngIf="showFlashMessage" class="alert alert-success alert-dismissible fade show flash" role="alert">
+          <div class="center">
+            <div *ngIf="this.success" class="medium center flashmessage">
+              Gesuch erfolgreich erstellt.
+            </div>
+            <div *ngIf="!this.success" class="medium center">
+              Fehler bei Erstellung.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Left part of page-->
+    <div id="VehicleSelection" class="col-3 container borderPrimary g-0">
+      <div id="VehicleSelectionHeader" class="col container-fluid">
+        <div class="row-cols-1">
+          <div class="col">
+            <h3>Welches Fahrzeug</h3>
+          </div>
+        </div>
+        <div class="row-cols-1">
+          <div class="col">
+            <h3>wirst du benutzen?</h3>
+          </div>
+        </div>
+      </div>
+      <div id="VehicleSelectionBody" class="col container g-0 p-3">
+        <button class="mb-3" style="background-color: transparent">
+          <div class="FormInputLight">
+            <div class="row p-3">
+              <div class="col-3" style="display: flex; justify-content: center; align-self: center">
+                <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:50px; height: 50px">
+              </div>
+              <div class="col-9">
+                <div class="container">
+                  <div class="row">
+                    <div class="col FormInputLight m-2">
+                      <p class="p-2 m-0">Transporter</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col FormInputLight m-2">
+                      <p class="p-2 m-0">Transporter mit x Volumen</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </button>
+        <button class="mb-3" style="background-color: transparent">
+          <div class="FormInputLight">
+            <div class="row p-3">
+              <div class="col-3" style="display: flex; justify-content: center; align-self: center">
+                <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:50px; height: 50px">
+              </div>
+              <div class="col-9">
+                <div class="container">
+                  <div class="row">
+                    <div class="col FormInputLight m-2">
+                      <p class="p-2 m-0">Transporter</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col FormInputLight m-2">
+                      <p class="p-2 m-0">Transporter mit x Volumen</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </button>
+        <button class="mb-3" style="background-color: transparent">
+          <div class="FormInputLight">
+            <div class="row p-3">
+              <div class="col-3" style="display: flex; justify-content: center; align-self: center">
+                <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:50px; height: 50px">
+              </div>
+              <div class="col-9">
+                <div class="container">
+                  <div class="row">
+                    <div class="col FormInputLight m-2">
+                      <p class="p-2 m-0">Transporter</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col FormInputLight m-2">
+                      <p class="p-2 m-0">Transporter mit x Volumen</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </button>
+        <button class="mb-3" style="background-color: transparent">
+          <div class="FormInputLight">
+            <div class="row p-3">
+              <div class="col-3" style="display: flex; justify-content: center; align-self: center">
+                <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:50px; height: 50px">
+              </div>
+              <div class="col-9">
+                <div class="container">
+                  <div class="row">
+                    <div class="col FormInputLight m-2">
+                      <p class="p-2 m-0">Transporter</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col FormInputLight m-2">
+                      <p class="p-2 m-0">Transporter mit x Volumen</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

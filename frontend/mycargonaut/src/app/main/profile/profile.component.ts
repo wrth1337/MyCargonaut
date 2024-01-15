@@ -49,7 +49,7 @@ export class ProfileComponent {
       }
     });
 
-    this.api.getRequest("offer").subscribe((res: any) => {
+    this.api.getRequest("offer/getUserOffer").subscribe((res: any) => {
       if(res != null) {
         this.offersAvailable = true;
         this.offerData = res.offerData;
