@@ -57,6 +57,8 @@ async function addNewWanted(description, startLocation, endLocation, startDate, 
         return 1;
     } catch (error) {
         return 0;
+    }
+}
 
 async function getWantedById(id) {
     const query = 'SELECT * FROM wanted WHERE adId = ?';
