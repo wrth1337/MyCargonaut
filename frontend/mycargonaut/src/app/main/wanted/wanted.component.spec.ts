@@ -179,8 +179,6 @@ it('should have input field number of seats with type number', () => {
   expect(el.nativeElement.getAttribute('type')).toEqual('number');
 });
 
-// vielleicht noch n test zu sprachen
-
 it('should show the correct icons for pets', () => {
   component.pet = true;
   fixture.detectChanges();
