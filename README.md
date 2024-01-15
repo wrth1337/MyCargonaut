@@ -58,6 +58,7 @@ The project places a strong emphasis on collaborative development using SCRUM, p
 * [![Express.js][Expressjs.com]][Expressjs-url]
 * [![MariaDB][MariaDB.com]][MariaDB-url]
 * [![Docker][Docker.com]][Docker-url]
+* [![Jest][Jest.com]][Jest-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -74,6 +75,24 @@ The project places a strong emphasis on collaborative development using SCRUM, p
 - [ ] 03/2024: Finish the project and hand in for inspection
 
 See the [open issues](https://github.com/wrth1337/MyCargonaut/issues) for a full list of proposed features (and known issues).
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+
+## Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the corresponding tags.
+Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -137,3 +156,5 @@ All members of "Group 2" were involved in the project.
 [MariaDB-url]: https://mariadb.org/
 [Docker.com]: https://img.shields.io/badge/Docker-308fbf?style=for-the-badge&logo=docker&logoColor=white
 [Docker-url]: https://www.docker.com/
+[Jest.com]: https://img.shields.io/badge/Jest-b5364b?style=for-the-badge&logo=jest&logoColor=white
+[Jest-url]: https://jestjs.io/
