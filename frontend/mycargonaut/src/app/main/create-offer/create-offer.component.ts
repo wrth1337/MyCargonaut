@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { ApiService } from 'src/app/service/api.service';
 
@@ -7,14 +6,12 @@ import { ApiService } from 'src/app/service/api.service';
   selector: 'app-create-offer',
   templateUrl: './create-offer.component.html',
   styleUrls: ['./create-offer.component.css'],
-  providers: [DatePipe]
 })
 
 export class CreateOfferComponent {
 
   constructor(
     private api: ApiService,
-    private datePipe: DatePipe
   ) {}
 
   userData: any;
