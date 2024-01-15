@@ -4,10 +4,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DatePipe } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { ApiService} from "src/app/service/api.service";
-import { FormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 
 describe('CreateOfferComponent', () => {
   let component: CreateOfferComponent;
@@ -15,7 +11,7 @@ describe('CreateOfferComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, NgForm, ApiService, DatePipe],
       declarations: [CreateOfferComponent]
     });
     fixture = TestBed.createComponent(CreateOfferComponent);
