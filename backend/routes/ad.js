@@ -235,12 +235,12 @@ async function getIntermediateById(adId) {
  *
  * /:id/type:
  *    get:
- *      summary: Retrieve the type of an advertisement by its Id
- *      description: Get the type of a specific advertisement by providing its I.
+ *      summary: Retrieve the type of an ad by its Id
+ *      description: Get the type of a specific ad by providing its Id.
  *      tags:
  *          - ad
  *      parameters:
- *        - in: params
+ *        - in: uri
  *          name: adId
  *          required: true
  *          description: Numeric Id of the ad  to retrieve its type.
