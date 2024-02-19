@@ -42,7 +42,7 @@ async function getUser(id) {
     }
 }
 
-async function editProfile(firstName, lastName, birthdate, picture, description, experience, id, german, english) {
+async function editProfile(firstName, lastName, birthdate, picture, description, experience, id, languages) {
   const edit ='UPDATE user SET firstName = ?, lastName = ?, birthdate = ?, picture = ?, description = ?, experience = ? WHERE userId = ?';
   const insertLang = 'INSERT INTO userLanguage(userId, languageId) VALUES (?, ?)';
   const existLang = 'SELECT * FROM userLanguage WHERE languageId = ? AND userId = ?';
@@ -50,27 +50,16 @@ async function editProfile(firstName, lastName, birthdate, picture, description,
     try {
         const conn = await pool.getConnection();
         const result = await conn.query(edit, [firstName, lastName, birthdate, picture, description, experience, id]);
-        const ger = await conn.query(existLang, [1, id]);
-        const eng = await conn.query(existLang, [2, id]);
-        if(ger.length === 0) {
-          if(german) {
-            const res = await conn.query(insertLang, [id, 1]);
-          }
-        } else {
-          if(!german) {
-            const res = await conn.query(deleteLang, [id, 1]);
+        
+        for (const lang of languages) {
+          const langExists = await conn.query(existLang, [lang.languageId, id]);
+          if (langExists.length === 0 && lang.selected) {
+            await conn.query(insertLang, [id, lang.languageId]);
+          } else if (langExists.length > 0 && !lang.selected) {
+            await conn.query(deleteLang, [id, lang.languageId]);
           }
         }
-        if(eng.length === 0) {
-          if(english) {
-            const res = await conn.query(insertLang, [id, 2]);
-          }
-        }
-        else {
-          if(!english) {
-            const res = await conn.query(deleteLang, [id, 2]);
-          }
-        }
+        
         await conn.release();
         return 1;
     } catch (error) {
@@ -135,6 +124,15 @@ async function editProfile(firstName, lastName, birthdate, picture, description,
  *                                          rating:
  *                                               type: string
  *                                               description: The rating of the user.
+ *                                  languages:
+ *                                      type: array
+ *                                      items:
+ *                                         type: object
+ *                                         properties:
+ *                                             languageId:
+ *                                                  type: integer
+ *                                                  description: The id of the language
+ *                                      description: The selected languages of the user.
  *              204:
  *                  description: query was successful but contains no content.
  *                  content: {}
@@ -210,6 +208,22 @@ router.get('/userdata', authenticateToken, async function(req, res, next) {
  *                 type: string
  *               description: The experience of the user.
  *               example: Hallo das sind meine Erfahrungen.
+ *             - in: query
+ *               name: languages
+ *               required: true
+ *               schema:
+ *                   type: array
+ *                   items:
+ *                      type: object
+ *                      properties:
+ *                          languageId:
+ *                              type: integer
+ *                              description: The id of the language.
+ *                          selected:
+ *                              type: boolean
+ *                              description: Shows whether the language was selected or not.
+ *               description: The selected languages of the user.
+ *               example: [{ languageId: 1, selected: true }]
  *         responses:
  *              200:
  *                  description: user profile data successfully changed.
@@ -235,8 +249,8 @@ router.get('/userdata', authenticateToken, async function(req, res, next) {
 router.post('/edit_profile', authenticateToken, async function(req, res, next) {
   try {
     const id = req.user_id;
-    const {firstName, lastName, birthdate, picture, description, experience, german, english} = req.body;
-    const edit = await editProfile(firstName, lastName, birthdate, picture, description, experience, id, german, english);
+    const {firstName, lastName, birthdate, picture, description, experience, language} = req.body;
+    const edit = await editProfile(firstName, lastName, birthdate, picture, description, experience, id, language);
 
     if (edit === 1) {
       res.status(200);

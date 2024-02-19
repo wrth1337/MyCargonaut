@@ -23,8 +23,21 @@ export class EditProfileComponent {
   editLang = false;
   success = false;
   showFlashMessage = false;
-  german = false;
-  english = false;
+  
+  languageVariables: { [key: string]: boolean } = {
+    german: false,
+    english: false,
+  };
+
+  languageMap: { [key: number]: string } = {
+    1: 'german',
+    2: 'english',
+  };
+  
+  language = [
+    { id: 1, name: 'german', icon: '../../../assets/icons/flag-for-flag-germany-svgrepo-com.svg' },
+    { id: 2, name: 'english', icon: '../../../assets/icons/flag-for-flag-united-kingdom-svgrepo-com.svg' },
+  ];
 
   showFlash() {
     this.showFlashMessage = true;
@@ -47,14 +60,17 @@ export class EditProfileComponent {
     this.api.getRequest("profile/userdata").subscribe((res: any) => {
       this.userData = res.userData;
       this.languages = res.languages;
-      for(let i = 0; i < this.languages.length; i++) {
-        if(this.languages[i].languageId === 1) {
-          this.german = true;
-        }
-        if(this.languages[i].languageId === 2) {
-          this.english = true;
+      for (const lang of Object.keys(this.languageVariables)) {
+        this.languageVariables[lang] = false;
+      }
+    
+      for (const langObj of this.languages) {
+        const langVariable = this.languageMap[langObj.languageId];
+        if (langVariable) {
+          this.languageVariables[langVariable] = true;
         }
       }
+
       this.rating = Math.round(res.userData.rating);
       this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
     });
@@ -71,6 +87,8 @@ export class EditProfileComponent {
   }
 
   onSubmit(form: NgForm) {
+    form.value.language = this.language.map(lang => ({ languageId: lang.id, selected: !!this.languageVariables[lang.name] }));
+
     if(!this.editUser) {
       form.value.firstName = this.userData.firstName;
       form.value.lastName = this.userData.lastName;
@@ -80,11 +98,10 @@ export class EditProfileComponent {
       this.userData.birthdate = this.datePipe.transform(birthdate, 'yyyy-MM-dd');
       form.value.birthdate = this.userData.birthdate;
     }
-    if(!this.editLang) {
-      form.value.german = this.german;
-      form.value.english = this.english;
-    }
+    
     form.value.picture = this.userData.picture;
+
+    console.log(form.value);
     this.api.postRequest("profile/edit_profile", form.value).subscribe((res: any) => {
       if(res.status === 1) {
         this.success = true;
