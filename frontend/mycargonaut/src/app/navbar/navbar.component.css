@@ -6,3 +6,7 @@
   padding: 5px 10px;  /* Add some padding */
   border-radius: 5px;  /* Add rounded corners */
 }
+
+.lastCol{
+  text-align: end;
+}
