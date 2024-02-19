@@ -170,6 +170,8 @@ async function getIntermediateById(adId) {
  *   get:
  *      summary: Retrieve an advertisement by its ID to use on Add-Card
  *      description: Get a specific advertisement's details by providing its ID.
+ *      tags:
+ *          - ad
  *      parameters:
  *       - in: query
  *         name: adId
@@ -199,6 +201,8 @@ async function getIntermediateById(adId) {
  *    get:
  *      summary: Retrieve the type of an advertisement by its ID
  *      description: Get the type of a specific advertisement by providing its ID.
+ *      tags:
+ *          - ad
  *      parameters:
  *        - in: query
  *          name: adId
@@ -233,6 +237,8 @@ async function getIntermediateById(adId) {
  *    get:
  *      summary: Retrieve the type of an advertisement by its Id
  *      description: Get the type of a specific advertisement by providing its I.
+ *      tags:
+ *          - ad
  *      parameters:
  *        - in: params
  *          name: adId
