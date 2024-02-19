@@ -129,7 +129,9 @@ CREATE OR REPLACE TABLE status(
     startRide BOOLEAN DEFAULT FALSE,
     endRide BOOLEAN DEFAULT FALSE,
     CONSTRAINT fk_booking_id_status
-   	FOREIGN KEY (bookingId) REFERENCES booking (bookingId)
+   	    FOREIGN KEY (bookingId) REFERENCES booking (bookingId)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 ); 
 
 CREATE OR REPLACE TABLE rating(

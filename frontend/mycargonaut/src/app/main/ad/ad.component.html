@@ -1,0 +1,108 @@
+<div class="infront" *ngIf="state === 'Bewerten'">
+    
+</div>
+<div class="row">
+    <div class="col">
+        <button class="btn returnBtn mx-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="var(--primary)" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+            </svg>
+        </button>
+    </div>
+    <div class="col mx-3 mt-2 centre">
+        <button class="trackingBtn btn fs-5" *ngIf="this.state === 'Stornieren'">Tracking</button>
+    </div>
+    <div class="col"></div>
+</div>
+<div class="row p-3">
+    <div class="col-md">
+        <div class="card">
+            <div class="card-header p-3 fs-5">
+                Übersicht
+            </div>
+            <div class="card-body p-2">
+                <div class="profile m-2">
+                    <div class="row">
+                        <div class="col m-2">
+                            <div *ngIf="user.picture; else placeholder">
+                                <img class="profilepicture" [src]="user.picture" height="4rem" width="4rem" alt="profilepicture">
+                            </div>
+                            <ng-template #placeholder>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="4rem" height="4rem" fill="var(--primary)" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                    <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                                </svg>
+                            </ng-template>
+                        </div>
+                        <div class="col centre">
+                            {{user.firstName}} {{user.lastName}}
+                            <div class="rating">
+                                <span *ngFor="let star of stars" class="star" [class.highlight]="star <= this.user.rating">
+                                    &#9733;
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col pt-4">
+                            {{user.birthdate}}
+                        </div>
+                    </div>
+                    <div class="description m-2">
+                        {{user.description}}
+                    </div>
+                    <div class="m-2">
+                        Erfahrung
+                        <div class="progress" role="progressbar" >
+                            <div class="progress-bar custom-progress" [style.width]="50+'%'"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card flagCard m-2">
+                                <div class="card-header flagCardHeader">
+                                    <span class="">Sprachen</span>
+                                </div>
+                                <div class="card-body">
+                                    Flaggen JUHU
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <span class="material-symbols-outlined" style="font-size: xxx-large">smoke_free</span>
+                            <span class="material-symbols-outlined" style="font-size: xxx-large">pets</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="profile m-2">
+                    <div *ngIf="this.type === 'offer'">
+                        Price per Person: {{typeSpecificContent.pricePerPerson}} <br>
+                        Price per Freight: {{typeSpecificContent.pricePerFreight}}
+                    </div>
+                    <div *ngIf="this.type === 'wanted'">
+                        Freight: {{typeSpecificContent.freight}}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md">
+        <div class="card adCard p-3">
+            <img src="https://placehold.jp/380x210.png" class="card-img-top adCardImg p-3" alt="...">
+            <div class="card-body adCardBody">
+                <h5 class="card-title adCardTitle p-1">{{writeTitle(ad)}}</h5>
+                <p class="card-text adCardText p-1 lh-xl">{{ad.description}}</p>
+            </div>
+          </div>
+          <button class="bookingBtn btn fs-4 fw-bolder" (click)="handleButton()">{{this.state}}</button>
+
+    </div>
+    <div class="col-md">
+        <div class="card chatCard mx-5">
+            <div class="card-header p-3 fs-5 chatCardHeader">
+                Chat mit Nutzer
+            </div>
+        </div>
+    </div>
+</div>
+

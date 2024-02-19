@@ -11,6 +11,9 @@ const httpServer = require('http').createServer(app);
 const user = require('./routes/user');
 app.use('/user', user.router);
 
+const coins = require('./routes/coins');
+app.use('/coins', coins.router);
+
 const profile = require('./routes/profile');
 app.use('/profile', profile.router);
 
@@ -18,10 +21,10 @@ const vehicle = require('./routes/vehicle');
 app.use('', vehicle.router);
 
 const offer = require('./routes/offer');
-app.use('', offer.router);
+app.use('/offer', offer.router);
 
 const wanted = require('./routes/wanted');
-app.use('', wanted.router);
+app.use('/wanted', wanted.router);
 
 const ad = require('./routes/ad');
 app.use('/ad', ad.router);
@@ -29,6 +32,8 @@ app.use('/ad', ad.router);
 const trip = require('./routes/trip');
 app.use('', trip.router);
 
+const searchbar = require('./routes/searchbar');
+app.use('/searchbar', searchbar.router);
 
 
 // app.js
