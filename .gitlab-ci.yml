@@ -14,6 +14,7 @@ lintFrontend:
     - cd frontend/myCargonaut
     - npm install
     - npm run lint
+  allow_failure: false
 
 lintBackend:
   stage: commit-phase
@@ -23,6 +24,7 @@ lintBackend:
     - cd backend
     - npm install
     - npx eslint .
+  allow_failure: false
 
 testFrontend:
   stage: commit-phase
