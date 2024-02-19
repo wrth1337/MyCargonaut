@@ -1,5 +1,3 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-
 name: Frontend Tests
 
 on:
@@ -26,7 +24,7 @@ jobs:
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
         sudo dpkg -i google-chrome-stable_current_amd64.deb
         sudo apt-get install -f
-    
+
     - name: Install dependencies
       run: |
         cd frontend/mycargonaut
