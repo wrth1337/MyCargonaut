@@ -32,11 +32,10 @@ test('create new wanted ad', async () => {
     const notes = 'testNote';
     const numSeats = 2;
     const freight = 'testFreight';
-    
+
     let conn;
 
     try {
-
         conn = await pool.getConnection();
 
         const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
@@ -50,7 +49,6 @@ test('create new wanted ad', async () => {
         expect(dbResult.data[0].startLocation).toEqual(startLocation);
         expect(dbResult.data[0].endLocation).toEqual(endLocation);
         expect(dbResult.data[0].startDate).toEqual(new Date(startDate));
-
     } finally {
         if (conn) await conn.release();
     }
@@ -64,9 +62,8 @@ test('create new wanted ad', async () => {
 });
 
 
-
 afterAll(() => {
-    pool.end(err => {
+    pool.end((err) => {
         if (err) {
             console.error('Fehler beim Schließen der Datenbankverbindung:', err);
         } else {

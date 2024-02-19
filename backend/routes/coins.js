@@ -22,9 +22,9 @@ async function getUserCoins(id) {
         await conn.release();
 
         if (result.length > 0) {
-            return { success: true, data: result[0] };
+            return {success: true, data: result[0]};
         } else {
-            return { success: false };
+            return {success: false};
         }
     } catch (error) {
         throw error;
@@ -91,13 +91,13 @@ router.get('/', authenticateToken, async function(req, res, next) {
 
         if (userCoins.success) {
             res.status(200);
-            res.json({ status: 1, coins: userCoins.data });
+            res.json({status: 1, coins: userCoins.data});
         } else {
             res.status(204).json(null);
         }
     } catch (error) {
         res.status(500);
-        res.json({ status: 99, error: 'Fetching Coins Data failed' });
+        res.json({status: 99, error: 'Fetching Coins Data failed'});
     }
 });
-module.exports = { router, getUserCoins};
+module.exports = {router, getUserCoins};

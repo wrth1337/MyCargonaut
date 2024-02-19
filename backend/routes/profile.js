@@ -6,7 +6,7 @@ const authenticateToken = require('./auth');
 // eslint-disable-next-line new-cap
 const router = express.Router();
 const limiter = rateLimit({
-    windowMs: 1 * 60 * 1000,
+    windowMs: 60 * 1000,
     max: 100,
 });
 
@@ -23,29 +23,33 @@ const pool = mariadb.createPool({
 // ---Methods--- //
 
 async function getUser(id) {
-    const userData = 'SELECT u.firstName, u.lastName, u.birthdate, u.picture, u.description, u.experience, AVG((COALESCE(r.punctuality, 0) + COALESCE(r.agreement, 0) + COALESCE(r.pleasent, 0) + CASE WHEN r.freight IS NOT NULL THEN r.freight ELSE 0 END) / NULLIF(4.0 - CASE WHEN r.freight IS NULL THEN 1 ELSE 0 END, 0)) AS rating FROM user u LEFT JOIN rating r ON r.userWhoWasEvaluated = u.userId WHERE u.userId = ?';
+    const userData = `
+        SELECT u.firstName, u.lastName, u.birthdate, u.picture, u.description, u.experience
+             , AVG((COALESCE(r.punctuality, 0) + COALESCE(r.agreement, 0) + COALESCE(r.pleasent, 0) + 
+                    CASE WHEN r.freight IS NOT NULL THEN r.freight ELSE 0 END) / NULLIF(4.0 - CASE WHEN r.freight IS NULL THEN 1 ELSE 0 END, 0)) AS rating
+        FROM user u LEFT JOIN rating r ON r.userWhoWasEvaluated = u.userId WHERE u.userId = ?`;
 
     try {
-      const conn = await pool.getConnection();
-      const result = await conn.query(userData, [id]);
-      await conn.release();
-  
-      if (result.length > 0) {
-        return { success: true, data: result[0] };
-      } else {
-        return { success: false };
-      }
+        const conn = await pool.getConnection();
+        const result = await conn.query(userData, [id]);
+        await conn.release();
+
+        if (result.length > 0) {
+            return {success: true, data: result[0]};
+        } else {
+            return {success: false};
+        }
     } catch (error) {
-      console.error('Fehler bei der Abfrage:', error);
-      throw error;
+        console.error('Fehler bei der Abfrage:', error);
+        throw error;
     }
 }
 
 async function editProfile(firstName, lastName, birthdate, picture, description, experience, id) {
-  const edit ='UPDATE user SET firstName = ?, lastName = ?, birthdate = ?, picture = ?, description = ?, experience = ? WHERE userId = ?';
+    const edit ='UPDATE user SET firstName = ?, lastName = ?, birthdate = ?, picture = ?, description = ?, experience = ? WHERE userId = ?';
     try {
         const conn = await pool.getConnection();
-        const result = await conn.query(edit, [firstName, lastName, birthdate, picture, description, experience, id]);
+        await conn.query(edit, [firstName, lastName, birthdate, picture, description, experience, id]);
         await conn.release();
         return 1;
     } catch (error) {
@@ -116,17 +120,17 @@ async function editProfile(firstName, lastName, birthdate, picture, description,
  */
 router.get('/userdata/:id', async function(req, res, next) {
     try {
-      const user = await getUser(req.params.id);
-  
-      if (user.success) {
-        res.status(200);
-        res.json({ status: 1, userData: user.data });
-      } else {
-        res.status(204).json(null);
-      }
+        const user = await getUser(req.params.id);
+
+        if (user.success) {
+            res.status(200);
+            res.json({status: 1, userData: user.data});
+        } else {
+            res.status(204).json(null);
+        }
     } catch (error) {
         res.status(500);
-        res.json({ status: 99, error: 'Fetching Profile Data failed' });
+        res.json({status: 99, error: 'Fetching Profile Data failed'});
     }
 });
 
@@ -207,24 +211,23 @@ router.get('/userdata/:id', async function(req, res, next) {
  *                                      description: The status-code.
  */
 router.post('/edit_profile', authenticateToken, async function(req, res, next) {
-  try {
-    const id = req.user_id;
-    const {firstName, lastName, birthdate, picture, description, experience} = req.body;
-    const edit = await editProfile(firstName, lastName, birthdate, picture, description, experience, id);
+    try {
+        const id = req.user_id;
+        const {firstName, lastName, birthdate, picture, description, experience} = req.body;
+        const edit = await editProfile(firstName, lastName, birthdate, picture, description, experience, id);
 
-    if (edit === 1) {
-      res.status(200);
-      res.json({ status: 1 });
-    } else {
-      res.status(500);
-      res.json({ status: 0 });
+        if (edit === 1) {
+            res.status(200);
+            res.json({status: 1});
+        } else {
+            res.status(500);
+            res.json({status: 0});
+        }
+    } catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Changing Profile Data failed'});
     }
-  } catch (error) {
-      res.status(500);
-      res.json({ status: 99, error: 'Changing Profile Data failed' });
-  }
 });
-  
 
 
-module.exports = { router, getUser, editProfile };
+module.exports = {router, getUser, editProfile};

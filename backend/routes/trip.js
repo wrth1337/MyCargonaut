@@ -6,7 +6,7 @@ const authenticateToken = require('./auth');
 // eslint-disable-next-line new-cap
 const router = express.Router();
 const limiter = rateLimit({
-    windowMs: 1 * 60 * 1000,
+    windowMs: 60 * 1000,
     max: 100,
 });
 
@@ -23,8 +23,21 @@ const pool = mariadb.createPool({
 // ---Methods--- //
 
 async function getUserTrips(id) {
-    const userWantedTrips = 'SELECT a.startLocation, a.endLocation, a.startDate FROM ad a JOIN wanted w ON w.adId = a.adId JOIN booking b ON b.adId = a.adId JOIN status s ON s.bookingId = b.bookingId WHERE s.endRide = TRUE AND a.userId = ?';
-    const userOfferedTrips = 'SELECT a.startLocation, a.endLocation, a.startDate FROM ad a JOIN offer o ON o.adId = a.adId JOIN booking b ON b.adId = a.adId JOIN status s ON s.bookingId = b.bookingId WHERE s.endRide = TRUE AND a.userId = ?';
+    const userWantedTrips = `
+    SELECT a.startLocation, a.endLocation, a.startDate
+    FROM ad a 
+        JOIN wanted w ON w.adId = a.adId 
+        JOIN booking b ON b.adId = a.adId 
+        JOIN status s ON s.bookingId = b.bookingId 
+    WHERE s.endRide = TRUE AND a.userId = ?`;
+
+    const userOfferedTrips = `
+    SELECT a.startLocation, a.endLocation, a.startDate
+    FROM ad a 
+        JOIN offer o ON o.adId = a.adId
+        JOIN booking b ON b.adId = a.adId
+        JOIN status s ON s.bookingId = b.bookingId 
+    WHERE s.endRide = TRUE AND a.userId = ?`;
 
     try {
         const conn = await pool.getConnection();
@@ -32,9 +45,9 @@ async function getUserTrips(id) {
         const uotresult = await conn.query(userOfferedTrips, [id]);
         await conn.release();
         if (uwtresult.length > 0 || uotresult.length > 0) {
-            return { success: true, uwtdata: uwtresult, uotData: uotresult };
+            return {success: true, uwtdata: uwtresult, uotData: uotresult};
         } else {
-            return { success: false };
+            return {success: false};
         }
     } catch (error) {
         console.error('Fehler bei der Abfrage:', error);
@@ -118,21 +131,20 @@ async function getUserTrips(id) {
 
 router.get('/trip', authenticateToken, async function(req, res, next) {
     try {
-      const id = req.user_id;
-      const trip = await getUserTrips(id);
-  
-      if (trip.success) {
-        res.status(200);
-        res.json({ status: 1, uwtData: trip.uwtdata, uotData: trip.uotData });
-      } else {
-        res.status(204).json(null);
-      }
+        const id = req.user_id;
+        const trip = await getUserTrips(id);
+
+        if (trip.success) {
+            res.status(200);
+            res.json({status: 1, uwtData: trip.uwtdata, uotData: trip.uotData});
+        } else {
+            res.status(204).json(null);
+        }
     } catch (error) {
         res.status(500);
-        res.json({ status: 99, error: 'Fetching Trip Data failed' });
+        res.json({status: 99, error: 'Fetching Trip Data failed'});
     }
 });
-  
 
 
-module.exports = { router, getUserTrips };
+module.exports = {router, getUserTrips};

@@ -31,9 +31,9 @@ async function getUserVehicles(id) {
         const result = await conn.query(userVehicles, [id]);
         await conn.release();
         if (result.length > 0) {
-            return { success: true, data: result };
+            return {success: true, data: result};
         } else {
-            return { success: false };
+            return {success: false};
         }
     } catch (error) {
         console.error('Fehler bei der Abfrage:', error);
@@ -92,19 +92,19 @@ async function getUserVehicles(id) {
 
 router.get('/vehicle', authenticateToken, async function(req, res, next) {
     try {
-      const id = req.user_id;
-      const vehicle = await getUserVehicles(id);
-      if (vehicle.success) {
-        res.status(200);
-        res.json({ status: 1, vehicleData: vehicle.data });
-      } else {
-        res.status(204).json(null);
-      }
+        const id = req.user_id;
+        const vehicle = await getUserVehicles(id);
+        if (vehicle.success) {
+            res.status(200);
+            res.json({status: 1, vehicleData: vehicle.data});
+        } else {
+            res.status(204).json(null);
+        }
     } catch (error) {
         res.status(500);
-        res.json({ status: 99, error: 'Fetching Vehicle Data failed' });
+        res.json({status: 99, error: 'Fetching Vehicle Data failed'});
     }
 });
 
 
-module.exports = { router, getUserVehicles };
+module.exports = {router, getUserVehicles};
