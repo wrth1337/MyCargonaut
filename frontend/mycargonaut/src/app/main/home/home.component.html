@@ -21,6 +21,7 @@
           <p class="card-text">{{content[(((index + 2) % 6) + 6) % 6].description}}</p>
         </div>
       </div>
+
       <div class="card m-3" style="width: 20rem;" [routerLink]="['/ad', content[(((index +1) % 6) + 6) % 6].adId]">
         <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
         <div class="card-body">
@@ -36,49 +37,66 @@
         </div>
       </div>
     </div>
-    <div class="col">
-      <div id="carouselExampleControls" class="carousel slide container" data-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active container">
-            <div class="row">
-              <div class="col ">
-                <div class="card justify-content-center" style="width: 18rem;">
-                  <img class="card-img-top" src="..." alt="Card image cap">
-                  <div class="card-body">
-                    <h5 class="card-title">Suche Fahrt von X nach Y</h5>
-                    <p class="card-text">Ich biete eine einfache Fahrt von Hamburg nach Berlin am 22.12.2023 an. Ich werde am Berliner HBF starten und die Fahrt am Hamburger HBF beenden.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card" style="width: 18rem;">
-                  <img class="card-img-top" src="..." alt="Card image cap">
-                  <div class="card-body">
-                    <h5 class="card-title">Suche Fahrt von X nach Y</h5>
-                    <p class="card-text">Ich biete eine einfache Fahrt von Hamburg nach Berlin am 22.12.2023 an. Ich werde am Berliner HBF starten und die Fahrt am Hamburger HBF beenden.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card" style="width: 18rem;">
-                  <img class="card-img-top" src="..." alt="Card image cap">
-                  <div class="card-body">
-                    <h5 class="card-title">Suche Fahrt von X nach Y</h5>
-                    <p class="card-text">Ich biete eine einfache Fahrt von Hamburg nach Berlin am 22.12.2023 an. Ich werde am Berliner HBF starten und die Fahrt am Hamburger HBF beenden.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div class="row m-0 justify-content-center active-recomended" *ngIf="!loaded">
+      <div class="card m-3" style="width: 20rem;" aria-hidden="true">
+        <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
+        <div class="card-body">
+          <h5 class="card-title placeholder-glow">
+            <span class="placeholder col-6"></span>
+          </h5>
+          <p class="card-text placeholder-glow">
+            <span class="placeholder col-7"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-6"></span>
+            <span class="placeholder col-8"></span>
+          </p>
         </div>
       </div>
-    </div>
-  <div class="col-1 position-relative">
-    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
-  </div>
-  </div>
+      <div class="card m-3" style="width: 20rem;" aria-hidden="true">
+        <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
+        <div class="card-body">
+          <h5 class="card-title placeholder-glow">
+            <span class="placeholder col-6"></span>
+          </h5>
+          <p class="card-text placeholder-glow">
+            <span class="placeholder col-7"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-6"></span>
+            <span class="placeholder col-8"></span>
+          </p>
+        </div>
+      </div>
+      <div class="card m-3" style="width: 20rem;" aria-hidden="true">
+        <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
+        <div class="card-body">
+          <h5 class="card-title placeholder-glow">
+            <span class="placeholder col-6"></span>
+          </h5>
+          <p class="card-text placeholder-glow">
+            <span class="placeholder col-7"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-6"></span>
+            <span class="placeholder col-8"></span>
+          </p>
+        </div>
+      </div>
 
+    </div>
+
+  </div>
+  <div class="col-md-auto">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <button class="btn me-5" type="button" (click)="next()">
+      <div class="btn-text">
+        >
+      </div>
+    </button>
+  </div>
 </div>
