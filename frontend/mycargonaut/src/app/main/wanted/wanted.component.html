@@ -17,7 +17,7 @@
               <div class="row mt-1 mb-5">
                 <div class="col-md-4 center mb-3" style="border-radius: 50%">
                     <div *ngIf="userData.picture; else placeholder">
-                        <img class="profilepicture" [src]="userData.picture" style="width:100px; height: 100px">
+                        <img class="profilepicture" [src]="userData.picture" style="width:100px; height: 100px" alt="Logo">
                     </div>
                     <ng-template #placeholder>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="var(--primary)" class="bi bi-person-circle" viewBox="0 0 16 16" style="width:100px; height: 100px;">
@@ -119,7 +119,7 @@
             <div class="row p-3 mb-3 mt-3">
                 <div class="col-md-3 container">
                     <div *ngIf="userData.picture; else placeholder" class="d-flex align-items-center">
-                        <img class="profilepicture" [src]="userData.picture" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center">
+                        <img class="profilepicture" [src]="userData.picture" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center" alt="Logo">
                     </div>
                     <ng-template #placeholder class="d-flex align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="var(--primary)" class="bi bi-person-circle" viewBox="0 0 16 16" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center">
@@ -153,22 +153,22 @@
                 <div class="d-flex justify-content-center align-items-center">
                     <div class="mx-4" *ngIf="!this.smoke">
                         <button style="background-color: transparent; color: var(--primary)" (click)="updateSmoke()">
-                            <img class="smokefree" width="50" heigth="50" src="../../../assets/icons/smoke-free-svgrepo-com.svg">
+                            <img class="smokefree" width="50" heigth="50" src="../../../assets/icons/smoke-free-svgrepo-com.svg" alt="Logo">
                         </button>
                     </div>
                     <div class="mx-4" *ngIf="this.smoke">
                         <button style="background-color: transparent; color: var(--primary)" (click)="updateSmoke()">
-                            <img class="smoke" width="50" heigth="50" src="../../../assets/icons/smoke-svgrepo-com.svg">
+                            <img class="smoke" width="50" heigth="50" src="../../../assets/icons/smoke-svgrepo-com.svg" alt="Logo">
                         </button>
                     </div>
                     <div class="mx-4" *ngIf="this.pet">
                         <button style="background-color: transparent; color: var(--primary)" (click)="updatePet()">
-                            <img class="pets" width="50" heigth="50" src="../../../assets/icons/walking-dog-sign-svgrepo-com.svg">
+                            <img class="pets" width="50" heigth="50" src="../../../assets/icons/walking-dog-sign-svgrepo-com.svg" alt="Logo">
                         </button>
                     </div>
                     <div class="mx-4" *ngIf="!this.pet">
                         <button style="background-color: transparent; color: var(--primary)" (click)="updatePet()">
-                            <img class="nopets" width="50" heigth="50" src="../../../assets/icons/no-pets-svgrepo-com.svg">
+                            <img class="nopets" width="50" heigth="50" src="../../../assets/icons/no-pets-svgrepo-com.svg" alt="Logo">
                         </button>
                     </div>
 
