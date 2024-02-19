@@ -1,6 +1,6 @@
 const {expect, test, afterAll} = require('@jest/globals');
 const argon2 = require('argon2');
-const {registerNewUser, isUserAlreadyRegistered, isEmailValid, isPhonenumberValid, isDateValid} = require('../routes/user');
+const {registerNewUser, isEmailValid, isPhonenumberValid, isDateValid} = require('../routes/user');
 const mariadb = require('mariadb');
 
 const pool = mariadb.createPool({
@@ -38,7 +38,6 @@ test('register new user in database via backend', async () => {
         expect(dbResult[0].lastName).toBe(lastName);
         expect(dbResult[0].email).toBe(email);
         expect(dbResult[0].phonenumber).toBe(phonenumber);
-
     } finally {
         // Always release the connection
         if (conn) await conn.release();
@@ -81,7 +80,6 @@ test('registerNewUser argon2id functionality', async () => {
 
         // Expect the verification to be true
         expect(isVerified).toBe(true);
-
     } finally {
         // Always release the connection
         if (conn) await conn.release();
@@ -117,12 +115,11 @@ test('registerNewUser argon2id functionality negativ test', async () => {
         conn = await pool.getConnection();
         const dbResult = await conn.query('SELECT * FROM user WHERE email = ?', [email]);
 
-        if(dbResult[0].password === password){
+        if (dbResult[0].password === password) {
             isVerified = true;
         }isVerified = false;
         // Expect the verification to be true
         expect(isVerified).toBe(false);
-
     } finally {
         // Always release the connection
         if (conn) await conn.release();
@@ -189,7 +186,7 @@ test('datevalidation finds falsy dates', async () => {
 // Jest afterAll function
 afterAll(() => {
     // Close the pool
-    pool.end(err => {
+    pool.end((err) => {
         if (err) {
             console.error('Fehler beim Schließen der Datenbankverbindung:', err);
         } else {
