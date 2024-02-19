@@ -9,7 +9,7 @@ on:
 
 jobs:
   eslint:
-    name: Run eslint scanning
+    name: Linting frontend
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -19,17 +19,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Run ESLint Backend
-        run: |
-          cd backend  
-          npm install
-          npx eslint .
-        continue-on-error: true
-
       - name: Run ESLint Frontend
         run: |
-          cd ..
-          pwd
           cd frontend/mycargonaut
+          npm install
           npm run lint
-        continue-on-error: true
