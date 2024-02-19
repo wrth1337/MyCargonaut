@@ -27,8 +27,16 @@ export class ProfileComponent {
   tripsAvailable = false;
   tripCount: any;
   stars: number[] = [1, 2, 3, 4, 5];
-  german = false;
-  english = false;
+  
+  languageVariables: { [key: string]: boolean } = {
+    german: false,
+    english: false,
+  };
+
+  languageMap: { [key: number]: string } = {
+    1: 'german',
+    2: 'english',
+  };
 
   constructor(
     private api: ApiService,
@@ -40,15 +48,18 @@ export class ProfileComponent {
     this.api.getRequest("profile/userdata").subscribe((res: any) => {
       this.userData = res.userData;
       this.languages = res.languages;
-      for(let i = 0; i < this.languages.length; i++) {
-        if(this.languages[i].languageId === 1) {
-          this.german = true;
-        }
-        else if(this.languages[i].languageId === 2) {
-          this.english = true;
+      
+      for (const lang of Object.keys(this.languageVariables)) {
+        this.languageVariables[lang] = false;
+      }
+    
+      for (const langObj of this.languages) {
+        const langVariable = this.languageMap[langObj.languageId];
+        if (langVariable) {
+          this.languageVariables[langVariable] = true;
         }
       }
-
+    
       this.rating = Math.round(res.userData.rating);
       this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
     });
