@@ -10,3 +10,7 @@
 .lastCol{
   text-align: end;
 }
+
+#Navbar {
+  max-width: 100%;
+}

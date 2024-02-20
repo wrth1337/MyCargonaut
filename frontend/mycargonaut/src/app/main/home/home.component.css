@@ -23,6 +23,10 @@
   background-color: var(--secondary_light);
 }
 
+#RecomendedOffers {
+    max-width: 100%;
+}
+
 .btn{
     background-color: var(--secondary);
     color: white;
