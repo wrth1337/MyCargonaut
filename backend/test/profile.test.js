@@ -41,7 +41,7 @@ test('get profile data from new registered user', async () => {
         expect(dbResult.data.firstName).toEqual(firstName);
         expect(dbResult.data.lastName).toEqual(lastName);
 
-        //expect(dbResult.data.birthdate).toEqual(new Date(birthdate));
+        expect(dbResult.data.birthdate).toEqual(new Date(birthdate));
 
         expect(dbResult.data.description).toBeNull();
         expect(dbResult.data.experience).toBeNull();
@@ -75,6 +75,8 @@ test('change profile data from user', async () => {
     const newBirthdate = '1990-01-02';
     const picture = 'testPicture.jpg';
 
+    const language = [];
+
     const result = await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
 
     expect(result).toBe(0);
@@ -88,7 +90,7 @@ test('change profile data from user', async () => {
         const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
         const userId = id[0].userId;
 
-        const res = await editProfile(newFirstName, newLastName, newBirthdate, picture, description, experience, userId);
+        const res = await editProfile(newFirstName, newLastName, newBirthdate, picture, description, experience, userId, language);
 
         expect(res).toBe(1);
 
@@ -97,7 +99,7 @@ test('change profile data from user', async () => {
         expect(dbResult.data.firstName).toEqual(newFirstName);
         expect(dbResult.data.lastName).toEqual(newLastName);
 
-        //expect(dbResult.data.birthdate).toEqual(new Date(newBirthdate));
+        expect(dbResult.data.birthdate).toEqual(new Date(newBirthdate));
 
         expect(dbResult.data.picture).toEqual(picture);
         expect(dbResult.data.description).toEqual(description);
@@ -131,8 +133,10 @@ test('add two languages to profile', async () => {
     const newBirthdate = '1990-01-02';
     const picture = 'testPicture.jpg';
 
-    const german = true;
-    const english = true;
+    const language = [
+        { languageId: 1, selected: true },
+        { languageId: 2, selected: true }
+    ];
 
     const result = await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
 
@@ -147,7 +151,7 @@ test('add two languages to profile', async () => {
         const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
         const userId = id[0].userId;
 
-        const res = await editProfile(newFirstName, newLastName, newBirthdate, picture, description, experience, userId, german, english);
+        const res = await editProfile(newFirstName, newLastName, newBirthdate, picture, description, experience, userId, language);
 
         expect(res).toBe(1);
 
@@ -183,8 +187,10 @@ test('edit language data', async () => {
     const newBirthdate = '1990-01-02';
     const picture = 'testPicture.jpg';
 
-    const german = true;
-    const english = false;
+    const language = [
+        { languageId: 1, selected: true },
+        { languageId: 2, selected: false}
+    ];
 
     const result = await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
 
@@ -199,7 +205,7 @@ test('edit language data', async () => {
         const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
         const userId = id[0].userId;
 
-        const res = await editProfile(newFirstName, newLastName, newBirthdate, picture, description, experience, userId, german, english);
+        const res = await editProfile(newFirstName, newLastName, newBirthdate, picture, description, experience, userId, language);
 
         expect(res).toBe(1);
 
