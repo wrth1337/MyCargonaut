@@ -88,7 +88,7 @@
                             <div class="card-title custom-border"> Sprachen: </div>
                             <div class="card-body overflow-auto">
                                 <div class="row">
-                                    <div class="col d-flex" *ngFor="let lang of language">
+                                    <div class="col d-flex langs" *ngFor="let lang of language">
                                         <div *ngIf="languageVariables[lang.name]">
                                             <img [src]="lang.icon" [alt]="lang.name" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
                                         </div>

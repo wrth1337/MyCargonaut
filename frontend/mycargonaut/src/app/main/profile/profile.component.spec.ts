@@ -39,6 +39,16 @@ describe('ProfileComponent', () => {
     component.uwtData = [{startLocation: 'Stuttgart', endLocation: 'Dresden', startDate: '05.05.2023'}];
     component.tripsAvailable = true;
 
+    component.language = [
+      { id: 1, name: 'german', icon: '../../../assets/icons/flag-for-flag-germany-svgrepo-com.svg' },
+      { id: 2, name: 'english', icon: '../../../assets/icons/flag-for-flag-united-kingdom-svgrepo-com.svg' },
+    ];
+
+    component.languageVariables = {
+      german: true,
+      english: false,
+    };
+
     fixture.detectChanges();
   });
 
@@ -226,6 +236,16 @@ it('should display [keine Fahrten vorhanden] if no trips are available', () => {
   expect(trip).toBe('Keine Fahrten vorhanden');
 });
 
+it('should display correct language icons', () => {
+  const langElements = fixture.debugElement.queryAll(By.css('.langs img'));
+  expect(langElements.length).toBe(1);
+
+  langElements.forEach((langElement, index) => {
+    const lang = component.language[index];
+    expect(langElement.nativeElement.getAttribute('alt')).toBe(lang.name);
+    expect(langElement.nativeElement.getAttribute('src')).toBe(lang.icon);
+  });
+});
 
   afterEach(() => {
     localStorage.clear();
