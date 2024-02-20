@@ -6,6 +6,7 @@ import {EventEmitter, Injectable} from '@angular/core';
 export class SearchService {
   searchEvent = new EventEmitter<any>();
   private currentSearchParams: any;
+  // eslint-disable-next-line
   constructor() { }
   setSearchParameters(params: any) {
     this.currentSearchParams = params;

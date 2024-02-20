@@ -23,30 +23,10 @@ const pool = mariadb.createPool({
 
 async function getLastAds() {
     const lastAds = 'SELECT * FROM ad ORDER BY adId DESC LIMIT 6';
-    const intermediateGoalsQuery = 'SELECT * FROM intermediateGoal WHERE adId = ?';
-    const isOfferQuery = 'SELECT 1 FROM offer WHERE adId = ?';
-    const isWantedQuery = 'SELECT 1 FROM wanted WHERE adId = ?';
 
     try {
         const conn = await pool.getConnection();
         const result = await conn.query(lastAds);
-        result.forEach(async (element) => {
-            const intermediateGoals = await conn.query(intermediateGoalsQuery, element.adId);
-            element.intermediateGoals = intermediateGoals;
-        });
-        result.forEach(async (element) => {
-            element.type = '';
-            const isOffer = await conn.query(isOfferQuery, element.adId);
-            if (isOffer.length > 0) {
-                element.type = 'offer';
-            }
-        });
-        result.forEach(async (element) => {
-            const isWanted = await conn.query(isWantedQuery, element.adId);
-            if (isWanted.length > 0) {
-                element.type = 'wanted';
-            }
-        });
         await conn.release();
 
         if (result.length > 0) {
@@ -61,30 +41,10 @@ async function getLastAds() {
 
 async function getAdById(id) {
     const query = 'SELECT * FROM ad WHERE adId = ?';
-    const intermediateGoalsQuery = 'SELECT * FROM intermediateGoal WHERE adId = ?';
-    const isOfferQuery = 'SELECT 1 FROM offer WHERE adId = ?';
-    const isWantedQuery = 'SELECT 1 FROM wanted WHERE adId = ?';
 
     try {
         const conn = await pool.getConnection();
         const result = await conn.query(query, id);
-        result.forEach(async (element) => {
-            const intermediateGoals = await conn.query(intermediateGoalsQuery, element.adId);
-            element.intermediateGoals = intermediateGoals;
-        });
-        result.forEach(async (element) => {
-            element.type = '';
-            const isOffer = await conn.query(isOfferQuery, element.adId);
-            if (isOffer.length > 0) {
-                element.type = 'offer';
-            }
-        });
-        result.forEach(async (element) => {
-            const isWanted = await conn.query(isWantedQuery, element.adId);
-            if (isWanted.length > 0) {
-                element.type = 'wanted';
-            }
-        });
         await conn.release();
 
         if (result.length > 0) {
@@ -128,6 +88,22 @@ async function getTypeById(adId) {
         } else {
             res = 'wanted';
             return {success: true, data: res};
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function getIntermediateById(adId) {
+    const goals = 'SELECT * FROM intermediateGoal WHERE adId = ?';
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(goals, [adId]);
+        await conn.release();
+        if (result.length > 0) {
+            return {success: true, data: result};
+        } else {
+            return {success: false};
         }
     } catch (error) {
         throw error;
@@ -194,6 +170,8 @@ async function getTypeById(adId) {
  *   get:
  *      summary: Retrieve an advertisement by its ID to use on Add-Card
  *      description: Get a specific advertisement's details by providing its ID.
+ *      tags:
+ *          - ad
  *      parameters:
  *       - in: query
  *         name: adId
@@ -223,6 +201,8 @@ async function getTypeById(adId) {
  *    get:
  *      summary: Retrieve the type of an advertisement by its ID
  *      description: Get the type of a specific advertisement by providing its ID.
+ *      tags:
+ *          - ad
  *      parameters:
  *        - in: query
  *          name: adId
@@ -253,6 +233,40 @@ async function getTypeById(adId) {
  *          description: Server error or unable to fetch the type.
  *
  *
+ * /:id/type:
+ *    get:
+ *      summary: Retrieve the type of an ad by its Id
+ *      description: Get the type of a specific ad by providing its Id.
+ *      tags:
+ *          - ad
+ *      parameters:
+ *        - in: uri
+ *          name: adId
+ *          required: true
+ *          description: Numeric Id of the ad  to retrieve its type.
+ *          schema:
+ *            type: integer
+ *      responses:
+ *        200:
+ *          description: Type of the ad retrieved successfully.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  status:
+ *                    type: integer
+ *                    example: 1
+ *                  data:
+ *                    type: object
+ *                    properties:
+ *                      type:
+ *                        type: string
+ *                        example: offer
+ *        204:
+ *          description: No content, type not found for the given advertisement ID.
+ *        500:
+ *          description: Server error or unable to fetch the type.
  * components:
  *      schemas:
  *          intermediateGoal:
@@ -279,9 +293,6 @@ async function getTypeById(adId) {
  *                  endLocation:
  *                      type: string
  *                      description: The end location of the ad.
- *                  type:
- *                      type: string
- *                      description: The type of the ad ('offer' / 'wanted').
  *                  intermediatGoals:
  *                      type: array
  *                      description: Array of intermediate Goals attached to the ad
@@ -346,6 +357,21 @@ router.get('/:id', async function(req, res, next) {
     }
 });
 
+router.get('/:id/intermediate', async function(req, res, next) {
+    try {
+        const ad = await getIntermediateById(req.params.id);
+        if (ad.success) {
+            res.status(200);
+            res.json({status: 1, data: ad.data});
+        } else {
+            res.status(204).json(null);
+        }
+    } catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Fetching intermediate Data failed'});
+    }
+});
+
 router.get('/byId', async function(req, res, next) {
     try {
         const ad = await getAdCardById(req.query.adId);
@@ -365,6 +391,21 @@ router.get('/byId', async function(req, res, next) {
 router.get('/type', async function(req, res, next) {
     try {
         const type = await getTypeById(req.query.adId);
+        if (type.success) {
+            res.status(200);
+            res.json({status: 1, data: type.data});
+        } else {
+            res.status(204).json(null);
+        }
+    } catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Type not found'});
+    }
+});
+
+router.get('/:id/type', async function(req, res, next) {
+    try {
+        const type = await getTypeById(req.params.id);
         if (type.success) {
             res.status(200);
             res.json({status: 1, data: type.data});

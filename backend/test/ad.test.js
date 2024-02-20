@@ -28,8 +28,6 @@ test('get ad by correct Id', async () =>{
                 'description': 'Ja Beschreibung halt so lololol',
                 'startLocation': 'City A',
                 'endLocation': 'City B',
-                'type': 'offer',
-                'intermediateGoals': [],
                 'startDate': new Date('2023-01-10'),
                 'endDate': new Date('2023-01-15'),
                 'animals': 0,
@@ -55,7 +53,7 @@ test('get ad by wrong Id', async () =>{
 });
 
 afterAll(() => {
-    pool.end(err => {
+    pool.end((err) => {
         if (err) {
             console.error('Fehler beim Schließen der Datenbankverbindung:', err);
         } else {

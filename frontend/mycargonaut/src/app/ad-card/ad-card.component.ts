@@ -17,7 +17,7 @@ export class AdCardComponent implements HttpClientModule{
   constructor(
     private api: ApiService
   ){}
-  ngOnInit(): void {
+  OnInit(): void {
     this.loaded = false;
     this.api.getRequest('ad/'+this.ad).subscribe((res:any) => {
       this.content = res.data;
@@ -37,5 +37,3 @@ export class AdCardComponent implements HttpClientModule{
     return res;
   }
 }
-
-

@@ -6,7 +6,7 @@ const authenticateToken = require('./auth');
 // eslint-disable-next-line new-cap
 const router = express.Router();
 const limiter = rateLimit({
-    windowMs: 1 * 60 * 1000,
+    windowMs: 60 * 1000,
     max: 100,
 });
 
@@ -23,7 +23,11 @@ const pool = mariadb.createPool({
 // ---Methods--- //
 
 async function getUser(id) {
-    const userData = 'SELECT u.firstName, u.lastName, u.birthdate, u.picture, u.description, u.experience, AVG((COALESCE(r.punctuality, 0) + COALESCE(r.agreement, 0) + COALESCE(r.pleasent, 0) + CASE WHEN r.freight IS NOT NULL THEN r.freight ELSE 0 END) / NULLIF(4.0 - CASE WHEN r.freight IS NULL THEN 1 ELSE 0 END, 0)) AS rating FROM user u LEFT JOIN rating r ON r.userWhoWasEvaluated = u.userId WHERE u.userId = ?';
+  const userData = `
+        SELECT u.firstName, u.lastName, u.birthdate, u.picture, u.description, u.experience
+       , AVG((COALESCE(r.punctuality, 0) + COALESCE(r.agreement, 0) + COALESCE(r.pleasent, 0) + 
+              CASE WHEN r.freight IS NOT NULL THEN r.freight ELSE 0 END) / NULLIF(4.0 - CASE WHEN r.freight IS NULL THEN 1 ELSE 0 END, 0)) AS rating
+        FROM user u LEFT JOIN rating r ON r.userWhoWasEvaluated = u.userId WHERE u.userId = ?`;
     const languages = 'SELECT languageId FROM userLanguage WHERE userId = ?';
     try {
       const conn = await pool.getConnection();
@@ -37,8 +41,8 @@ async function getUser(id) {
         return { success: false };
       }
     } catch (error) {
-      console.error('Fehler bei der Abfrage:', error);
-      throw error;
+        console.error('Fehler bei der Abfrage:', error);
+        throw error;
     }
 }
 
@@ -49,7 +53,7 @@ async function editProfile(firstName, lastName, birthdate, picture, description,
   const deleteLang = 'DELETE FROM userLanguage WHERE userId = ? AND languageId = ?';
     try {
         const conn = await pool.getConnection();
-        const result = await conn.query(edit, [firstName, lastName, birthdate, picture, description, experience, id]);
+        await conn.query(edit, [firstName, lastName, birthdate, picture, description, experience, id]);
         
         for (const lang of languages) {
           const langExists = await conn.query(existLang, [lang.languageId, id]);
@@ -59,7 +63,6 @@ async function editProfile(firstName, lastName, birthdate, picture, description,
             await conn.query(deleteLang, [id, lang.languageId]);
           }
         }
-        
         await conn.release();
         return 1;
     } catch (error) {
@@ -149,7 +152,7 @@ router.get('/userdata/:id', async function(req, res, next) {
       }
     } catch (error) {
         res.status(500);
-        res.json({ status: 99, error: 'Fetching Profile Data failed' });
+        res.json({status: 99, error: 'Fetching Profile Data failed'});
     }
 });
 
@@ -250,20 +253,18 @@ router.post('/edit_profile', authenticateToken, async function(req, res, next) {
     const id = req.user_id;
     const {firstName, lastName, birthdate, picture, description, experience, language} = req.body;
     const edit = await editProfile(firstName, lastName, birthdate, picture, description, experience, id, language);
-
-    if (edit === 1) {
-      res.status(200);
-      res.json({ status: 1 });
-    } else {
-      res.status(500);
-      res.json({ status: 0 });
+        if (edit === 1) {
+            res.status(200);
+            res.json({status: 1});
+        } else {
+            res.status(500);
+            res.json({status: 0});
+        }
+    } catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Changing Profile Data failed'});
     }
-  } catch (error) {
-      res.status(500);
-      res.json({ status: 99, error: 'Changing Profile Data failed' });
-  }
 });
-  
 
 
-module.exports = { router, getUser, editProfile };
+module.exports = {router, getUser, editProfile};

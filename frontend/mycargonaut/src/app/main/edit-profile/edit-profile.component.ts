@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ApiService } from 'src/app/service/api.service';
 import { DatePipe } from '@angular/common';
 import { NgForm } from '@angular/forms';
@@ -57,7 +57,7 @@ export class EditProfileComponent {
     private auth: AuthService
   ){}
 
-  ngOnInit() {
+  OnInit() {
     const userId = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;
     this.api.getRequest("profile/userdata/"+userId).subscribe((res: any) => {
       this.userData = res.userData;
@@ -84,7 +84,7 @@ export class EditProfileComponent {
         this.tripCount = 0;
       }
     });
-    
+
   }
 
   onSubmit(form: NgForm) {

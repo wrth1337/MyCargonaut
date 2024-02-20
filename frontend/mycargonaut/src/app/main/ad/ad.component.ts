@@ -54,6 +54,13 @@ userData: any;
     })
     this.api.getRequest('ad/'+this.id).subscribe((res:any) => {
       this.ad = res.data;
+      this.api.getRequest('ad/' + res.data.adId + '/intermediate').subscribe((res: any) => {
+        if(res) this.ad.intermediateGoals = res.data;
+        else this.ad.intermediateGoals = [];
+      })
+      this.api.getRequest('ad/' + res.data.adId + '/type').subscribe((res: any) => {
+        this.ad.type = res.data;
+      })
       this.authorId = res.data.userId;
       this.type = res.data.type;
       this.api.getRequest(res.data.type + '/' + res.data.adId).subscribe((res:any) => {
@@ -67,7 +74,7 @@ userData: any;
   }
 
   getState(){
-    this.state = 'Bewerten';
+    this.state = 'Buchen';
   }
   handleButton(){
     switch (this.state){
