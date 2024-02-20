@@ -42,7 +42,6 @@ test('get profile data from new registered user', async () => {
         expect(dbResult.data.experience).toBeNull();
         expect(dbResult.data.rating).toEqual('0.00000000');
         expect(dbResult.lang.length).toEqual(0);
-
     } finally {
         if (conn) await conn.release();
     }
@@ -127,18 +126,17 @@ test('add two languages to profile', async () => {
     const picture = 'testPicture.jpg';
 
     const language = [
-        { languageId: 1, selected: true },
-        { languageId: 2, selected: true }
+        {languageId: 1, selected: true},
+        {languageId: 2, selected: true},
     ];
 
     const result = await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
 
     expect(result).toBe(0);
-    
+
     let conn;
 
     try {
-
         conn = await pool.getConnection();
 
         const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
@@ -152,7 +150,6 @@ test('add two languages to profile', async () => {
         expect(dbResult.lang.length).toEqual(2);
         expect(dbResult.lang[0].languageId).toEqual(1);
         expect(dbResult.lang[1].languageId).toEqual(2);
-
     } finally {
         if (conn) await conn.release();
     }
@@ -181,18 +178,17 @@ test('edit language data', async () => {
     const picture = 'testPicture.jpg';
 
     const language = [
-        { languageId: 1, selected: true },
-        { languageId: 2, selected: false}
+        {languageId: 1, selected: true},
+        {languageId: 2, selected: false},
     ];
 
     const result = await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
 
     expect(result).toBe(0);
-    
+
     let conn;
 
     try {
-
         conn = await pool.getConnection();
 
         const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
@@ -205,7 +201,6 @@ test('edit language data', async () => {
         const dbResult = await getUser(userId);
         expect(dbResult.lang.length).toEqual(1);
         expect(dbResult.lang[0].languageId).toEqual(1);
-
     } finally {
         if (conn) await conn.release();
     }

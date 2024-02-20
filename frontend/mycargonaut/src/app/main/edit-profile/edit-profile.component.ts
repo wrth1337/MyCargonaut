@@ -28,11 +28,6 @@ export class EditProfileComponent implements OnInit {
     german: false,
     english: false,
   };
-
-  languageMap: { [key: number]: string } = {
-    1: 'german',
-    2: 'english',
-  };
   
   language = [
     { id: 1, name: 'german', icon: '../../../assets/icons/flag-for-flag-germany-svgrepo-com.svg' },
@@ -61,15 +56,15 @@ export class EditProfileComponent implements OnInit {
     const userId = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;
     this.api.getRequest("profile/userdata/"+userId).subscribe((res: any) => {
       this.userData = res.userData;
-      for (const lang of Object.keys(this.languageVariables)) {
-        this.languageVariables[lang] = false;
+      for (const lang of this.language) {
+        this.languageVariables[lang.name] = false;
       }
     
       for (const langObj of res.languages) {
-        const langVariable = this.languageMap[langObj.languageId];
-        if (langVariable) {
-          this.languageVariables[langVariable] = true;
-        }
+          const langVariable = this.language.find(lang => lang.id === langObj.languageId);           
+          if (langVariable) {
+            this.languageVariables[langVariable.name] = true;
+          }
       }
 
       this.rating = Math.round(res.userData.rating);
@@ -88,7 +83,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    form.value.language = this.language.map(lang => ({ languageId: lang.id, selected: !!this.languageVariables[lang.name] }));
+    form.value.language = this.language.map(lang => ({ languageId: lang.id, selected: this.languageVariables[lang.name] }));
 
     if(!this.editUser) {
       form.value.firstName = this.userData.firstName;
@@ -102,7 +97,6 @@ export class EditProfileComponent implements OnInit {
     
     form.value.picture = this.userData.picture;
 
-    console.log(form.value);
     this.api.postRequest("profile/edit_profile", form.value).subscribe((res: any) => {
       if(res.status === 1) {
         this.success = true;
