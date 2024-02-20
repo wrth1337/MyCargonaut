@@ -88,14 +88,9 @@
                             <div class="card-title custom-border"> Sprachen: </div>
                             <div class="card-body overflow-auto">
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div *ngIf="languageVariables['german']">
-                                            <img src="../../../assets/icons/flag-for-flag-germany-svgrepo-com.svg" alt="DE" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div *ngIf="languageVariables['english']">
-                                            <img src="../../../assets/icons/flag-for-flag-united-kingdom-svgrepo-com.svg" alt="EN" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                                    <div class="col d-flex" *ngFor="let lang of language">
+                                        <div *ngIf="languageVariables[lang.name]">
+                                            <img [src]="lang.icon" [alt]="lang.name" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
                                         </div>
                                     </div>
                                 </div>

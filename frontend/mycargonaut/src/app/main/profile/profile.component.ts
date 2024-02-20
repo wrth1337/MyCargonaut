@@ -28,6 +28,11 @@ export class ProfileComponent {
   tripsAvailable = false;
   tripCount: any;
   stars: number[] = [1, 2, 3, 4, 5];
+
+  language = [
+    { id: 1, name: 'german', icon: '../../../assets/icons/flag-for-flag-germany-svgrepo-com.svg' },
+    { id: 2, name: 'english', icon: '../../../assets/icons/flag-for-flag-united-kingdom-svgrepo-com.svg' },
+  ];
   
   languageVariables: { [key: string]: boolean } = {
     german: false,

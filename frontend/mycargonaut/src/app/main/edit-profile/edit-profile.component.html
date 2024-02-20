@@ -140,25 +140,20 @@
                 <div class="card-body overflow-auto">
                     <div *ngIf="!this.editLang">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div *ngIf="languageVariables['german']">
-                                <img src="../../../assets/icons/flag-for-flag-germany-svgrepo-com.svg" alt="DE" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div *ngIf="languageVariables['english']">
-                                <img src="../../../assets/icons/flag-for-flag-united-kingdom-svgrepo-com.svg" alt="EN" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                        <div class="col d-flex" *ngFor="let lang of language">
+                            <div *ngIf="languageVariables[lang.name]">
+                                <img [src]="lang.icon" [alt]="lang.name" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
                             </div>
                         </div>
                     </div>
                     </div>
                     <div *ngIf="this.editLang">
                         <div class="row">
-                            <div class="col-md-6 center" *ngFor="let lang of language">
+                            <div class="col d-flex" *ngFor="let lang of language">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" [name]="lang.name" class="custom-control-input" [id]="lang.id" [(ngModel)]="languageVariables[lang.name]">
                                     <label class="custom-control-label" [for]="lang.id">
-                                        <img [src]="lang.icon" [alt]="lang.name" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                                        <img [src]="lang.icon" [alt]="lang.name" class="cropped-img" style="width: 40px; height: 40px;">
                                     </label>
                                 </div>
                             </div>
@@ -182,6 +177,16 @@
             </div>
         </div>
     
+    </div>
+    <div *ngIf="showFlashMessage" class="alert alert-success alert-dismissible fade show flash" role="alert">
+        <div class="center">
+            <div *ngIf="this.success" class="medium center flashmessage">
+                Daten erfolgreich aktualisiert.
+            </div>
+            <div *ngIf="!this.success" class="medium center">
+                Fehler bei Aktualisierung der Daten.
+            </div>
+        </div>
     </div>
     </form>
 </div>
