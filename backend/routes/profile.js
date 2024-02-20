@@ -23,7 +23,7 @@ const pool = mariadb.createPool({
 // ---Methods--- //
 
 async function getUser(id) {
-  const userData = `
+    const userData = `
         SELECT u.firstName, u.lastName, u.birthdate, u.picture, u.description, u.experience
        , AVG((COALESCE(r.punctuality, 0) + COALESCE(r.agreement, 0) + COALESCE(r.pleasent, 0) + 
               CASE WHEN r.freight IS NOT NULL THEN r.freight ELSE 0 END) / NULLIF(4.0 - CASE WHEN r.freight IS NULL THEN 1 ELSE 0 END, 0)) AS rating
@@ -150,6 +150,7 @@ router.get('/userdata/:id', async function(req, res, next) {
       } else {
         res.status(204).json(null);
       }
+
     } catch (error) {
         res.status(500);
         res.json({status: 99, error: 'Fetching Profile Data failed'});
@@ -253,6 +254,7 @@ router.post('/edit_profile', authenticateToken, async function(req, res, next) {
     const id = req.user_id;
     const {firstName, lastName, birthdate, picture, description, experience, language} = req.body;
     const edit = await editProfile(firstName, lastName, birthdate, picture, description, experience, id, language);
+
         if (edit === 1) {
             res.status(200);
             res.json({status: 1});
