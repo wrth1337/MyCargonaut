@@ -17,7 +17,6 @@ export class EditProfileComponent {
   userData: any;
   rating: any;
   tripCount: any;
-  languages: any;
   stars: number[] = [1, 2, 3, 4, 5];
   editUser = false;
   editBirth = false;
@@ -62,12 +61,11 @@ export class EditProfileComponent {
     const userId = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;
     this.api.getRequest("profile/userdata/"+userId).subscribe((res: any) => {
       this.userData = res.userData;
-      this.languages = res.languages;
       for (const lang of Object.keys(this.languageVariables)) {
         this.languageVariables[lang] = false;
       }
     
-      for (const langObj of this.languages) {
+      for (const langObj of res.languages) {
         const langVariable = this.languageMap[langObj.languageId];
         if (langVariable) {
           this.languageVariables[langVariable] = true;

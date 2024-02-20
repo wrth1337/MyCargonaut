@@ -13,7 +13,6 @@ import { AuthService } from 'src/app/service/auth.service';
 
 
 export class ProfileComponent {
-  id = 0;
   userData: any;
   vehicleData: any;
   offerData: any;
@@ -21,7 +20,6 @@ export class ProfileComponent {
   uwtData: any;
   uotData: any;
   rating: any;
-  languages: any;
   vehiclesAvailable = false;
   offersAvailable = false;
   wantedsAvailable = false;
@@ -54,13 +52,12 @@ export class ProfileComponent {
     const userId = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;
     this.api.getRequest("profile/userdata/"+userId).subscribe((res: any) => {
       this.userData = res.userData;
-      this.languages = res.languages;
       
       for (const lang of Object.keys(this.languageVariables)) {
         this.languageVariables[lang] = false;
       }
     
-      for (const langObj of this.languages) {
+      for (const langObj of res.languages) {
         const langVariable = this.languageMap[langObj.languageId];
         if (langVariable) {
           this.languageVariables[langVariable] = true;
