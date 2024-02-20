@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ApiService } from 'src/app/service/api.service';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/service/auth.service';
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -31,7 +32,8 @@ export class ProfileComponent {
   constructor(
     private api: ApiService,
     private auth: AuthService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private location: Location
   ){}
 
   OnInit() {
@@ -86,6 +88,9 @@ export class ProfileComponent {
         this.tripCount = 0;
       }
     });
+  }
+  back(){
+    this.location.back()
   }
 }
 
