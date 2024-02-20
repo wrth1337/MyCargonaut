@@ -16,13 +16,13 @@ export class CreateOfferComponent {
 
   userData: any;
   rating: any;
-  smoke: boolean = true;
-  pet: boolean = true;
+  smoke = true;
+  pet = true;
   stars: number[] = [1, 2, 3, 4, 5];
   tripCount: any;
-  showFlashMessage: boolean = false;
-  success: boolean = false;
-  approved: boolean = false;
+  showFlashMessage = false;
+  success = false;
+  approved = false;
 
   onSubmit(form: NgForm) {
     form.value.endDate = form.value.startDate;

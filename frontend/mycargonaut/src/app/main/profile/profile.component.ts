@@ -48,7 +48,7 @@ export class ProfileComponent {
     private datePipe: DatePipe
   ){}
 
-  ngOnInit() {
+  OnInit() {
     const userId = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;
     this.api.getRequest("profile/userdata/"+userId).subscribe((res: any) => {
       this.userData = res.userData;

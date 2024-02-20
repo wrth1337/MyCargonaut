@@ -8,13 +8,13 @@ import { AuthService } from 'src/app/service/auth.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  coins: number = -1;
+  coins = -1;
   isLogin = false;
   constructor(
     private api: ApiService,
     private auth: AuthService
   ){}
-  ngOnInit() {
+  OnInit() {
     this.isUserLogin();
     if (this.isLogin) {
       this.api.getRequest("coins").subscribe((res: any) => {

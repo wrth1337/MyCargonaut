@@ -24,7 +24,7 @@
             <div class="d-flex align-items-center justify-content-center">
                 
                 <div *ngIf="userData.picture; else placeholder" class="d-flex align-items-center">
-                    <img class="profilepicture" [src]="userData.picture" height="130" width="130">
+                    <img class="profilepicture" [src]="userData.picture" height="130" width="130" alt="LogoAlternativtext">
                 </div>
                 <ng-template #placeholder class="d-flex align-items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="130" height="130" fill="var(--primary)" class="bi bi-person-circle" viewBox="0 0 16 16">

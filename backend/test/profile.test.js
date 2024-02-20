@@ -1,10 +1,6 @@
 const {expect, test, afterAll} = require('@jest/globals');
 const {registerNewUser} = require('../routes/user');
 const {getUser, editProfile} = require('../routes/profile');
-const {getUserOffers} = require('../routes/offer');
-const {getUserTrips} = require('../routes/trip');
-const {getUserVehicles} = require('../routes/vehicle');
-const {getUserWanteds} = require('../routes/wanted');
 const mariadb = require('mariadb');
 
 const pool = mariadb.createPool({
@@ -26,11 +22,10 @@ test('get profile data from new registered user', async () => {
     const result = await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
 
     expect(result).toBe(0);
-    
+
     let conn;
 
     try {
-
         conn = await pool.getConnection();
 
         const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
@@ -84,7 +79,6 @@ test('change profile data from user', async () => {
     let conn;
 
     try {
-
         conn = await pool.getConnection();
 
         const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
@@ -105,7 +99,6 @@ test('change profile data from user', async () => {
         expect(dbResult.data.description).toEqual(description);
         expect(dbResult.data.experience).toEqual(experience);
         expect(dbResult.data.rating).toEqual('0.00000000');
-
     } finally {
         if (conn) await conn.release();
     }
@@ -226,7 +219,7 @@ test('edit language data', async () => {
 });
 
 afterAll(() => {
-    pool.end(err => {
+    pool.end((err) => {
         if (err) {
             console.error('Fehler beim Schließen der Datenbankverbindung:', err);
         } else {

@@ -14,7 +14,7 @@ export class ResultpageComponent{
 
   constructor(private router: Router, private api: ApiService, private searchService: SearchService) {}
 
-  ngOnInit() {
+  OnInit() {
     this.searchService.searchEvent.subscribe((searchParams) => {
       this.loadSearchResults(searchParams);
     });

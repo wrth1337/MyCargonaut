@@ -18,15 +18,15 @@ export class WantedComponent {
 
   userData: any;
   rating: any;
-  smoke: boolean = true;
-  pet: boolean = true;
+  smoke = true;
+  pet = true;
   stars: number[] = [1, 2, 3, 4, 5];
   tripCount: any;
-  showFlashMessage: boolean = false;
-  success: boolean = false;
-  approved: boolean = false;
+  showFlashMessage = false;
+  success = false;
+  approved = false;
 
-  ngOnInit() {
+  OnInit() {
     this.api.getRequest("profile/userdata").subscribe((res: any) => {
       this.userData = res.userData;
       this.rating = Math.round(res.userData.rating);
