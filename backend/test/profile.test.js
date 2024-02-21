@@ -79,7 +79,7 @@ test('change profile data from user', async () => {
 
     try {
         conn = await pool.getConnection();
-
+        const resLang = await conn.query(`INSERT INTO language(languageName, languagePicture) VALUES  ('Deutsch', 'deutschlandflagge.jpg'), ('Englisch', 'americanflag.jpg')`);
         const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
         const userId = id[0].userId;
 
@@ -138,7 +138,7 @@ test('add two languages to profile', async () => {
 
     try {
         conn = await pool.getConnection();
-
+        await conn.query(`INSERT INTO language(languageName, languagePicture) VALUES  ('Deutsch', 'deutschlandflagge.jpg'), ('Englisch', 'americanflag.jpg')`);
         const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
         const userId = id[0].userId;
 
@@ -190,7 +190,7 @@ test('edit language data', async () => {
 
     try {
         conn = await pool.getConnection();
-
+        await conn.query(`INSERT INTO language(languageName, languagePicture) VALUES  ('Deutsch', 'deutschlandflagge.jpg'), ('Englisch', 'americanflag.jpg')`);
         const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
         const userId = id[0].userId;
 
