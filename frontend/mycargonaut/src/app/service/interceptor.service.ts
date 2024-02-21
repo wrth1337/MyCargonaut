@@ -20,7 +20,7 @@ export class InterceptorService implements HttpInterceptor{
       
       const authToken = this.auth.getToken();
       if(authToken){
-        req = req.clone({headers: req.headers.set('Authorization', authToken)});
+        req = req.clone({headers: req.headers.set('Authorization', 'Bearer '+authToken)});
       }
       return next.handle(req).pipe(catchError(error => {
         if (error instanceof HttpErrorResponse && error.status === 401) {
