@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/service/api.service';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/service/auth.service';
@@ -13,7 +13,7 @@ import { Location } from '@angular/common';
 })
 
 
-export class ProfileComponent {
+export class ProfileComponent implements OnInit{
   id = 0;
   userData: any;
   vehicleData: any;
@@ -36,7 +36,7 @@ export class ProfileComponent {
     private location: Location
   ){}
 
-  OnInit() {
+  ngOnInit() {
     const userId = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;
     this.api.getRequest("profile/userdata/"+userId).subscribe((res: any) => {
       this.userData = res.userData;
