@@ -365,7 +365,6 @@ router.post('/vehicle', authenticateToken, async function(req, res, next) {
     try {
         const userId = req.user_id;
         const {name, numSeats, maxWeight, loadingAreaDimensions, specialFeatures} = req.body;
-        console.log(req.body)
         const result = await newUserVehicle(userId, name, numSeats, maxWeight, loadingAreaDimensions, specialFeatures);
         if (result) {
             res.status(200);
@@ -386,7 +385,7 @@ router.post('/vehicle/:id', authenticateToken, async function(req, res, next) {
         const vehicleId = req.params.id;
         const {name, numSeats, maxWeight, loadingAreaDimensions, specialFeatures} = req.body;
         const result = await updateUserVehicle(userId, vehicleId, name, numSeats, maxWeight, loadingAreaDimensions, specialFeatures);
-        if (result) {
+        if (result.affectedRows > 0) {
             res.status(200);
             res.json({status: 1});
         } else {
@@ -404,7 +403,6 @@ router.delete('/vehicle/:id', authenticateToken, async function(req, res, next) 
         const userId = req.user_id;
         const vehicleId = req.params.id;
         const result = await deleteUserVehicle(userId, vehicleId);
-        console.log(result)
         if (result.affectedRows > 0) {
             res.status(200);
             res.json({status: 1});
