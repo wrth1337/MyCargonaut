@@ -2,7 +2,7 @@
   <div class="col col-rows-2">
     <div id="UserOverview" class="row-3 mb-5 card container borderPrimary g-0">
         <div class="container">
-          <div class="row p-2" style="border-bottom: 1px solid var(--primary)">
+          <div class="row p-2" style="border-bottom: 2px solid var(--primary)">
             <div class="col">
               <p class="m-0 medium">Bitte überprüfe deine Angaben!</p>
             </div>
@@ -12,7 +12,7 @@
           </div>
         </div>
         <div class="row p-5">
-          <div id="personalData" class="container borderPrimary p-2 position-relative">
+          <div id="personalData" class="container position-relative">
             <div class="container p-0">
               <div class="row mt-1 mb-5">
                 <div class="col-md-4 center mb-3" style="border-radius: 50%">
@@ -48,8 +48,8 @@
               
             </div>
             <div class="container p-0 mb-3">
+                <div> Kurzbeschreibung über mich </div>
                 <div class="card mb-3 p-2 ht1 overflow-auto d-flex justify-content-between description"> {{userData.description}}</div>
-                <!--<textarea placeholder="Über mich..." class="FormInputLight w-100" rows="5" [(ngModel)]="userData.description"></textarea>-->
             </div>
             <div class="row mb-5">
                 <div class="col-md-6">
@@ -89,13 +89,13 @@
 
     <div id="OfferCard" class="row-3 mb-5 card container borderPrimary g-0">
         <div class="container">
-            <div class="row p-2" style="border-bottom: 1px solid var(--primary)">
+            <div class="row p-2" style="border-bottom: 2px solid var(--primary)">
               <div class="col">
                 <p class="m-0 medium">Bitte gib Details zu deinem Gesuch an!</p>
               </div>
             </div>
         </div>
-        <form class="FormInputLight p-3 mb-3 mt-3" #wantedForm="ngForm" (ngSubmit)="onSubmit(wantedForm)">
+        <form class="p-3 mb-3 mt-3" #wantedForm="ngForm" (ngSubmit)="onSubmit(wantedForm)">
             <div class="row p-3">
               <div class="col g-0 pe-2">
                 <input name="startLocation" class="FormInputColor w-100 startLoc-input" type="text" placeholder="Von..." ngModel>
