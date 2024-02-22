@@ -21,11 +21,17 @@ beforeAll(() => {
     registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
 });
 
+async function getUserID(email) {
+    const conn = await pool.getConnection();
+    const idQuery = 'SELECT userId FROM user WHERE email = ?';
+    const result = await conn.query(idQuery, [email]);
+    return result[0].userId
+}
+
 test('getUserCoins', async () => {
-    const id = 1;
+    const id = await getUserID("mail@mail.de");
     const result = await getUserCoins(id);
     expect(result.data.coins).toBe(0);
-
     const conn = await pool.getConnection();
     const deleteQuery = 'DELETE FROM user WHERE userId = ?';
     await conn.query(deleteQuery, [id]);
