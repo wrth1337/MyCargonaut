@@ -25,7 +25,12 @@ async function getUserID(email) {
     const conn = await pool.getConnection();
     const idQuery = 'SELECT userId FROM user WHERE email = ?';
     const result = await conn.query(idQuery, [email]);
-    return result[0].userId;
+    if (result[0]) {
+        return result[0].userId;
+    } else {
+        console.error(`Kein Benutzer mit der E-Mail-Adresse ${email} gefunden.`);
+        return null;
+    }
 }
 
 test('getUserCoins', async () => {
