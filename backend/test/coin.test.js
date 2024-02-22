@@ -25,7 +25,7 @@ async function getUserID(email) {
     const conn = await pool.getConnection();
     const idQuery = 'SELECT userId FROM user WHERE email = ?';
     const result = await conn.query(idQuery, [email]);
-    if (result[0]) {
+    if (result[0].userId >= 0) {
         return result[0].userId;
     } else {
         console.error(`Kein Benutzer mit der E-Mail-Adresse ${email} gefunden.`);
