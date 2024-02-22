@@ -4,6 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { FormsModule } from '@angular/forms';
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
@@ -12,7 +13,7 @@ describe('ProfileComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ProfileComponent],
-      imports: [HttpClientTestingModule, RouterModule, RouterTestingModule],
+      imports: [HttpClientTestingModule, RouterModule, RouterTestingModule, FormsModule],
     });
   
     fixture = TestBed.createComponent(ProfileComponent);
@@ -160,8 +161,7 @@ it('should update progress bar width based on tripCount', () => {
 it('should display vehicles if vehicles are available', () => {
 
   const vehic = fixture.debugElement.query(By.css('.vehicles')).nativeElement.textContent.trim();
-
-  expect(vehic).toBe('Car1  Car2');
+  expect(vehic).toEqual('Car1 Car2');
 });
 
 it('should display [keine Fahrzeuge vorhanden] if no vehicles are available', () => {
