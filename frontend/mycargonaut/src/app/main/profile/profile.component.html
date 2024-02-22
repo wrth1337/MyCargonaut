@@ -100,12 +100,12 @@
                                     </div>
                                     <div *ngIf="vehiclesAvailable">
                                         <div *ngFor="let item of vehicleData">
-                                            <div> {{item.name}} </div>
+                                            <div data-bs-toggle="modal" data-bs-target="#vehicleModal" (click)="selectVehicle(item)"> {{item.name}}</div>
                                             <br>
                                         </div>
                                     </div>
                                 </div>
-                                <button type="button" class="btn align-center" data-bs-toggle="modal" data-bs-target="#vehicleModal">
+                                <button type="button" class="btn align-center" data-bs-toggle="modal" data-bs-target="#vehicleModal" (click)="clearSelectedVehicle()">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
                                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
                                     </svg>
@@ -151,7 +151,7 @@
             </div>
             <div class="card-body wanted overflow-auto" *ngIf="wantedData">
                 <div *ngFor="let item of wantedData">
-                    <div> Suche Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
+                    <div > Suche Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
                     <br>
                 </div>
             </div>
@@ -217,13 +217,13 @@
                     </div>
                     <div class="col-sm-8 p-3">
                         <div class="inputRow">
-                            <input id="name" class="form-control input-text-field m-1" type="text" name="name" placeholder="Name" required ngModel>
+                            <input id="name" class="form-control input-text-field m-1" type="text" name="name" placeholder="Name" required ngModel [(ngModel)]="this.selectedVehicle.name">
                         </div>
                         <div class="inputRow">
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-people-fill" viewBox="0 0 16 16">
                                 <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
                               </svg>
-                            <input id="seats" class="form-control input-text-field ms-2 m-1" type="number" name="numSeats" placeholder="Anzahl Sitzplätze" required ngModel>    
+                            <input id="seats" class="form-control input-text-field ms-2 m-1" type="number" name="numSeats" placeholder="Anzahl Sitzplätze" required ngModel [(ngModel)]="this.selectedVehicle.numSeats">    
                         </div>
                         <div class="inputRow">
                             <svg fill="var(--primary)" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
@@ -242,13 +242,13 @@
                                v-27.104h46.565L431.369,451.032L431.369,451.032z"/>
                             </g>
                             </svg>
-                            <input id="weight" class="form-control input-text-field ms-2 m-1" type="number" name="maxWeight" placeholder="Gewicht" required ngModel>
+                            <input id="weight" class="form-control input-text-field ms-2 m-1" type="number" name="maxWeight" placeholder="Gewicht" required ngModel [(ngModel)]="this.selectedVehicle.maxWeight">
                         </div>
                         <div class="inputRow">
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-box" viewBox="0 0 16 16">
                                 <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5 8 5.961 14.154 3.5zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464z"/>
                               </svg>
-                            <input id="dimensions" class="form-control input-text-field ms-2 m-1" type="text" name="loadingAreaDimensions" placeholder="Dimensionen" ngModel>
+                            <input id="dimensions" class="form-control input-text-field ms-2 m-1" type="text" name="loadingAreaDimensions" placeholder="Dimensionen" ngModel [(ngModel)]="this.selectedVehicle.loadingAreaDimensions">
                         </div>
                     </div>
 
@@ -256,15 +256,29 @@
                 <div class="row mt-4">
                     <span>Sonderfunktionen</span>
                     <div>
-                        <textarea id="specials" class="form-control input-text-field" name="specialFeatures" required ngModel></textarea>
+                        <textarea id="specials" class="form-control input-text-field" name="specialFeatures" required ngModel [(ngModel)]="this.selectedVehicle.specialFeatures"></textarea>
                     </div>
                 </div>
-
-                  <div class="center">
-                    <div class="align-middle p-3">
-                      <input id="submitButton" class="submitButton btn align-middle" type="submit" value="Speichern" [disabled]="!vehicleForm.valid">
+                <div *ngIf="newVehicleFailure" class="m-4">
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                      <div>Etwas ist schiefgelaufen</div>
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                   </div>
+                  <div class="row">
+                    <div class="col p-3">
+                        <button id="deleteButton" class="btn align-middle" type="button" *ngIf="this.updateVehicle" data-bs-toggle="modal" data-bs-target="#deleteVehicleModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="red" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="align-middle col p-3 center">
+                        <input id="submitButton" class="submitButton btn align-middle" type="submit" value="Speichern" [disabled]="!vehicleForm.valid">
+                    </div>
+                    <div class="col"></div>
+                  </div>
+
               </div>
           </div>
         </div>
@@ -273,3 +287,18 @@
   </div>
 
 
+  <div class="modal" id="deleteVehicleModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <p>Sie möchten ein Fahrzeug löschen. </p>
+
+           <p>Sind Sie sich sicher?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+          <button type="button" class="btn btn-danger" (click)="deleteVehicle()">Bestätigen</button>
+        </div>
+      </div>
+    </div>
+  </div>
