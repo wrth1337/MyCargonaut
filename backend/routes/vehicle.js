@@ -24,7 +24,7 @@ const pool = mariadb.createPool({
 
 
 async function getUserVehicles(id) {
-    const userVehicles = 'SELECT name FROM vehicle WHERE userId = ?';
+    const userVehicles = 'SELECT * FROM vehicle WHERE userId = ?';
 
     try {
         const conn = await pool.getConnection();
