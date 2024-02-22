@@ -226,6 +226,60 @@ it('should display [keine Fahrten vorhanden] if no trips are available', () => {
   expect(trip).toBe('Keine Fahrten vorhanden');
 });
 
+it('should have an input field name with type text', () => {
+  const elem = fixture.debugElement.query(By.css('#name')).nativeElement;
+
+  expect(elem.type).toBe('text');
+});
+it('should have an input field seats with type number', () => {
+  const elem = fixture.debugElement.query(By.css('#seats')).nativeElement;
+
+  expect(elem.type).toBe('number');
+});
+it('should have an input field weight with type text', () => {
+  const elem = fixture.debugElement.query(By.css('#weight')).nativeElement;
+
+  expect(elem.type).toBe('number');
+});
+it('should have an input field dimensions with type text', () => {
+  const elem = fixture.debugElement.query(By.css('#dimensions')).nativeElement;
+
+  expect(elem.type).toBe('text');
+});
+it('should set updateVehicle to true if a vehicle is clicked', () => {
+  component.updateVehicle = false;
+  fixture.detectChanges();
+  const elem = fixture.debugElement.query(By.css('.vehicleEntry')).nativeElement;
+  elem.click();
+  expect(component.updateVehicle).toBeTrue();
+});
+
+it('should set updateVehicle to false if the new vehicle button is clicked', () => {
+  component.updateVehicle = true;
+  fixture.detectChanges();
+  const elem = fixture.debugElement.query(By.css('.newVehicleButton')).nativeElement;
+  elem.click();
+  expect(component.updateVehicle).toBeFalse();
+});
+
+it('should display the delete Button if it updates an existing vehicle', () => {
+  component.updateVehicle = true;
+  fixture.detectChanges();
+
+  const del = fixture.debugElement.query(By.css('#deleteButton'));
+
+  expect(del).toBeTruthy();
+});
+
+it('should not display the delete Button if no vehicle to update was selected', () => {
+  component.updateVehicle = false;
+  fixture.detectChanges();
+
+  const del = fixture.debugElement.query(By.css('#deleteButton'));
+
+  expect(del).toBeNull();
+});
+
 
   afterEach(() => {
     localStorage.clear();
