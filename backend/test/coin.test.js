@@ -25,11 +25,11 @@ async function getUserID(email) {
     const conn = await pool.getConnection();
     const idQuery = 'SELECT userId FROM user WHERE email = ?';
     const result = await conn.query(idQuery, [email]);
-    return result[0].userId
+    return result[0].userId;
 }
 
 test('getUserCoins', async () => {
-    const id = await getUserID("mail@mail.de");
+    const id = await getUserID('mail@mail.de');
     const result = await getUserCoins(id);
     expect(result.data.coins).toBe(0);
     const conn = await pool.getConnection();
