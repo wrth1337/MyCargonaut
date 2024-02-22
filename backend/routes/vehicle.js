@@ -70,7 +70,7 @@ async function updateUserVehicle(userId, vehicleId, name, numSeats, maxWeight, l
 }
 
 async function deleteUserVehicle(userId, vehicleId) {
-    console.log(userId + ' - ' + vehicleId)
+    console.log(userId + ' - ' + vehicleId);
     const del = `DELETE FROM vehicle WHERE vehicleId = ? AND userId = ?;`;
 
     try {

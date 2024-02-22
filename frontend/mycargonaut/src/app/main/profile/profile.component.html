@@ -100,7 +100,7 @@
                                     </div>
                                     <div *ngIf="vehiclesAvailable">
                                         <div *ngFor="let item of vehicleData">
-                                            <div data-bs-toggle="modal" data-bs-target="#vehicleModal" (click)="selectVehicle(item)"> {{item.name}}</div>
+                                            <button class="m-2" style="background-color: white;" data-bs-toggle="modal" data-bs-target="#vehicleModal" (click)="selectVehicle(item)"> {{item.name}}</button>
                                             <br>
                                         </div>
                                     </div>

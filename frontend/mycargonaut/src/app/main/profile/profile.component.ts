@@ -136,7 +136,7 @@ export class ProfileComponent implements OnInit{
   }
   deleteVehicle() {
     this.api.deleteRequest('vehicle/' + this.selectedVehicle.vehicleId).subscribe((res:any) => {
-      window.location.reload();
+      if(res)window.location.reload();
     })
   }
 }
