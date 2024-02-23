@@ -1,6 +1,7 @@
 const mariadb = require('mariadb');
 const express = require('express');
 const authenticateToken = require('./auth');
+const rateLimit = require('express-rate-limit');
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
