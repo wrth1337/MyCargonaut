@@ -70,7 +70,6 @@ async function updateUserVehicle(userId, vehicleId, name, numSeats, maxWeight, l
 }
 
 async function deleteUserVehicle(userId, vehicleId) {
-    console.log(userId + ' - ' + vehicleId);
     const del = `DELETE FROM vehicle WHERE vehicleId = ? AND userId = ?;`;
 
     try {
@@ -366,6 +365,7 @@ router.post('/vehicle', authenticateToken, async function(req, res, next) {
         const userId = req.user_id;
         const {name, numSeats, maxWeight, loadingAreaDimensions, specialFeatures} = req.body;
         const result = await newUserVehicle(userId, name, numSeats, maxWeight, loadingAreaDimensions, specialFeatures);
+        console.log(result);
         if (result) {
             res.status(200);
             res.json({status: 1});
@@ -416,4 +416,4 @@ router.delete('/vehicle/:id', authenticateToken, async function(req, res, next) 
     }
 });
 
-module.exports = {router, getUserVehicles};
+module.exports = {router, getUserVehicles, newUserVehicle, updateUserVehicle, deleteUserVehicle};
