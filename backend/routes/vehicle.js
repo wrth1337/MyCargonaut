@@ -156,8 +156,8 @@ async function deleteUserVehicle(userId, vehicleId) {
  *                                  description: The maximal Weight of storage of the new vehicle in kg.
  *                                  example: 50
  *                              loadingAreaDimensions:
- *                                  type: number
- *                                  description: The Dimensions of storage of the new vehicle in m³.
+ *                                  type: string
+ *                                  description: The Dimensions of storage of the new vehicle.
  *                                  example: 5
  *                              specialFeatures:
  *                                  type: string
@@ -238,8 +238,8 @@ async function deleteUserVehicle(userId, vehicleId) {
  *                                  description: The maximal Weight of storage of the new vehicle in kg.
  *                                  example: 50
  *                              loadingAreaDimensions:
- *                                  type: number
- *                                  description: The Dimensions of storage of the new vehicle in m³.
+ *                                  type: string
+ *                                  description: The Dimensions of storage of the new vehicle.
  *                                  example: 5
  *                              specialFeatures:
  *                                  type: string
