@@ -89,7 +89,7 @@ test('getLastMessages: Receive all messages', async () =>{
 });
 
 afterAll(() => {
-    pool.end(err => {
+    pool.end((err) => {
         if (err) {
             console.error('Fehler beim Schließen der Datenbankverbindung:', err);
         } else {
