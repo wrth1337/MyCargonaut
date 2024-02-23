@@ -86,38 +86,6 @@ async function getWantedById(id) {
  * tags:
  *      - name: wanted
  *        description: Routes that are connected to the wanteds of an user
- * /wanted/:id:
- *      get:
- *          summary: get wanted data by adId.
- *          description: get the wanted data for a specified ad.
- *          tags:
- *              - wanted
- *
- *          parameters:
- *              - in: query
- *                name: id
- *                required: true
- *                schema:
- *                  type: number
- *                description: AdId the wanted data is connected to.
- *                example: 2
- *
- *          responses:
- *              200:
- *                  description: wanted data successfully fetched.
- *                  content:
- *                      application/json:
- *                          schema:
- *                              type: object
- *                              properties:
- *                                  status:
- *                                      type: integer
- *                                      description: The status-code.
- *                                  data:
- *                                      $ref: '#/components/schemas/wanted'
- *              204:
- *                  description: query was successful but contains no content.
- *                  content: {}
  * /wanted:
  *      get:
  *          summary: get user wanteds.
@@ -158,15 +126,6 @@ async function getWantedById(id) {
  *                      type: string
  *                      format: date
  *                      description: The start date of the wanted.
- *          wanted:
- *              type: object
- *              properties:
- *                  adId:
- *                      type: number
- *                      description: Id of the connected ad
- *                  freight:
- *                      type: string
- *                      description: Description of the freight
  */
 router.get('/getUserWanted', authenticateToken, async function(req, res, next) {
     try {
@@ -185,6 +144,110 @@ router.get('/getUserWanted', authenticateToken, async function(req, res, next) {
     }
 });
 
+/**
+ * @swagger
+ * tags:
+ *      - name: wanted
+ *        description: Routes that are connected to the wanted ads of an user.
+ * /edit_profile:
+ *    post:
+ *         summary: Create a new wanted ad.
+ *         description: Create a new wanted ad.
+ *         tags:
+ *             - wanted
+ *         parameters:
+ *             - in: query
+ *               name: description
+ *               required: true
+ *               schema:
+ *                 type: string
+ *               description: The description of the ad.
+ *               example: example description
+ *             - in: query
+ *               name: startLocation
+ *               required: true
+ *               schema:
+ *                 type: string
+ *               description: The start location of the ad.
+ *               example: Town A
+ *             - in: query
+ *               name: endLocation
+ *               required: true
+ *               schema:
+ *                 type: string
+ *               description: The end location of the ad.
+ *               example: Town B
+ *             - in: query
+ *               name: startDate
+ *               required: true
+ *               schema:
+ *                 type: string
+ *               description: The start date of the ad.
+ *               example: 2024-01-01
+ *             - in: query
+ *               name: endDate
+ *               required: true
+ *               schema:
+ *                 type: string
+ *               description: The end date of the ad.
+ *               example: 2024-01-02
+ *             - in: query
+ *               name: animals
+ *               required: true
+ *               schema:
+ *                 type: boolean
+ *               description: The preference for animals of the ad.
+ *               example: true
+ *             - in: query
+ *               name: smoker
+ *               required: true
+ *               schema:
+ *                 type: boolean
+ *               description: The preference for smokers of the ad.
+ *               example: false
+ *             - in: query
+ *               name: notes
+ *               required: true
+ *               schema:
+ *                 type: string
+ *               description: The notes of the ad.
+ *               example: example note
+ *             - in: query
+ *               name: numSeats
+ *               required: true
+ *               schema:
+ *                 type: number
+ *               description: The amount of required seats of the ad.
+ *               example: 2
+ *             - in: query
+ *               name: freight
+ *               required: true
+ *               schema:
+ *                 type: string
+ *               description: The freight of the ad.
+ *               example: example freight
+ *         responses:
+ *              200:
+ *                  description: creating new wanted ad was successful.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *              500:
+ *                  description: creating new wanted ad failed.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ */
 router.post('/createWanted', authenticateToken, async function(req, res, next) {
     try {
         const id = req.user_id;
@@ -204,8 +267,55 @@ router.post('/createWanted', authenticateToken, async function(req, res, next) {
       }
 });
   
-
-
+/**
+ * @swagger
+ * tags:
+ *      - name: wanted
+ *        description: Routes that are connected to the wanteds of an user
+ * /wanted/:id:
+ *      get:
+ *          summary: get wanted data by adId.
+ *          description: get the wanted data for a specified ad.
+ *          tags:
+ *              - wanted
+ *
+ *          parameters:
+ *              - in: query
+ *                name: id
+ *                required: true
+ *                schema:
+ *                  type: number
+ *                description: AdId the wanted data is connected to.
+ *                example: 2
+ *
+ *          responses:
+ *              200:
+ *                  description: wanted data successfully fetched.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  data:
+ *                                      $ref: '#/components/schemas/wanted'
+ *              204:
+ *                  description: query was successful but contains no content.
+ *                  content: {}
+ * components:
+ *      schemas:
+ *          wanted:
+ *              type: object
+ *              properties:
+ *                  adId:
+ *                      type: number
+ *                      description: Id of the connected ad
+ *                  freight:
+ *                      type: string
+ *                      description: Description of the freight
+ */
 router.get('/wanted/:id', async function(req, res, next) {
     try {
         const wanted = await getWantedById(req.params.id);
