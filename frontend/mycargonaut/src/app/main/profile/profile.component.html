@@ -223,7 +223,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-people-fill" viewBox="0 0 16 16">
                                 <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
                               </svg>
-                            <input id="seats" class="form-control input-text-field ms-2 m-1" type="number" name="numSeats" placeholder="Anzahl Sitzplätze" required ngModel [(ngModel)]="this.selectedVehicle.numSeats">    
+                            <input id="seats" class="form-control input-text-field ms-2 m-1" type="number" name="numSeats" placeholder="Anzahl Sitzplätze" min="0" required ngModel [(ngModel)]="this.selectedVehicle.numSeats">    
                         </div>
                         <div class="inputRow">
                             <svg fill="var(--primary)" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
@@ -242,7 +242,7 @@
                                v-27.104h46.565L431.369,451.032L431.369,451.032z"/>
                             </g>
                             </svg>
-                            <input id="weight" class="form-control input-text-field ms-2 m-1" type="number" name="maxWeight" placeholder="Gewicht" required ngModel [(ngModel)]="this.selectedVehicle.maxWeight">
+                            <input id="weight" class="form-control input-text-field ms-2 m-1" type="number" name="maxWeight" min="0" placeholder="Gewicht" required ngModel [(ngModel)]="this.selectedVehicle.maxWeight">
                         </div>
                         <div class="inputRow">
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-box" viewBox="0 0 16 16">
