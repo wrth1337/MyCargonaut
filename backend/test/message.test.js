@@ -40,3 +40,13 @@ test('addMessage: add a message', async () =>{
         if (conn) await conn.release();
     }
 });
+
+afterAll(() => {
+    pool.end(err => {
+        if (err) {
+            console.error('Fehler beim Schließen der Datenbankverbindung:', err);
+        } else {
+            console.log('Datenbankverbindung erfolgreich geschlossen.');
+        }
+    });
+});
