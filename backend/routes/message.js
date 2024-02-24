@@ -203,10 +203,10 @@ router.post('/add', authenticateToken, async function(req, res, next) {
  *                      type: string
  *                      description: Errormessage
  */
-router.get('/getLast', authenticateToken, async function(req, res, next) {
+router.get('/getLast/:adId', authenticateToken, async function(req, res, next) {
     const conn = await pool.getConnection();
     try {
-        const adId = req.body.adId;
+        const adId = req.params.adId;
 
         const sqlResult = await getLastMessages(adId);
 
