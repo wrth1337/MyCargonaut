@@ -204,6 +204,7 @@ router.post('/add', authenticateToken, async function(req, res, next) {
  *                      description: Errormessage
  */
 router.get('/getLast/:adId', authenticateToken, async function(req, res, next) {
+    console.log('getLast triggered');
     const conn = await pool.getConnection();
     try {
         const adId = req.params.adId;
@@ -231,4 +232,4 @@ router.get('/getLast/:adId', authenticateToken, async function(req, res, next) {
 });
 
 
-module.exports = {addMessage, getLastMessages};
+module.exports = {router, addMessage, getLastMessages};
