@@ -35,6 +35,9 @@ app.use('', trip.router);
 const searchbar = require('./routes/searchbar');
 app.use('/searchbar', searchbar.router);
 
+const chat = require('./routes/message');
+app.use('/chat', chat.router);
+
 
 // app.js
 const swaggerJSDoc = require('swagger-jsdoc');
