@@ -143,4 +143,92 @@ router.post('/add', authenticateToken, async function(req, res, next) {
     }
 });
 
+/**
+ * @swagger
+ * /getLast:
+ *      get:
+ *          summary: Get the last messages from an ad out of the database.
+ *          description: Get the last messages from an ad out of the database.
+ *          tags:
+ *              - chat
+ *          parameters:
+ *              - in: query
+ *                name: JWT
+ *                required: true
+ *                schema:
+ *                  type: token
+ *                description: JWT from the logged-in user.
+ *              - in: query
+ *                name: toUserId
+ *                required: true
+ *                schema:
+ *                  type: integer
+ *                description: ID of the ad the message got wrote in.
+ *          responses:
+ *              200:
+ *                  description: Last messages.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              - $ref: '#/components/schemas/normal-message'
+ *                              - $ref: '#/components/schemas/error-message'
+ *              204:
+ *                  description: No Content.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              - $ref: '#/components/schema/error-message'
+ *
+ * components:
+ *      schemas:
+ *          normal-message:
+ *              type: object
+ *              properties:
+ *                  status:
+ *                      type: integer
+ *                      description: The status-code.
+ *                  msg:
+ *                      type: string
+ *                      description: A brief description of the message.
+ *                  data:
+ *                      type: array
+ *                      description: Last Messages
+ *          error-message:
+ *              type: object
+ *              properties:
+ *                  status:
+ *                      type: integer
+ *                      description: The status-code.
+ *                  error:
+ *                      type: string
+ *                      description: Errormessage
+ */
+router.get('/getLast', authenticateToken, async function(req, res, next) {
+    const conn = await pool.getConnection();
+    try {
+        const adId = req.body.adId;
+
+        const sqlResult = await getLastMessages(adId);
+
+        if (sqlResult.length < 1) {
+            res.status(204);
+            res.send({status: 1, error: 'No content for the given adId'});
+        } else {
+            const result = JSON.parse(JSON.stringify(sqlResult, (key, value) =>
+                typeof value === 'bigint' ?
+                    value.toString() :
+                    value,
+            ));
+            res.status(200);
+            res.send({status: 0, msg: 'Last messages', data: result});
+        }
+    } catch (error) {
+        res.status(500);
+        res.send({status: 0, error: 'error'});
+    } finally {
+        if (conn) await conn.release();
+    }
+});
+
+
 module.exports = {addMessage, getLastMessages};
