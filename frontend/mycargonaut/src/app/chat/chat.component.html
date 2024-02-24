@@ -1,1 +1,3 @@
-<p>chat works!</p>
+<div *ngFor="let message of messageList index as i">
+  <p>{{message.messageText}}</p>
+</div>
