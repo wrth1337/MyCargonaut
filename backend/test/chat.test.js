@@ -1,5 +1,5 @@
 const {expect, test, afterAll} = require('@jest/globals');
-const {addMessage, getLastMessages} = require('../routes/message');
+const {addMessage, getLastMessages} = require('../routes/chat');
 const mariadb = require('mariadb');
 
 const pool = mariadb.createPool({
