@@ -3,6 +3,7 @@ import {Chatmessage} from "../chatmessage";
 import {ApiService} from "../service/api.service";
 import {ActivatedRoute} from "@angular/router";
 import {AuthService} from "../service/auth.service";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-chat',
@@ -18,6 +19,7 @@ export class ChatComponent implements OnInit {
     private api: ApiService,
     private route: ActivatedRoute,
     private auth: AuthService,
+    private datepipe: DatePipe,
   ){}
 
   ngOnInit(): void {
@@ -32,4 +34,14 @@ export class ChatComponent implements OnInit {
     });
   }
 
+  getTime(date:Date) {
+    return this.datepipe.transform(date, 'dd.MM.yyy HH:mm');
+  }
+  getUsername(userId:number) {
+    let result = '';
+    this.api.getRequest("profile/userdata/"+userId).subscribe((res:any) => {
+      result = res.userData.firstName + ' ' + res.userData.lastName;
+    });
+    return result;
+  }
 }

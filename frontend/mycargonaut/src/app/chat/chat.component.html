@@ -7,7 +7,7 @@
       </svg>
     </div>
     <div class="messageBoxMessage">
-      {{message.userId}}
+      {{getUsername(message.userId)}} {{getTime(message.timeMessage)}}
       {{message.messageText}}
     </div>
   </div>
