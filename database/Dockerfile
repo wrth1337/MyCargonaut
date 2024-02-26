@@ -1,3 +1,3 @@
 # db/Dockerfile
-FROM mariadb:11.2
+FROM mariadb:latest
 ADD database/init.sql /docker-entrypoint-initdb.d/ddl.sql
