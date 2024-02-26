@@ -27,7 +27,7 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     const authUserData = this.auth.getUserData();
     if(authUserData != null) {
-      this.ownUserId = JSON.parse(authUserData).userId;
+      this.ownUserId = JSON.parse(authUserData).user_id;
     }
 
     const userIdSet = new Set<number>();
@@ -42,7 +42,6 @@ export class ChatComponent implements OnInit {
         this.userMap.set(userId, await this.getUsername(userId));
       }
     });
-
   }
 
   getTime(date:Date) {
