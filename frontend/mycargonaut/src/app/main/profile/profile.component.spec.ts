@@ -4,6 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { FormsModule } from '@angular/forms';
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
@@ -12,7 +13,7 @@ describe('ProfileComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ProfileComponent],
-      imports: [HttpClientTestingModule, RouterModule, RouterTestingModule],
+      imports: [HttpClientTestingModule, RouterModule, RouterTestingModule, FormsModule],
     });
   
     fixture = TestBed.createComponent(ProfileComponent);
@@ -160,8 +161,7 @@ it('should update progress bar width based on tripCount', () => {
 it('should display vehicles if vehicles are available', () => {
 
   const vehic = fixture.debugElement.query(By.css('.vehicles')).nativeElement.textContent.trim();
-
-  expect(vehic).toBe('Car1  Car2');
+  expect(vehic).toEqual('Car1 Car2');
 });
 
 it('should display [keine Fahrzeuge vorhanden] if no vehicles are available', () => {
@@ -224,6 +224,60 @@ it('should display [keine Fahrten vorhanden] if no trips are available', () => {
   const trip = fixture.debugElement.query(By.css('.trip')).nativeElement.textContent.trim();
 
   expect(trip).toBe('Keine Fahrten vorhanden');
+});
+
+it('should have an input field name with type text', () => {
+  const elem = fixture.debugElement.query(By.css('#name')).nativeElement;
+
+  expect(elem.type).toBe('text');
+});
+it('should have an input field seats with type number', () => {
+  const elem = fixture.debugElement.query(By.css('#seats')).nativeElement;
+
+  expect(elem.type).toBe('number');
+});
+it('should have an input field weight with type text', () => {
+  const elem = fixture.debugElement.query(By.css('#weight')).nativeElement;
+
+  expect(elem.type).toBe('number');
+});
+it('should have an input field dimensions with type text', () => {
+  const elem = fixture.debugElement.query(By.css('#dimensions')).nativeElement;
+
+  expect(elem.type).toBe('text');
+});
+it('should set updateVehicle to true if a vehicle is clicked', () => {
+  component.updateVehicle = false;
+  fixture.detectChanges();
+  const elem = fixture.debugElement.query(By.css('.vehicleEntry')).nativeElement;
+  elem.click();
+  expect(component.updateVehicle).toBeTrue();
+});
+
+it('should set updateVehicle to false if the new vehicle button is clicked', () => {
+  component.updateVehicle = true;
+  fixture.detectChanges();
+  const elem = fixture.debugElement.query(By.css('.newVehicleButton')).nativeElement;
+  elem.click();
+  expect(component.updateVehicle).toBeFalse();
+});
+
+it('should display the delete Button if it updates an existing vehicle', () => {
+  component.updateVehicle = true;
+  fixture.detectChanges();
+
+  const del = fixture.debugElement.query(By.css('#deleteButton'));
+
+  expect(del).toBeTruthy();
+});
+
+it('should not display the delete Button if no vehicle to update was selected', () => {
+  component.updateVehicle = false;
+  fixture.detectChanges();
+
+  const del = fixture.debugElement.query(By.css('#deleteButton'));
+
+  expect(del).toBeNull();
 });
 
 

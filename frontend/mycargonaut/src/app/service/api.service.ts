@@ -16,4 +16,7 @@ export class ApiService {
   getRequest(url: any)   {
     return this.http.get(`${this.baseUrl}${url}`).pipe(map(res =>  res))
   }
+  deleteRequest(url: any)   {
+    return this.http.delete(`${this.baseUrl}${url}`).pipe(map(res =>  res))
+  }
 }

@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/service/api.service';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/service/auth.service';
 import { Location } from '@angular/common';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { Location } from '@angular/common';
 })
 
 
-export class ProfileComponent {
+export class ProfileComponent implements OnInit{
   id = 0;
   userData: any;
   vehicleData: any;
@@ -29,6 +30,18 @@ export class ProfileComponent {
   tripCount: any;
   stars: number[] = [1, 2, 3, 4, 5];
 
+  newVehicleFailure = false;
+  updateVehicle = false;
+  selectedVehicle = {
+    loadingAreaDimensions: null,
+    maxWeight: null,
+    name: null,
+    numSeats: null,
+    picture: null,
+    specialFeatures: null,
+    vehicleId: null,
+  };
+
   constructor(
     private api: ApiService,
     private auth: AuthService,
@@ -36,7 +49,7 @@ export class ProfileComponent {
     private location: Location
   ){}
 
-  OnInit() {
+  ngOnInit() {
     const userId = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;
     this.api.getRequest("profile/userdata/"+userId).subscribe((res: any) => {
       this.userData = res.userData;
@@ -91,6 +104,39 @@ export class ProfileComponent {
   }
   back(){
     this.location.back()
+  }
+  onSubmit(form : NgForm) {
+    this.newVehicleFailure = false;
+    let url = "vehicle";
+    if(this.updateVehicle) url += '/' + this.selectedVehicle.vehicleId;
+    this.api.postRequest(url, form.value).subscribe((res:any) => {
+      if(res.status === 1){
+        window.location.reload();
+      }else {
+        this.newVehicleFailure = true;
+      }
+    })  
+  }
+  selectVehicle(item:any) {
+    this.updateVehicle = true;
+    this.selectedVehicle = item;
+  }
+  clearSelectedVehicle() {
+    this.updateVehicle = false;
+    this.selectedVehicle = {
+      loadingAreaDimensions: null,
+      maxWeight: null,
+      name: null,
+      numSeats: null,
+      picture: null,
+      specialFeatures: null,
+      vehicleId: null,
+    };
+  }
+  deleteVehicle() {
+    this.api.deleteRequest('vehicle/' + this.selectedVehicle.vehicleId).subscribe((res:any) => {
+      if(res)window.location.reload();
+    })
   }
 }
 
