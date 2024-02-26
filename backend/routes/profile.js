@@ -59,20 +59,22 @@ async function editProfile(firstName, lastName, birthdate, picture, description,
  * tags:
  *      - name: profile
  *        description: Routes that are connected to the profile of an user
- * /profile:
+ * /profile/userdata/{userId}:
  *      get:
  *          summary: get user profile data.
+ *          security:
+ *              - bearerAuth: []
  *          description: get user profile data.
  *          tags:
  *              - profile
  *          parameters:
- *              - in: query
- *                name: email
+ *              - in: path
+ *                name: userId
  *                required: true
  *                schema:
  *                  type: string
  *                description: The email of the current user.
- *                example: max@example.com
+ *                example: 1
  *          responses:
  *              200:
  *                  description: user profile data successfully fetched.
@@ -113,6 +115,14 @@ async function editProfile(firstName, lastName, birthdate, picture, description,
  *              204:
  *                  description: query was successful but contains no content.
  *                  content: {}
+ * components:
+ *      securitySchemes:
+ *          bearerAuth:
+ *              type: http
+ *              scheme: bearer
+ *              bearerFormat: JWT
+ * security:
+ *  - bearerAuth: []
  */
 router.get('/userdata/:id', async function(req, res, next) {
     try {
@@ -135,55 +145,53 @@ router.get('/userdata/:id', async function(req, res, next) {
  * tags:
  *      - name: profile
  *        description: Routes that are connected to the profile of an user.
- * /edit_profile:
+ * /profile/edit_profile:
  *    post:
  *         summary: Change user profile data.
+ *         security:
+ *             - bearerAuth: []
  *         description: Change user profile data.
  *         tags:
  *             - profile
- *         parameters:
- *             - in: query
- *               name: firstName
- *               required: true
- *               schema:
- *                 type: string
- *               description: The first name of the user.
- *               example: Max
- *             - in: query
- *               name: lastName
- *               required: true
- *               schema:
- *                 type: string
- *               description: The last name of the user.
- *               example: Mustermann
- *             - in: query
- *               name: birthdate
- *               required: true
- *               schema:
- *                 type: string
- *               description: The birthdate of the user.
- *               example: 2000-01-01
- *             - in: query
- *               name: picture
- *               required: true
- *               schema:
- *                 type: string
- *               description: The profile picture of the user.
- *               example: profilepicture.jpg
- *             - in: query
- *               name: description
- *               required: true
- *               schema:
- *                 type: string
- *               description: The description of the user.
- *               example: Hallo das ist meine Beschreibung.
- *             - in: query
- *               name: experience
- *               required: true
- *               schema:
- *                 type: string
- *               description: The experience of the user.
- *               example: Hallo das sind meine Erfahrungen.
+ *         requestBody:
+ *              description: The changed data of the profile.
+ *              content:
+ *                    application/json:
+ *                      schema:
+ *                          type: object
+ *                          required:
+ *                              - firstName
+ *                              - lastName
+ *                              - birthdate
+ *                              - picture
+ *                              - description
+ *                              - experience
+ *                          properties:
+ *                              firstName:
+ *                                  type: string
+ *                                  description: The first name of the user.
+ *                                  example: Vorname
+ *                              lastName:
+ *                                  type: string
+ *                                  description: The last name of the user.
+ *                                  example: Nachname
+ *                              birthdate:
+ *                                  type: string
+ *                                  description: The birthdate of the user.
+ *                                  example: '2000-01-01'
+ *                                  format: date
+ *                              picture:
+ *                                  type: string
+ *                                  description: The profile picture of the user.
+ *                                  example: profilepicture.jpg
+ *                              description:
+ *                                  type: string
+ *                                  description: The description of the user.
+ *                                  example: Hallo das ist meine Beschreibung.
+ *                              experience:
+ *                                  type: string
+ *                                  description: The experience of the user.
+ *                                  example: Hallo das sind meine Erfahrungen.
  *         responses:
  *              200:
  *                  description: user profile data successfully changed.
@@ -205,6 +213,14 @@ router.get('/userdata/:id', async function(req, res, next) {
  *                                  status:
  *                                      type: integer
  *                                      description: The status-code.
+ * components:
+ *      securitySchemes:
+ *          bearerAuth:
+ *              type: http
+ *              scheme: bearer
+ *              bearerFormat: JWT
+ * security:
+ *  - bearerAuth: []
  */
 router.post('/edit_profile', authenticateToken, async function(req, res, next) {
   try {

@@ -50,8 +50,7 @@ export class WantedComponent {
     form.value.smoker = this.smoke;
     form.value.animals = this.pet;
     form.value.notes = null;
-
-    this.api.postRequest("wanted/createWanted", form.value).subscribe((res: any) => {
+    this.api.postRequest("wanted/create_wanted", form.value).subscribe((res: any) => {
       if(res.status === 1) {
         this.success = true;
       }
