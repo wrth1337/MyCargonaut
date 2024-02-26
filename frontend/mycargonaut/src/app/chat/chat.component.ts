@@ -64,13 +64,8 @@ export class ChatComponent implements OnInit {
     if (isWhitespaceString) {
       return;
     }
-    console.log(this.newMessage);
-    console.log(this.adId);
-    console.log(this.ownUserId);
 
-    this.api.postRequest("chat/add", {userId: this.ownUserId, adId: this.adId, message: this.newMessage}).subscribe((res: any) => {
-      console.log(res);
-    })
+    this.api.postRequest("chat/add", {userId: this.ownUserId, adId: this.adId, message: this.newMessage});
 
     this.newMessage = '';
   }
