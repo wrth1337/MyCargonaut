@@ -14,6 +14,7 @@ export class ChatComponent implements OnInit {
   adId: string | null = '4';
   messageList: Chatmessage[] = [];
   ownUserId = -1;
+  userMap = new Map<number, string>();
 
   constructor(
     private api: ApiService,
@@ -28,20 +29,33 @@ export class ChatComponent implements OnInit {
       this.ownUserId = JSON.parse(authUserData).userId;
     }
 
+    const userIdSet = new Set<number>();
+
     this.adId = this.route.snapshot.paramMap.get('id');
-    this.api.getRequest('chat/getLast/' + this.adId).subscribe((res: any) => {
+    this.api.getRequest('chat/getLast/' + this.adId).subscribe(async (res: any) => {
       this.messageList = res.data;
+      this.messageList.forEach((message) => {
+        userIdSet.add(message.userId);
+      });
+      for (const userId of userIdSet) {
+        this.userMap.set(userId, await this.getUsername(userId));
+      }
     });
+
   }
 
   getTime(date:Date) {
     return this.datepipe.transform(date, 'dd.MM.yyy HH:mm');
   }
-  getUsername(userId:number) {
-    let result = '';
-    this.api.getRequest("profile/userdata/"+userId).subscribe((res:any) => {
-      result = res.userData.firstName + ' ' + res.userData.lastName;
+
+  async getUsername(userId: number): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      this.api.getRequest("profile/userdata/" + userId).subscribe((res: any) => {
+        const fullName = res.userData.firstName + ' ' + res.userData.lastName;
+        resolve(fullName);
+      }, error => {
+        reject(error);
+      });
     });
-    return result;
   }
 }
