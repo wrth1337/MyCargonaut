@@ -119,12 +119,9 @@ async function getLastMessages(adId) {
 router.post('/add', authenticateToken, async function(req, res, next) {
     const conn = await pool.getConnection();
     try {
-        // const userId = req.userId;
-        // const adId = req.body.adId;
-        // const message = req.body.message;
-        const userId = 1;
-        const adId = 1;
-        const message = 'testmessage';
+        const userId = req.body.userId;
+        const adId = req.body.adId;
+        const message = req.body.message;
 
         const result = await addMessage(userId, adId, message);
 
