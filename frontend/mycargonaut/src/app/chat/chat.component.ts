@@ -15,6 +15,7 @@ export class ChatComponent implements OnInit {
   messageList: Chatmessage[] = [];
   ownUserId = -1;
   userMap = new Map<number, string>();
+  newMessage = '';
 
   constructor(
     private api: ApiService,
@@ -58,4 +59,15 @@ export class ChatComponent implements OnInit {
       });
     });
   }
+
+  sendMessage() {
+    const isWhitespaceString = !this.newMessage.replace(/\s/g, '').length;
+    if (isWhitespaceString) {
+      return;
+    }
+    console.log(this.newMessage);
+
+    this.newMessage = '';
+  }
+
 }
