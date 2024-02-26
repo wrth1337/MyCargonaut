@@ -37,7 +37,8 @@ export class ProfileComponent implements OnInit {
   languageVariables: { [key: string]: boolean } = {
     german: false,
     english: false,
-
+  }
+  
   newVehicleFailure = false;
   updateVehicle = false;
   selectedVehicle = {
