@@ -61,7 +61,6 @@ export class ProfileComponent implements OnInit{
       if(res != null) {
         this.vehiclesAvailable = true;
         this.vehicleData = res.vehicleData;
-        console.log(res.vehicleData)
       }
     });
 
