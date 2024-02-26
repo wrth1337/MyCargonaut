@@ -66,6 +66,8 @@ export class ChatComponent implements OnInit {
       return;
     }
     console.log(this.newMessage);
+    console.log(this.adId);
+    console.log(this.ownUserId);
 
     this.newMessage = '';
   }

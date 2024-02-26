@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  <div class="messageBoxInput">
+  <div class="messageBoxInput" *ngIf="ownUserId >= 0">
     <div style="width: 100%; margin: 1%">
       <input style="width: 100%; margin: auto; height: 100%;" type="text" id="message-input" placeholder="Schreibe eine Nachricht" [(ngModel)]="newMessage" (keyup.enter) = "sendMessage()">
     </div>
