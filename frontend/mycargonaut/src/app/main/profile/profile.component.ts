@@ -13,7 +13,6 @@ import { AuthService } from 'src/app/service/auth.service';
 
 
 export class ProfileComponent {
-  id = 0;
   userData: any;
   vehicleData: any;
   offerData: any;

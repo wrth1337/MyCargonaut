@@ -38,8 +38,8 @@ VALUES ('City C', 1),
 INSERT INTO offer (vehicleId, adId, pricePerPerson, pricePerFreight)
 VALUES (1, 1, 50.0, 100.0),
        (2, 2, 75.0, 150.0),
-       (4, 4, 50.0, 100.0),
-       (5, 5, 50.0, 100.0);
+       (1, 4, 50.0, 100.0),
+       (3, 5, 50.0, 100.0);
 
 -- Testdaten für die Tabelle 'wanted'
 INSERT INTO wanted (adId, freight)
