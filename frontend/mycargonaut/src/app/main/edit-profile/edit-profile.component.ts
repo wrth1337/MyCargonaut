@@ -13,7 +13,6 @@ import { AuthService } from 'src/app/service/auth.service';
 
 
 export class EditProfileComponent implements OnInit {
-
   userData: any;
   rating: any;
   tripCount: any;

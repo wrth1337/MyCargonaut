@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/service/api.service';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/service/auth.service';
+import { Location } from '@angular/common';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -35,12 +37,24 @@ export class ProfileComponent implements OnInit {
   languageVariables: { [key: string]: boolean } = {
     german: false,
     english: false,
+
+  newVehicleFailure = false;
+  updateVehicle = false;
+  selectedVehicle = {
+    loadingAreaDimensions: null,
+    maxWeight: null,
+    name: null,
+    numSeats: null,
+    picture: null,
+    specialFeatures: null,
+    vehicleId: null,
   };
 
   constructor(
     private api: ApiService,
     private auth: AuthService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private location: Location
   ){}
 
   ngOnInit() {
@@ -107,6 +121,42 @@ export class ProfileComponent implements OnInit {
         this.tripCount = 0;
       }
     });
+  }
+  back(){
+    this.location.back()
+  }
+  onSubmit(form : NgForm) {
+    this.newVehicleFailure = false;
+    let url = "vehicle";
+    if(this.updateVehicle) url += '/' + this.selectedVehicle.vehicleId;
+    this.api.postRequest(url, form.value).subscribe((res:any) => {
+      if(res.status === 1){
+        window.location.reload();
+      }else {
+        this.newVehicleFailure = true;
+      }
+    })  
+  }
+  selectVehicle(item:any) {
+    this.updateVehicle = true;
+    this.selectedVehicle = item;
+  }
+  clearSelectedVehicle() {
+    this.updateVehicle = false;
+    this.selectedVehicle = {
+      loadingAreaDimensions: null,
+      maxWeight: null,
+      name: null,
+      numSeats: null,
+      picture: null,
+      specialFeatures: null,
+      vehicleId: null,
+    };
+  }
+  deleteVehicle() {
+    this.api.deleteRequest('vehicle/' + this.selectedVehicle.vehicleId).subscribe((res:any) => {
+      if(res)window.location.reload();
+    })
   }
 }
 
