@@ -22,7 +22,7 @@ async function getUserCoins(id) {
         await conn.release();
 
         if (result.length > 0) {
-            return {success: true, data: result[0]};
+            return {data: result[0].coins};
         } else {
             return {success: false};
         }
@@ -84,7 +84,7 @@ async function getUserCoins(id) {
  *                                      type: string
  *                                      description: The error message.
  */
-router.get('/', authenticateToken, async function(req, res, next) {
+router.get('/', authenticateToken, async function(req, res) {
     try {
         const id = req.user_id;
         const userCoins = await getUserCoins(id);

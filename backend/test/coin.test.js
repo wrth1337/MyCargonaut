@@ -30,7 +30,7 @@ test('getUserCoins', async () => {
     const id = await getUserID(email);
     const result = await getUserCoins(id);
 
-    expect(result.data.coins).toBe(0);
+    expect(result.data).toBe(0);
 
     const conn = await pool.getConnection();
     const deleteQuery = 'DELETE FROM user WHERE userId = ?';
