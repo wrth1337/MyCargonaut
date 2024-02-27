@@ -8,7 +8,8 @@ import {DatePipe} from "@angular/common";
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css']
+  styleUrls: ['./chat.component.css'],
+  providers: [DatePipe],
 })
 export class ChatComponent implements OnInit {
   @ViewChild('scroll', { static: true }) scroll: any;
