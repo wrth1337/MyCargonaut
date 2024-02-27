@@ -20,6 +20,42 @@ const pool = mariadb.createPool({
     database: 'cargodb',
 });
 
+async function subtractUserCoins(id, coinsToSubtract) {
+    const subtractCoinsQuery = 'UPDATE user SET coins = coins - ? WHERE userId = ?';
+
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(subtractCoinsQuery, [coinsToSubtract, id]);
+        await conn.release();
+
+        if (result.affectedRows > 0) {
+            return {success: true};
+        } else {
+            return {success: false};
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function addUserCoins(id, coinsToAdd) {
+    const addCoinsQuery = 'UPDATE user SET coins = coins + ? WHERE userId = ?';
+
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(addCoinsQuery, [coinsToAdd, id]);
+        await conn.release();
+
+        if (result.affectedRows > 0) {
+            return {success: true};
+        } else {
+            return {success: false};
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
 async function getUserCoins(id) {
     const coinsQuery = 'SELECT coins FROM user WHERE userId = ?';
 
@@ -91,7 +127,7 @@ async function getUserCoins(id) {
  *                                      type: string
  *                                      description: The error message.
  */
-router.get('/', authenticateToken, async function(req, res, next) {
+router.get('/', authenticateToken, async function(req, res) {
     try {
         const id = req.user_id;
         const userCoins = await getUserCoins(id);
@@ -107,4 +143,175 @@ router.get('/', authenticateToken, async function(req, res, next) {
         res.json({status: 99, error: 'Fetching Coins Data failed'});
     }
 });
-module.exports = {router, getUserCoins};
+
+
+/**
+ * @swagger
+ * /coins/add:
+ *   post:
+ *     summary: Add coins to a user.
+ *     description: This route allows you to add coins to a user's account.
+ *     tags:
+ *       - coins
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The token of the current user.
+ *       - in: body
+ *         name: coins
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The number of coins to add.
+ *     responses:
+ *       200:
+ *         description: Coins added successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: The status-code.
+ *                 message:
+ *                   type: string
+ *                   description: The success message.
+ *       400:
+ *         description: Adding Coins failed.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: The status-code.
+ *                 error:
+ *                   type: string
+ *                   description: The error message.
+ *       500:
+ *         description: Server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: The status-code.
+ *                 error:
+ *                   type: string
+ *                   description: The error message.
+ */
+router.post('/add', authenticateToken, async function(req, res) {
+    try {
+        const id = req.user_id;
+        const coinsToAdd = req.body.coins; // Übergabe der Coins über req.body - So sinvoll?
+
+        const userCoins = await addUserCoins(id, coinsToAdd);
+
+        if (userCoins.success) {
+            res.status(200);
+            res.json({status: 1, message: 'Coins added successfully'});
+        } else {
+            res.status(400).json({status: 99, error: 'Adding Coins failed'});
+        }
+    } catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Server error'});
+    }
+});
+
+/**
+ * @swagger
+ * /coins/subtract:
+ *   post:
+ *     summary: Subtract coins from a user.
+ *     description: This route allows you to subtract coins from a user's account.
+ *     tags:
+ *       - coins
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The token of the current user.
+ *       - in: body
+ *         name: coins
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The number of coins to subtract.
+ *     responses:
+ *       200:
+ *         description: Coins subtracted successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: The status-code.
+ *                 message:
+ *                   type: string
+ *                   description: The success message.
+ *       400:
+ *         description: Subtracting Coins failed or Not enough coins.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: The status-code.
+ *                 error:
+ *                   type: string
+ *                   description: The error message.
+ *       500:
+ *         description: Server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: The status-code.
+ *                 error:
+ *                   type: string
+ *                   description: The error message.
+ */
+router.post('/subtract', authenticateToken, async function(req, res) {
+    try {
+        const id = req.user_id;
+        const coinsToSubtract = req.body.coins; // The number of coins to subtract should be sent in the request body
+
+        const currentCoins = await getUserCoins(id);
+
+        if (!currentCoins.success || currentCoins.data.coins < coinsToSubtract) {
+            res.status(400).json({status: 99, error: 'Not enough coins'});
+            return;
+        }
+
+        const userCoins = await subtractUserCoins(id, coinsToSubtract);
+
+        if (userCoins.success) {
+            res.status(200);
+            res.json({status: 1, message: 'Coins subtracted successfully'});
+        } else {
+            res.status(400).json({status: 99, error: 'Subtracting Coins failed'});
+        }
+    } catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Server error'});
+    }
+});
+
+module.exports = {router, getUserCoins, addUserCoins, subtractUserCoins};
