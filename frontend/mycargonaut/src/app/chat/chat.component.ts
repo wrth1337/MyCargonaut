@@ -31,19 +31,8 @@ export class ChatComponent implements OnInit {
       this.ownUserId = JSON.parse(authUserData).user_id;
     }
 
-    const userIdSet = new Set<number>();
-
     this.adId = this.route.snapshot.paramMap.get('id');
-    this.api.getRequest('chat/getLast/' + this.adId).subscribe(async (res: any) => {
-      this.messageList = res.data;
-      this.messageList.forEach((message) => {
-        userIdSet.add(message.userId);
-      });
-      for (const userId of userIdSet) {
-        this.userMap.set(userId, await this.getUsername(userId));
-      }
-      this.scrollChat()
-    });
+    this.loadMessageList();
   }
 
   getTime(date:Date) {
