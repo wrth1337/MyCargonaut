@@ -20,9 +20,6 @@ async function getUserID(email) {
     return result[0].userId;
 }
 
-
-
-
 test('getUserCoins', async () => {
     const firstName = 'testFirstName';
     const lastName = 'testLastName';
