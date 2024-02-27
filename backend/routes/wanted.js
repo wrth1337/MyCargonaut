@@ -40,9 +40,9 @@ async function getUserWanteds(id) {
     }
 }
 
-async function addNewWanted(description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId, freight) {
+async function addNewWanted(description, startLocation, endLocation, startDate, endDate, animals, smoker, price, notes, numSeats, userId, freight) {
     const addWantedAd = 'INSERT INTO ad (description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) VALUES (?,?,?,?,?,?,?,?,?,?)';
-    const addWanted = 'INSERT INTO wanted (adId, freight) VALUES (LAST_INSERT_ID(), ?)';
+    const addWanted = 'INSERT INTO wanted (adId, price, freight) VALUES (LAST_INSERT_ID(), ?, ?)';
     const addBooking = 'INSERT INTO booking (adId, userId, price, numSeats) VALUES (?,?,0.0,0)';
     const addStatus = 'INSERT INTO status (bookingId) VALUES (LAST_INSERT_ID())';
 
@@ -50,7 +50,7 @@ async function addNewWanted(description, startLocation, endLocation, startDate, 
         const conn = await pool.getConnection();
         const resA = await conn.query(addWantedAd, [description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId]);
         const adId = resA.insertId;
-        await conn.query(addWanted, [freight]);
+        await conn.query(addWanted, [price, freight]);
         await conn.query(addBooking, [adId, userId]);
         await conn.query(addStatus, []);
         await conn.release();
@@ -259,8 +259,8 @@ router.get('/getUserWanted', authenticateToken, async function(req, res, next) {
 router.post('/create_wanted', authenticateToken, async function(req, res, next) {
     try {
         const id = req.user_id;
-        const {description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, freight} = req.body;
-        const wanted = await addNewWanted(description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, id, freight);
+        const {description, startLocation, endLocation, startDate, endDate, animals, smoker, price, notes, numSeats, freight} = req.body;
+        const wanted = await addNewWanted(description, startLocation, endLocation, startDate, endDate, animals, smoker, price, notes, numSeats, id, freight);
 
         if (wanted === 1) {
             res.status(200);

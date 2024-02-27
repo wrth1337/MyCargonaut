@@ -27,6 +27,7 @@ export class WantedComponent {
   showFlashMessage: boolean = false;
   success: boolean = false;
   approved: boolean = false;
+  price: any;
 
   ngOnInit() {
     const userId = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;

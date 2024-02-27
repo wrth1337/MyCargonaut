@@ -64,4 +64,13 @@
 .ht1 {
     height: 130px;
 }
+
+#PriceInput {
+    background-color: transparent;
+    border: none;
+    color: var(--primary);
+    -moz-appearance: textfield;
+    width: auto;
+    height: auto;
+}
   
