@@ -28,11 +28,31 @@ export class WantedComponent {
   success: boolean = false;
   approved: boolean = false;
   price: any;
+
+  language = [
+    { id: 1, name: 'german', icon: '../../../assets/icons/flag-for-flag-germany-svgrepo-com.svg' },
+    { id: 2, name: 'english', icon: '../../../assets/icons/flag-for-flag-united-kingdom-svgrepo-com.svg' },
+  ];
+  
+  languageVariables: { [key: string]: boolean } = {
+    german: false,
+    english: false,
+  }
   
   ngOnInit() {
     const userId = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;
     this.api.getRequest("profile/userdata/" + userId).subscribe((res: any) => {
       this.userData = res.userData;
+      for (const lang of this.language) {
+        this.languageVariables[lang.name] = false;
+      }
+    
+      for (const langObj of res.languages) {
+          const langVariable = this.language.find(lang => lang.id === langObj.languageId);           
+          if (langVariable) {
+            this.languageVariables[langVariable.name] = true;
+          }
+      }
       this.rating = Math.round(res.userData.rating);
       this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
     });

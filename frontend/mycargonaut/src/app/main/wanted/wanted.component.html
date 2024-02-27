@@ -58,19 +58,19 @@
                         <div class="progress-bar custom-progress" role="progressbar" [style.width]="(tripCount / 10) * 100 + '%'" aria-valuemin="0" aria-valuemax="10"></div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div>Sprachen</div>
-                    <div class="row">
-                        <div class="col d-flex">
-                            <div class="mr-3">
-                                <img src="../../../assets/icons/flag-for-flag-germany-svgrepo-com.svg" alt="DE" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
-                            </div>
-                            <div class="mx-3">
-                                <img src="../../../assets/icons/flag-for-flag-united-kingdom-svgrepo-com.svg" alt="EN" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
-                            </div>
-                        </div>
-                    </div>
+                <div class="col-md-6">
+                  <div>Sprachen</div>
+                  <div class="row d-flex">
+                      <div class="langs row d-flex">
+                          <ng-container *ngFor="let lang of language">
+                              <div *ngIf="languageVariables[lang.name]" class="col-md-2">
+                                  <img [src]="lang.icon" [alt]="lang.name" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                              </div>
+                          </ng-container>
+                      </div>
+                  </div>
                 </div>
+              
             </div>
           </div>
           <button id="ConfirmUserData" class="buttonPrimary fs-5 position-absolute top-100 start-50 translate-middle okButton" (click)="approveUserdata()">

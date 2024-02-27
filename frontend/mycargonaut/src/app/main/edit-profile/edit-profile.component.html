@@ -139,13 +139,15 @@
                 </div>
                 <div class="card-body overflow-auto">
                     <div *ngIf="!this.editLang">
-                    <div class="row">
-                        <div class="col d-flex" *ngFor="let lang of language">
-                            <div *ngIf="languageVariables[lang.name]">
-                                <img [src]="lang.icon" [alt]="lang.name" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                        <div class="row d-flex">
+                            <div class="langs row d-flex">
+                                <ng-container *ngFor="let lang of language">
+                                    <div *ngIf="languageVariables[lang.name]" class="col-md-2">
+                                        <img [src]="lang.icon" [alt]="lang.name" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                                    </div>
+                                </ng-container>
                             </div>
                         </div>
-                    </div>
                     </div>
                     <div *ngIf="this.editLang">
                         <div class="row">
