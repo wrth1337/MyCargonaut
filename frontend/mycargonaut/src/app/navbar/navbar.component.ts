@@ -18,8 +18,7 @@ export class NavbarComponent implements OnInit{
     this.isUserLogin();
     if (this.isLogin) {
       this.api.getRequest("coins").subscribe((res: any) => {
-        this.coins = parseInt(res.coins.coins);
-
+        this.coins = parseInt(res.coins);
       });
     }
   }
