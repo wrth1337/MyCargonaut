@@ -23,7 +23,13 @@ const pool = mariadb.createPool({
 // ---Methods--- //
 
 async function getUserWanteds(id) {
-    const userWanted = 'SELECT a.startLocation, a.endLocation, a.startDate FROM ad a JOIN wanted w ON w.adId = a.adId JOIN booking b ON b.adId = a.adId JOIN status s ON s.bookingId = b.bookingId WHERE s.endRide = FALSE AND a.userId = ?';
+    const userWanted = `
+    SELECT a.startLocation, a.endLocation, a.startDate
+    FROM ad a 
+        JOIN wanted w ON w.adId = a.adId 
+        JOIN booking b ON b.adId = a.adId 
+        JOIN status s ON s.bookingId = b.bookingId 
+    WHERE s.endRide = FALSE AND a.userId = ?`;
 
     try {
         const conn = await pool.getConnection();
@@ -76,7 +82,6 @@ async function getWantedById(id) {
     } catch (error) {
         console.error('Fehler bei der Abfrage:', error);
         throw error;
-
     }
 }
 

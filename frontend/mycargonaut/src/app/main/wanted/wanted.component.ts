@@ -20,15 +20,15 @@ export class WantedComponent {
 
   userData: any;
   rating: any;
-  smoke: boolean = true;
-  pet: boolean = true;
+  smoke = true;
+  pet = true;
   stars: number[] = [1, 2, 3, 4, 5];
   tripCount: any;
   showFlashMessage: boolean = false;
   success: boolean = false;
   approved: boolean = false;
   price: any;
-
+  
   ngOnInit() {
     const userId = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;
     this.api.getRequest("profile/userdata/" + userId).subscribe((res: any) => {

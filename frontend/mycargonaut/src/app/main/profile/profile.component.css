@@ -53,4 +53,33 @@
   
   
   
-  
+.modal-content {
+    width: 50vw;
+    min-width: 380px;
+}
+
+.image {
+    text-align: center;
+    background-color: blue;
+    height: auto;
+    width: 100%;
+}
+
+#specials {
+    height: 20vh;
+}
+
+.inputRow {
+    display: flex; 
+    align-items: center; 
+    flex-direction: row;
+}
+
+.input-text-field {
+    border-color: var(--primary);
+    background-color: var(--secondary_light);
+}
+.submitButton{
+    background-color: var(--secondary);
+    color: white;
+}

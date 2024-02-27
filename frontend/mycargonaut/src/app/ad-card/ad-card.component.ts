@@ -11,17 +11,22 @@ import { HttpClientModule} from "@angular/common/http";
 })
 export class AdCardComponent implements HttpClientModule{
   @Input({transform: numberAttribute}) ad: number | null = null;
-  content: any;
+  content!: Ad;
   loaded = false;
-  type: any;
   constructor(
     private api: ApiService
   ){}
-  ngOnInit(): void {
+  OnInit(): void {
     this.loaded = false;
     this.api.getRequest('ad/'+this.ad).subscribe((res:any) => {
       this.content = res.data;
-      this.type = res.data.type;
+      this.api.getRequest('ad/' + res.data.adId + '/intermediate').subscribe((res: any) => {
+        if(res) this.content.intermediateGoals = res.data;
+        else this.content.intermediateGoals = [];
+      })
+      this.api.getRequest('ad/' + res.data.adId + '/type').subscribe((res: any) => {
+        this.content.type = res.data;
+      })
       this.loaded = true;
     })
   }
@@ -37,5 +42,3 @@ export class AdCardComponent implements HttpClientModule{
     return res;
   }
 }
-
-

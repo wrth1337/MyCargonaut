@@ -14,7 +14,7 @@ VALUES  (1,1),
         (1,2);
 
 -- Testdaten für die Tabelle 'vehicle'
-INSERT INTO vehicle (name, numSeats, maxWeight, picture, loadingAreaDimensions, specialFeautures, userId)
+INSERT INTO vehicle (name, numSeats, maxWeight, picture, loadingAreaDimensions, specialFeatures, userId)
 VALUES ('Car1', 4, 500.0, 'car1.jpg', '2x2x2', 'GPS, Bluetooth', 1),
        ('Truck1', 2, 1500.0, 'truck1.jpg', '3x2x2', 'Hydraulic Lift', 2),
        ('Van1', 6, 800.0, 'van1.jpg', '3x3x2', 'Roof Rack', 3);

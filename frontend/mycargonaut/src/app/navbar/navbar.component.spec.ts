@@ -24,7 +24,9 @@ describe('NavbarComponent', () => {
     expect(component.coins).toBe(-1);
   });
 
+
   it('should have a coins property', () => {
+    // eslint-disable-next-line
     expect(component.hasOwnProperty('coins')).toBe(true);
   });
 

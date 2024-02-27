@@ -17,7 +17,7 @@ test('get ad by correct Id', async () =>{
                 VALUES (10,'Max', 'Mustermann', 'max@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
         await conn.query(`INSERT INTO ad (adId,description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) \
                 VALUES (10,'Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 10)`);
-        await conn.query(`INSERT INTO vehicle (vehicleId, name, numSeats, maxWeight, picture, loadingAreaDimensions, specialFeautures, userId) \
+        await conn.query(`INSERT INTO vehicle (vehicleId, name, numSeats, maxWeight, picture, loadingAreaDimensions, specialFeatures, userId) \
                 VALUES (10,'Car1', 4, 500.0, 'car1.jpg', '2x2x2', 'GPS, Bluetooth', 10)`);
         await conn.query(`INSERT INTO offer (offerId, vehicleId, adId, pricePerPerson, pricePerFreight) \
                 VALUES (10, 10, 10, 50.0, 100.0)`);
@@ -28,8 +28,6 @@ test('get ad by correct Id', async () =>{
                 'description': 'Ja Beschreibung halt so lololol',
                 'startLocation': 'City A',
                 'endLocation': 'City B',
-                'type': 'offer',
-                'intermediateGoals': [],
                 'startDate': new Date('2023-01-10'),
                 'endDate': new Date('2023-01-15'),
                 'animals': 0,
@@ -55,7 +53,7 @@ test('get ad by wrong Id', async () =>{
 });
 
 afterAll(() => {
-    pool.end(err => {
+    pool.end((err) => {
         if (err) {
             console.error('Fehler beim Schließen der Datenbankverbindung:', err);
         } else {

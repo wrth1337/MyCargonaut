@@ -40,7 +40,7 @@ CREATE OR REPLACE TABLE vehicle (
     maxWeight FLOAT,
     picture VARCHAR(1024),
     loadingAreaDimensions VARCHAR(100),
-    specialFeautures TEXT,
+    specialFeatures TEXT,
     userId int not null,
     CONSTRAINT fk_user_id
    	FOREIGN KEY (userId) REFERENCES user (userId)
