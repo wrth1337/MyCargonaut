@@ -132,7 +132,7 @@ test('subtractUserCoins with not enough coins', async () => {
     }
 });
 
-afterAll(async () => {
+afterAll(() => {
     pool.end((err) => {
         if (err) {
             console.error('Fehler beim Schließen der Datenbankverbindung:', err);
