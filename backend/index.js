@@ -35,6 +35,8 @@ app.use('', trip.router);
 const searchbar = require('./routes/searchbar');
 app.use('/searchbar', searchbar.router);
 
+const booking = require('./routes/booking');
+app.use('/booking', booking.router);
 
 // app.js
 const swaggerJSDoc = require('swagger-jsdoc');
