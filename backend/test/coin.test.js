@@ -21,72 +21,119 @@ async function getUserID(email) {
 }
 
 test('getUserCoins', async () => {
-    const firstName = 'testFirstName';
-    const lastName = 'testLastName';
-    const email = 'mail@mail.de';
-    const password = 'testPassword';
-    const birthdate = '1990-01-01';
-    const phonenumber = '1234567890';
-    await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
+    try {
+        const firstName = 'testFirstName';
+        const lastName = 'testLastName';
+        const email = 'mail@mail.de';
+        const password = 'testPassword';
+        const birthdate = '1990-01-01';
+        const phonenumber = '1234567890';
+        await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
 
-    const id = await getUserID(email);
-    const result = await getUserCoins(id);
+        const id = await getUserID(email);
+        const result = await getUserCoins(id);
 
-    expect(result.data).toBe(0);
+        expect(result.data).toBe(0);
+    } finally {
+        const conn = await pool.getConnection();
+        const deleteQuery = 'DELETE FROM user WHERE userId = ?';
+        await conn.query(deleteQuery, [await getUserID('mail@mail.de')]);
+    }
 
-    const conn = await pool.getConnection();
-    const deleteQuery = 'DELETE FROM user WHERE userId = ?';
-    await conn.query(deleteQuery, [id]);
+});
+
+test('addUserCoins with invalid user id', async () => {
+    const invalidId = 99999;
+    const coinsToAdd = 10;
+    const result = await addUserCoins(invalidId, coinsToAdd);
+
+    expect(result.success).toBe(false);
+});
+
+test('subtractUserCoins with invalid user id', async () => {
+    const invalidId = 99999;
+    const coinsToSubtract = 5;
+    const result = await subtractUserCoins(invalidId, coinsToSubtract);
+
+    expect(result.success).toBe(false);
 });
 
 test('addUserCoins', async () => {
-    const firstName = 'testFirstName';
-    const lastName = 'testLastName';
-    const email = 'mail@mail.de';
-    const password = 'testPassword';
-    const birthdate = '1990-01-01';
-    const phonenumber = '1234567890';
-    await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
+    try {
+        const firstName = 'testFirstName';
+        const lastName = 'testLastName';
+        const email = 'mail@mail.de';
+        const password = 'testPassword';
+        const birthdate = '1990-01-01';
+        const phonenumber = '1234567890';
+        await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
 
-    const id = await getUserID(email);
-    const coinsToAdd = 10;
-    await addUserCoins(id, coinsToAdd);
+        const id = await getUserID(email);
+        const coinsToAdd = 10;
+        await addUserCoins(id, coinsToAdd);
 
-    const result = await getUserCoins(id);
+        const result = await getUserCoins(id);
 
-    expect(result.data).toBe(coinsToAdd);
-
-    const conn = await pool.getConnection();
-    const deleteQuery = 'DELETE FROM user WHERE userId = ?';
-    await conn.query(deleteQuery, [id]);
+        expect(result.data).toBe(coinsToAdd);
+    } finally {
+        const conn = await pool.getConnection();
+        const deleteQuery = 'DELETE FROM user WHERE userId = ?';
+        await conn.query(deleteQuery, [await getUserID('mail@mail.de')]);
+    }
 });
 
 test('subtractUserCoins', async () => {
-    const firstName = 'testFirstName';
-    const lastName = 'testLastName';
-    const email = 'mail@mail.de';
-    const password = 'testPassword';
-    const birthdate = '1990-01-01';
-    const phonenumber = '1234567890';
-    await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
+    try {
+        const firstName = 'testFirstName';
+        const lastName = 'testLastName';
+        const email = 'mail@mail.de';
+        const password = 'testPassword';
+        const birthdate = '1990-01-01';
+        const phonenumber = '1234567890';
+        await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
 
-    const id = await getUserID(email);
-    const coinsToAdd = 10;
-    await addUserCoins(id, coinsToAdd);
+        const id = await getUserID(email);
+        const coinsToAdd = 10;
+        await addUserCoins(id, coinsToAdd);
 
-    const coinsToSubtract = 5;
-    await subtractUserCoins(id, coinsToSubtract);
+        const coinsToSubtract = 5;
+        await subtractUserCoins(id, coinsToSubtract);
 
-    const result = await getUserCoins(id);
+        const result = await getUserCoins(id);
 
-    expect(result.data).toBe(coinsToAdd - coinsToSubtract);
-
-    const conn = await pool.getConnection();
-    const deleteQuery = 'DELETE FROM user WHERE userId = ?';
-    await conn.query(deleteQuery, [id]);
+        expect(result.data).toBe(coinsToAdd - coinsToSubtract);
+    } finally {
+        const conn = await pool.getConnection();
+        const deleteQuery = 'DELETE FROM user WHERE userId = ?';
+        await conn.query(deleteQuery, [await getUserID('mail@mail.de')]);
+    }
 });
 
-afterAll(() => {
+test('subtractUserCoins with not enough coins', async () => {
+    try {
+        const firstName = 'testFirstName';
+        const lastName = 'testLastName';
+        const email = 'mail@mail.de';
+        const password = 'testPassword';
+        const birthdate = '1990-01-01';
+        const phonenumber = '1234567890';
+        await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
+
+        const id = await getUserID(email);
+        const coinsToAdd = 10;
+        await addUserCoins(id, coinsToAdd);
+        const coinsToSubtract = 15;
+        const result = await subtractUserCoins(id, coinsToSubtract);
+
+        expect(result.success).toBe(false);
+    } finally {
+        const conn = await pool.getConnection();
+        const deleteQuery = 'DELETE FROM user WHERE userId = ?';
+        await conn.query(deleteQuery, [await getUserID('mail@mail.de')]);
+    }
+});
+
+afterAll(async () => {
     pool.end((err) => {
         if (err) {
             console.error('Fehler beim Schließen der Datenbankverbindung:', err);
