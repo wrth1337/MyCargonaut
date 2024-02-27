@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Chatmessage} from "../chatmessage";
 import {ApiService} from "../service/api.service";
 import {ActivatedRoute} from "@angular/router";
@@ -11,6 +11,7 @@ import {DatePipe} from "@angular/common";
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
+  @ViewChild('scroll', { static: true }) scroll: any;
   adId: string | null = '4';
   messageList: Chatmessage[] = [];
   ownUserId = -1;
@@ -41,6 +42,7 @@ export class ChatComponent implements OnInit {
       for (const userId of userIdSet) {
         this.userMap.set(userId, await this.getUsername(userId));
       }
+      this.scrollChat()
     });
   }
 
@@ -67,9 +69,35 @@ export class ChatComponent implements OnInit {
 
     this.api.postRequest("chat/add", {userId: this.ownUserId, adId: this.adId, message: this.newMessage}).subscribe((res:any) => {
       console.log(res);
+      this.loadMessageList();
     });
 
     this.newMessage = '';
   }
 
+  loadMessageList() {
+    this.api.getRequest('chat/getLast/' + this.adId).subscribe(async (res: any) => {
+      this.messageList = res.data;
+      await this.updateUserMap();
+      this.scrollChat();
+    });
+  }
+
+  async updateUserMap() {
+    const userIdSet = new Set<number>();
+    this.messageList.forEach((message) => {
+      userIdSet.add(message.userId);
+    });
+    for (const userId of userIdSet) {
+      if (!this.userMap.has(userId)) {
+        this.userMap.set(userId, await this.getUsername(userId));
+      }
+    }
+  }
+
+  scrollChat(){
+    setTimeout(() => {
+      this.scroll.nativeElement.scrollTo(0, this.scroll.nativeElement.scrollHeight);
+    }, 0);
+  }
 }
