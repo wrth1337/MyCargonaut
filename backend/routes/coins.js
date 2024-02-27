@@ -1,9 +1,16 @@
 const mariadb = require('mariadb');
 const express = require('express');
 const authenticateToken = require('./auth');
+const rateLimit = require('express-rate-limit');
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
+const limiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 100,
+});
+
+router.use(limiter);
 
 const pool = mariadb.createPool({
     host: '0.0.0.0',
