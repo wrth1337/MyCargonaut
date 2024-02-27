@@ -23,4 +23,4 @@ jobs:
         run: |
           cd backend  
           npm install
-          npx eslint . 
+          npx eslint .

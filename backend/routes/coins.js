@@ -158,6 +158,4 @@ router.get('/', authenticateToken, async function(req, res) {
     }
 });
 
-
-
 module.exports = {router, getUserCoins, addUserCoins, subtractUserCoins};

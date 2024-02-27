@@ -39,7 +39,6 @@ test('getUserCoins', async () => {
         const deleteQuery = 'DELETE FROM user WHERE userId = ?';
         await conn.query(deleteQuery, [await getUserID('mail@mail.de')]);
     }
-
 });
 
 test('addUserCoins with invalid user id', async () => {
