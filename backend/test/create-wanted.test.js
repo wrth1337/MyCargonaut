@@ -81,11 +81,9 @@ test('create new wanted ad fail because not all required input fields are filled
     const notes = 'testNote';
     const numSeats = 2;
     const freight = 'testFreight';
-    
     let conn;
 
     try {
-
         conn = await pool.getConnection();
 
         const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);

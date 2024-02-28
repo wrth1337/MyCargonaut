@@ -42,9 +42,9 @@ VALUES (1, 1, 50.0, 100.0),
        (3, 5, 50.0, 100.0);
 
 -- Testdaten für die Tabelle 'wanted'
-INSERT INTO wanted (adId, freight)
-VALUES (3, 'Fragile items'),
-       (6, 'Fragile items 2');
+INSERT INTO wanted (adId, price, freight)
+VALUES (3, 50.0, 'Fragile items'),
+       (6, 100.0, 'Fragile items 2');
 
 -- Testdaten für die Tabelle 'booking'
 INSERT INTO booking (adId, userId, price, numSeats, canceled)

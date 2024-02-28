@@ -47,7 +47,8 @@ async function getUserWanteds(id) {
 }
 
 async function addNewWanted(description, startLocation, endLocation, startDate, endDate, animals, smoker, price, notes, numSeats, userId, freight) {
-    const addWantedAd = 'INSERT INTO ad (description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) VALUES (?,?,?,?,?,?,?,?,?,?)';
+    const addWantedAd = `INSERT INTO ad (description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) 
+                        VALUES (?,?,?,?,?,?,?,?,?,?)`;
     const addWanted = 'INSERT INTO wanted (adId, price, freight) VALUES (LAST_INSERT_ID(), ?, ?)';
     const addBooking = 'INSERT INTO booking (adId, userId, price, numSeats) VALUES (?,?,0.0,0)';
     const addStatus = 'INSERT INTO status (bookingId) VALUES (LAST_INSERT_ID())';
@@ -145,7 +146,6 @@ router.get('/getUserWanted', authenticateToken, async function(req, res, next) {
     try {
         const id = req.user_id;
         const wanted = await getUserWanteds(id);
-  
         if (wanted.success) {
             res.status(200);
             res.json({status: 1, wantedData: wanted.data});
@@ -279,7 +279,7 @@ router.post('/create_wanted', authenticateToken, async function(req, res, next) 
         res.json({status: 99, error: 'Creating Wanted Ad failed'});
     }
 });
-  
+
 /**
  * @swagger
  * tags:

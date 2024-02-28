@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { ApiService } from 'src/app/service/api.service';
@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/service/auth.service';
   styleUrls: ['./wanted.component.css'],
   providers: [DatePipe]
 })
-export class WantedComponent {
+export class WantedComponent implements OnInit {
 
   constructor(
     private api: ApiService,
@@ -24,9 +24,10 @@ export class WantedComponent {
   pet = true;
   stars: number[] = [1, 2, 3, 4, 5];
   tripCount: any;
-  showFlashMessage: boolean = false;
-  success: boolean = false;
-  approved: boolean = false;
+  showFlashMessage = false;
+  success = false;
+  approved = false;
+  showError = false;
   price: any;
 
   language = [
@@ -67,16 +68,21 @@ export class WantedComponent {
   }
 
   onSubmit(form: NgForm) {
-    form.value.endDate = form.value.startDate;
-    form.value.smoker = this.smoke;
-    form.value.animals = this.pet;
-    form.value.notes = null;
-    this.api.postRequest("wanted/create_wanted", form.value).subscribe((res: any) => {
-      if(res.status === 1) {
-        this.success = true;
-      }
-    });
-    this.showFlash();
+    if(this.approved) {
+      this.showError = false;
+      form.value.endDate = form.value.startDate;
+      form.value.smoker = this.smoke;
+      form.value.animals = this.pet;
+      form.value.notes = null;
+      this.api.postRequest("wanted/create_wanted", form.value).subscribe((res: any) => {
+        if(res.status === 1) {
+          this.success = true;
+        }
+      });
+      this.showFlash();
+    } else {
+      this.showError = true;
+    }
   }
 
   updateSmoke() {
