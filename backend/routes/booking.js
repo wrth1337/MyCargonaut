@@ -21,13 +21,51 @@ const pool = mariadb.createPool({
 });
 
 // ---Methods--- //
+async function checkEnoughSeatsAvailable(adId, seats) {
+    const select = `SELECT numSeats FROM booking WHERE adId = ?`;
+    const totalSeatsQuery = `SELECT numSeats FROM ad WHERE adId = ?`;
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(select, [adId]);
+        const totalSeats = (await conn.query(totalSeatsQuery, [adId]))[0].numSeats;
+        await conn.release();
+        let usedSeats = 0;
+        for (let i = 0; i < result.length; i++) {
+            usedSeats += result[i].numSeats;
+        }
+        console.log(adId)
+        console.log('total:' + totalSeats)
+        console.log('used:' + usedSeats)
+        console.log('seats:' + seats)
+        return ((totalSeats - usedSeats) >= seats);
+    } catch (error) {
+        console.error('Fehler bei der Abfrage:', error);
+        throw error;
+    }
+}
 
-async function newBooking(adId, userId, price, timeBooking, numSeats) {
-    const insert = `INSERT INTO booking (adId, userId, price, timeBooking, numSeats, canceled) VALUES (?,?,?,?,?,false);`;
+async function newBooking(adId, userId, price, numSeats) {
+    const enoughSeats = await checkEnoughSeatsAvailable(adId, numSeats);
+    if (!enoughSeats) return false;
+    const insert = `INSERT INTO booking (adId, userId, price, numSeats) VALUES (?,?,?,?);`;
 
     try {
         const conn = await pool.getConnection();
-        const result = await conn.query(insert, [adId, userId, price, timeBooking, numSeats, canceled]);
+        const result = await conn.query(insert, [adId, userId, price, numSeats]);
+        await conn.release();
+        return result;
+    } catch (error) {
+        console.error('Fehler bei der Abfrage:', error);
+        throw error;
+    }
+}
+
+async function newStatus(bookingId) {
+    const insert = `INSERT INTO status (bookingId) VALUES (?);`;
+
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(insert, [bookingId]);
         await conn.release();
         return result;
     } catch (error) {
@@ -77,6 +115,24 @@ async function getBookingsByAd(adId) {
         throw error;
     }
 }
+
+async function payment(price, userId, bookingId) {
+    console.log('payment here');
+    // price von user Guthaben abziehen -> Wenn Fehler error oder so
+    // Da beide Operationen atomar zusammenausgeführt werden müssen vllt in einer Query mit ; getrennt 
+    const update = `BEGIN;
+                    UPDATE status SET paymentReceived = true WHERE bookingId = ?;
+                    COMMIT;`;
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(update, [bookingId]);
+        await conn.release();
+        return result;
+    } catch (error) {
+        console.error('Fehler bei der Abfrage:', error);
+        throw error;
+    }
+};
 
 // ---Routes--- //
 /**
@@ -317,7 +373,7 @@ async function getBookingsByAd(adId) {
  *  - bearerAuth: []
  */
 
-router.get('/', authenticateToken, async function(req, res, next) {
+router.get('', authenticateToken, async function(req, res, next) {
     try {
         const userId = req.user_id;
         const result = await getBookings(userId);
@@ -334,14 +390,14 @@ router.get('/', authenticateToken, async function(req, res, next) {
     }
 });
 
-router.post('/', authenticateToken, async function(req, res, next) {
+router.post('', authenticateToken, async function(req, res, next) {
     try {
         const userId = req.user_id;
-        const timeBooking = new Date().toISOString().slice(0, 19).replace('T', ' ');
-        const price = getPriceOfBooking(adId, numSeats);
         const {adId, numSeats} = req.body;
-        const result = await newBooking(adId, userId, price, timeBooking, numSeats);
-        payment();
+        const price = getPriceOfBooking(adId, numSeats);
+        const result = await newBooking(adId, userId, price, numSeats);
+        const statusResult = await newStatus(result.insertId);
+        const paymentResult = await payment(price, userId, result.insertId);
         if (result.affectedRows > 0) {
             res.status(200);
             res.json({status: 1});
@@ -390,4 +446,4 @@ router.get('/ad/:id', authenticateToken, async function(req, res, next) {
     }
 });
 
-module.exports = {router, getBookings, newBooking, cancelBooking, getBookingsByAd};
+module.exports = {router, getBookings, newBooking, cancelBooking, getBookingsByAd, newStatus};
