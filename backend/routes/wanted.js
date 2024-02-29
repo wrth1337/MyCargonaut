@@ -213,7 +213,7 @@ router.post('/createWanted', authenticateToken, async function(req, res, next) {
 });
 
 
-router.get('/wanted/:id', async function(req, res, next) {
+router.get('/:id', async function(req, res, next) {
     try {
         const wanted = await getWantedById(req.params.id);
 
