@@ -41,7 +41,7 @@ test('If newBooking updates the booking table correctly if their are to few seat
 
         await booking.newBooking(123456789, 123456789, 10, 1);
         await booking.newBooking(123456789, 123456789, 10, 1);
-        const res = await booking.newBooking(123456789, 123456789, 10, 99);
+        const res = await booking.checkEnoughSeatsAvailable(123456789, 99);
 
         expect(res).toEqual(false);
     } finally {
