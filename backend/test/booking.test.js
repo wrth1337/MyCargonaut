@@ -36,16 +36,20 @@ test('If newBooking updates the booking table correctly if their are to few seat
         await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience) \
         VALUES (123456789,'Max', 'Mustermann', 'max@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
 
+        await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience) \
+        VALUES (12345678,'Max1', 'Mustermann1', 'max1@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
+
         await conn.query(`INSERT INTO ad (adId,description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) \
                     VALUES (123456789,'Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 123456789)`);
 
         await booking.newBooking(123456789, 123456789, 10, 1);
-        await booking.newBooking(123456789, 123456789, 10, 1);
+        await booking.newBooking(123456789, 12345678, 10, 1);
         const res = await booking.checkEnoughSeatsAvailable(123456789, 99);
 
         expect(res).toEqual(false);
     } finally {
         conn.query(`DELETE FROM user WHERE userId = 123456789`);
+        conn.query(`DELETE FROM user WHERE userId = 12345678`);
         conn.query(`DELETE FROM ad WHERE adId = 123456789`);
 
         if (conn) await conn.release();
@@ -64,7 +68,7 @@ test('If a booking is canceled correctly', async () => {
 
         const tmp = await booking.newBooking(123456789, 123456789, 10, 1);
         expect((await booking.getBookingsByAd(123456789))[0].canceled).toEqual(0);
-        const res = await booking.cancelBooking(tmp.insertId, 123456789);
+        const res = await booking.cancelBooking(123456789, 123456789);
         const res2 = (await booking.getBookingsByAd(123456789))[0];
         expect(res.affectedRows).toEqual(1);
         expect(res2.canceled).toBe(1);
@@ -83,21 +87,35 @@ test('If get bookings are working correctly', async () => {
         await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience) \
         VALUES (123456789,'Max', 'Mustermann', 'max@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
 
+        await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience) \
+        VALUES (12345678,'Max1', 'Mustermann1', 'max1@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
+
+        await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience) \
+        VALUES (1234567,'Max2', 'Mustermann2', 'max2@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
+
         await conn.query(`INSERT INTO ad (adId,description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) \
                     VALUES (123456789,'Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 123456789)`);
 
+        await conn.query(`INSERT INTO ad (adId,description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) \
+                    VALUES (12345678,'Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 123456789)`);
+
         await booking.newBooking(123456789, 123456789, 10, 1);
-        await booking.newBooking(123456789, 123456789, 10, 1);
-        await booking.newBooking(123456789, 123456789, 10, 1);
+        await booking.newBooking(12345678, 123456789, 10, 1);
+        await booking.newBooking(123456789, 12345678, 10, 1);
+        await booking.newBooking(123456789, 1234567, 10, 1);
 
         const res = await booking.getBookingsByAd(123456789);
         const res2 = await booking.getBookings(123456789);
 
         expect(res.length).toBe(3);
-        expect(res2.length).toBe(3);
+        expect(res2.length).toBe(2);
     } finally {
         conn.query(`DELETE FROM user WHERE userId = 123456789`);
+        conn.query(`DELETE FROM user WHERE userId = 12345678`);
+        conn.query(`DELETE FROM user WHERE userId = 1234567`);
+
         conn.query(`DELETE FROM ad WHERE adId = 123456789`);
+        conn.query(`DELETE FROM ad WHERE adId = 12345678`);
 
         if (conn) await conn.release();
     }
