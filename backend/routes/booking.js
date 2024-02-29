@@ -68,12 +68,12 @@ async function newStatus(bookingId) {
     }
 }
 
-async function cancelBooking(bookingId, userId) {
-    const update = `UPDATE booking SET canceled = true WHERE bookingId = ? AND userId = ?`;
+async function cancelBooking(adId, userId) {
+    const update = `UPDATE booking SET canceled = true WHERE adId = ? AND userId = ?`;
 
     try {
         const conn = await pool.getConnection();
-        const result = await conn.query(update, [bookingId, userId]);
+        const result = await conn.query(update, [adId, userId]);
         await conn.release();
         return result;
     } catch (error) {
@@ -404,19 +404,17 @@ router.get('', authenticateToken, async function(req, res, next) {
 });
 
 router.post('/', authenticateToken, async function(req, res, next) {
-    console.log('moin')
     try {
         const userId = req.user_id;
         const {adId, numSeats, freight} = req.body;
         const enoughSeats = await checkEnoughSeatsAvailable(adId, numSeats);
         if (!enoughSeats) {
-            res.status(500);
+            res.status(400);
             res.json({status: 2, error: 'Not enough Seats available'});
             return;
         }
         const price = await getPriceOfBooking(adId, numSeats, freight);
         const result = await newBooking(adId, userId, price, numSeats);
-        console.log(result);
         const statusResult = await newStatus(result.insertId);
         // const paymentResult = await payment(price, userId, result.insertId);
         // In payment nach Art der ad Unterscheiden
@@ -436,8 +434,8 @@ router.post('/', authenticateToken, async function(req, res, next) {
 router.post('/cancel/:id', authenticateToken, async function(req, res, next) {
     try {
         const userId = req.user_id;
-        const bookingId = req.params.id;
-        const result = await cancelBooking(bookingId, userId);
+        const adId = req.params.id;
+        const result = await cancelBooking(adId, userId);
         if (result.affectedRows > 0) {
             res.status(200);
             res.json({status: 1});
