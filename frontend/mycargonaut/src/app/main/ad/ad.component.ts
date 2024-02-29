@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/service/auth.service';
 import { Ad } from '../ad';
 import { intermediateGoal } from '../intermediateGoal';
 import { DatePipe } from '@angular/common';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-ad',
@@ -14,6 +15,7 @@ import { DatePipe } from '@angular/common';
 })
 export class AdComponent implements OnInit{
   id = 0;
+  default = 1;
   ad: Ad = {
     adId: 0,
     description: '',
@@ -34,6 +36,7 @@ export class AdComponent implements OnInit{
   user: any = {};
   authorId = 4;
   isLogin = false;
+  toFewSeatsResponse = false;
   state = '';
   type = '';
   stars: number[] = [1, 2, 3, 4, 5];
@@ -54,18 +57,22 @@ userData: any;
     })
     this.api.getRequest('ad/'+this.id).subscribe((res:any) => {
       this.ad = res.data;
+      this.authorId = res.data.userId;
+      console.log(res);
       this.api.getRequest('ad/' + res.data.adId + '/intermediate').subscribe((res: any) => {
         if(res) this.ad.intermediateGoals = res.data;
         else this.ad.intermediateGoals = [];
       })
-      this.api.getRequest('ad/' + res.data.adId + '/type').subscribe((res: any) => {
-        this.ad.type = res.data;
+      this.api.getRequest('ad/' + res.data.adId + '/type').subscribe((res2: any) => {
+        this.ad.type = res2.data;
+        this.type = res2.data;
+        console.log(res)
+        this.api.getRequest(res2.data + '/' + res.data.adId).subscribe((typeSpecRes:any) => {
+          this.typeSpecificContent = typeSpecRes.data;
+        })
       })
-      this.authorId = res.data.userId;
-      this.type = res.data.type;
-      this.api.getRequest(res.data.type + '/' + res.data.adId).subscribe((res:any) => {
-        this.typeSpecificContent = res.data;
-      })
+      
+
       this.api.getRequest("profile/userdata/"+this.authorId).subscribe((res:any) => {
         this.user = res.userData;
         this.user.birthdate = this.datepipe.transform(res.userData.birthdate, 'dd.MM.yyyy')
@@ -79,7 +86,9 @@ userData: any;
   handleButton(){
     switch (this.state){
       case 'Buchen':
-        //trigger booking modal
+        this.api.postRequest('booking',{}).subscribe((res) => {
+          console.log(res);
+        })
         break;
       case 'Stornieren':
         //trigger cancel modal
@@ -90,6 +99,20 @@ userData: any;
 
     }
   }
+  onBookingSubmit(form : NgForm) {
+    this.toFewSeatsResponse = false;
+    this.api.postRequest('booking',{numSeats: form.value.numSeats, adId: this.ad.adId, freight: form.value.freight}).subscribe((res:any) => {
+      if (res.status === 1) window.location.reload();
+    }, (error:any) =>{
+      if (error.error.status === 2) this.toFewSeatsResponse = true;
+    });
+  }
+  cancel() {
+    this.toFewSeatsResponse = false;
+    this.api.postRequest('booking/cancel/' + this.ad.adId, {}).subscribe((res:any) => {
+      console.log(res)
+    })
+  }
   isUserLogin(){
     if(this.auth.getToken() != null){this.isLogin = true}
   }
@@ -97,9 +120,12 @@ userData: any;
     let res = '';
     res += input.type === 'offer' ? 'Biete ' : 'Suche ';
     res += 'Fahrt von ' + input.startLocation;
-    input.intermediateGoals.forEach((element: intermediateGoal) => {
-      res += ' über ' +element.location
-    });
+    if (input.intermediateGoals) {
+      input.intermediateGoals.forEach((element: intermediateGoal) => {
+        res += ' über ' +element.location
+      });      
+    }
+
     res += ' nach ' + input.endLocation;
     const test = this.datepipe.transform(input.startDate, 'dd.MM.yyyy');
     res += ' am ' + test

@@ -1,7 +1,7 @@
 <div class="infront" *ngIf="state === 'Bewerten'">
     
 </div>
-<div class="row">
+<div class="row" style="width: 100%;">
     <div class="col">
         <button class="btn returnBtn mx-3" [routerLink]="['/']">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="var(--primary)" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
@@ -14,7 +14,7 @@
     </div>
     <div class="col"></div>
 </div>
-<div class="row p-3">
+<div class="row p-3" style="width: 100%;">
     <div class="col-md">
         <div class="card">
             <div class="card-header p-3 fs-5">
@@ -94,7 +94,8 @@
                 <p class="card-text adCardText p-1 lh-xl">{{ad.description}}</p>
             </div>
           </div>
-          <button class="bookingBtn btn fs-4 fw-bolder" (click)="handleButton()">{{this.state}}</button>
+          <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#bookingModal" *ngIf="this.isLogin && this.state === 'Buchen'">{{this.state}}</button>
+          <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#cancelingModal" *ngIf="this.isLogin && this.state === 'Stornieren'">{{this.state}}</button>
 
     </div>
     <div class="col-md">
@@ -106,3 +107,42 @@
     </div>
 </div>
 
+<form #bookingForm="ngForm" (ngSubmit)="onBookingSubmit(bookingForm)">
+    <div class="modal" id="bookingModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>Sind Sie sich sicher?</p>
+                    <span>Anzahl zu buchender Sitzplätze</span>
+                    <input id="seats" class="form-control ms-2 m-1" type="number" name="numSeats" placeholder="Anzahl Sitzplätze" min="1"  ngModel [(ngModel)]="this.default">    
+                    <span>Menge an Fracht in Kg</span>
+                    <input id="seats" class="form-control ms-2 m-1" type="number" name="freight" placeholder="Menge Fracht" min="0"  ngModel> 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                    <input id="submitButton" class="submitButton btn align-middle" type="submit" value="Buchen">
+                    <div *ngIf="toFewSeatsResponse">
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                          <div>Not enough Seats available.</div>
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+    <div class="modal" id="cancelingModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>Sind Sie sich sicher?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                    <input id="submitButton" class="submitButton btn align-middle" type="submit" value="Stornieren" (click)="cancel()">
+                </div>
+            </div>
+        </div>
+    </div>
