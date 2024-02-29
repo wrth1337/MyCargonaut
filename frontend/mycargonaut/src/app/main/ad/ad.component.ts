@@ -16,6 +16,7 @@ import { NgForm } from '@angular/forms';
 export class AdComponent implements OnInit{
   id = 0;
   default = 1;
+  seatsAvailable = 0;
   ad: Ad = {
     adId: 0,
     description: '',
@@ -66,13 +67,13 @@ userData: any;
       this.api.getRequest('ad/' + res.data.adId + '/type').subscribe((res2: any) => {
         this.ad.type = res2.data;
         this.type = res2.data;
-        console.log(res)
         this.api.getRequest(res2.data + '/' + res.data.adId).subscribe((typeSpecRes:any) => {
           this.typeSpecificContent = typeSpecRes.data;
         })
       })
-      
-
+      this.api.getRequest('ad/' + res.data.adId + '/seats').subscribe((res: any) => {
+        this.seatsAvailable = res.seats;
+      })
       this.api.getRequest("profile/userdata/"+this.authorId).subscribe((res:any) => {
         this.user = res.userData;
         this.user.birthdate = this.datepipe.transform(res.userData.birthdate, 'dd.MM.yyyy')
