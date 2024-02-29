@@ -33,10 +33,6 @@ async function checkEnoughSeatsAvailable(adId, seats) {
         for (let i = 0; i < result.length; i++) {
             usedSeats += result[i].numSeats;
         }
-        console.log(adId)
-        console.log('total:' + totalSeats)
-        console.log('used:' + usedSeats)
-        console.log('seats:' + seats)
         return ((totalSeats - usedSeats) >= seats);
     } catch (error) {
         console.error('Fehler bei der Abfrage:', error);
@@ -45,8 +41,6 @@ async function checkEnoughSeatsAvailable(adId, seats) {
 }
 
 async function newBooking(adId, userId, price, numSeats) {
-    const enoughSeats = await checkEnoughSeatsAvailable(adId, numSeats);
-    if (!enoughSeats) return false;
     const insert = `INSERT INTO booking (adId, userId, price, numSeats) VALUES (?,?,?,?);`;
 
     try {
@@ -134,6 +128,25 @@ async function payment(price, userId, bookingId) {
     }
 };
 
+async function getPriceOfBooking(adId, numSeats, freight) {
+    const isWanted = `SELECT * FROM wanted WHERE adId = ?`;
+    const getPrice = `SELECT pricePerPerson, pricePerFreight FROM offer WHERE adId = ?`;
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(isWanted, [adId]);
+        console.log(result)
+        if (result.length > 0) return 0;
+        const priceRes = await conn.query(getPrice, [adId]);
+        console.log(priceRes[0].pricePerPerson)
+        await conn.release();
+        const price = (priceRes[0].pricePerPerson * numSeats + priceRes[0].pricePerFreight * freight);
+        console.log(price)
+        return price;
+    } catch (error) {
+        console.error('Fehler bei der Abfrage:', error);
+        throw error;
+    }
+}
 // ---Routes--- //
 /**
  * @swagger
@@ -390,14 +403,23 @@ router.get('', authenticateToken, async function(req, res, next) {
     }
 });
 
-router.post('', authenticateToken, async function(req, res, next) {
+router.post('/', authenticateToken, async function(req, res, next) {
+    console.log('moin')
     try {
         const userId = req.user_id;
-        const {adId, numSeats} = req.body;
-        const price = getPriceOfBooking(adId, numSeats);
+        const {adId, numSeats, freight} = req.body;
+        const enoughSeats = await checkEnoughSeatsAvailable(adId, numSeats);
+        if (!enoughSeats) {
+            res.status(500);
+            res.json({status: 2, error: 'Not enough Seats available'});
+            return;
+        }
+        const price = await getPriceOfBooking(adId, numSeats, freight);
         const result = await newBooking(adId, userId, price, numSeats);
+        console.log(result);
         const statusResult = await newStatus(result.insertId);
-        const paymentResult = await payment(price, userId, result.insertId);
+        // const paymentResult = await payment(price, userId, result.insertId);
+        // In payment nach Art der ad Unterscheiden
         if (result.affectedRows > 0) {
             res.status(200);
             res.json({status: 1});
@@ -446,4 +468,4 @@ router.get('/ad/:id', authenticateToken, async function(req, res, next) {
     }
 });
 
-module.exports = {router, getBookings, newBooking, cancelBooking, getBookingsByAd, newStatus};
+module.exports = {router, getBookings, newBooking, cancelBooking, getBookingsByAd, newStatus, checkEnoughSeatsAvailable};
