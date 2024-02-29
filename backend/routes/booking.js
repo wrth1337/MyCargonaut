@@ -21,19 +21,15 @@ const pool = mariadb.createPool({
 });
 
 // ---Methods--- //
-async function checkEnoughSeatsAvailable(adId, seats) {
-    const select = `SELECT numSeats FROM booking WHERE adId = ?`;
+async function getSeatsAvailable(adId) {
+    const select = `SELECT SUM(numSeats) AS usedSeats FROM booking WHERE adId = ?`;
     const totalSeatsQuery = `SELECT numSeats FROM ad WHERE adId = ?`;
     try {
         const conn = await pool.getConnection();
-        const result = await conn.query(select, [adId]);
+        const usedSeats = (await conn.query(select, [adId]))[0].usedSeats;
         const totalSeats = (await conn.query(totalSeatsQuery, [adId]))[0].numSeats;
         await conn.release();
-        let usedSeats = 0;
-        for (let i = 0; i < result.length; i++) {
-            usedSeats += result[i].numSeats;
-        }
-        return ((totalSeats - usedSeats) >= seats);
+        return (totalSeats - usedSeats);
     } catch (error) {
         console.error('Fehler bei der Abfrage:', error);
         throw error;
@@ -134,13 +130,10 @@ async function getPriceOfBooking(adId, numSeats, freight) {
     try {
         const conn = await pool.getConnection();
         const result = await conn.query(isWanted, [adId]);
-        console.log(result)
         if (result.length > 0) return 0;
         const priceRes = await conn.query(getPrice, [adId]);
-        console.log(priceRes[0].pricePerPerson)
         await conn.release();
         const price = (priceRes[0].pricePerPerson * numSeats + priceRes[0].pricePerFreight * freight);
-        console.log(price)
         return price;
     } catch (error) {
         console.error('Fehler bei der Abfrage:', error);
@@ -386,7 +379,7 @@ async function getPriceOfBooking(adId, numSeats, freight) {
  *  - bearerAuth: []
  */
 
-router.get('', authenticateToken, async function(req, res, next) {
+router.get('/', authenticateToken, async function(req, res, next) {
     try {
         const userId = req.user_id;
         const result = await getBookings(userId);
@@ -407,8 +400,8 @@ router.post('/', authenticateToken, async function(req, res, next) {
     try {
         const userId = req.user_id;
         const {adId, numSeats, freight} = req.body;
-        const enoughSeats = await checkEnoughSeatsAvailable(adId, numSeats);
-        if (!enoughSeats) {
+        const availableSeats = await getSeatsAvailable(adId);
+        if (availableSeats < numSeats) {
             res.status(400);
             res.json({status: 2, error: 'Not enough Seats available'});
             return;
@@ -466,4 +459,4 @@ router.get('/ad/:id', authenticateToken, async function(req, res, next) {
     }
 });
 
-module.exports = {router, getBookings, newBooking, cancelBooking, getBookingsByAd, newStatus, checkEnoughSeatsAvailable};
+module.exports = {router, getBookings, newBooking, cancelBooking, getBookingsByAd, newStatus, getSeatsAvailable};
