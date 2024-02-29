@@ -29,7 +29,7 @@ test('If newBooking updates the booking table correctly', async () => {
     }
 });
 
-test('If newBooking updates the booking table correctly if their are to few seats left', async () => {
+test('If getSeatsAvailable get the correct amount of seats', async () => {
     let conn;
     try {
         conn = await pool.getConnection();
@@ -44,9 +44,9 @@ test('If newBooking updates the booking table correctly if their are to few seat
 
         await booking.newBooking(123456789, 123456789, 10, 1);
         await booking.newBooking(123456789, 12345678, 10, 1);
-        const res = await booking.checkEnoughSeatsAvailable(123456789, 99);
+        const res = await booking.getSeatsAvailable(123456789);
 
-        expect(res).toEqual(false);
+        expect(res).toBe(2);
     } finally {
         conn.query(`DELETE FROM user WHERE userId = 123456789`);
         conn.query(`DELETE FROM user WHERE userId = 12345678`);
