@@ -1,10 +1,33 @@
 <div class="chat">
   <div class="bookingAndChat">
 
-    <div>
-      <div class="bookings">
+    <div *ngIf="isOwner">
+      <div class="bookings card">
         <div class="bookingBox" *ngFor="let booking of bookingList index as i">
-          {{booking.userId}}
+          <div class="messageBoxUserPicture">
+            <svg xmlns="http://www.w3.org/2000/svg" width="max-content" height="max-content" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16" style="margin-top: 0">
+              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+              <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+            </svg>
+          </div>
+
+          <div class="messageBoxMessage">
+            <div>
+              <b>{{userMap.get(booking.userId)}}</b> | {{getTime(booking.timeBooking)}} Uhr
+            </div>
+            <hr style="margin-top: 0; margin-bottom: 1%">
+            <div style="display: flex; flex-direction: row; align-items: center">
+              <div style="margin-right: 10%;">
+                <b>Sitze:</b> {{booking.numSeats}}
+              </div>
+              <div>
+                <b>Preis:</b> {{booking.price}}
+              </div>
+              <button type="button" class="btn btn-success bookingButton">Jo</button>
+              <button type="button" class="btn btn-danger bookingButton">No</button>
+
+            </div>
+          </div>
 
         </div>
       </div>

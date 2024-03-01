@@ -20,6 +20,7 @@ export class ChatComponent implements OnInit {
   ownUserId = -1;
   userMap = new Map<number, string>();
   newMessage = '';
+  isOwner = false;
 
   constructor(
     private api: ApiService,
@@ -35,8 +36,18 @@ export class ChatComponent implements OnInit {
     }
 
     this.adId = this.route.snapshot.paramMap.get('id');
+
+    this.api.getRequest('ad/' + this.adId).subscribe(async (res: any) => {
+      if (this.ownUserId == res.data.userId) {
+        this.isOwner = true;
+        this.loadBookingList();
+
+      }
+      console.log('isOwner:');
+      console.log(this.isOwner);
+    });
+
     this.loadMessageList();
-    this.loadBookingList();
   }
 
   getTime(date:Date) {
@@ -80,6 +91,9 @@ export class ChatComponent implements OnInit {
     this.messageList.forEach((message) => {
       userIdSet.add(message.userId);
     });
+    this.bookingList.forEach((booking) => {
+      userIdSet.add(booking.userId);
+    });
     for (const userId of userIdSet) {
       if (!this.userMap.has(userId)) {
         this.userMap.set(userId, await this.getUsername(userId));
@@ -90,6 +104,10 @@ export class ChatComponent implements OnInit {
   loadBookingList() {
     this.api.getRequest('booking/ad/' + this.adId).subscribe(async (res: any) => {
       this.bookingList = res.data;
+      this.bookingList = this.bookingList.filter( booking => !booking.canceled);
+      await this.updateUserMap();
+      console.log('bookingList:');
+      console.log(this.bookingList);
     });
   }
 

@@ -15,12 +15,23 @@
       overflow: auto;
       resize: vertical;
       min-height: 50px;
+      border-color: var(--secondary);
+      border-radius: 0;
+      border-top: 0;
+      border-left: 0;
+      border-right: 0;
     }
 
       .bookingBox {
         display: flex;
         flex-direction: row;
-        background-color: #93F5EB;
+        margin: 1%;
+      }
+
+      .bookingButton {
+        height: 100%;
+        width: 20%;
+        margin: auto;
       }
 
     .messages {
