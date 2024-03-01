@@ -78,6 +78,20 @@ async function cancelBooking(adId, userId) {
     }
 }
 
+async function confirmBooking(bookingId) {
+    const update = `UPDATE status SET bookingConfirmation = true WHERE bookingId = ?`;
+
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(update, [bookingId]);
+        await conn.release();
+        return result;
+    } catch (error) {
+        console.error('Fehler bei der Abfrage:', error);
+        throw error;
+    }
+}
+
 async function getBookings(userId) {
     const select = 'SELECT * FROM booking WHERE userId = ?';
 
@@ -244,7 +258,7 @@ async function getPriceOfBooking(adId, numSeats, freight) {
  *                                  message:
  *                                      type: string
  *                                      description: Unauthorized.
- * /booking/cancel/{bookingId}:
+ * /booking/cancel/{adId}:
  *      post:
  *          summary: Cancel booking.
  *          security:
@@ -254,14 +268,14 @@ async function getPriceOfBooking(adId, numSeats, freight) {
  *              - booking
  *          parameters:
  *            - in: path
- *              name: bookingId
+ *              name: adId
  *              schema:
  *                  type: integer
  *              required: true
- *              description: The Id of the bookings to cancel.
+ *              description: The Id of the ad the booking is connected to to cancel.
  *          responses:
  *              200:
- *                  description: user booking data successfully fetched.
+ *                  description: Booking successfully canceled.
  *                  content:
  *                      application/json:
  *                          schema:
@@ -270,11 +284,6 @@ async function getPriceOfBooking(adId, numSeats, freight) {
  *                                  status:
  *                                      type: integer
  *                                      description: The status-code.
- *                                  data:
- *                                      type: array
- *                                      description: The user booking data.
- *                                      items:
- *                                        $ref: '#/components/schemas/booking'
  *              401:
  *                  description: Unauthorized.
  *                  content:
@@ -316,6 +325,44 @@ async function getPriceOfBooking(adId, numSeats, freight) {
  *              204:
  *                  description: query was successful but contains no content.
  *                  content: {}
+ *              401:
+ *                  description: Unauthorized.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/unauthorizedReturn'
+ *              500:
+ *                  description: Error.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/errorReturn'
+ * /booking/cancel/{bookingId}:
+ *      post:
+ *          summary: Confirm booking.
+ *          security:
+ *              - bearerAuth: []
+ *          description: Confirm a booking specified by its Id.
+ *          tags:
+ *              - booking
+ *          parameters:
+ *            - in: path
+ *              name: bookingId
+ *              schema:
+ *                  type: integer
+ *              required: true
+ *              description: The Id of the booking is connected to to confirm.
+ *          responses:
+ *              200:
+ *                  description: user booking successfully confirmed.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
  *              401:
  *                  description: Unauthorized.
  *                  content:
@@ -442,6 +489,23 @@ router.post('/cancel/:id', authenticateToken, async function(req, res, next) {
     }
 });
 
+router.post('/confirm/:id', authenticateToken, async function(req, res, next) {
+    try {
+        const bookingId = req.params.id;
+        const result = await confirmBooking(bookingId);
+        if (result.affectedRows > 0) {
+            res.status(200);
+            res.json({status: 1});
+        } else {
+            res.status(500);
+            res.json({status: 99, error: 'Confirming booking failed'});
+        }
+    } catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Confirming booking failed'});
+    }
+});
+
 router.get('/ad/:id', authenticateToken, async function(req, res, next) {
     try {
         const adId = req.params.id;
@@ -459,4 +523,5 @@ router.get('/ad/:id', authenticateToken, async function(req, res, next) {
     }
 });
 
-module.exports = {router, getBookings, newBooking, cancelBooking, getBookingsByAd, newStatus, getSeatsAvailable};
+
+module.exports = {router, getBookings, newBooking, cancelBooking, getBookingsByAd, newStatus, getSeatsAvailable, confirmBooking};
