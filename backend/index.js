@@ -35,6 +35,9 @@ app.use('', trip.router);
 const searchbar = require('./routes/searchbar');
 app.use('/searchbar', searchbar.router);
 
+const chat = require('./routes/chat');
+app.use('/chat', chat.router);
+
 const booking = require('./routes/booking');
 app.use('/booking', booking.router);
 
