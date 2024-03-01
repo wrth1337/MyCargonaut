@@ -31,7 +31,8 @@ export class AdComponent implements OnInit{
     notes: '',
     numSeats: 0,
     active: false,
-    userId: 0
+    userId: 0,
+    state: ''
   };
   typeSpecificContent:any = {};
   user: any = {};

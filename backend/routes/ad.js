@@ -357,6 +357,10 @@ async function getIntermediateById(adId) {
  *                  userId:
  *                      type: integer
  *                      description: Id of the author.
+ *                  state:
+ *                      type: string
+ *                      enum: [created, started, finished]
+ *                      description: Status of the ad.
  */
 router.get('/last', async function(req, res, next) {
     try {

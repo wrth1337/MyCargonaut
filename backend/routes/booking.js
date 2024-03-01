@@ -22,7 +22,7 @@ const pool = mariadb.createPool({
 
 // ---Methods--- //
 async function getSeatsAvailable(adId) {
-    const select = `SELECT SUM(numSeats) AS usedSeats FROM booking WHERE adId = ?`;
+    const select = `SELECT SUM(numSeats) AS usedSeats FROM booking WHERE adId = ? AND state = 'confirmed' AND canceled = FALSE`;
     const totalSeatsQuery = `SELECT numSeats FROM ad WHERE adId = ?`;
     try {
         const conn = await pool.getConnection();
@@ -50,20 +50,6 @@ async function newBooking(adId, userId, price, numSeats) {
     }
 }
 
-async function newStatus(bookingId) {
-    const insert = `INSERT INTO status (bookingId) VALUES (?);`;
-
-    try {
-        const conn = await pool.getConnection();
-        const result = await conn.query(insert, [bookingId]);
-        await conn.release();
-        return result;
-    } catch (error) {
-        console.error('Fehler bei der Abfrage:', error);
-        throw error;
-    }
-}
-
 async function cancelBooking(adId, userId) {
     const update = `UPDATE booking SET canceled = true WHERE adId = ? AND userId = ?`;
 
@@ -78,12 +64,12 @@ async function cancelBooking(adId, userId) {
     }
 }
 
-async function confirmBooking(bookingId) {
-    const update = `UPDATE status SET bookingConfirmation = true WHERE bookingId = ?`;
+async function confirmBooking(bookingId, state) {
+    const update = `UPDATE booking SET state = ? WHERE bookingId = ?`;
 
     try {
         const conn = await pool.getConnection();
-        const result = await conn.query(update, [bookingId]);
+        const result = await conn.query(update, [state, bookingId]);
         await conn.release();
         return result;
     } catch (error) {
@@ -337,7 +323,7 @@ async function getPriceOfBooking(adId, numSeats, freight) {
  *                      application/json:
  *                          schema:
  *                              $ref: '#/components/schemas/errorReturn'
- * /booking/cancel/{bookingId}:
+ * /booking/confirm/{bookingId}:
  *      post:
  *          summary: Confirm booking.
  *          security:
@@ -355,6 +341,44 @@ async function getPriceOfBooking(adId, numSeats, freight) {
  *          responses:
  *              200:
  *                  description: user booking successfully confirmed.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *              401:
+ *                  description: Unauthorized.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/unauthorizedReturn'
+ *              500:
+ *                  description: Error.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/errorReturn'
+* /booking/denie/{bookingId}:
+ *      post:
+ *          summary: Denie booking.
+ *          security:
+ *              - bearerAuth: []
+ *          description: Denie a booking specified by its Id.
+ *          tags:
+ *              - booking
+ *          parameters:
+ *            - in: path
+ *              name: bookingId
+ *              schema:
+ *                  type: integer
+ *              required: true
+ *              description: The Id of the booking is connected to to denie.
+ *          responses:
+ *              200:
+ *                  description: user booking successfully denied.
  *                  content:
  *                      application/json:
  *                          schema:
@@ -401,6 +425,10 @@ async function getPriceOfBooking(adId, numSeats, freight) {
  *                  canceled:
  *                      type: boolean
  *                      description: If the booking was canceled.
+ *                  state:
+ *                      type: string
+ *                      enum: [pending, confirmed, denied]
+ *                      description: Status of the booking.
  *          errorReturn:
  *              type: object
  *              properties:
@@ -455,7 +483,6 @@ router.post('/', authenticateToken, async function(req, res, next) {
         }
         const price = await getPriceOfBooking(adId, numSeats, freight);
         const result = await newBooking(adId, userId, price, numSeats);
-        const statusResult = await newStatus(result.insertId);
         // const paymentResult = await payment(price, userId, result.insertId);
         // In payment nach Art der ad Unterscheiden
         if (result.affectedRows > 0) {
@@ -492,7 +519,26 @@ router.post('/cancel/:id', authenticateToken, async function(req, res, next) {
 router.post('/confirm/:id', authenticateToken, async function(req, res, next) {
     try {
         const bookingId = req.params.id;
-        const result = await confirmBooking(bookingId);
+        const result = await confirmBooking(bookingId, 'confirmed');
+        // const paymentResult = await payment(price, userId, result.insertId);
+        // In payment nach Art der ad Unterscheiden
+        if (result.affectedRows > 0) {
+            res.status(200);
+            res.json({status: 1});
+        } else {
+            res.status(500);
+            res.json({status: 99, error: 'Confirming booking failed'});
+        }
+    } catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Confirming booking failed'});
+    }
+});
+
+router.post('/denie/:id', authenticateToken, async function(req, res, next) {
+    try {
+        const bookingId = req.params.id;
+        const result = await confirmBooking(bookingId, 'denied');
         if (result.affectedRows > 0) {
             res.status(200);
             res.json({status: 1});
@@ -524,4 +570,4 @@ router.get('/ad/:id', authenticateToken, async function(req, res, next) {
 });
 
 
-module.exports = {router, getBookings, newBooking, cancelBooking, getBookingsByAd, newStatus, getSeatsAvailable, confirmBooking};
+module.exports = {router, getBookings, newBooking, cancelBooking, getBookingsByAd, getSeatsAvailable, confirmBooking};
