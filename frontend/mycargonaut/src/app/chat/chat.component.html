@@ -1,21 +1,32 @@
 <div class="chat">
-  <div class="messages" #scroll>
-    <div class="messageBox" *ngFor="let message of messageList index as i">
-      <div class="messageBoxUserPicture">
-        <svg xmlns="http://www.w3.org/2000/svg" width="max-content" height="max-content" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16" style="margin-top: 0">
-          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-          <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-        </svg>
-      </div>
-      <div class="messageBoxMessage">
-        <div>
-          <b>{{userMap.get(message.userId)}}</b> | {{getTime(message.timeMessage)}} Uhr
-        </div>
-        <hr style="margin-top: 0; margin-bottom: 1%">
-        {{message.messageText}}
+  <div class="bookingAndChat">
+
+    <div>
+      <div class="bookings">
+        <p>Bookings hier</p>
       </div>
     </div>
+
+    <div class="messages" #scroll>
+      <div class="messageBox" *ngFor="let message of messageList index as i">
+        <div class="messageBoxUserPicture">
+          <svg xmlns="http://www.w3.org/2000/svg" width="max-content" height="max-content" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16" style="margin-top: 0">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+          </svg>
+        </div>
+        <div class="messageBoxMessage">
+          <div>
+            <b>{{userMap.get(message.userId)}}</b> | {{getTime(message.timeMessage)}} Uhr
+          </div>
+          <hr style="margin-top: 0; margin-bottom: 1%">
+          {{message.messageText}}
+        </div>
+      </div>
+    </div>
+
   </div>
+
 
   <div class="messageBoxInput" *ngIf="ownUserId >= 0">
     <div style="width: 100%; margin: 1%">
