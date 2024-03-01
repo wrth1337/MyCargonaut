@@ -38,7 +38,9 @@
     #message-input {
       border: 0;
     }
-
+    .sendButton:hover {
+      cursor: pointer;
+    }
 body{
   height: 100%;
 }
