@@ -558,7 +558,7 @@ router.get('/ad/:id', authenticateToken, async function(req, res, next) {
         const result = await getBookingsByAd(adId);
         if (result) {
             res.status(200);
-            res.json({status: 1});
+            res.json({status: 1, data: result});
         } else {
             res.status(500);
             res.json({status: 99, error: 'Getting Booking Data failed'});

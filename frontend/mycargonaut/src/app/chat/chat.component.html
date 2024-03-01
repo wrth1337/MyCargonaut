@@ -3,7 +3,9 @@
 
     <div>
       <div class="bookings">
-        <p>Bookings hier</p>
+        <div class="bookingBox" *ngFor="let booking of bookingList index as i">
+          {{booking.userId}}
+        </div>
       </div>
     </div>
 

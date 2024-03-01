@@ -17,6 +17,12 @@
       min-height: 50px;
     }
 
+      .bookingBox {
+        display: flex;
+        flex-direction: row;
+        background-color: #93F5EB;
+      }
+
     .messages {
       overflow-y: scroll;
       width: 100%;

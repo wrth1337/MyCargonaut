@@ -4,6 +4,7 @@ import {ApiService} from "../service/api.service";
 import {ActivatedRoute} from "@angular/router";
 import {AuthService} from "../service/auth.service";
 import {DatePipe} from "@angular/common";
+import {Booking} from "../booking";
 
 @Component({
   selector: 'app-chat',
@@ -15,6 +16,7 @@ export class ChatComponent implements OnInit {
   @ViewChild('scroll', { static: true }) scroll: any;
   adId: string | null = '4';
   messageList: Chatmessage[] = [];
+  bookingList: Booking[] = [];
   ownUserId = -1;
   userMap = new Map<number, string>();
   newMessage = '';
@@ -34,6 +36,7 @@ export class ChatComponent implements OnInit {
 
     this.adId = this.route.snapshot.paramMap.get('id');
     this.loadMessageList();
+    this.loadBookingList();
   }
 
   getTime(date:Date) {
@@ -82,6 +85,12 @@ export class ChatComponent implements OnInit {
         this.userMap.set(userId, await this.getUsername(userId));
       }
     }
+  }
+
+  loadBookingList() {
+    this.api.getRequest('booking/ad/' + this.adId).subscribe(async (res: any) => {
+      this.bookingList = res.data;
+    });
   }
 
   scrollChat(){
