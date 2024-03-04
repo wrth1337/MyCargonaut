@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { ApiService } from 'src/app/service/api.service';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-wanted',
@@ -9,11 +10,12 @@ import { ApiService } from 'src/app/service/api.service';
   styleUrls: ['./wanted.component.css'],
   providers: [DatePipe]
 })
-export class WantedComponent {
+export class WantedComponent implements OnInit {
 
   constructor(
     private api: ApiService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private auth: AuthService
   ) {}
 
   userData: any;
@@ -25,10 +27,33 @@ export class WantedComponent {
   showFlashMessage = false;
   success = false;
   approved = false;
+  showError = false;
+  price: any;
 
-  OnInit() {
-    this.api.getRequest("profile/userdata").subscribe((res: any) => {
+  language = [
+    { id: 1, name: 'german', icon: '../../../assets/icons/flag-for-flag-germany-svgrepo-com.svg' },
+    { id: 2, name: 'english', icon: '../../../assets/icons/flag-for-flag-united-kingdom-svgrepo-com.svg' },
+  ];
+  
+  languageVariables: { [key: string]: boolean } = {
+    german: false,
+    english: false,
+  }
+  
+  ngOnInit() {
+    const userId = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;
+    this.api.getRequest("profile/userdata/" + userId).subscribe((res: any) => {
       this.userData = res.userData;
+      for (const lang of this.language) {
+        this.languageVariables[lang.name] = false;
+      }
+    
+      for (const langObj of res.languages) {
+          const langVariable = this.language.find(lang => lang.id === langObj.languageId);           
+          if (langVariable) {
+            this.languageVariables[langVariable.name] = true;
+          }
+      }
       this.rating = Math.round(res.userData.rating);
       this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
     });
@@ -43,17 +68,21 @@ export class WantedComponent {
   }
 
   onSubmit(form: NgForm) {
-    form.value.endDate = form.value.startDate;
-    form.value.smoker = this.smoke;
-    form.value.animals = this.pet;
-    form.value.notes = null;
-
-    this.api.postRequest("wanted/createWanted", form.value).subscribe((res: any) => {
-      if(res.status === 1) {
-        this.success = true;
-      }
-    });
-    this.showFlash();
+    if(this.approved) {
+      this.showError = false;
+      form.value.endDate = form.value.startDate;
+      form.value.smoker = this.smoke;
+      form.value.animals = this.pet;
+      form.value.notes = null;
+      this.api.postRequest("wanted/create_wanted", form.value).subscribe((res: any) => {
+        if(res.status === 1) {
+          this.success = true;
+        }
+      });
+      this.showFlash();
+    } else {
+      this.showError = true;
+    }
   }
 
   updateSmoke() {
