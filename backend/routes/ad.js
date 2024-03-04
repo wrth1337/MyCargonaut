@@ -2,6 +2,7 @@ const mariadb = require('mariadb');
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 const { getSeatsAvailable } = require('./booking');
+const authenticateToken = require('./auth');
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -107,6 +108,34 @@ async function getIntermediateById(adId) {
             return {success: false};
         }
     } catch (error) {
+        throw error;
+    }
+}
+
+async function startAdById(adId, userId) {
+    const update = `UPDATE ad SET state = 'started' WHERE adId = ? AND userId = ?`;
+
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(update, [adId, userId]);
+        await conn.release();
+        return result;
+    } catch (error) {
+        console.error('Fehler bei der Abfrage:', error);
+        throw error;
+    }
+}
+
+async function stopAdById(adId, userId) {
+    const update = `UPDATE ad SET state = 'finished' WHERE adId = ? AND userId = ?`;
+
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(update, [adId, userId]);
+        await conn.release();
+        return result;
+    } catch (error) {
+        console.error('Fehler bei der Abfrage:', error);
         throw error;
     }
 }
@@ -300,6 +329,88 @@ async function getIntermediateById(adId) {
  *                        example: 2
  *        500:
  *          description: Server error or unable to fetch the number of seats.
+ * /ad/start/{adId}:
+ *      post:
+ *          summary: Start Trip.
+ *          security:
+ *              - bearerAuth: []
+ *          description: Start a trip specified by its adId.
+ *          tags:
+ *              - ad
+ *          parameters:
+ *            - in: path
+ *              name: adId
+ *              schema:
+ *                  type: integer
+ *              required: true
+ *              description: The Id of the ad of the trip.
+ *          responses:
+ *              200:
+ *                  description: Startet Trip successfully.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  newState:
+ *                                      type: string
+ *                                      description: The new state (started)
+ *              401:
+ *                  description: Unauthorized.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/unauthorizedReturn'
+ *              500:
+ *                  description: Error.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/errorReturn'
+ * /ad/stop/{adId}:
+ *      post:
+ *          summary: Start Trip.
+ *          security:
+ *              - bearerAuth: []
+ *          description: Start a trip specified by its adId.
+ *          tags:
+ *              - ad
+ *          parameters:
+ *            - in: path
+ *              name: adId
+ *              schema:
+ *                  type: integer
+ *              required: true
+ *              description: The Id of the ad of the trip.
+ *          responses:
+ *              200:
+ *                  description: Startet Trip successfully.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  newState:
+ *                                      type: string
+ *                                      description: The new state (finished)
+ *              401:
+ *                  description: Unauthorized.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/unauthorizedReturn'
+ *              500:
+ *                  description: Error.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/errorReturn'
  * components:
  *      schemas:
  *          intermediateGoal:
@@ -361,6 +472,27 @@ async function getIntermediateById(adId) {
  *                      type: string
  *                      enum: [created, started, finished]
  *                      description: Status of the ad.
+ *          errorReturn:
+ *              type: object
+ *              properties:
+ *                  status:
+ *                      type: integer
+ *                      description: The status-code.
+ *                  error:
+ *                      type: string
+ *                      description: The error message.
+ *          unauthorizedReturn:
+ *              type: object
+ *              properties:
+ *                  message:
+ *                      type: string
+ *                      description: Unauthorized.
+ *
+ *      securitySchemes:
+ *          bearerAuth:
+ *              type: http
+ *              scheme: bearer
+ *              bearerFormat: JWT
  */
 router.get('/last', async function(req, res, next) {
     try {
@@ -463,6 +595,38 @@ router.get('/:id/seats', async function(req, res, next) {
     } catch (error) {
         res.status(500);
         res.json({status: 99, error: 'Type not found'});
+    }
+});
+
+router.post('/start/:id', authenticateToken, async function(req, res, next) {
+    try {
+        const result = await startAdById(req.params.id, req.user_id);
+        if (result.affectedRows > 0) {
+            res.status(200);
+            res.json({status: 1, newState: 'started'});
+        } else {
+            res.status(500);
+            res.json({status: 99, error: 'Could not start trip'});
+        }
+    } catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Could not start trip'});
+    }
+});
+
+router.post('/stop/:id', authenticateToken, async function(req, res, next) {
+    try {
+        const result = await stopAdById(req.params.id, req.user_id);
+        if (result.affectedRows > 0) {
+            res.status(200);
+            res.json({status: 1, newState: 'finished'});
+        } else {
+            res.status(500);
+            res.json({status: 99, error: 'Could not end Trip'});
+        }
+    } catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Could not end Trip'});
     }
 });
 

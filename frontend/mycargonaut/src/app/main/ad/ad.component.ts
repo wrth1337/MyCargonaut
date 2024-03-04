@@ -89,7 +89,7 @@ export class AdComponent implements OnInit{
       if (bookingRes)
         this.adUserBooking = bookingRes.data.find((element: any) => element.adId === this.ad.adId);
       if (this.ad.userId === userId)
-        return this.state = 'NoOptions';
+        return this.state = 'Author';
       if (!this.adUserBooking)
         return this.state = 'Buchen';
       if (this.adUserBooking.state === 'canceled' || this.adUserBooking.canceled) {
@@ -112,7 +112,17 @@ export class AdComponent implements OnInit{
     this.toFewSeatsResponse = false;
     this.api.postRequest('booking/cancel/' + this.ad.adId, {}).subscribe((res:any) => {
       console.log(res)
-    })
+    });
+  }
+  start() {
+    this.api.postRequest('ad/start/' + this.ad.adId, {}).subscribe((res:any) => {
+      if (res) this.ad.state = res.newState;
+  });
+  }
+  stop() {
+    this.api.postRequest('ad/stop/' + this.ad.adId, {}).subscribe((res:any) => {
+      if (res) this.ad.state = res.newState;
+    });
   }
   isUserLogin(){
     if(this.auth.getToken() != null){this.isLogin = true}
