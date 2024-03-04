@@ -55,6 +55,23 @@ async function getUserTrips(id) {
     }
 }
 
+async function getTripCount(id) {
+    const trips = 'SELECT a.adId FROM ad a JOIN booking b ON b.adId = a.adId JOIN status s ON s.bookingId = b.bookingId WHERE s.endRide = TRUE AND a.userId = ?';
+    try {
+        const conn = await pool.getConnection();
+        const tripCount = await conn.query(trips, [id]);
+        await conn.release();
+        if (tripCount.length > 0) {
+            return {success: true, data: tripCount.lenght};
+        } else {
+            return {success: true, data: 0};
+        }
+    } catch (error) {
+        console.error('Fehler bei der Abfrage:', error);
+        throw error;
+    }
+}
+
 // ---Routes--- //
 /**
  * @swagger
@@ -146,5 +163,20 @@ router.get('/trip', authenticateToken, async function(req, res, next) {
     }
 });
 
+router.get('/getTripCount/:id', async function(req, res, next) {
+    try {
+        const trip = await getTripCount(req.params.id);
+        if (trip.success) {
+            res.status(200);
+            res.json({status: 1, data: trip.data});
+        } else {
+            res.status(204).json(null);
+        }
+    } catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Fetching Trip Count failed'});
+    }
+});
 
-module.exports = {router, getUserTrips};
+
+module.exports = {router, getUserTrips, getTripCount};

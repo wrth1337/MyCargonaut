@@ -105,7 +105,7 @@ export class ProfileComponent implements OnInit {
       }
     });
 
-    this.api.getRequest("trip").subscribe((res: any) => {
+    this.api.getRequest("trip/trip").subscribe((res: any) => {
       if(res != null) {
         this.tripsAvailable = true;
         this.uwtData = res.uwtData;

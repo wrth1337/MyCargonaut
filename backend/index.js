@@ -30,7 +30,7 @@ const ad = require('./routes/ad');
 app.use('/ad', ad.router);
 
 const trip = require('./routes/trip');
-app.use('', trip.router);
+app.use('/trip', trip.router);
 
 const searchbar = require('./routes/searchbar');
 app.use('/searchbar', searchbar.router);

@@ -12,7 +12,8 @@
           </div>
         </div>
         <div class="row p-5">
-          <div id="personalData" class="container borderPrimary p-2 position-relative">
+          <app-profile-data></app-profile-data>
+          <!--<div id="personalData" class="container borderPrimary p-2 position-relative">
             <div class="container p-0">
               <div class="row mt-1 mb-5">
                 <div class="col-md-4 center mb-3" style="border-radius: 50%">
@@ -49,7 +50,6 @@
             </div>
             <div class="container p-0 mb-3">
                 <div class="card mb-3 p-2 ht1 overflow-auto d-flex justify-content-between description"> {{userData.description}}</div>
-                <!--<textarea placeholder="Über mich..." class="FormInputLight w-100" rows="5" [(ngModel)]="userData.description"></textarea>-->
             </div>
             <div class="row mb-5">
                 <div class="col-md-6">
@@ -72,7 +72,7 @@
                     </div>
                 </div>
             </div>
-          </div>
+          </div>-->
           <button id="ConfirmUserData" class="buttonPrimary fs-5 position-absolute top-100 start-50 translate-middle okButton" (click)="approveUserdata()">
             <div *ngIf="!this.approved"> Bestätigen </div>
             <div *ngIf="this.approved">

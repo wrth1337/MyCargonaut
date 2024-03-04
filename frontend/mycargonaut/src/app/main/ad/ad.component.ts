@@ -31,13 +31,13 @@ export class AdComponent implements OnInit{
     userId: 0
   };
   typeSpecificContent:any = {};
-  user: any = {};
+  //user: any = {};
   authorId = 4;
   isLogin = false;
   state = '';
   type = '';
   stars: number[] = [1, 2, 3, 4, 5];
-userData: any;
+  //userData: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -66,10 +66,10 @@ userData: any;
       this.api.getRequest(res.data.type + '/' + res.data.adId).subscribe((res:any) => {
         this.typeSpecificContent = res.data;
       })
-      this.api.getRequest("profile/userdata/"+this.authorId).subscribe((res:any) => {
+      /*this.api.getRequest("profile/userdata/"+this.authorId).subscribe((res:any) => {
         this.user = res.userData;
         this.user.birthdate = this.datepipe.transform(res.userData.birthdate, 'dd.MM.yyyy')
-      })
+      })*/
     })
   }
 

@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { ApiService } from 'src/app/service/api.service';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-wanted',
@@ -9,10 +10,11 @@ import { ApiService } from 'src/app/service/api.service';
   styleUrls: ['./wanted.component.css'],
   providers: [DatePipe]
 })
-export class WantedComponent {
+export class WantedComponent implements OnInit {
 
   constructor(
     private api: ApiService,
+    private auth: AuthService,
     private datePipe: DatePipe
   ) {}
 
@@ -21,24 +23,16 @@ export class WantedComponent {
   smoke = true;
   pet = true;
   stars: number[] = [1, 2, 3, 4, 5];
-  tripCount: any;
   showFlashMessage = false;
   success = false;
   approved = false;
 
-  OnInit() {
-    this.api.getRequest("profile/userdata").subscribe((res: any) => {
+  ngOnInit() {
+    const userId = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;
+    this.api.getRequest("profile/userdata/"+userId).subscribe((res: any) => {
       this.userData = res.userData;
       this.rating = Math.round(res.userData.rating);
       this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
-    });
-    this.api.getRequest("trip").subscribe((res: any) => {
-      if(res != null) {
-        this.tripCount = res.uwtData.length + res.uotData.length;
-      }
-      else {
-        this.tripCount = 0;
-      }
     });
   }
 
