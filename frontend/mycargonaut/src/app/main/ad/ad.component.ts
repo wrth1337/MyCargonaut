@@ -42,7 +42,9 @@ export class AdComponent implements OnInit{
   state = '';
   type = '';
   stars: number[] = [1, 2, 3, 4, 5];
-userData: any;
+  userData: any;
+  adUserBooking:any;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -52,7 +54,6 @@ userData: any;
   ){}
 
   ngOnInit(): void {
-    this.getState();
     this.isUserLogin();
     this.route.params.subscribe(params => {
       this.id = params['id'];
@@ -60,7 +61,6 @@ userData: any;
     this.api.getRequest('ad/'+this.id).subscribe((res:any) => {
       this.ad = res.data;
       this.authorId = res.data.userId;
-      console.log(res);
       this.api.getRequest('ad/' + res.data.adId + '/intermediate').subscribe((res: any) => {
         if(res) this.ad.intermediateGoals = res.data;
         else this.ad.intermediateGoals = [];
@@ -79,27 +79,26 @@ userData: any;
         this.user = res.userData;
         this.user.birthdate = this.datepipe.transform(res.userData.birthdate, 'dd.MM.yyyy')
       })
+      this.getState();
     })
   }
 
   getState(){
-    this.state = 'Buchen';
-  }
-  handleButton(){
-    switch (this.state){
-      case 'Buchen':
-        this.api.postRequest('booking',{}).subscribe((res) => {
-          console.log(res);
-        })
-        break;
-      case 'Stornieren':
-        //trigger cancel modal
-        break;
-      case 'Bewerten':
-        //trigger evaluation
-        break;
-
-    }
+    const userId = JSON.parse(this.auth.getUserData() || '{user_id = -1}').user_id;
+    this.api.getRequest("booking").subscribe((bookingRes:any) => {
+      if (bookingRes)
+        this.adUserBooking = bookingRes.data.find((element: any) => element.adId === this.ad.adId);
+      if (this.ad.userId === userId)
+        return this.state = 'NoOptions';
+      if (!this.adUserBooking)
+        return this.state = 'Buchen';
+      if (this.adUserBooking.state === 'canceled' || this.adUserBooking.canceled) {
+        return this.state = 'NoOptions';
+      }
+      if (this.ad.state === 'finished' && this.adUserBooking.state === 'confirmed')
+        return this.state = 'Bewerten';
+      return this.state = 'Stornieren';
+    })
   }
   onBookingSubmit(form : NgForm) {
     this.toFewSeatsResponse = false;
