@@ -112,7 +112,7 @@ test('subtractUserCoins with not enough coins', async () => {
     try {
         const firstName = 'testFirstName';
         const lastName = 'testLastName';
-        const email = 'mail@mail.de';
+        const email = 'mailCoin@mail.de';
         const password = 'testPassword';
         const birthdate = '1990-01-01';
         const phonenumber = '1234567890';
@@ -127,8 +127,8 @@ test('subtractUserCoins with not enough coins', async () => {
         console.log('Coins subtracted');
     } finally {
         const conn = await pool.getConnection();
-        const deleteQuery = 'DELETE FROM user';
-        await conn.query(deleteQuery);
+        const deleteQuery = 'DELETE FROM user WHERE userId = ?';
+        await conn.query(deleteQuery, [await getUserID('mailCoin@mail.de')]);
         await conn.end();
     }
 });
