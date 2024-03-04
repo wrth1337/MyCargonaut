@@ -116,4 +116,14 @@ export class ChatComponent implements OnInit {
       this.scroll.nativeElement.scrollTo(0, this.scroll.nativeElement.scrollHeight);
     }, 0);
   }
+
+  acceptBooking(booking: any) {
+    console.log('acceptBooking');
+    console.log(booking);
+  }
+
+  rejectBooking(booking: any) {
+    console.log('rejectBooking');
+    console.log(booking);
+  }
 }
