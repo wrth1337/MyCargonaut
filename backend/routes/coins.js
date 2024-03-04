@@ -32,14 +32,11 @@ async function subtractUserCoins(id, coinsToSubtract) {
             await conn.release();
             return {success: false, message: 'User does not exist'};
         }
-
         const currentCoins = await conn.query(coinsQuery, [id]);
-
         if (currentCoins[0].coins < coinsToSubtract) {
             await conn.release();
             return {success: false, message: 'Not enough coins'};
         }
-
         const result = await conn.query(subtractCoinsQuery, [coinsToSubtract, id]);
         await conn.release();
 

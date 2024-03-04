@@ -117,18 +117,19 @@ test('subtractUserCoins with not enough coins', async () => {
         const birthdate = '1990-01-01';
         const phonenumber = '1234567890';
         await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
-
         const id = await getUserID(email);
         const coinsToAdd = 10;
         await addUserCoins(id, coinsToAdd);
         const coinsToSubtract = 15;
         const result = await subtractUserCoins(id, coinsToSubtract);
-
+        console.log('Coins subtracted');
         expect(result.success).toBe(false);
+        console.log('Coins subtracted');
     } finally {
         const conn = await pool.getConnection();
-        const deleteQuery = 'DELETE FROM user WHERE userId = ?';
-        await conn.query(deleteQuery, [await getUserID('mail@mail.de')]);
+        const deleteQuery = 'DELETE FROM user';
+        await conn.query(deleteQuery);
+        await conn.end();
     }
 });
 
