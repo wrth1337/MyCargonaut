@@ -94,6 +94,7 @@
                 <p class="card-text adCardText p-1 lh-xl">{{ad.description}}</p>
             </div>
           </div>
+          <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#ratingModal" *ngIf="this.state === 'Bewerten'">Bewerten</button>
           <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#bookingModal" *ngIf="this.isLogin && this.state === 'Buchen' && this.seatsAvailable > 0">{{this.state}}</button>
           <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#cancelingModal" *ngIf="this.isLogin && this.state === 'Stornieren'">{{this.state}}</button>
           <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#startModal" *ngIf="this.isLogin && this.state === 'Author' && this.ad.state === 'created'">Fahrt starten</button>
@@ -212,7 +213,7 @@
                         </div>
                         <div class="trackingItem m-3">
                             <div class="circle m-1">
-                                <svg *ngIf="this.ad.state === 'started'" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="var(--primary)" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                <svg *ngIf="this.ad.state === 'started' || this.ad.state === 'finished'" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="var(--primary)" class="bi bi-check-lg" viewBox="0 0 16 16">
                                     <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
                                 </svg>
                             </div>

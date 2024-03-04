@@ -79,12 +79,12 @@ export class AdComponent implements OnInit{
         this.user = res.userData;
         this.user.birthdate = this.datepipe.transform(res.userData.birthdate, 'dd.MM.yyyy')
       })
-      this.getState();
+      if (this.isLogin) this.getState();
     })
   }
 
   getState(){
-    const userId = JSON.parse(this.auth.getUserData() || '{user_id = -1}').user_id;
+    const userId = JSON.parse(this.auth.getUserData() || '{"user_id": -1 }').user_id;
     this.api.getRequest("booking").subscribe((bookingRes:any) => {
       if (bookingRes)
         this.adUserBooking = bookingRes.data.find((element: any) => element.adId === this.ad.adId);
