@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/service/api.service';
 import { DatePipe } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { AuthService } from 'src/app/service/auth.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-edit-profile',
@@ -48,7 +49,8 @@ export class EditProfileComponent implements OnInit {
   constructor(
     private api: ApiService,
     private datePipe: DatePipe,
-    private auth: AuthService
+    private auth: AuthService,
+    private location: Location
   ){}
 
   ngOnInit() {
@@ -106,6 +108,10 @@ export class EditProfileComponent implements OnInit {
     this.editBirth = false;
 
     this.showFlash();
+  }
+
+  back(){
+    this.location.back()
   }
 
   editUsername() {
