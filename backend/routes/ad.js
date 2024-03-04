@@ -1,7 +1,6 @@
 const mariadb = require('mariadb');
 const express = require('express');
 const rateLimit = require('express-rate-limit');
-const { getSeatsAvailable } = require('./booking');
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -268,38 +267,6 @@ async function getIntermediateById(adId) {
  *          description: No content, type not found for the given advertisement ID.
  *        500:
  *          description: Server error or unable to fetch the type.
- * /:id/sears:
- *    get:
- *      summary: Retrieve the number of seats of an ad by its Id
- *      description: Get the number of seats of a specific ad left available by providing its Id.
- *      tags:
- *          - ad
- *      parameters:
- *        - in: uri
- *          name: adId
- *          required: true
- *          description: Numeric Id of the ad  to retrieve its number of seats left available.
- *          schema:
- *            type: integer
- *      responses:
- *        200:
- *          description: Type of the ad retrieved successfully.
- *          content:
- *            application/json:
- *              schema:
- *                type: object
- *                properties:
- *                  status:
- *                    type: integer
- *                    example: 1
- *                  data:
- *                    type: object
- *                    properties:
- *                      seats:
- *                        type: number
- *                        example: 2
- *        500:
- *          description: Server error or unable to fetch the number of seats.
  * components:
  *      schemas:
  *          intermediateGoal:
@@ -357,10 +324,6 @@ async function getIntermediateById(adId) {
  *                  userId:
  *                      type: integer
  *                      description: Id of the author.
- *                  state:
- *                      type: string
- *                      enum: [created, started, finished]
- *                      description: Status of the ad.
  */
 router.get('/last', async function(req, res, next) {
     try {
@@ -449,17 +412,6 @@ router.get('/:id/type', async function(req, res, next) {
         } else {
             res.status(204).json(null);
         }
-    } catch (error) {
-        res.status(500);
-        res.json({status: 99, error: 'Type not found'});
-    }
-});
-
-router.get('/:id/seats', async function(req, res, next) {
-    try {
-        const seats = await getSeatsAvailable(req.params.id);
-        res.status(200);
-        res.json({status: 1, seats: seats});
     } catch (error) {
         res.status(500);
         res.json({status: 99, error: 'Type not found'});

@@ -29,7 +29,7 @@ async function getUserCoins(id) {
         await conn.release();
 
         if (result.length > 0) {
-            return {success: true, data: result[0].coins};
+            return {data: result[0].coins};
         } else {
             return {success: false};
         }

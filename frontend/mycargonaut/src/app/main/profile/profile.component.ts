@@ -19,7 +19,8 @@ export class ProfileComponent implements OnInit {
   vehicleData: any;
   offerData: any;
   wantedData: any;
-  tripData: any;
+  uwtData: any;
+  uotData: any;
   rating: any;
   vehiclesAvailable = false;
   offersAvailable = false;
@@ -107,11 +108,15 @@ export class ProfileComponent implements OnInit {
     this.api.getRequest("trip").subscribe((res: any) => {
       if(res != null) {
         this.tripsAvailable = true;
-        this.tripData = res.data;
-        for(let i = 0; i < this.tripData.length; i++) {
-          this.tripData[i].startDate = this.datePipe.transform(res.uwtData[i].startDate, 'dd.MM.yyyy');
+        this.uwtData = res.uwtData;
+        this.uotData = res.uotData;
+        for(let i = 0; i < this.uwtData.length; i++) {
+          this.uwtData[i].startDate = this.datePipe.transform(res.uwtData[i].startDate, 'dd.MM.yyyy');
         }
-        this.tripCount = this.tripData.length;
+        for(let i = 0; i < this.uotData.length; i++) {
+          this.uotData[i].startDate = this.datePipe.transform(res.uotData[i].startDate, 'dd.MM.yyyy');
+        }
+        this.tripCount = this.uwtData.length + this.uotData.length;
       }
       else {
         this.tripCount = 0;

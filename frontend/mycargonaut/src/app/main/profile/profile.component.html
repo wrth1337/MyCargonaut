@@ -182,8 +182,12 @@
                     <div> Keine Fahrten vorhanden </div>
                 </div>
                 <div class="card-body trip overflow-auto" *ngIf="tripsAvailable">
-                    <div *ngFor="let item of tripData">
+                    <div *ngFor="let item of uwtData">
                         <div> Suche Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
+                        <br>
+                    </div>
+                    <div *ngFor="let item of uotData">
+                        <div> Biete Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
                         <br>
                     </div>
                 </div>

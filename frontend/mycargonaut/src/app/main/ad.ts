@@ -15,5 +15,4 @@ export interface Ad {
     numSeats: number;
     active: boolean;
     userId: number;
-    state: string;
 }

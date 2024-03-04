@@ -23,19 +23,29 @@ const pool = mariadb.createPool({
 // ---Methods--- //
 
 async function getUserTrips(id) {
-    const userTrips = `
+    const userWantedTrips = `
     SELECT a.startLocation, a.endLocation, a.startDate
     FROM ad a 
+        JOIN wanted w ON w.adId = a.adId 
+        JOIN booking b ON b.adId = a.adId 
+        JOIN status s ON s.bookingId = b.bookingId 
+    WHERE s.endRide = TRUE AND a.userId = ?`;
+
+    const userOfferedTrips = `
+    SELECT a.startLocation, a.endLocation, a.startDate
+    FROM ad a 
+        JOIN offer o ON o.adId = a.adId
         JOIN booking b ON b.adId = a.adId
-    WHERE (a.state != 'created' AND a.userId = ?) OR (b.userId = ?  AND b.canceled = FALSE AND b.state = 'confirmed')`;
+        JOIN status s ON s.bookingId = b.bookingId 
+    WHERE s.endRide = TRUE AND a.userId = ?`;
 
     try {
         const conn = await pool.getConnection();
-        const result = await conn.query(userTrips, [id, id]);
-        console.log(result)
+        const uwtresult = await conn.query(userWantedTrips, [id]);
+        const uotresult = await conn.query(userOfferedTrips, [id]);
         await conn.release();
-        if (result.length > 0) {
-            return {success: true, data: result};
+        if (uwtresult.length > 0 || uotresult.length > 0) {
+            return {success: true, uwtdata: uwtresult, uotData: uotresult};
         } else {
             return {success: false};
         }
