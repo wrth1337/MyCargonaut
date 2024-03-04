@@ -122,14 +122,13 @@ test('subtractUserCoins with not enough coins', async () => {
         await addUserCoins(id, coinsToAdd);
         const coinsToSubtract = 15;
         const result = await subtractUserCoins(id, coinsToSubtract);
-        console.log('Coins subtracted');
         expect(result.success).toBe(false);
-        console.log('Coins subtracted');
     } finally {
-        const conn = await pool.getConnection();
+        /*const conn = await pool.getConnection();
         const deleteQuery = 'DELETE FROM user WHERE userId = ?';
         conn.query(deleteQuery, [await getUserID('mailCoin@mail.de')]);
         await conn.end();
+         */
     }
 });
 
