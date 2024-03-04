@@ -365,6 +365,7 @@ router.post('/vehicle', authenticateToken, async function(req, res, next) {
         const userId = req.user_id;
         const {name, numSeats, maxWeight, loadingAreaDimensions, specialFeatures} = req.body;
         const result = await newUserVehicle(userId, name, numSeats, maxWeight, loadingAreaDimensions, specialFeatures);
+        console.log(result);
         if (result) {
             res.status(200);
             res.json({status: 1});
