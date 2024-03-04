@@ -82,16 +82,18 @@ async function getTripCount(id) {
  *      get:
  *          summary: get user trips.
  *          description: get a list of the user trips.
+ *          security:
+ *              - bearerAuth: []
  *          tags:
  *              - trip
  *          parameters:
  *              - in: query
- *                name: email
+ *                name: userId
  *                required: true
  *                schema:
- *                  type: string
- *                description: The email of the current user.
- *                example: max@example.com
+ *                  type: number
+ *                description: The id of the current user.
+ *                example: 1
  *          responses:
  *              200:
  *                  description: user trip data successfully fetched.
@@ -144,6 +146,13 @@ async function getTripCount(id) {
  *                      type: string
  *                      format: date
  *                      description: The start date of the wanted trip.
+ *      securitySchemes:
+ *          bearerAuth:
+ *              type: http
+ *              scheme: bearer
+ *              bearerFormat: JWT
+ * security:
+ *  - bearerAuth: []
  */
 
 router.get('/trip', authenticateToken, async function(req, res, next) {
