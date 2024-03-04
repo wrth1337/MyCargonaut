@@ -128,7 +128,7 @@ test('subtractUserCoins with not enough coins', async () => {
     } finally {
         const conn = await pool.getConnection();
         const deleteQuery = 'DELETE FROM user WHERE userId = ?';
-        await conn.query(deleteQuery, [await getUserID('mailCoin@mail.de')]);
+        conn.query(deleteQuery, [await getUserID('mailCoin@mail.de')]);
         await conn.end();
     }
 });
