@@ -31,7 +31,8 @@
       .bookingButton {
         height: 100%;
         width: 20%;
-        margin: auto;
+        border-radius: 100%;
+        margin-right: 1%;
       }
 
     .messages {
