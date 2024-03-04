@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/service/auth.service';
 import { Ad } from '../ad';
 import { intermediateGoal } from '../intermediateGoal';
 import { DatePipe } from '@angular/common';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-ad',
@@ -14,6 +15,8 @@ import { DatePipe } from '@angular/common';
 })
 export class AdComponent implements OnInit{
   id = 0;
+  default = 1;
+  seatsAvailable = 0;
   ad: Ad = {
     adId: 0,
     description: '',
@@ -28,16 +31,20 @@ export class AdComponent implements OnInit{
     notes: '',
     numSeats: 0,
     active: false,
-    userId: 0
+    userId: 0,
+    state: ''
   };
   typeSpecificContent:any = {};
   user: any = {};
   authorId = 4;
   isLogin = false;
+  toFewSeatsResponse = false;
   state = '';
   type = '';
   stars: number[] = [1, 2, 3, 4, 5];
-userData: any;
+  userData: any;
+  adUserBooking:any;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -47,48 +54,65 @@ userData: any;
   ){}
 
   ngOnInit(): void {
-    this.getState();
     this.isUserLogin();
     this.route.params.subscribe(params => {
       this.id = params['id'];
     })
     this.api.getRequest('ad/'+this.id).subscribe((res:any) => {
       this.ad = res.data;
+      this.authorId = res.data.userId;
       this.api.getRequest('ad/' + res.data.adId + '/intermediate').subscribe((res: any) => {
         if(res) this.ad.intermediateGoals = res.data;
         else this.ad.intermediateGoals = [];
       })
-      this.api.getRequest('ad/' + res.data.adId + '/type').subscribe((res: any) => {
-        this.ad.type = res.data;
+      this.api.getRequest('ad/' + res.data.adId + '/type').subscribe((res2: any) => {
+        this.ad.type = res2.data;
+        this.type = res2.data;
+        this.api.getRequest(res2.data + '/' + res.data.adId).subscribe((typeSpecRes:any) => {
+          this.typeSpecificContent = typeSpecRes.data;
+        })
       })
-      this.authorId = res.data.userId;
-      this.type = res.data.type;
-      this.api.getRequest(res.data.type + '/' + res.data.adId).subscribe((res:any) => {
-        this.typeSpecificContent = res.data;
+      this.api.getRequest('ad/' + res.data.adId + '/seats').subscribe((res: any) => {
+        this.seatsAvailable = res.seats;
       })
       this.api.getRequest("profile/userdata/"+this.authorId).subscribe((res:any) => {
         this.user = res.userData;
         this.user.birthdate = this.datepipe.transform(res.userData.birthdate, 'dd.MM.yyyy')
       })
+      this.getState();
     })
   }
 
   getState(){
-    this.state = 'Buchen';
+    const userId = JSON.parse(this.auth.getUserData() || '{user_id = -1}').user_id;
+    this.api.getRequest("booking").subscribe((bookingRes:any) => {
+      if (bookingRes)
+        this.adUserBooking = bookingRes.data.find((element: any) => element.adId === this.ad.adId);
+      if (this.ad.userId === userId)
+        return this.state = 'NoOptions';
+      if (!this.adUserBooking)
+        return this.state = 'Buchen';
+      if (this.adUserBooking.state === 'canceled' || this.adUserBooking.canceled) {
+        return this.state = 'NoOptions';
+      }
+      if (this.ad.state === 'finished' && this.adUserBooking.state === 'confirmed')
+        return this.state = 'Bewerten';
+      return this.state = 'Stornieren';
+    })
   }
-  handleButton(){
-    switch (this.state){
-      case 'Buchen':
-        //trigger booking modal
-        break;
-      case 'Stornieren':
-        //trigger cancel modal
-        break;
-      case 'Bewerten':
-        //trigger evaluation
-        break;
-
-    }
+  onBookingSubmit(form : NgForm) {
+    this.toFewSeatsResponse = false;
+    this.api.postRequest('booking',{numSeats: form.value.numSeats, adId: this.ad.adId, freight: form.value.freight}).subscribe((res:any) => {
+      if (res.status === 1) window.location.reload();
+    }, (error:any) =>{
+      if (error.error.status === 2) this.toFewSeatsResponse = true;
+    });
+  }
+  cancel() {
+    this.toFewSeatsResponse = false;
+    this.api.postRequest('booking/cancel/' + this.ad.adId, {}).subscribe((res:any) => {
+      console.log(res)
+    })
   }
   isUserLogin(){
     if(this.auth.getToken() != null){this.isLogin = true}
@@ -97,9 +121,12 @@ userData: any;
     let res = '';
     res += input.type === 'offer' ? 'Biete ' : 'Suche ';
     res += 'Fahrt von ' + input.startLocation;
-    input.intermediateGoals.forEach((element: intermediateGoal) => {
-      res += ' über ' +element.location
-    });
+    if (input.intermediateGoals) {
+      input.intermediateGoals.forEach((element: intermediateGoal) => {
+        res += ' über ' +element.location
+      });      
+    }
+
     res += ' nach ' + input.endLocation;
     const test = this.datepipe.transform(input.startDate, 'dd.MM.yyyy');
     res += ' am ' + test

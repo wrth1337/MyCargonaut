@@ -4,6 +4,7 @@ import {ApiService} from "../service/api.service";
 import {ActivatedRoute} from "@angular/router";
 import {AuthService} from "../service/auth.service";
 import {DatePipe} from "@angular/common";
+import {Booking} from "../booking";
 
 @Component({
   selector: 'app-chat',
@@ -15,9 +16,11 @@ export class ChatComponent implements OnInit {
   @ViewChild('scroll', { static: true }) scroll: any;
   adId: string | null = '4';
   messageList: Chatmessage[] = [];
+  bookingList: Booking[] = [];
   ownUserId = -1;
   userMap = new Map<number, string>();
   newMessage = '';
+  isOwner = false;
 
   constructor(
     private api: ApiService,
@@ -33,6 +36,17 @@ export class ChatComponent implements OnInit {
     }
 
     this.adId = this.route.snapshot.paramMap.get('id');
+
+    this.api.getRequest('ad/' + this.adId).subscribe(async (res: any) => {
+      if (this.ownUserId == res.data.userId) {
+        this.isOwner = true;
+        this.loadBookingList();
+
+      }
+      console.log('isOwner:');
+      console.log(this.isOwner);
+    });
+
     this.loadMessageList();
   }
 
@@ -77,6 +91,9 @@ export class ChatComponent implements OnInit {
     this.messageList.forEach((message) => {
       userIdSet.add(message.userId);
     });
+    this.bookingList.forEach((booking) => {
+      userIdSet.add(booking.userId);
+    });
     for (const userId of userIdSet) {
       if (!this.userMap.has(userId)) {
         this.userMap.set(userId, await this.getUsername(userId));
@@ -84,9 +101,29 @@ export class ChatComponent implements OnInit {
     }
   }
 
+  loadBookingList() {
+    this.api.getRequest('booking/ad/' + this.adId).subscribe(async (res: any) => {
+      this.bookingList = res.data;
+      this.bookingList = this.bookingList.filter( booking => !booking.canceled);
+      await this.updateUserMap();
+      console.log('bookingList:');
+      console.log(this.bookingList);
+    });
+  }
+
   scrollChat(){
     setTimeout(() => {
       this.scroll.nativeElement.scrollTo(0, this.scroll.nativeElement.scrollHeight);
     }, 0);
+  }
+
+  acceptBooking(booking: any) {
+    console.log('acceptBooking');
+    console.log(booking);
+  }
+
+  rejectBooking(booking: any) {
+    console.log('rejectBooking');
+    console.log(booking);
   }
 }
