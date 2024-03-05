@@ -123,7 +123,6 @@ export class ChatComponent implements OnInit {
     this.api.postRequest('booking/confirm/'+booking.bookingId, {}).subscribe((res:any) => {
       this.loadBookingList();
     });
-
   }
 
   rejectBooking(booking: any) {
