@@ -13,6 +13,10 @@ const pool = mariadb.createPool({
 test('addMessage: add a message', async () =>{
     try {
         conn = await pool.getConnection();
+
+        await conn.query('DELETE FROM user WHERE userId = 100');
+        await conn.query('DELETE FROM user WHERE userId = 101');
+
         await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience)
             VALUES (100,'Max', 'Mustermann', 'max@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
         await conn.query(`INSERT INTO ad (adId,description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId)
