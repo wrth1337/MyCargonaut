@@ -17,6 +17,7 @@ export class ChatComponent implements OnInit {
   adId: string | null = '4';
   messageList: Chatmessage[] = [];
   bookingList: Booking[] = [];
+  bookingListAccepted: Booking[] = [];
   ownUserId = -1;
   userMap = new Map<number, string>();
   newMessage = '';
@@ -104,8 +105,14 @@ export class ChatComponent implements OnInit {
   loadBookingList() {
     this.api.getRequest('booking/ad/' + this.adId).subscribe(async (res: any) => {
       this.bookingList = res.data;
-      this.bookingList = this.bookingList.filter( booking => !booking.canceled);
       await this.updateUserMap();
+      this.bookingList = this.bookingList.filter( booking => !booking.canceled);
+
+      const confirmedBookings = this.bookingList.filter(booking => booking.state === "confirmed");
+      this.bookingListAccepted.push(...confirmedBookings);
+
+      this.bookingList = this.bookingList.filter(booking => booking.state !== "confirmed");
+
       console.log('bookingList:');
       console.log(this.bookingList);
     });
@@ -120,10 +127,16 @@ export class ChatComponent implements OnInit {
   acceptBooking(booking: any) {
     console.log('acceptBooking');
     console.log(booking);
+    this.api.postRequest('booking/confirm/'+booking.bookingId, {}).subscribe( (res) => {
+      console.log(res);
+    });
   }
 
   rejectBooking(booking: any) {
     console.log('rejectBooking');
     console.log(booking);
+    this.api.postRequest('booking/denie/'+booking.bookingId, {}).subscribe( (res) => {
+      console.log(res);
+    });
   }
 }
