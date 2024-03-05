@@ -119,8 +119,8 @@
             
             <div class="row p-3 mb-3 mt-3">
                 <div class="col-md-3 container">
-                    <div *ngIf="userData.picture; else placeholder" class="d-flex align-items-center">
-                        <img class="profilepicture" [src]="userData.picture" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center" alt="Profilbild">
+                    <div *ngIf="user.picture; else placeholder" class="d-flex align-items-center">
+                        <img class="profilepicture" [src]="user.picture" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center" alt="Profilbild">
                     </div>
                     <ng-template #placeholder class="d-flex align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="var(--primary)" class="bi bi-person-circle" viewBox="0 0 16 16" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center">
@@ -132,7 +132,7 @@
                 </div>
                 <div class="col-md-6 center">
                     <div class="row">
-                        <p class="FontPrimary fs-3 fw-semibold g-0 username"> {{userData.firstName}} {{userData.lastName}} </p>
+                        <p class="FontPrimary fs-3 fw-semibold g-0 username"> {{user.firstName}} {{user.lastName}} </p>
                     </div>
                     <div class="row">
                         <div class="rating">

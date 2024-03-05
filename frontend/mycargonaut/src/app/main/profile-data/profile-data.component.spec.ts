@@ -1,7 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ProfileDataComponent } from './profile-data.component';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ProfileDataComponent', () => {
   let component: ProfileDataComponent;
@@ -9,7 +12,8 @@ describe('ProfileDataComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ProfileDataComponent]
+      declarations: [ProfileDataComponent],
+      imports: [RouterModule, RouterTestingModule, HttpClientTestingModule, FormsModule],
     });
     fixture = TestBed.createComponent(ProfileDataComponent);
     component = fixture.componentInstance;
@@ -17,9 +21,11 @@ describe('ProfileDataComponent', () => {
       firstName: 'Max',
       lastName: 'Mustermann',
       birthdate: '01.01.2000',
+      picture: 'URL_DES_PROFILBILDS',
       description: 'Beschreibung',
       experience: 'Erfahrung'
     };
+    localStorage.setItem('userData','{"email":"mails@mails.de","user_id":1}');
     fixture.detectChanges();
   });
 
@@ -28,10 +34,6 @@ describe('ProfileDataComponent', () => {
   });
 
   it('should display profile picture when available', () => {
-
-    component.userData = { picture: 'URL_DES_PROFILBILDS' };
-    fixture.detectChanges();
-
     const el = fixture.debugElement.query(By.css('.profilepicture'));
     const placeholder = fixture.debugElement.query(By.css('.bi-person-circle'));
     expect(placeholder).toBeFalsy();
@@ -73,6 +75,17 @@ describe('ProfileDataComponent', () => {
     expect(stars[3].classes['highlight']).toBeFalsy();
     expect(stars[4].classes['highlight']).toBeFalsy();
   });
+
+  it('should have correct color for progressbar', () => {
+    const bar = fixture.debugElement.query(By.css('.progress'));
+    expect(getComputedStyle(bar.nativeElement).backgroundColor).toEqual('rgb(225, 233, 190)');
+  });
+
+  it('should have correct color for progress', () => {
+    const bar = fixture.debugElement.query(By.css('.custom-progress'));
+    expect(getComputedStyle(bar.nativeElement).backgroundColor).toEqual('rgb(0, 91, 82)');
+  });
+
   // Test muss angepasst werden wenn Algorithmus für Erfahrung implementiert wurde
   it('should update progress bar width based on tripCount', () => {
     component.tripCount = 5;

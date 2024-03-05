@@ -18,7 +18,7 @@ export class WantedComponent implements OnInit {
     private datePipe: DatePipe,
   ) {}
 
-  userData: any;
+  user: any;
   rating: any;
   smoke = true;
   pet = true;
@@ -32,9 +32,9 @@ export class WantedComponent implements OnInit {
   ngOnInit() {
     const userId = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;
     this.api.getRequest("profile/userdata/"+userId).subscribe((res: any) => {
-      this.userData = res.userData;
+      this.user = res.userData;
       this.rating = Math.round(res.userData.rating);
-      this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
+      this.user.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
     });
   }
 

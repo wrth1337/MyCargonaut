@@ -7,7 +7,8 @@ import { AuthService } from 'src/app/service/auth.service';
 @Component({
   selector: 'app-profile-data',
   templateUrl: './profile-data.component.html',
-  styleUrls: ['./profile-data.component.css']
+  styleUrls: ['./profile-data.component.css'],
+  providers: [DatePipe]
 })
 export class ProfileDataComponent implements OnInit {
   userData: any;
@@ -34,10 +35,7 @@ export class ProfileDataComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
-    //this.ad = this.route.snapshot.paramMap.get('id');
-    this.route.params.subscribe(params => {
-      this.ad = params['id'];
-    })
+    this.ad = this.route.snapshot.paramMap.get('id');
     if(this.ad != null) {
       this.api.getRequest('ad/' + this.ad).subscribe((res: any) => {
         this.userId = res.data.userId;
@@ -69,7 +67,7 @@ export class ProfileDataComponent implements OnInit {
     });
 
     this.api.getRequest("trip/getTripCount/"+userId).subscribe((res: any) => {
-      this.tripCount = res.data;
+      this.tripCount = res.data.length;
     });
   }
 }

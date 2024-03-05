@@ -48,6 +48,7 @@ import { ChatComponent } from './chat/chat.component';
   ],
   exports:[
     NavbarComponent,
+    ProfileDataComponent,
     HttpClientModule,
     SearchbarComponent,
 
