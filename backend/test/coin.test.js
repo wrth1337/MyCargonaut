@@ -109,19 +109,19 @@ test('subtractUserCoins', async () => {
 });
 
 test('subtractUserCoins with not enough coins', async () => {
-        const firstName = 'testFirstName';
-        const lastName = 'testLastName';
-        const email = 'mailCoin@mail.de';
-        const password = 'testPassword';
-        const birthdate = '1990-01-01';
-        const phonenumber = '1234567890';
-        await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
-        const id = await getUserID(email);
-        const coinsToAdd = 10;
-        await addUserCoins(id, coinsToAdd);
-        const coinsToSubtract = 15;
-        const result = await subtractUserCoins(id, coinsToSubtract);
-        expect(result.success).toBe(false);
+    const firstName = 'testFirstName';
+    const lastName = 'testLastName';
+    const email = 'mailCoin@mail.de';
+    const password = 'testPassword';
+    const birthdate = '1990-01-01';
+    const phonenumber = '1234567890';
+    await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
+    const id = await getUserID(email);
+    const coinsToAdd = 10;
+    await addUserCoins(id, coinsToAdd);
+    const coinsToSubtract = 15;
+    const result = await subtractUserCoins(id, coinsToSubtract);
+    expect(result.success).toBe(false);
 });
 
 afterAll(() => {
