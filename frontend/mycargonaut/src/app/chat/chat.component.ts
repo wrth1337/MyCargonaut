@@ -44,8 +44,6 @@ export class ChatComponent implements OnInit {
         this.loadBookingList();
 
       }
-      console.log('isOwner:');
-      console.log(this.isOwner);
     });
 
     this.loadMessageList();
@@ -112,9 +110,6 @@ export class ChatComponent implements OnInit {
       this.bookingListAccepted.push(...confirmedBookings);
 
       this.bookingList = this.bookingList.filter(booking => booking.state !== "confirmed");
-
-      console.log('bookingList:');
-      console.log(this.bookingList);
     });
   }
 
@@ -125,18 +120,10 @@ export class ChatComponent implements OnInit {
   }
 
   acceptBooking(booking: any) {
-    console.log('acceptBooking');
-    console.log(booking);
-    this.api.postRequest('booking/confirm/'+booking.bookingId, {}).subscribe( (res) => {
-      console.log(res);
-    });
+    this.api.postRequest('booking/confirm/'+booking.bookingId, {});
   }
 
   rejectBooking(booking: any) {
-    console.log('rejectBooking');
-    console.log(booking);
-    this.api.postRequest('booking/denie/'+booking.bookingId, {}).subscribe( (res) => {
-      console.log(res);
-    });
+    this.api.postRequest('booking/denie/'+booking.bookingId, {});
   }
 }
