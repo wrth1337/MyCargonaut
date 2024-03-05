@@ -22,57 +22,7 @@
             </div>
             <div class="card-body p-2">
                 <div class="profile m-2">
-                    <!--<div class="row">
-                        <div class="col m-2">
-                            <div *ngIf="user.picture; else placeholder">
-                                <img class="profilepicture" [src]="user.picture" height="4rem" width="4rem" alt="profilepicture">
-                            </div>
-                            <ng-template #placeholder>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="4rem" height="4rem" fill="var(--primary)" class="bi bi-person-circle" viewBox="0 0 16 16">
-                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                                    <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                                </svg>
-                            </ng-template>
-                        </div>
-                        <div class="col centre">
-                            {{user.firstName}} {{user.lastName}}
-                            <div class="rating">
-                                <span *ngFor="let star of stars" class="star" [class.highlight]="star <= this.user.rating">
-                                    &#9733;
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col pt-4">
-                            {{user.birthdate}}
-                        </div>
-                    </div>
-                    <div class="description m-2">
-                        {{user.description}}
-                    </div>
-                    <div class="m-2">
-                        Erfahrung
-                        <div class="progress" role="progressbar" >
-                            <div class="progress-bar custom-progress" [style.width]="50+'%'"></div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="card flagCard m-2">
-                                <div class="card-header flagCardHeader">
-                                    <span class="">Sprachen</span>
-                                </div>
-                                <div class="card-body">
-                                    Flaggen JUHU
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <span class="material-symbols-outlined" style="font-size: xxx-large">smoke_free</span>
-                            <span class="material-symbols-outlined" style="font-size: xxx-large">pets</span>
-                        </div>
-                    </div>-->
                     <app-profile-data></app-profile-data>
-
                 </div>
                 <div class="profile m-2">
                     <div *ngIf="this.type === 'offer'">
