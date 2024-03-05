@@ -120,10 +120,15 @@ export class ChatComponent implements OnInit {
   }
 
   acceptBooking(booking: any) {
-    this.api.postRequest('booking/confirm/'+booking.bookingId, {});
+    this.api.postRequest('booking/confirm/'+booking.bookingId, {}).subscribe((res:any) => {
+      this.loadBookingList();
+    });
+
   }
 
   rejectBooking(booking: any) {
-    this.api.postRequest('booking/denie/'+booking.bookingId, {});
+    this.api.postRequest('booking/denie/'+booking.bookingId, {}).subscribe((res:any) => {
+      this.loadBookingList();
+    });
   }
 }
