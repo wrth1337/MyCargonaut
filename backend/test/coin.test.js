@@ -109,7 +109,6 @@ test('subtractUserCoins', async () => {
 });
 
 test('subtractUserCoins with not enough coins', async () => {
-    try {
         const firstName = 'testFirstName';
         const lastName = 'testLastName';
         const email = 'mailCoin@mail.de';
@@ -123,14 +122,6 @@ test('subtractUserCoins with not enough coins', async () => {
         const coinsToSubtract = 15;
         const result = await subtractUserCoins(id, coinsToSubtract);
         expect(result.success).toBe(false);
-    } finally {
-        /*const conn = await pool.getConnection();
-        const deleteQuery = 'DELETE FROM user WHERE userId = ?';
-        conn.query(deleteQuery, [await getUserID('mailCoin@mail.de')]);
-        if (conn) await conn.release();
-         */
-        console.log('finaly');
-    }
 });
 
 afterAll(() => {
