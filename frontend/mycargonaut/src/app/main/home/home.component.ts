@@ -2,27 +2,36 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/service/api.service';
 import { Ad } from '../ad';
 import { intermediateGoal } from '../intermediateGoal';
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-   
+
 export class HomeComponent implements OnInit{
   index = 0;
-  public content: any;
+  public content!: Ad[];
   loaded = false;
   constructor(
     private api: ApiService
   ){}
-  
+
   ngOnInit(): void {
     this.loaded = false;
     this.api.getRequest('ad/last').subscribe((res:any) => {
       this.content = res.data.result;
       this.loaded = true;
+      this.content.forEach(n => {
+        n.intermediateGoals = [];
+        this.api.getRequest('ad/' + n.adId + '/intermediate').subscribe((res: any) => {
+          if(res) n.intermediateGoals = res.data;
+        })
+        this.api.getRequest('ad/' + n.adId + '/type').subscribe((res: any) => {
+          n.type = res.data;
+        })
+      })
     })
+
   }
   next() {
     this.index++;

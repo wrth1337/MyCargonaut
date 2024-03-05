@@ -1,7 +1,7 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +20,14 @@ export class InterceptorService implements HttpInterceptor{
       
       const authToken = this.auth.getToken();
       if(authToken){
-        req = req.clone({headers: req.headers.set('Authorization', authToken)});
+        req = req.clone({headers: req.headers.set('Authorization', 'Bearer '+authToken)});
       }
-      return next.handle(req);
+      return next.handle(req).pipe(catchError(error => {
+        if (error instanceof HttpErrorResponse && error.status === 401) {
+          this.auth.clearStorage();
+          window.location.reload();
+        }
+        return throwError(() => error);
+      }));
   }
 }

@@ -40,7 +40,7 @@ CREATE OR REPLACE TABLE vehicle (
     maxWeight FLOAT,
     picture VARCHAR(1024),
     loadingAreaDimensions VARCHAR(100),
-    specialFeautures TEXT,
+    specialFeatures TEXT,
     userId int not null,
     CONSTRAINT fk_user_id
    	FOREIGN KEY (userId) REFERENCES user (userId)
@@ -129,7 +129,9 @@ CREATE OR REPLACE TABLE status(
     startRide BOOLEAN DEFAULT FALSE,
     endRide BOOLEAN DEFAULT FALSE,
     CONSTRAINT fk_booking_id_status
-   	FOREIGN KEY (bookingId) REFERENCES booking (bookingId)
+   	    FOREIGN KEY (bookingId) REFERENCES booking (bookingId)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 ); 
 
 CREATE OR REPLACE TABLE rating(

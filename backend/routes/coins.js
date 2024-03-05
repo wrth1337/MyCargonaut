@@ -1,9 +1,16 @@
 const mariadb = require('mariadb');
 const express = require('express');
 const authenticateToken = require('./auth');
+const rateLimit = require('express-rate-limit');
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
+const limiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 100,
+});
+
+router.use(limiter);
 
 const pool = mariadb.createPool({
     host: '0.0.0.0',
@@ -22,9 +29,9 @@ async function getUserCoins(id) {
         await conn.release();
 
         if (result.length > 0) {
-            return { success: true, data: result[0] };
+            return {data: result[0].coins};
         } else {
-            return { success: false };
+            return {success: false};
         }
     } catch (error) {
         throw error;
@@ -84,20 +91,20 @@ async function getUserCoins(id) {
  *                                      type: string
  *                                      description: The error message.
  */
-router.get('/', authenticateToken, async function(req, res, next) {
+router.get('/', authenticateToken, async function(req, res) {
     try {
         const id = req.user_id;
         const userCoins = await getUserCoins(id);
 
         if (userCoins.success) {
             res.status(200);
-            res.json({ status: 1, coins: userCoins.data });
+            res.json({status: 1, coins: userCoins.data});
         } else {
             res.status(204).json(null);
         }
     } catch (error) {
         res.status(500);
-        res.json({ status: 99, error: 'Fetching Coins Data failed' });
+        res.json({status: 99, error: 'Fetching Coins Data failed'});
     }
 });
-module.exports = { router, getUserCoins};
+module.exports = {router, getUserCoins};

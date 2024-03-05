@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/service/api.service';
 import { DatePipe } from '@angular/common';
+import { AuthService } from 'src/app/service/auth.service';
+import { Location } from '@angular/common';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -11,8 +14,7 @@ import { DatePipe } from '@angular/common';
 })
 
 
-export class ProfileComponent {
-
+export class ProfileComponent implements OnInit {
   userData: any;
   vehicleData: any;
   offerData: any;
@@ -27,15 +29,51 @@ export class ProfileComponent {
   tripCount: any;
   stars: number[] = [1, 2, 3, 4, 5];
 
+  language = [
+    { id: 1, name: 'german', icon: '../../../assets/icons/flag-for-flag-germany-svgrepo-com.svg' },
+    { id: 2, name: 'english', icon: '../../../assets/icons/flag-for-flag-united-kingdom-svgrepo-com.svg' },
+  ];
+  
+  languageVariables: { [key: string]: boolean } = {
+    german: false,
+    english: false,
+  }
+  
+  newVehicleFailure = false;
+  updateVehicle = false;
+  selectedVehicle = {
+    loadingAreaDimensions: null,
+    maxWeight: null,
+    name: null,
+    numSeats: null,
+    picture: null,
+    specialFeatures: null,
+    vehicleId: null,
+  };
+
   constructor(
     private api: ApiService,
-    private datePipe: DatePipe
+    private auth: AuthService,
+    private datePipe: DatePipe,
+    private location: Location
   ){}
 
   ngOnInit() {
-
-    this.api.getRequest("profile/userdata").subscribe((res: any) => {
+    const userId = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;
+    this.api.getRequest("profile/userdata/"+userId).subscribe((res: any) => {
       this.userData = res.userData;
+
+      for (const lang of this.language) {
+        this.languageVariables[lang.name] = false;
+      }
+    
+      for (const langObj of res.languages) {
+          const langVariable = this.language.find(lang => lang.id === langObj.languageId);           
+          if (langVariable) {
+            this.languageVariables[langVariable.name] = true;
+          }
+      }
+    
       this.rating = Math.round(res.userData.rating);
       this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
     });
@@ -47,7 +85,7 @@ export class ProfileComponent {
       }
     });
 
-    this.api.getRequest("offer").subscribe((res: any) => {
+    this.api.getRequest("offer/getUserOffer").subscribe((res: any) => {
       if(res != null) {
         this.offersAvailable = true;
         this.offerData = res.offerData;
@@ -57,7 +95,7 @@ export class ProfileComponent {
       }
     });
 
-    this.api.getRequest("wanted").subscribe((res: any) => {
+    this.api.getRequest("wanted/getUserWanted").subscribe((res: any) => {
       if(res != null) {
         this.wantedsAvailable = true;
         this.wantedData = res.wantedData;
@@ -84,6 +122,42 @@ export class ProfileComponent {
         this.tripCount = 0;
       }
     });
+  }
+  back(){
+    this.location.back()
+  }
+  onSubmit(form : NgForm) {
+    this.newVehicleFailure = false;
+    let url = "vehicle";
+    if(this.updateVehicle) url += '/' + this.selectedVehicle.vehicleId;
+    this.api.postRequest(url, form.value).subscribe((res:any) => {
+      if(res.status === 1){
+        window.location.reload();
+      }else {
+        this.newVehicleFailure = true;
+      }
+    })  
+  }
+  selectVehicle(item:any) {
+    this.updateVehicle = true;
+    this.selectedVehicle = item;
+  }
+  clearSelectedVehicle() {
+    this.updateVehicle = false;
+    this.selectedVehicle = {
+      loadingAreaDimensions: null,
+      maxWeight: null,
+      name: null,
+      numSeats: null,
+      picture: null,
+      specialFeatures: null,
+      vehicleId: null,
+    };
+  }
+  deleteVehicle() {
+    this.api.deleteRequest('vehicle/' + this.selectedVehicle.vehicleId).subscribe((res:any) => {
+      if(res)window.location.reload();
+    })
   }
 }
 

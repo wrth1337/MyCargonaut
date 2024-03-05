@@ -1,10 +1,6 @@
 const {expect, test, afterAll} = require('@jest/globals');
 const {registerNewUser} = require('../routes/user');
 const {getUser, editProfile} = require('../routes/profile');
-const {getUserOffers} = require('../routes/offer');
-const {getUserTrips} = require('../routes/trip');
-const {getUserVehicles} = require('../routes/vehicle');
-const {getUserWanteds} = require('../routes/wanted');
 const mariadb = require('mariadb');
 
 const pool = mariadb.createPool({
@@ -26,11 +22,10 @@ test('get profile data from new registered user', async () => {
     const result = await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
 
     expect(result).toBe(0);
-    
+
     let conn;
 
     try {
-
         conn = await pool.getConnection();
 
         const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
@@ -46,7 +41,7 @@ test('get profile data from new registered user', async () => {
         expect(dbResult.data.description).toBeNull();
         expect(dbResult.data.experience).toBeNull();
         expect(dbResult.data.rating).toEqual('0.00000000');
-
+        expect(dbResult.lang.length).toEqual(0);
     } finally {
         if (conn) await conn.release();
     }
@@ -74,6 +69,8 @@ test('change profile data from user', async () => {
     const newBirthdate = '1990-01-02';
     const picture = 'testPicture.jpg';
 
+    const language = [];
+
     const result = await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
 
     expect(result).toBe(0);
@@ -81,13 +78,12 @@ test('change profile data from user', async () => {
     let conn;
 
     try {
-
         conn = await pool.getConnection();
-
+        await conn.query(`INSERT INTO language(languageName, languagePicture) VALUES  ('Deutsch', 'deutschlandflagge.jpg'), ('Englisch', 'americanflag.jpg')`);
         const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
         const userId = id[0].userId;
 
-        const res = await editProfile(newFirstName, newLastName, newBirthdate, picture, description, experience, userId);
+        const res = await editProfile(newFirstName, newLastName, newBirthdate, picture, description, experience, userId, language);
 
         expect(res).toBe(1);
 
@@ -102,7 +98,109 @@ test('change profile data from user', async () => {
         expect(dbResult.data.description).toEqual(description);
         expect(dbResult.data.experience).toEqual(experience);
         expect(dbResult.data.rating).toEqual('0.00000000');
+    } finally {
+        if (conn) await conn.release();
+    }
 
+    try {
+        conn = await pool.getConnection();
+        await conn.query('DELETE FROM user WHERE email = ?', [email]);
+    } finally {
+        if (conn) await conn.release();
+    }
+});
+
+test('add two languages to profile', async () => {
+    const firstName = 'testFirstName';
+    const lastName = 'testLastName';
+    const email = 'testEmail@test.com';
+    const password = 'testPassword';
+    const birthdate = '1990-01-01';
+    const phonenumber = '1234567890';
+
+    const description = 'testDescription';
+    const experience = 'testExperience';
+    const newFirstName = 'testFirstName2';
+    const newLastName = 'testLastName2';
+    const newBirthdate = '1990-01-02';
+    const picture = 'testPicture.jpg';
+
+    const language = [
+        {languageId: 1, selected: true},
+        {languageId: 2, selected: true},
+    ];
+
+    const result = await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
+
+    expect(result).toBe(0);
+
+    let conn;
+
+    try {
+        conn = await pool.getConnection();
+        await conn.query(`INSERT INTO language(languageName, languagePicture) VALUES  ('Deutsch', 'deutschlandflagge.jpg'), ('Englisch', 'americanflag.jpg')`);
+        const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
+        const userId = id[0].userId;
+
+        const res = await editProfile(newFirstName, newLastName, newBirthdate, picture, description, experience, userId, language);
+
+        expect(res).toBe(1);
+
+        const dbResult = await getUser(userId);
+        expect(dbResult.lang.length).toEqual(2);
+        expect(dbResult.lang[0].languageId).toEqual(1);
+        expect(dbResult.lang[1].languageId).toEqual(2);
+    } finally {
+        if (conn) await conn.release();
+    }
+
+    try {
+        conn = await pool.getConnection();
+        await conn.query('DELETE FROM user WHERE email = ?', [email]);
+    } finally {
+        if (conn) await conn.release();
+    }
+});
+
+test('edit language data', async () => {
+    const firstName = 'testFirstName';
+    const lastName = 'testLastName';
+    const email = 'testEmail@test.com';
+    const password = 'testPassword';
+    const birthdate = '1990-01-01';
+    const phonenumber = '1234567890';
+
+    const description = 'testDescription';
+    const experience = 'testExperience';
+    const newFirstName = 'testFirstName2';
+    const newLastName = 'testLastName2';
+    const newBirthdate = '1990-01-02';
+    const picture = 'testPicture.jpg';
+
+    const language = [
+        {languageId: 1, selected: true},
+        {languageId: 2, selected: false},
+    ];
+
+    const result = await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
+
+    expect(result).toBe(0);
+
+    let conn;
+
+    try {
+        conn = await pool.getConnection();
+        await conn.query(`INSERT INTO language(languageName, languagePicture) VALUES  ('Deutsch', 'deutschlandflagge.jpg'), ('Englisch', 'americanflag.jpg')`);
+        const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
+        const userId = id[0].userId;
+
+        const res = await editProfile(newFirstName, newLastName, newBirthdate, picture, description, experience, userId, language);
+
+        expect(res).toBe(1);
+
+        const dbResult = await getUser(userId);
+        expect(dbResult.lang.length).toEqual(1);
+        expect(dbResult.lang[0].languageId).toEqual(1);
     } finally {
         if (conn) await conn.release();
     }
@@ -116,7 +214,7 @@ test('change profile data from user', async () => {
 });
 
 afterAll(() => {
-    pool.end(err => {
+    pool.end((err) => {
         if (err) {
             console.error('Fehler beim Schließen der Datenbankverbindung:', err);
         } else {

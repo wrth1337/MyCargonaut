@@ -1,6 +1,8 @@
-name: Backend Test
+name: Backend tests
 
-on: [push, pull_request]
+on:
+  pull_request:
+    branches: [ "develop" ]
 
 jobs:
   test:
@@ -20,7 +22,7 @@ jobs:
       run: |
         cd backend
         npm install
-    
+
     - name: RunDatabaseService
       run: |
         docker compose up database -d

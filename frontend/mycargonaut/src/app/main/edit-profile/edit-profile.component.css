@@ -100,6 +100,9 @@
     outline: 1px var(--primary) solid;
 }
 
+.custom-control-label {
+    margin-left: 5px;
+}
 
 
   
