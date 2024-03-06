@@ -1,6 +1,7 @@
 const mariadb = require('mariadb');
 const express = require('express');
 const rateLimit = require('express-rate-limit');
+const authenticateToken = require('./auth');
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -21,7 +22,8 @@ const pool = mariadb.createPool({
 
 // ---Methods--- //
 async function saveNewRating(bookingId, userWhoIsEvaluating, userWhoWasEvaluated, punctuality, agreement, pleasent, freight, comment) {
-    const newRating ='INSERT INTO rating (bookingId, userWhoIsEvaluating, userWhoWasEvaluated, punctuality, agreement, pleasent, freight, comment) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    const newRating = `INSERT INTO rating (bookingId, userWhoIsEvaluating, userWhoWasEvaluated, punctuality, agreement, pleasent, freight, comment) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
     try {
         const conn = await pool.getConnection();
         // eslint-disable-next-line no-unused-vars
@@ -29,19 +31,19 @@ async function saveNewRating(bookingId, userWhoIsEvaluating, userWhoWasEvaluated
         await conn.release();
         return 0;
     } catch (error) {
-        console.log('Error on saveNewRating');
+        console.error(error);
         return 1;
     }
 }
 
-async function isRatingAlreadyDone(bookingId, userId){
-    const checkRatingExists = 'SELECT COUNT(*) AS count FROM rating WHERE bookingId = ? AND userWhoIsEvaluating = ?';
+async function isRatingAlreadyDone(bookingId, userId) {
+    const checkRatingExists = `SELECT COUNT(*) AS count FROM rating WHERE bookingId = ? AND userWhoIsEvaluating = ?`;
 
     try {
         const conn = await pool.getConnection();
         const result = await conn.query(checkRatingExists, [bookingId, userId]);
         await conn.release();
-        return (result[0].count = 0);
+        return (result[0].count > 0);
     } catch (error) {
         console.error(error);
         throw error;
@@ -49,20 +51,21 @@ async function isRatingAlreadyDone(bookingId, userId){
 }
 // ---Routes--- //
 
-router.post('/rating', async function(req, res, next) {
+router.post('/rating', authenticateToken, async function(req, res, next) {
     const bookingId = req.body.bookingId;
-    const userId = req.body.userId;
-    const rating = req.body.rating;
+    const userId = req.user_id;
+    const rating = req.body;
+    const {userWhoWasEvaluated, punctuality, agreement, pleasent, freight, comment} = rating;
 
     const conn = await pool.getConnection();
     try {
         const ratingExists = await isRatingAlreadyDone(bookingId, userId);
-        if (!ratingExists) {
+        if (ratingExists) {
             res.status(409);
             res.send({status: 1, msg: 'Your already rated this ride.'});
         } else {
             // eslint-disable-next-line no-unused-vars
-            const newRating = await saveNewRating(bookingId, userId, rating.userWhoWasEvaluated, rating.punctuality, rating.agreement, rating.pleasent, rating.freight, rating.comment);
+            const newRating = await saveNewRating(bookingId, userId, userWhoWasEvaluated, punctuality, agreement, pleasent, freight, comment);
             res.status(201);
             res.send({status: 0, msg: 'Rating created'});
         }
