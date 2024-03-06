@@ -1,4 +1,3 @@
-<div id="SearchFormSection" class="container">
   <form #searchform="ngForm" (ngSubmit)="onSubmit(searchform)">
     <div class="modal fade" id="ratingModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog modal-m">
@@ -97,7 +96,7 @@
             </div>
             <div class="row m-3">
               <div class="col text-center">
-                <button class="submitButton px-3 py-2 btn align-middle" type="submit" id="submitButton" name="submitRating" [disabled]="!searchform.valid">Bewertung abschicken</button>
+                <button data-bs-dismiss="modal" data-bs-target="#ratingModal" class="submitButton px-3 py-2 btn align-middle" type="submit" id="submitButton" name="submitRating" [disabled]="!searchform.valid">Bewertung abschicken</button>
               </div>
             </div>
           </div>
@@ -105,4 +104,3 @@
       </div>
     </div>
   </form>
-</div>
