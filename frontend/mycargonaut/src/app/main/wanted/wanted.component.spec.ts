@@ -28,7 +28,6 @@ describe('WantedComponent', () => {
     component.user = {
       firstName: 'Max',
       lastName: 'Mustermann',
-      picture: 'URL_DES_PROFILBILDS',
     };
     localStorage.setItem('userData','{"email":"mails@mails.de","user_id":4}');
 
@@ -59,6 +58,8 @@ describe('WantedComponent', () => {
   });
   
   it('should display profile picture when available', () => {
+    component.user.picture = 'URL_DES_PROFILBILDS';
+    fixture.detectChanges();
     const el = fixture.debugElement.query(By.css('.profilepicture'));
     const placeholder = fixture.debugElement.query(By.css('.bi-person-circle'));
     expect(placeholder).toBeFalsy();
