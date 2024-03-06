@@ -1,7 +1,7 @@
 <div class="infront" *ngIf="state === 'Bewerten'">
 
 </div>
-<div class="row">
+<div class="row" style="width: 100%;">
     <div class="col">
         <button class="btn returnBtn mx-3" [routerLink]="['/']">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="var(--primary)" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
@@ -10,11 +10,11 @@
         </button>
     </div>
     <div class="col mx-3 mt-2 centre">
-        <button class="trackingBtn btn fs-5" *ngIf="this.state === 'Stornieren'">Tracking</button>
+        <button class="trackingBtn btn fs-5" *ngIf="this.state === 'Stornieren'" data-bs-toggle="modal" data-bs-target="#trackingModal">Tracking</button>
     </div>
     <div class="col"></div>
 </div>
-<div class="row p-3">
+<div class="row p-3" style="width: 100%;">
     <div class="col-md">
         <div class="card">
             <div class="card-header p-3 fs-5">
@@ -94,7 +94,11 @@
                 <p class="card-text adCardText p-1 lh-xl">{{ad.description}}</p>
             </div>
           </div>
-          <button class="bookingBtn btn fs-4 fw-bolder" (click)="handleButton()">{{this.state}}</button>
+          <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#ratingModal" *ngIf="this.state === 'Bewerten'">Bewerten</button>
+          <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#bookingModal" *ngIf="this.isLogin && this.state === 'Buchen' && this.seatsAvailable > 0">{{this.state}}</button>
+          <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#cancelingModal" *ngIf="this.isLogin && this.state === 'Stornieren'">{{this.state}}</button>
+          <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#startModal" *ngIf="this.isLogin && this.state === 'Author' && this.ad.state === 'created'">Fahrt starten</button>
+          <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#stopModal" *ngIf="this.isLogin && this.state === 'Author' && this.ad.state === 'started'">Fahrt beenden</button>
 
     </div>
     <div class="col-md">
@@ -108,4 +112,131 @@
         </div>
     </div>
 </div>
+<span *ngIf="this.seatsAvailable <= 0">Ad ist ausgebucht!</span>
 
+<form #bookingForm="ngForm" (ngSubmit)="onBookingSubmit(bookingForm)">
+    <div class="modal" id="bookingModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>Sind Sie sich sicher?</p>
+                    <span>Anzahl zu buchender Sitzplätze</span>
+                    <input id="seats" class="form-control ms-2 m-1" type="number" name="numSeats" placeholder="Anzahl Sitzplätze" min="1" [max]="this.seatsAvailable" ngModel [(ngModel)]="this.default">    
+                    <span>Menge an Fracht in Kg</span>
+                    <input id="seats" class="form-control ms-2 m-1" type="number" name="freight" placeholder="Menge Fracht" min="0" ngModel> 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                    <input id="submitButton" class="submitButton btn align-middle" type="submit" value="Buchen">
+                    <div *ngIf="toFewSeatsResponse">
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                          <div>Not enough Seats available.</div>
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="modal" id="cancelingModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>Sind Sie sich sicher?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                <input id="submitButton" class="submitButton btn align-middle" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#startModal" type="submit" value="Stornieren" (click)="cancel()">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="startModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>Sind Sie sich sicher?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                <input id="submitButton" class="submitButton btn align-middle" data-bs-dismiss="modal" data-bs-target="#startModal" type="submit" value="Fahrt starten" (click)="start()">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="stopModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>Sind Sie sich sicher?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                <input id="submitButton" class="submitButton btn align-middle" data-bs-dismiss="modal" data-bs-target="#stopModal" type="submit" value="Fahrt stoppen" (click)="stop()">
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="modal" id="trackingModal" tabindex="-1" *ngIf="this.state === 'Stornieren'">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row pb-3">
+                        <div class="col align-left">
+                          <button type="button" class=" btn returnButton" data-bs-dismiss="modal" aria-label="Close">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                            </svg>
+                          </button>
+                        </div>
+                        <div class="col">
+                          <span class="fs-5">Tracking</span>
+                        </div>
+                        <div class="col">
+                        </div>
+                      </div>                
+                    </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="trackingItem m-3 mt-0">
+                            <div class="circle m-1">
+                                <svg *ngIf="this.adUserBooking.state === 'confirmed'" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="var(--primary)" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+                                </svg>
+                            </div>
+                            <span>Buchung bestätigt</span>
+                        </div>
+                        <div class="trackingItem m-3">
+                            <div class="circle m-1">
+                                <svg *ngIf="this.ad.state === 'started' || this.ad.state === 'finished'" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="var(--primary)" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+                                </svg>
+                            </div>
+                            <span>Fahrt gestartet</span>
+                        </div>
+                        <div class="trackingItem m-3">
+                            <div class="circle m-1">
+                                <svg *ngIf="this.ad.state === 'finished'" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="var(--primary)" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+                                </svg>
+                            </div>
+                            <span>Fahrt beendet</span>
+                        </div>
+                        <div class="trackingItem m-3">
+                            <div class="circle m-1">
+                                <svg *ngIf="" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="var(--primary)" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+                                </svg>
+                            </div>
+                            <span>Fahrt bewertet</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
