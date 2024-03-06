@@ -17,7 +17,7 @@ describe('WantedComponent', () => {
       declarations: [WantedComponent, ProfileDataComponent],
       imports: [HttpClientTestingModule, RouterModule, RouterTestingModule, FormsModule, AuthModule],
       providers: []
-    }).compileComponents()
+    }).compileComponents();
   });
 
   beforeEach(() => {
