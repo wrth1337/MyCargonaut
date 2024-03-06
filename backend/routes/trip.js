@@ -78,7 +78,7 @@ async function getTripCount(id) {
  * tags:
  *      - name: trip
  *        description: Routes that are connected to the trips of an user
- * /trip/trip:
+ * /trip:
  *      get:
  *          summary: get user trips.
  *          description: get a list of the user trips.
@@ -155,7 +155,7 @@ async function getTripCount(id) {
  *  - bearerAuth: []
  */
 
-router.get('/trip', authenticateToken, async function(req, res, next) {
+router.get('/', authenticateToken, async function(req, res, next) {
     try {
         const id = req.user_id;
         const trip = await getUserTrips(id);
