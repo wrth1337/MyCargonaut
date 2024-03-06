@@ -50,7 +50,168 @@ async function isRatingAlreadyDone(bookingId, userId) {
     }
 }
 // ---Routes--- //
-
+/**
+ * @swagger
+ * tags:
+ *      - name: rating
+ *        description: Routes that are connected to ratings users.
+ * /rating:
+ *      post:
+ *          summary: Post a new rating.
+ *          security:
+ *              - bearerAuth: []
+ *          description: Posts a new rating of the logged in user to another user.
+ *          tags:
+ *              - rating
+ *          requestBody:
+ *              description: The data of the new vehicle.
+ *              content:
+ *                    application/json:
+ *                      schema:
+ *                          type: object
+ *                          required:
+ *                              - userWhoWasEvaluated
+ *                              - punctuality
+ *                              - agreement
+ *                              - pleasent
+ *                              - freight
+ *                          properties:
+ *                              userWhoWasEvaluated:
+ *                                  type: number
+ *                                  description: The userId of the user evaluated.
+ *                                  example: 1
+ *                              punctuality:
+ *                                  type: number
+ *                                  description: The number of punctuality rating.
+ *                                  example: 4
+ *                              agreement:
+ *                                  type: number
+ *                                  description: The number of agreement rating.
+ *                                  example: 5
+ *                              pleasent:
+ *                                  type: number
+ *                                  description: The number of pleasent rating.
+ *                                  example: 5
+ *                              freight:
+ *                                  type: number
+ *                                  description: The number of freight rating.
+ *                                  example: 5
+ *                              comment:
+ *                                  type: string
+ *                                  description: Optional comment of the rating.
+ *                                  example: The driver was very nice.
+ *          responses:
+ *              200:
+ *                  description: Insert succesfull.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *              500:
+ *                  description: Insert failed.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  error:
+ *                                      type: string
+ *                                      description: Rating couldn´t be saved in db.
+ *              401:
+ *                  description: Unauthorized.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  message:
+ *                                      type: string
+ *                                      description: Unauthorized.
+ *              409:
+ *                  description: Conflict.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  message:
+ *                                      type: string
+ *                                      description: Your already rated this ride.
+ * /rating/done/{bookingId}:
+ *      get:
+ *          summary: Was a rating done allready.
+ *          security:
+ *              - bearerAuth: []
+ *          description: Is there a rating by the user to this booking allready.
+ *          tags:
+ *              - rating
+ *          parameters:
+ *            - in: path
+ *              name: booking
+ *              schema:
+ *                  type: integer
+ *              required: true
+ *              description: The Id of the booking the rating is connected to.
+ *          responses:
+ *              200:
+ *                  description: Get succesfull.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  ratingDone:
+ *                                      type: boolean
+ *                                      description: If a rating was done allready.
+ *              500:
+ *                  description: Update failed.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  error:
+ *                                      type: string
+ *                                      description: Internal Server error.
+ *              401:
+ *                  description: Unauthorized.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  message:
+ *                                      type: string
+ *                                      description: Unauthorized.
+ * components:
+ *      schemas:
+ *          rating:
+ *              type: object
+ *              properties:
+ *                  name:
+ *                      type: string
+ *                      description: The name of the vehicle.
+ *      securitySchemes:
+ *          bearerAuth:
+ *              type: http
+ *              scheme: bearer
+ *              bearerFormat: JWT
+ * security:
+ *  - bearerAuth: []
+ */
 router.post('/rating', authenticateToken, async function(req, res, next) {
     const bookingId = req.body.bookingId;
     const userId = req.user_id;
