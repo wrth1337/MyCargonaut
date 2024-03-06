@@ -1,6 +1,6 @@
 const {expect, test, afterAll} = require('@jest/globals');
 const {registerNewUser} = require('../routes/user');
-const {getTripCount, getUserTrips} = require('../routes/trip');
+const {getTripCount} = require('../routes/trip');
 const mariadb = require('mariadb');
 
 const pool = mariadb.createPool({
