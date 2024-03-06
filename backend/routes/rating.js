@@ -77,4 +77,21 @@ router.post('/rating', authenticateToken, async function(req, res, next) {
     }
 });
 
+router.get('/rating/done/:id', authenticateToken, async function(req, res, next) {
+    const bookingId = req.params.id;
+    const userId = req.user_id;
+
+    const conn = await pool.getConnection();
+    try {
+        const ratingExists = await isRatingAlreadyDone(bookingId, userId);
+        res.status(200);
+        res.send({status: 0, ratingDone: ratingExists});
+    } catch (error) {
+        res.status(500);
+        res.send({status: 500, error: 'Internal Server error'});
+    } finally {
+        if (conn) await conn.release();
+    }
+});
+
 module.exports = {router, saveNewRating, isRatingAlreadyDone};
