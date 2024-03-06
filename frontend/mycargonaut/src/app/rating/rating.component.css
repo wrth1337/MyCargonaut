@@ -102,7 +102,7 @@ div.starrating > label:hover ~ input:checked ~ label {
 #carouselExampleControls.card {
   background-color: var(--secondary_light);
 }
-
+/*
 .btn{
   background-color: var(--secondary);
   color: white;
@@ -115,7 +115,7 @@ div.starrating > label:hover ~ input:checked ~ label {
   font-weight:900;
   text-align: center;
 }
-
+*/
 .active-recomended{
   text-align: center;
 }
@@ -153,5 +153,14 @@ div.starrating > label:hover ~ input:checked ~ label {
   background-position: 5px;
   padding-left: 2rem;
 }
-
+.submitButton{
+  background-color: var(--secondary);
+  color: white;
+}
+.input-text-field {
+  border-color: var(--secondary);
+  background-color: var(--secondary_light);
+  height: 20vh;
+  border-radius: 10px;
+}
 

@@ -13,6 +13,7 @@ export class RatingComponent {
   @Input() bookingId: any;
   // Nehmen wir an, dass userId auch von außen als Input kommt
   @Input() userWhoWasEvaluated: any;
+  userIsDriver = false;
 
   constructor(private api: ApiService) {}
 
@@ -20,13 +21,11 @@ export class RatingComponent {
     const formData = {
       bookingId: this.bookingId,
       userWhoWasEvaluated: this.userWhoWasEvaluated,
-      userWhoIsEvaluating: this.userWhoIsEvaluating,
       punctuality: form.value.punctualityRating,
       agreement: form.value.agreementRating,
       pleasent: form.value.pleasentRating,
       freight: form.value.freightRating,
       comment: form.value.comment
-
     };
     console.log(formData);
     this.api.postRequest("rating", formData).subscribe((res: any) => {
