@@ -4,9 +4,9 @@ import { WantedComponent } from './wanted.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ProfileDataComponent } from '../profile-data/profile-data.component';
 import { FormsModule } from '@angular/forms';
 import { AuthModule } from 'src/app/auth/auth.module';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('WantedComponent', () => {
   let component: WantedComponent;
@@ -14,9 +14,10 @@ describe('WantedComponent', () => {
 
   beforeEach(async() => {
     TestBed.configureTestingModule({
-      declarations: [WantedComponent, ProfileDataComponent],
+      declarations: [WantedComponent],
       imports: [HttpClientTestingModule, RouterModule, RouterTestingModule, FormsModule, AuthModule],
-      providers: []
+      providers: [],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents()
   });
 
