@@ -11,7 +11,7 @@ import {CreateOfferComponent} from "./main/create-offer/create-offer.component";
 import { SearchbarComponent } from "./searchbar/searchbar.component";
 import {ResultpageComponent} from "./resultpage/resultpage.component";
 import { AdComponent } from './main/ad/ad.component';
-import { RatingComponent, RatingComponent} from "./rating/rating.component";
+import { RatingComponent} from "./rating/rating.component";
 
 const routes: Routes = [
   {path: 'register', component: RegisterComponent},
@@ -20,7 +20,6 @@ const routes: Routes = [
   {path: 'profile', component: ProfileComponent, canActivate: [authguardGuard]},
   {path: 'rating', component: RatingComponent},
   {path: 'profile', component: ProfileComponent, canActivate: [authguardGuard]},
-  {path: 'rating', component: RatingComponent},
   {path: 'addWanted', component: WantedComponent, canActivate: [authguardGuard]},
   {path: 'createOffer', component: CreateOfferComponent, canActivate: [authguardGuard]},
   {path: 'edit_profile', component: EditProfileComponent, canActivate: [authguardGuard]},
