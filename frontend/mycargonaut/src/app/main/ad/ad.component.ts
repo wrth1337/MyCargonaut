@@ -44,7 +44,7 @@ export class AdComponent implements OnInit{
   stars: number[] = [1, 2, 3, 4, 5];
   userData: any;
   adUserBooking:any;
-
+  bookingDone = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -95,8 +95,14 @@ export class AdComponent implements OnInit{
       if (this.adUserBooking.state === 'canceled' || this.adUserBooking.canceled) {
         return this.state = 'NoOptions';
       }
-      if (this.ad.state === 'finished' && this.adUserBooking.state === 'confirmed')
-        return this.state = 'Bewerten';
+      if (this.ad.state === 'finished' && this.adUserBooking.state === 'confirmed') {
+        this.api.getRequest('rating/done/'+this.adUserBooking.bookingId).subscribe((ratingRes:any) => {
+          if (ratingRes) this.bookingDone = ratingRes.ratingDone;
+          if (this.bookingDone) this.state = 'bookingDone';
+          else this.state = 'Bewerten';
+        });
+        return;
+      }
       return this.state = 'Stornieren';
     })
   }
