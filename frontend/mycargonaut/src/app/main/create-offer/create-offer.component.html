@@ -143,7 +143,7 @@
             </div>
           </div>
           <!--Preferences and price-->
-          <div class="row mb-5">
+          <div class="row mb-5 justify-content-center align-items-center">
             <div class="col">
               <div class="d-flex justify-content-center align-items-center">
                 <div class="mx-4" *ngIf="!this.smoke">
@@ -170,13 +170,21 @@
             </div>
             <div class="col">
               <div id="CalculatedPrice" class="container borderPrimary p-3 h-100">
-                <div class="row">
-                  <div class="col" style="display: flex; align-items: center; justify-content: end">
-                    <input id="PriceInput" name="pricePerPerson" type="number" placeholder="50" class="fs-2 w-75" ngModel>
-                  </div>
-                  <div class="col" style="display: flex; align-items: center">
-                    <span class="material-symbols-outlined" style="font-size: xxx-large">toll</span>
-                  </div>
+                <div>
+                  <p class="">Preis pro Person</p>
+                </div>
+                <div class="col" style="display: flex; align-items: center; justify-content: end">
+                  <input name="pricePerPerson" type="number" placeholder="50" class="PriceInput fs-2 w-75" ngModel>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div id="FreightPrice" class="container borderPrimary p-3 h-100">
+                <div>
+                  <p class="">Preis pro Fracht</p>
+                </div>
+                <div class="col" style="display: flex; align-items: center; justify-content: end">
+                  <input name="pricePerFreight" type="number" placeholder="50" class="PriceInput fs-2 w-75" ngModel>
                 </div>
               </div>
             </div>
