@@ -45,10 +45,11 @@ async function getUserTrips(id) {
 }
 
 async function getTripCount(id) {
-    const trips = 'SELECT a.adId FROM ad a JOIN booking b ON b.adId = a.adId JOIN status s ON s.bookingId = b.bookingId WHERE s.endRide = TRUE AND a.userId = ?';
+    const trips = `SELECT a.adId FROM ad a JOIN booking b ON b.adId = a.adId
+    WHERE (a.state != 'created' AND a.userId = ?) OR (b.userId = ?  AND b.canceled = FALSE AND b.state = 'confirmed')`;
     try {
         const conn = await pool.getConnection();
-        const tripCount = await conn.query(trips, [id]);
+        const tripCount = await conn.query(trips, [id, id]);
         await conn.release();
         if (tripCount.length > 0) {
             return {success: true, data: tripCount};
