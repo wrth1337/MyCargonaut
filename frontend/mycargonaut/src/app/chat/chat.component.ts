@@ -100,6 +100,7 @@ export class ChatComponent implements OnInit {
   }
 
   loadBookingList() {
+    this.bookingListAccepted = [];
     this.api.getRequest('booking/ad/' + this.adId).subscribe(async (res: any) => {
       this.bookingList = res.data;
       await this.updateUserMap();
