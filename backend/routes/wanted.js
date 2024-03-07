@@ -58,7 +58,6 @@ async function addNewWanted(description, startLocation, endLocation, startDate, 
         await conn.release();
         return 1;
     } catch (error) {
-        console.log(error);
         return 0;
     }
 }
