@@ -5,6 +5,7 @@ import {ActivatedRoute} from "@angular/router";
 import {AuthService} from "../service/auth.service";
 import {DatePipe} from "@angular/common";
 import {Booking} from "../booking";
+import {Ad} from "../main/ad";
 
 @Component({
   selector: 'app-chat',
@@ -14,7 +15,24 @@ import {Booking} from "../booking";
 })
 export class ChatComponent implements OnInit {
   @ViewChild('scroll', { static: true }) scroll: any;
-  adId: string | null = '4';
+  ad: Ad = {
+    adId: 0,
+    description: '',
+    startLocation: '',
+    endLocation: '',
+    intermediateGoals: [],
+    type: '',
+    startDate: new Date,
+    endDate: new Date,
+    animals: false,
+    smoker: false,
+    notes: '',
+    numSeats: 0,
+    active: false,
+    userId: 0,
+    state: ''
+  };
+  adId: string | null = '';
   messageList: Chatmessage[] = [];
   bookingList: Booking[] = [];
   bookingListAccepted: Booking[] = [];
@@ -39,10 +57,12 @@ export class ChatComponent implements OnInit {
     this.adId = this.route.snapshot.paramMap.get('id');
 
     this.api.getRequest('ad/' + this.adId).subscribe(async (res: any) => {
+      this.ad = res.data;
       if (this.ownUserId == res.data.userId) {
         this.isOwner = true;
         this.loadBookingList();
       }
+      console.log(this.ad);
     });
 
     this.loadMessageList();
