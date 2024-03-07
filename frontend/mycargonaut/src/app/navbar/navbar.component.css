@@ -13,4 +13,6 @@
 
 #Navbar {
   max-width: 100%;
+  z-index: 11;
+  position: relative;
 }

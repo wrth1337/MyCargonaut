@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {ApiService} from "../service/api.service";
 import {SearchService} from "../service/search.service";
@@ -9,12 +9,12 @@ import {SearchService} from "../service/search.service";
   styleUrls: ['./resultpage.component.css']
 })
 
-export class ResultpageComponent{
+export class ResultpageComponent implements OnInit{
   ads: Array<number> = [];
 
   constructor(private router: Router, private api: ApiService, private searchService: SearchService) {}
 
-  OnInit() {
+  ngOnInit() {
     this.searchService.searchEvent.subscribe((searchParams) => {
       this.loadSearchResults(searchParams);
     });

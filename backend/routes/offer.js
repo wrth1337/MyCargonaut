@@ -26,10 +26,8 @@ async function getUserOffers(id) {
     const userOffers = `
     SELECT a.startLocation, a.endLocation, a.startDate
     FROM ad a 
-        JOIN offer o ON o.adId = a.adId 
-        JOIN booking b ON b.adId = a.adId 
-        JOIN status s ON s.bookingId = b.bookingId 
-    WHERE s.endRide = FALSE 
+        JOIN offer o ON o.adId = a.adId
+    WHERE a.state = 'created'
       AND a.userId = ?`;
 
     try {
@@ -53,19 +51,16 @@ async function addOffer(description, startLocation, endLocation, startDate, endD
         INSERT INTO ad (description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId)
         VALUES (?,?,?,?,?,?,?,?,?,?)`;
     const addOffer = 'INSERT INTO offer (vehicleId, adId, pricePerPerson, pricePerFreight) VALUES (?, LAST_INSERT_ID(), ?, ?)';
-    const addBooking = 'INSERT INTO booking (adId, userId, price, numSeats) VALUES (?,?,0.0,0)';
-    const addStatus = 'INSERT INTO status (bookingId) VALUES (LAST_INSERT_ID())';
 
     try {
         const conn = await pool.getConnection();
         const resA = await conn.query(addOfferAd, [description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId]);
         const adId = resA.insertId;
         await conn.query(addOffer, [vehicleId, adId, pricePerPerson, pricePerFreight]);
-        await conn.query(addBooking, [adId, userId]);
-        await conn.query(addStatus, []);
         await conn.release();
         return 1;
     } catch (error) {
+        console.error(error);
         return 0;
     }
 }
