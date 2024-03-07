@@ -2,22 +2,22 @@
   <div class="col col-rows-2">
     <div id="UserOverview" class="row-3 mb-5 card container borderPrimary g-0">
         <div class="container">
-          <div class="row p-2" style="border-bottom: 1px solid var(--primary)">
+          <div class="row p-2" style="border-bottom: 2px solid var(--primary)">
             <div class="col">
               <p class="m-0 medium">Bitte überprüfe deine Angaben!</p>
             </div>
             <div class="col" style="display: flex; justify-content: center; align-items: center">
-                <button id="ChangePersonalData" routerLink="/edit_profile" class="buttonPrimary fs-5 editButton">Ändern</button>
+                <button id="ChangePersonalData" routerLink="/edit_profile" class="buttonPrimary btn fs-5 editButton" [disabled]="approved">Ändern</button>
             </div>
           </div>
         </div>
         <div class="row p-5">
-          <div id="personalData" class="container borderPrimary p-2 position-relative">
+          <div id="personalData" class="container position-relative">
             <div class="container p-0">
               <div class="row mt-1 mb-5">
                 <div class="col-md-4 center mb-3" style="border-radius: 50%">
                     <div *ngIf="userData.picture; else placeholder">
-                        <img class="profilepicture" [src]="userData.picture" style="width:100px; height: 100px" alt="Logo">
+                        <img class="profilepicture" [src]="userData.picture" style="width:100px; height: 100px" alt="Profilbild">
                     </div>
                     <ng-template #placeholder>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="var(--primary)" class="bi bi-person-circle" viewBox="0 0 16 16" style="width:100px; height: 100px;">
@@ -48,8 +48,8 @@
               
             </div>
             <div class="container p-0 mb-3">
+                <div> Kurzbeschreibung über mich </div>
                 <div class="card mb-3 p-2 ht1 overflow-auto d-flex justify-content-between description"> {{userData.description}}</div>
-                <!--<textarea placeholder="Über mich..." class="FormInputLight w-100" rows="5" [(ngModel)]="userData.description"></textarea>-->
             </div>
             <div class="row mb-5">
                 <div class="col-md-6">
@@ -58,19 +58,19 @@
                         <div class="progress-bar custom-progress" role="progressbar" [style.width]="(tripCount / 10) * 100 + '%'" aria-valuemin="0" aria-valuemax="10"></div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div>Sprachen</div>
-                    <div class="row">
-                        <div class="col d-flex">
-                            <div class="mr-3">
-                                <img src="../../../assets/icons/flag-for-flag-germany-svgrepo-com.svg" alt="DE" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
-                            </div>
-                            <div class="mx-3">
-                                <img src="../../../assets/icons/flag-for-flag-united-kingdom-svgrepo-com.svg" alt="EN" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
-                            </div>
-                        </div>
-                    </div>
+                <div class="col-md-6">
+                  <div>Sprachen</div>
+                  <div class="row d-flex">
+                      <div class="langs row d-flex">
+                          <ng-container *ngFor="let lang of language">
+                              <div *ngIf="languageVariables[lang.name]" class="col-md-2">
+                                  <img [src]="lang.icon" [alt]="lang.name" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                              </div>
+                          </ng-container>
+                      </div>
+                  </div>
                 </div>
+              
             </div>
           </div>
           <button id="ConfirmUserData" class="buttonPrimary fs-5 position-absolute top-100 start-50 translate-middle okButton" (click)="approveUserdata()">
@@ -89,37 +89,37 @@
 
     <div id="OfferCard" class="row-3 mb-5 card container borderPrimary g-0">
         <div class="container">
-            <div class="row p-2" style="border-bottom: 1px solid var(--primary)">
+            <div class="row p-2" style="border-bottom: 2px solid var(--primary)">
               <div class="col">
                 <p class="m-0 medium">Bitte gib Details zu deinem Gesuch an!</p>
               </div>
             </div>
         </div>
-        <form class="FormInputLight p-3 mb-3 mt-3" #wantedForm="ngForm" (ngSubmit)="onSubmit(wantedForm)">
+        <form class="p-3 mb-3 mt-3" #wantedForm="ngForm" (ngSubmit)="onSubmit(wantedForm)">
             <div class="row p-3">
               <div class="col g-0 pe-2">
-                <input name="startLocation" class="FormInputColor w-100 startLoc-input" type="text" placeholder="Von..." ngModel>
+                <input name="startLocation" class="FormInputColor w-100 startLoc-input" type="text" placeholder="Von..." required ngModel>
               </div>
               <div class="col g-0 ps-2">
-                <input name="endLocation" class="FormInputColor w-100 endLoc-input" type="text" placeholder="Nach..." ngModel>
+                <input name="endLocation" class="FormInputColor w-100 endLoc-input" type="text" placeholder="Nach..." required ngModel>
               </div>
             </div>
             <div class="row p-3">
               <div class="col g-0 pe-2">
-                <input name="startDate" class="FormInputColor w-100 startDate-input" type="date" ngModel>
+                <input name="startDate" class="FormInputColor w-100 startDate-input" type="date" required ngModel>
               </div>
               <div class="col g-0 px-2">
-                <input name="freight" class="FormInputColor w-100 freight-input" type="text" placeholder="Fracht in kg?m^3?" ngModel>
+                <input name="freight" class="FormInputColor w-100 freight-input" type="text" placeholder="Fracht in kg?m^3?" required ngModel>
               </div>
               <div class="col g-0 ps-2">
-                <input name="numSeats" class="FormInputColor w-100 numSeats-input" type="number" placeholder="Anzahl benötigter Sitze" ngModel>
+                <input name="numSeats" class="FormInputColor w-100 numSeats-input" type="number" placeholder="Anzahl benötigter Sitze" required ngModel>
               </div>
             </div>
             
             <div class="row p-3 mb-3 mt-3">
                 <div class="col-md-3 container">
                     <div *ngIf="userData.picture; else placeholder" class="d-flex align-items-center">
-                        <img class="profilepicture" [src]="userData.picture" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center" alt="Logo">
+                        <img class="profilepicture" [src]="userData.picture" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center" alt="Profilbild">
                     </div>
                     <ng-template #placeholder class="d-flex align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="var(--primary)" class="bi bi-person-circle" viewBox="0 0 16 16" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center">
@@ -149,8 +149,8 @@
             </div>
           
           <div class="row mb-5">
-            <div class="col">
-                <div class="d-flex justify-content-center align-items-center">
+            <div class="col-md-8 mb-5">
+                <div class="d-flex justify-content-left align-items-center">
                     <div class="mx-4" *ngIf="!this.smoke">
                         <button style="background-color: transparent; color: var(--primary)" (click)="updateSmoke()">
                             <img class="smokefree" width="50" heigth="50" src="../../../assets/icons/smoke-free-svgrepo-com.svg" alt="Logo">
@@ -171,12 +171,29 @@
                             <img class="nopets" width="50" heigth="50" src="../../../assets/icons/no-pets-svgrepo-com.svg" alt="Logo">
                         </button>
                     </div>
-
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div id="CalculatedPrice" class="container borderPrimary p-3">
+                    <div class="row d-flex align-items-center justify-content-center">
+                        <div class="col">
+                            <input id="PriceInput" name="price" type="number" placeholder="50" class="fs-2 w-75" required ngModel>
+                        </div>
+                        <div class="col">
+                            <span class="material-symbols-outlined" style="font-size: xxx-large">toll</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             
           </div>
-          <button type="submit" id="ConfirmWanted" class="buttonPrimary fs-4 position-absolute top-100 start-50 translate-middle submitButton">Gesuch bestätigen</button>
+          <input type="submit" id="ConfirmWanted" class="buttonPrimary fs-4 position-absolute top-100 start-50 translate-middle submitButton btn" value="Gesuch bestätigen" [disabled]="!wantedForm.valid">
+          <div *ngIf="showError">
+            <div class="alert alert-danger alert-dismissible" role="alert">
+              <div>Bitte bestätige Deine Profildaten.</div>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          </div>
           </form>
         </div>
         <div *ngIf="showFlashMessage" class="alert alert-success alert-dismissible fade show flash" role="alert">

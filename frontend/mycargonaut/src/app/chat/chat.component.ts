@@ -42,7 +42,6 @@ export class ChatComponent implements OnInit {
       if (this.ownUserId == res.data.userId) {
         this.isOwner = true;
         this.loadBookingList();
-
       }
     });
 
@@ -101,6 +100,7 @@ export class ChatComponent implements OnInit {
   }
 
   loadBookingList() {
+    this.bookingListAccepted = [];
     this.api.getRequest('booking/ad/' + this.adId).subscribe(async (res: any) => {
       this.bookingList = res.data;
       await this.updateUserMap();

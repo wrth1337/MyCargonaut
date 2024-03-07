@@ -1,4 +1,4 @@
-import {Component, Input, numberAttribute} from '@angular/core';
+import {Component, Input, numberAttribute, OnInit} from '@angular/core';
 import { ApiService } from 'src/app/service/api.service';
 import {Ad} from "../main/ad";
 import { intermediateGoal } from '../main/intermediateGoal';
@@ -9,14 +9,14 @@ import { HttpClientModule} from "@angular/common/http";
   templateUrl: './ad-card.component.html',
   styleUrls: ['./ad-card.component.css']
 })
-export class AdCardComponent implements HttpClientModule{
+export class AdCardComponent implements HttpClientModule, OnInit{
   @Input({transform: numberAttribute}) ad: number | null = null;
   content!: Ad;
   loaded = false;
   constructor(
     private api: ApiService
   ){}
-  OnInit(): void {
+  ngOnInit(): void {
     this.loaded = false;
     this.api.getRequest('ad/'+this.ad).subscribe((res:any) => {
       this.content = res.data;

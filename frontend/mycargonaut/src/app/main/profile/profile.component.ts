@@ -32,12 +32,12 @@ export class ProfileComponent implements OnInit {
     { id: 1, name: 'german', icon: '../../../assets/icons/flag-for-flag-germany-svgrepo-com.svg' },
     { id: 2, name: 'english', icon: '../../../assets/icons/flag-for-flag-united-kingdom-svgrepo-com.svg' },
   ];
-  
+
   languageVariables: { [key: string]: boolean } = {
     german: false,
     english: false,
   }
-  
+
   newVehicleFailure = false;
   updateVehicle = false;
   selectedVehicle = {
@@ -65,14 +65,14 @@ export class ProfileComponent implements OnInit {
       for (const lang of this.language) {
         this.languageVariables[lang.name] = false;
       }
-    
+
       for (const langObj of res.languages) {
-          const langVariable = this.language.find(lang => lang.id === langObj.languageId);           
+          const langVariable = this.language.find(lang => lang.id === langObj.languageId);
           if (langVariable) {
             this.languageVariables[langVariable.name] = true;
           }
       }
-    
+
       this.rating = Math.round(res.userData.rating);
       this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
     });
@@ -107,9 +107,9 @@ export class ProfileComponent implements OnInit {
     this.api.getRequest("trip").subscribe((res: any) => {
       if(res != null) {
         this.tripsAvailable = true;
-        this.tripData = res.data;
+        this.tripData = res.tripData;
         for(let i = 0; i < this.tripData.length; i++) {
-          this.tripData[i].startDate = this.datePipe.transform(res.uwtData[i].startDate, 'dd.MM.yyyy');
+          this.tripData[i].startDate = this.datePipe.transform(res.tripData[i].startDate, 'dd.MM.yyyy');
         }
         this.tripCount = this.tripData.length;
       }
@@ -131,7 +131,7 @@ export class ProfileComponent implements OnInit {
       }else {
         this.newVehicleFailure = true;
       }
-    })  
+    })
   }
   selectVehicle(item:any) {
     this.updateVehicle = true;

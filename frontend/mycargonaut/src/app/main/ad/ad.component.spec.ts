@@ -5,6 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {ChatComponent} from "../../chat/chat.component";
+import {FormsModule} from "@angular/forms";
 
 describe('AdComponent', () => {
   let component: AdComponent;
@@ -13,7 +14,7 @@ describe('AdComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AdComponent, ChatComponent],
-      imports: [RouterModule, RouterTestingModule, HttpClientTestingModule],
+      imports: [RouterModule, RouterTestingModule, HttpClientTestingModule, FormsModule],
     });
     fixture = TestBed.createComponent(AdComponent);
     component = fixture.componentInstance;

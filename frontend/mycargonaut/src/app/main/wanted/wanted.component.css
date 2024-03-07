@@ -1,5 +1,5 @@
 .card {
-    border-width: 1px;
+    border-width: 2px;
     border-color: var(--primary);
 }
 
@@ -63,5 +63,12 @@
 
 .ht1 {
     height: 130px;
+}
+
+#PriceInput {
+    background-color: transparent;
+    border: none;
+    color: var(--primary);
+    -moz-appearance: textfield;
 }
   

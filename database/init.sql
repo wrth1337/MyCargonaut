@@ -104,7 +104,7 @@ CREATE OR REPLACE TABLE wanted(
 );
 
 CREATE OR REPLACE TABLE booking(
-    bookingId int not null UNIQUE auto_increment,
+    bookingId int not null PRIMARY KEY auto_increment,
     adId int not null,
     userId int not null,
     price DOUBLE NOT NULL,
@@ -119,8 +119,7 @@ CREATE OR REPLACE TABLE booking(
     CONSTRAINT fk_user_id_booking
         FOREIGN KEY (userId) REFERENCES user (userId)
         ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    CONSTRAINT pk_booking PRIMARY KEY (adId, userId)
+        ON UPDATE CASCADE
 );
 
 CREATE OR REPLACE TABLE rating(

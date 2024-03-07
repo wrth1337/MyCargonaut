@@ -50,12 +50,12 @@ async function newBooking(adId, userId, price, numSeats) {
     }
 }
 
-async function cancelBooking(adId, userId) {
-    const update = `UPDATE booking SET canceled = true WHERE adId = ? AND userId = ?`;
+async function cancelBooking(bookingId, userId) {
+    const update = `UPDATE booking SET canceled = true WHERE bookingId = ? AND userId = ? AND state != 'confirmed'`;
 
     try {
         const conn = await pool.getConnection();
-        const result = await conn.query(update, [adId, userId]);
+        const result = await conn.query(update, [bookingId, userId]);
         await conn.release();
         return result;
     } catch (error) {
@@ -106,10 +106,11 @@ async function getBookingsByAd(adId) {
     }
 }
 
+// eslint-disable-next-line no-unused-vars
 async function payment(price, userId, bookingId) {
     console.log('payment here');
     // price von user Guthaben abziehen -> Wenn Fehler error oder so
-    // Da beide Operationen atomar zusammenausgeführt werden müssen vllt in einer Query mit ; getrennt 
+    // Da beide Operationen atomar zusammenausgeführt werden müssen vllt in einer Query mit ; getrennt
     const update = `BEGIN;
                     UPDATE status SET paymentReceived = true WHERE bookingId = ?;
                     COMMIT;`;
@@ -122,7 +123,7 @@ async function payment(price, userId, bookingId) {
         console.error('Fehler bei der Abfrage:', error);
         throw error;
     }
-};
+}
 
 async function getPriceOfBooking(adId, numSeats, freight) {
     const isWanted = `SELECT * FROM wanted WHERE adId = ?`;
@@ -244,7 +245,7 @@ async function getPriceOfBooking(adId, numSeats, freight) {
  *                                  message:
  *                                      type: string
  *                                      description: Unauthorized.
- * /booking/cancel/{adId}:
+ * /booking/cancel/{bookingId}:
  *      post:
  *          summary: Cancel booking.
  *          security:
@@ -254,11 +255,11 @@ async function getPriceOfBooking(adId, numSeats, freight) {
  *              - booking
  *          parameters:
  *            - in: path
- *              name: adId
+ *              name: bookingId
  *              schema:
  *                  type: integer
  *              required: true
- *              description: The Id of the ad the booking is connected to to cancel.
+ *              description: The Id of the booking to cancel.
  *          responses:
  *              200:
  *                  description: Booking successfully canceled.
@@ -484,7 +485,6 @@ router.post('/', authenticateToken, async function(req, res, next) {
         const price = await getPriceOfBooking(adId, numSeats, freight);
         const result = await newBooking(adId, userId, price, numSeats);
         // const paymentResult = await payment(price, userId, result.insertId);
-        // In payment nach Art der ad Unterscheiden
         if (result.affectedRows > 0) {
             res.status(200);
             res.json({status: 1});
@@ -501,8 +501,8 @@ router.post('/', authenticateToken, async function(req, res, next) {
 router.post('/cancel/:id', authenticateToken, async function(req, res, next) {
     try {
         const userId = req.user_id;
-        const adId = req.params.id;
-        const result = await cancelBooking(adId, userId);
+        const bookingId = req.params.id;
+        const result = await cancelBooking(bookingId, userId);
         if (result.affectedRows > 0) {
             res.status(200);
             res.json({status: 1});
@@ -520,8 +520,6 @@ router.post('/confirm/:id', authenticateToken, async function(req, res, next) {
     try {
         const bookingId = req.params.id;
         const result = await confirmBooking(bookingId, 'confirmed');
-        // const paymentResult = await payment(price, userId, result.insertId);
-        // In payment nach Art der ad Unterscheiden
         if (result.affectedRows > 0) {
             res.status(200);
             res.json({status: 1});

@@ -32,7 +32,6 @@ async function getUserTrips(id) {
     try {
         const conn = await pool.getConnection();
         const result = await conn.query(userTrips, [id, id]);
-        console.log(result)
         await conn.release();
         if (result.length > 0) {
             return {success: true, data: result};
@@ -126,7 +125,7 @@ router.get('/trip', authenticateToken, async function(req, res, next) {
 
         if (trip.success) {
             res.status(200);
-            res.json({status: 1, uwtData: trip.uwtdata, uotData: trip.uotData});
+            res.json({status: 1, tripData: trip.data});
         } else {
             res.status(204).json(null);
         }

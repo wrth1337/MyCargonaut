@@ -87,14 +87,16 @@ export class AdComponent implements OnInit{
     const userId = JSON.parse(this.auth.getUserData() || '{"user_id": -1 }').user_id;
     this.api.getRequest("booking").subscribe((bookingRes:any) => {
       if (bookingRes)
-        this.adUserBooking = bookingRes.data.find((element: any) => element.adId === this.ad.adId);
+        this.adUserBooking = bookingRes.data.find((element: any) => element.adId === this.ad.adId && !element.canceled);
       if (this.ad.userId === userId)
         return this.state = 'Author';
       if (!this.adUserBooking)
         return this.state = 'Buchen';
-      if (this.adUserBooking.state === 'canceled' || this.adUserBooking.canceled) {
+      if (this.adUserBooking.state === 'denied') {
         return this.state = 'NoOptions';
       }
+      if (this.adUserBooking.state === 'confirmed')
+        return this.state = 'Confirmed';
       if (this.ad.state === 'finished' && this.adUserBooking.state === 'confirmed') {
         this.api.getRequest('rating/done/'+this.adUserBooking.bookingId).subscribe((ratingRes:any) => {
           if (ratingRes) this.bookingDone = ratingRes.ratingDone;
@@ -103,6 +105,8 @@ export class AdComponent implements OnInit{
         });
         return;
       }
+      if (this.adUserBooking.canceled)
+        return this.state = 'Buchen';
       return this.state = 'Stornieren';
     })
   }
@@ -116,7 +120,7 @@ export class AdComponent implements OnInit{
   }
   cancel() {
     this.toFewSeatsResponse = false;
-    this.api.postRequest('booking/cancel/' + this.ad.adId, {}).subscribe((res:any) => {
+    this.api.postRequest('booking/cancel/' + this.adUserBooking.bookingId, {}).subscribe((res:any) => {
       console.log(res)
     });
   }
@@ -140,7 +144,7 @@ export class AdComponent implements OnInit{
     if (input.intermediateGoals) {
       input.intermediateGoals.forEach((element: intermediateGoal) => {
         res += ' über ' +element.location
-      });      
+      });
     }
 
     res += ' nach ' + input.endLocation;
