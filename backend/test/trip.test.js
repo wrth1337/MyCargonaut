@@ -1,6 +1,6 @@
 const {expect, test, afterAll} = require('@jest/globals');
 const {registerNewUser} = require('../routes/user');
-const {getTripCount} = require('../routes/trip');
+const {getTripCount, getUserTrips} = require('../routes/trip');
 const mariadb = require('mariadb');
 
 const pool = mariadb.createPool({
@@ -30,7 +30,7 @@ test('get correct amount of trip of a new user', async () => {
         const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
         const userId = id[0].userId;
 
-        const dbResult = await getTripCount(userId);
+        const dbResult = await getUserTrips(userId);
 
         expect(dbResult.data.length).toBe(0);
     } finally {
