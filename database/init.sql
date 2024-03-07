@@ -59,9 +59,9 @@ CREATE OR REPLACE TABLE ad (
      smoker BOOLEAN,
      notes TEXT,
      numSeats SMALLINT,
-     active BOOLEAN DEFAULT TRUE,
      picture VARCHAR(1024),
      userId int not null,
+     state ENUM('created', 'started', 'finished') DEFAULT 'created',
      CONSTRAINT fk_user_id2
    	FOREIGN KEY (userId) REFERENCES user (userId)
     ON DELETE CASCADE
@@ -96,7 +96,6 @@ CREATE OR REPLACE TABLE offer(
 CREATE OR REPLACE TABLE wanted(
     wantedId int not null PRIMARY KEY auto_increment,
     adId int not null,
-    price DOUBLE,
     freight VARCHAR(1024),
     CONSTRAINT fk_ad_id_wanted
    	FOREIGN KEY (adId) REFERENCES ad(adId)
@@ -112,6 +111,7 @@ CREATE OR REPLACE TABLE booking(
     timeBooking TIMESTAMP DEFAULT NOW(),
     numSeats SMALLINT NOT NULL,
     canceled BOOLEAN DEFAULT FALSE,
+    state ENUM('pending', 'confirmed', 'denied') DEFAULT 'pending',
     CONSTRAINT fk_ad_id_booking
         FOREIGN KEY (adId) REFERENCES ad(adId)
         ON DELETE CASCADE
@@ -121,19 +121,6 @@ CREATE OR REPLACE TABLE booking(
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
-
-CREATE OR REPLACE TABLE status(
-    statusId int not null PRIMARY KEY auto_increment,
-    bookingId int not null,
-    bookingConfirmation BOOLEAN DEFAULT FALSE,
-    paymentReceived BOOLEAN DEFAULT FALSE,
-    startRide BOOLEAN DEFAULT FALSE,
-    endRide BOOLEAN DEFAULT FALSE,
-    CONSTRAINT fk_booking_id_status
-   	    FOREIGN KEY (bookingId) REFERENCES booking (bookingId)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-); 
 
 CREATE OR REPLACE TABLE rating(
     ratingId int not null PRIMARY KEY auto_increment,

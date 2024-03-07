@@ -81,6 +81,20 @@ async function isDateValid(birthdate) {
     return regexBirthdate.test(birthdate);
 }
 
+async function isOver18yo(birthdate) {
+    const birthDate = new Date(birthdate);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    const dayDiff = today.getDate() - birthDate.getDate();
+
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+        age--;
+    }
+
+    return age >= 18;
+}
+
 async function isPhonenumberValid(phonenumber) {
     const regexPhonenumber = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
     return regexPhonenumber.test(phonenumber);
@@ -219,6 +233,9 @@ router.post('/register', async function(req, res, next) {
         } else if (!await isDateValid(birthdate)) {
             res.status(422);
             res.send({status: 5, msg: 'No valid birthdate'});
+        } else if (!await isOver18yo(birthdate)) {
+            res.status(422);
+            res.send({status: 6, msg: 'No valid birthdate: Must be over 18 yo.'});
         } else if (zxcvbnScore <= 2) {
             res.status(422);
             res.send({status: 2, score: zxcvbnScore, feedback: zxcvbnFeedback});
@@ -337,4 +354,4 @@ router.post('/login', async function(req, res, next) {
     }
 });
 
-module.exports = {router, registerNewUser, isUserAlreadyRegistered, isEmailValid, isPhonenumberValid, isDateValid};
+module.exports = {router, registerNewUser, isUserAlreadyRegistered, isEmailValid, isPhonenumberValid, isDateValid, isOver18yo};

@@ -19,6 +19,53 @@ const pool = mariadb.createPool({
     password: 'admin',
     database: 'cargodb',
 });
+async function subtractUserCoins(id, coinsToSubtract) {
+    const userExistsQuery = 'SELECT 1 FROM user WHERE userId = ?';
+    const coinsQuery = 'SELECT coins FROM user WHERE userId = ?';
+    const subtractCoinsQuery = 'UPDATE user SET coins = coins - ? WHERE userId = ?';
+
+    try {
+        const conn = await pool.getConnection();
+
+        const userExists = await conn.query(userExistsQuery, [id]);
+        if (userExists.length === 0) {
+            await conn.release();
+            return {success: false, message: 'User does not exist'};
+        }
+        const currentCoins = await conn.query(coinsQuery, [id]);
+        if (currentCoins[0].coins < coinsToSubtract) {
+            await conn.release();
+            return {success: false, message: 'Not enough coins'};
+        }
+        const result = await conn.query(subtractCoinsQuery, [coinsToSubtract, id]);
+        await conn.release();
+
+        if (result.affectedRows > 0) {
+            return {success: true};
+        } else {
+            return {success: false};
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+async function addUserCoins(id, coinsToAdd) {
+    const addCoinsQuery = 'UPDATE user SET coins = coins + ? WHERE userId = ?';
+
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(addCoinsQuery, [coinsToAdd, id]);
+        await conn.release();
+
+        if (result.affectedRows > 0) {
+            return {success: true};
+        } else {
+            return {success: false};
+        }
+    } catch (error) {
+        throw error;
+    }
+}
 
 async function getUserCoins(id) {
     const coinsQuery = 'SELECT coins FROM user WHERE userId = ?';
@@ -107,4 +154,5 @@ router.get('/', authenticateToken, async function(req, res) {
         res.json({status: 99, error: 'Fetching Coins Data failed'});
     }
 });
-module.exports = {router, getUserCoins};
+
+module.exports = {router, getUserCoins, addUserCoins, subtractUserCoins};

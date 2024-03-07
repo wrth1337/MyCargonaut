@@ -23,29 +23,18 @@ const pool = mariadb.createPool({
 // ---Methods--- //
 
 async function getUserTrips(id) {
-    const userWantedTrips = `
+    const userTrips = `
     SELECT a.startLocation, a.endLocation, a.startDate
     FROM ad a 
-        JOIN wanted w ON w.adId = a.adId 
-        JOIN booking b ON b.adId = a.adId 
-        JOIN status s ON s.bookingId = b.bookingId 
-    WHERE s.endRide = TRUE AND a.userId = ?`;
-
-    const userOfferedTrips = `
-    SELECT a.startLocation, a.endLocation, a.startDate
-    FROM ad a 
-        JOIN offer o ON o.adId = a.adId
         JOIN booking b ON b.adId = a.adId
-        JOIN status s ON s.bookingId = b.bookingId 
-    WHERE s.endRide = TRUE AND a.userId = ?`;
+    WHERE (a.state != 'created' AND a.userId = ?) OR (b.userId = ?  AND b.canceled = FALSE AND b.state = 'confirmed')`;
 
     try {
         const conn = await pool.getConnection();
-        const uwtresult = await conn.query(userWantedTrips, [id]);
-        const uotresult = await conn.query(userOfferedTrips, [id]);
+        const result = await conn.query(userTrips, [id, id]);
         await conn.release();
-        if (uwtresult.length > 0 || uotresult.length > 0) {
-            return {success: true, uwtdata: uwtresult, uotData: uotresult};
+        if (result.length > 0) {
+            return {success: true, data: result};
         } else {
             return {success: false};
         }
@@ -82,18 +71,16 @@ async function getTripCount(id) {
  *      get:
  *          summary: get user trips.
  *          description: get a list of the user trips.
- *          security:
- *              - bearerAuth: []
  *          tags:
  *              - trip
  *          parameters:
  *              - in: query
- *                name: userId
+ *                name: email
  *                required: true
  *                schema:
- *                  type: number
- *                description: The id of the current user.
- *                example: 1
+ *                  type: string
+ *                description: The email of the current user.
+ *                example: max@example.com
  *          responses:
  *              200:
  *                  description: user trip data successfully fetched.
@@ -146,13 +133,6 @@ async function getTripCount(id) {
  *                      type: string
  *                      format: date
  *                      description: The start date of the wanted trip.
- *      securitySchemes:
- *          bearerAuth:
- *              type: http
- *              scheme: bearer
- *              bearerFormat: JWT
- * security:
- *  - bearerAuth: []
  */
 
 router.get('/', authenticateToken, async function(req, res, next) {
@@ -162,7 +142,7 @@ router.get('/', authenticateToken, async function(req, res, next) {
 
         if (trip.success) {
             res.status(200);
-            res.json({status: 1, uwtData: trip.uwtdata, uotData: trip.uotData});
+            res.json({status: 1, tripData: trip.data});
         } else {
             res.status(204).json(null);
         }

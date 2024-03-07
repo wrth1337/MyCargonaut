@@ -19,8 +19,7 @@ export class ProfileComponent implements OnInit {
   vehicleData: any;
   offerData: any;
   wantedData: any;
-  uwtData: any;
-  uotData: any;
+  tripData: any;
   rating: any;
   vehiclesAvailable = false;
   offersAvailable = false;
@@ -33,12 +32,12 @@ export class ProfileComponent implements OnInit {
     { id: 1, name: 'german', icon: '../../../assets/icons/flag-for-flag-germany-svgrepo-com.svg' },
     { id: 2, name: 'english', icon: '../../../assets/icons/flag-for-flag-united-kingdom-svgrepo-com.svg' },
   ];
-  
+
   languageVariables: { [key: string]: boolean } = {
     german: false,
     english: false,
   }
-  
+
   newVehicleFailure = false;
   updateVehicle = false;
   selectedVehicle = {
@@ -66,14 +65,14 @@ export class ProfileComponent implements OnInit {
       for (const lang of this.language) {
         this.languageVariables[lang.name] = false;
       }
-    
+
       for (const langObj of res.languages) {
-          const langVariable = this.language.find(lang => lang.id === langObj.languageId);           
+          const langVariable = this.language.find(lang => lang.id === langObj.languageId);
           if (langVariable) {
             this.languageVariables[langVariable.name] = true;
           }
       }
-    
+
       this.rating = Math.round(res.userData.rating);
       this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
     });
@@ -108,15 +107,11 @@ export class ProfileComponent implements OnInit {
     this.api.getRequest("trip").subscribe((res: any) => {
       if(res != null) {
         this.tripsAvailable = true;
-        this.uwtData = res.uwtData;
-        this.uotData = res.uotData;
-        for(let i = 0; i < this.uwtData.length; i++) {
-          this.uwtData[i].startDate = this.datePipe.transform(res.uwtData[i].startDate, 'dd.MM.yyyy');
+        this.tripData = res.tripData;
+        for(let i = 0; i < this.tripData.length; i++) {
+          this.tripData[i].startDate = this.datePipe.transform(res.tripData[i].startDate, 'dd.MM.yyyy');
         }
-        for(let i = 0; i < this.uotData.length; i++) {
-          this.uotData[i].startDate = this.datePipe.transform(res.uotData[i].startDate, 'dd.MM.yyyy');
-        }
-        this.tripCount = this.uwtData.length + this.uotData.length;
+        this.tripCount = this.tripData.length;
       }
       else {
         this.tripCount = 0;
@@ -136,7 +131,7 @@ export class ProfileComponent implements OnInit {
       }else {
         this.newVehicleFailure = true;
       }
-    })  
+    })
   }
   selectVehicle(item:any) {
     this.updateVehicle = true;
