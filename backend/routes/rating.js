@@ -36,12 +36,14 @@ async function saveNewRating(bookingId, userWhoIsEvaluating, userWhoWasEvaluated
     }
 }
 
-async function isRatingAlreadyDone(bookingId, userId) {
-    const checkRatingExists = `SELECT COUNT(*) AS count FROM rating WHERE bookingId = ? AND userWhoIsEvaluating = ?`;
+async function isRatingAlreadyDone(bookingId, author, userId) {
+    const checkRatingExists = `SELECT COUNT(*) AS count FROM rating WHERE bookingId = ? AND userWhoIsEvaluating = ? AND userWhoWasEvaluated = ?`;
 
     try {
         const conn = await pool.getConnection();
-        const result = await conn.query(checkRatingExists, [bookingId, userId]);
+        const result = await conn.query(checkRatingExists, [bookingId, author, userId]);
+        console.log(result)
+        console.log({bookingId, author, userId})
         await conn.release();
         return (result[0].count > 0);
     } catch (error) {
@@ -144,7 +146,7 @@ async function isRatingAlreadyDone(bookingId, userId) {
  *                                  message:
  *                                      type: string
  *                                      description: Your already rated this ride.
- * /rating/done/{bookingId}:
+ * /rating/done/{bookingId}/{userId}:
  *      get:
  *          summary: Was a rating done allready.
  *          security:
@@ -159,6 +161,12 @@ async function isRatingAlreadyDone(bookingId, userId) {
  *                  type: integer
  *              required: true
  *              description: The Id of the booking the rating is connected to.
+ *            - in: path
+ *              name: user
+ *              schema:
+ *                  type: integer
+ *              required: true
+ *              description: The Id of the user who is being evaluated.
  *          responses:
  *              200:
  *                  description: Get succesfull.
@@ -238,13 +246,14 @@ router.post('/rating', authenticateToken, async function(req, res, next) {
     }
 });
 
-router.get('/rating/done/:id', authenticateToken, async function(req, res, next) {
-    const bookingId = req.params.id;
-    const userId = req.user_id;
+router.get('/rating/done/:bookingId/:userId', authenticateToken, async function(req, res, next) {
+    const bookingId = req.params.bookingId;
+    const userId = req.params.userId;
+    const author = req.user_id;
 
     const conn = await pool.getConnection();
     try {
-        const ratingExists = await isRatingAlreadyDone(bookingId, userId);
+        const ratingExists = await isRatingAlreadyDone(bookingId, author, userId);
         res.status(200);
         res.send({status: 0, ratingDone: ratingExists});
     } catch (error) {

@@ -17,8 +17,11 @@
               <div class="col"></div>
             </div>
             <div class="row">
-              <div class="col">
+              <div class="col" *ngIf="!userIsDriver">
                 War der Fahrer pünktlich? (+/- 5 Minuten)
+              </div>
+              <div class="col" *ngIf="userIsDriver">
+                War der Mitfahrer pünktlich? (+/- 5 Minuten)
               </div>
             </div>
             <div class="row">
@@ -34,8 +37,11 @@
               </div>
             </div>
             <div class="row">
-              <div class="col">
+              <div class="col" *ngIf="!userIsDriver">
                 Hat sich der Fahrer an alle Abmachungen gehalten? (Treffpunkt usw.)
+              </div>
+              <div class="col" *ngIf="userIsDriver">
+                Hat sich der Mitfahrer an alle Abmachungen gehalten? (Treffpunkt usw.)
               </div>
             </div>
             <div class="row">
@@ -51,8 +57,11 @@
               </div>
             </div>
             <div class="row">
-              <div class="col">
+              <div class="col" *ngIf="!userIsDriver">
                 Haben sie sich bei der Fahrt wohlgefühlt?
+              </div>
+              <div class="col" *ngIf="userIsDriver">
+                Haben sie den Mitfahrer gerne Mitgenommen?
               </div>
             </div>
             <div class="row">
@@ -67,12 +76,12 @@
                 <div class="clearfix"></div>
               </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="!userIsDriver">
               <div class="col">
                 Ist die Fracht unbeschadet angekommen?
               </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="!userIsDriver">
               <div class="col">
                 <div class="starrating">
                   <input class="form-control SearchFormInput" type="radio" id="freightStar5" name="freightRating" value="5" required ngModel><label for="freightStar5" title="5 Sterne">5 Sterne</label>

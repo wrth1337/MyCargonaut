@@ -96,7 +96,7 @@ export class AdComponent implements OnInit{
         return this.state = 'NoOptions';
       }
       if (this.ad.state === 'finished' && this.adUserBooking.state === 'confirmed') {
-        this.api.getRequest('rating/done/'+this.adUserBooking.bookingId).subscribe((ratingRes:any) => {
+        this.api.getRequest('rating/done/'+this.adUserBooking.bookingId+ '/' + this.ad.userId).subscribe((ratingRes:any) => {
           if (ratingRes) this.bookingDone = ratingRes.ratingDone;
           if (this.bookingDone) this.state = 'bookingDone';
           else this.state = 'Bewerten';
