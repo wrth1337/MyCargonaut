@@ -38,7 +38,8 @@ describe('HomeComponent', () => {
       notes: '',
       numSeats: 0,
       active: false,
-      userId: 0
+      userId: 0,
+      state: ''
     };
     expect(component.writeTitle(offer)).toBe('Biete Fahrt von Stadt A über City B nach Stadt C')
   })
@@ -57,7 +58,8 @@ describe('HomeComponent', () => {
       notes: '',
       numSeats: 0,
       active: false,
-      userId: 0
+      userId: 0,
+      state: ''
     };
     expect(component.writeTitle(offer)).toBe('Suche Fahrt von Stadt A nach Stadt B')
   })
