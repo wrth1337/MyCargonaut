@@ -21,6 +21,7 @@ export class NavbarComponent implements OnInit{
         this.coins = parseInt(res.coins);
       });
     }
+
   }
   isUserLogin(){
     if(this.auth.getToken() != null){this.isLogin = true}

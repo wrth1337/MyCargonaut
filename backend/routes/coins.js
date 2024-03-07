@@ -76,7 +76,7 @@ async function getUserCoins(id) {
         await conn.release();
 
         if (result.length > 0) {
-            return {data: result[0].coins};
+            return {success: true, data: result[0].coins};
         } else {
             return {success: false};
         }
@@ -142,10 +142,11 @@ router.get('/', authenticateToken, async function(req, res) {
     try {
         const id = req.user_id;
         const userCoins = await getUserCoins(id);
+        console.log(userCoins.data);
 
         if (userCoins.success) {
             res.status(200);
-            res.json({status: 1, coins: userCoins.data});
+            res.json({coins: userCoins.data});
         } else {
             res.status(204).json(null);
         }
@@ -154,5 +155,78 @@ router.get('/', authenticateToken, async function(req, res) {
         res.json({status: 99, error: 'Fetching Coins Data failed'});
     }
 });
+
+/**
+ * @swagger
+ * tags:
+ *      - name: coins
+ *        description: Routes that are connected to the coins of a user
+ * /coins/add:
+ *      post:
+ *          summary: add coins to user.
+ *          description: add coins to user.
+ *          tags:
+ *              - coins
+ *          parameters:
+ *              - in: header
+ *                name: Authorization
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                description: The token of the current user.
+ *              - in: body
+ *                name: coins
+ *                required: true
+ *                schema:
+ *                  type: integer
+ *                description: The number of coins to add.
+ *          responses:
+ *              200:
+ *                  description: coins successfully added.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  message:
+ *                                      type: string
+ *                                      description: The success message.
+ *              500:
+ *                  description: server error.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  error:
+ *                                      type: string
+ *                                      description: The error message.
+ */
+router.post('/add', authenticateToken, async function(req, res) {
+    try {
+        const id = req.user_id;
+        const coinsToAdd = req.coinsToAdd;
+        console.log('Debug' + id + ' ' + coinsToAdd);
+        const result = await addUserCoins(id, coinsToAdd);
+
+        if (result.success) {
+            res.status(200);
+            res.json({status: 1, message: 'Coins successfully added'});
+        } else {
+            res.status(500);
+            res.json({status: 99, error: 'Adding coins failed'});
+        }
+    } catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Adding coins failed'});
+    }
+});
+
 
 module.exports = {router, getUserCoins, addUserCoins, subtractUserCoins};

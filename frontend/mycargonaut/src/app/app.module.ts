@@ -19,6 +19,7 @@ import { CreateOfferComponent } from './main/create-offer/create-offer.component
 import { ResultpageComponent } from './resultpage/resultpage.component';
 import { AdCardComponent } from './ad-card/ad-card.component';
 import { ChatComponent } from './chat/chat.component';
+import { CoinModalComponent } from './main/coin-modal/coin-modal.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ChatComponent } from './chat/chat.component';
     ResultpageComponent,
     AdCardComponent,
     ChatComponent,
+    CoinModalComponent,
   ],
   imports: [
     AuthModule,
