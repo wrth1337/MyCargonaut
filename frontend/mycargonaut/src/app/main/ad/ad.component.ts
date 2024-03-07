@@ -95,8 +95,6 @@ export class AdComponent implements OnInit{
       if (this.adUserBooking.state === 'denied') {
         return this.state = 'NoOptions';
       }
-      if (this.adUserBooking.state === 'confirmed')
-        return this.state = 'Confirmed';
       if (this.ad.state === 'finished' && this.adUserBooking.state === 'confirmed') {
         this.api.getRequest('rating/done/'+this.adUserBooking.bookingId).subscribe((ratingRes:any) => {
           if (ratingRes) this.bookingDone = ratingRes.ratingDone;
@@ -105,6 +103,8 @@ export class AdComponent implements OnInit{
         });
         return;
       }
+      if (this.adUserBooking.state === 'confirmed')
+        return this.state = 'Confirmed';
       if (this.adUserBooking.canceled)
         return this.state = 'Buchen';
       return this.state = 'Stornieren';
