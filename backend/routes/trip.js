@@ -36,7 +36,7 @@ async function getUserTrips(id) {
         if (result.length > 0) {
             return {success: true, data: result};
         } else {
-            return {success: false, data: []};
+            return {success: false};
         }
     } catch (error) {
         console.error('Fehler bei der Abfrage:', error);
