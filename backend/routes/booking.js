@@ -106,10 +106,11 @@ async function getBookingsByAd(adId) {
     }
 }
 
+// eslint-disable-next-line no-unused-vars
 async function payment(price, userId, bookingId) {
     console.log('payment here');
     // price von user Guthaben abziehen -> Wenn Fehler error oder so
-    // Da beide Operationen atomar zusammenausgeführt werden müssen vllt in einer Query mit ; getrennt 
+    // Da beide Operationen atomar zusammenausgeführt werden müssen vllt in einer Query mit ; getrennt
     const update = `BEGIN;
                     UPDATE status SET paymentReceived = true WHERE bookingId = ?;
                     COMMIT;`;
@@ -122,7 +123,7 @@ async function payment(price, userId, bookingId) {
         console.error('Fehler bei der Abfrage:', error);
         throw error;
     }
-};
+}
 
 async function getPriceOfBooking(adId, numSeats, freight) {
     const isWanted = `SELECT * FROM wanted WHERE adId = ?`;
@@ -483,7 +484,7 @@ router.post('/', authenticateToken, async function(req, res, next) {
         }
         const price = await getPriceOfBooking(adId, numSeats, freight);
         const result = await newBooking(adId, userId, price, numSeats);
-        //const paymentResult = await payment(price, userId, result.insertId);
+        // const paymentResult = await payment(price, userId, result.insertId);
         if (result.affectedRows > 0) {
             res.status(200);
             res.json({status: 1});

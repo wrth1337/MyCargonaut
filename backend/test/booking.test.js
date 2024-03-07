@@ -66,7 +66,7 @@ test('If a booking is canceled correctly', async () => {
         await conn.query(`INSERT INTO ad (adId,description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) \
                     VALUES (123456789,'Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 123456789)`);
 
-        const tmp = await booking.newBooking(123456789, 123456789, 10, 1);
+        await booking.newBooking(123456789, 123456789, 10, 1);
         expect((await booking.getBookingsByAd(123456789))[0].canceled).toEqual(0);
         const res = await booking.cancelBooking(123456789, 123456789);
         const res2 = (await booking.getBookingsByAd(123456789))[0];
@@ -154,10 +154,10 @@ test('If confirming a booking works', async () => {
                     VALUES (123456789,'Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 123456789)`);
 
         const bookingRes = await booking.newBooking(123456789, 123456789, 10, 1);
-        const res = await booking.newStatus(bookingRes.insertId);
+        await booking.newStatus(bookingRes.insertId);
         const result = await booking.confirmBooking(bookingRes.insertId);
 
-        const getRes = await conn.query(`SELECT bookingConfirmation FROM status WHERE bookingId = ?`, [bookingRes.insertId])
+        const getRes = await conn.query(`SELECT bookingConfirmation FROM status WHERE bookingId = ?`, [bookingRes.insertId]);
 
         expect(result.affectedRows).toBe(1);
         expect(getRes[0].bookingConfirmation).toBeTruthy();

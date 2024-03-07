@@ -60,7 +60,7 @@ async function addOffer(description, startLocation, endLocation, startDate, endD
         await conn.release();
         return 1;
     } catch (error) {
-        console.error(error)
+        console.error(error);
         return 0;
     }
 }

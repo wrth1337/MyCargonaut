@@ -32,7 +32,6 @@ async function getUserTrips(id) {
     try {
         const conn = await pool.getConnection();
         const result = await conn.query(userTrips, [id, id]);
-        console.log(result)
         await conn.release();
         if (result.length > 0) {
             return {success: true, data: result};

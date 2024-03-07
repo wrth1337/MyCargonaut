@@ -1,7 +1,7 @@
 const mariadb = require('mariadb');
 const express = require('express');
 const rateLimit = require('express-rate-limit');
-const { getSeatsAvailable } = require('./booking');
+const {getSeatsAvailable} = require('./booking');
 const authenticateToken = require('./auth');
 
 // eslint-disable-next-line new-cap
