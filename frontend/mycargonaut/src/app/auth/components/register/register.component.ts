@@ -16,6 +16,7 @@ export class RegisterComponent implements OnInit{
   phonenumberInvalid = false;
   zxcvbnFeedback = '';
   arePasswordsMissmatching = false;
+  isNotOver18yo = false;
 
   constructor(
     private api: ApiService,
@@ -38,6 +39,9 @@ export class RegisterComponent implements OnInit{
       }
       if(error.error.status == 5){
         this.birthdateInvalid = true;
+      }
+      if(error.error.status == 6){
+        this.isNotOver18yo = true;
       }
       if(error.error.status == 2){
         this.passwordIsWeak = true;
