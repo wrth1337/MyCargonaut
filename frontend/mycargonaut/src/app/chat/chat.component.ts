@@ -40,6 +40,8 @@ export class ChatComponent implements OnInit {
   userMap = new Map<number, string>();
   newMessage = '';
   isOwner = false;
+  userToRateId = 0;
+  bookingToRateId = 0;
 
   constructor(
     private api: ApiService,
@@ -150,4 +152,10 @@ export class ChatComponent implements OnInit {
       this.loadBookingList();
     });
   }
+
+  setRateInfos(booking: any) {
+    this.userToRateId = booking.userId;
+    this.bookingToRateId = booking.bookingId;
+  }
+
 }
