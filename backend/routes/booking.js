@@ -483,7 +483,7 @@ router.post('/', authenticateToken, async function(req, res, next) {
         }
         const price = await getPriceOfBooking(adId, numSeats, freight);
         const result = await newBooking(adId, userId, price, numSeats);
-        const paymentResult = await payment(price, userId, result.insertId);
+        //const paymentResult = await payment(price, userId, result.insertId);
         if (result.affectedRows > 0) {
             res.status(200);
             res.json({status: 1});
