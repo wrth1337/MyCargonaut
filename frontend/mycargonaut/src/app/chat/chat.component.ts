@@ -38,10 +38,12 @@ export class ChatComponent implements OnInit {
   bookingListAccepted: Booking[] = [];
   ownUserId = -1;
   userMap = new Map<number, string>();
+  bookingRateSet = new Set<number>();
   newMessage = '';
   isOwner = false;
   userToRateId = 0;
   bookingToRateId = 0;
+
 
   constructor(
     private api: ApiService,
@@ -64,7 +66,6 @@ export class ChatComponent implements OnInit {
         this.isOwner = true;
         this.loadBookingList();
       }
-      console.log(this.ad);
     });
 
     this.loadMessageList();
@@ -132,6 +133,13 @@ export class ChatComponent implements OnInit {
       this.bookingListAccepted.push(...confirmedBookings);
 
       this.bookingList = this.bookingList.filter(booking => booking.state !== "confirmed");
+
+      this.bookingListAccepted.forEach((element) => {
+        this.api.getRequest('rating/done/'+element.bookingId+'/'+element.userId).subscribe((res:any) => {
+          if (res.ratingDone)
+            this.bookingRateSet.add(element.bookingId);
+        });
+      });
     });
   }
 
