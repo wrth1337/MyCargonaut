@@ -42,7 +42,6 @@ export class ChatComponent implements OnInit {
       if (this.ownUserId == res.data.userId) {
         this.isOwner = true;
         this.loadBookingList();
-
       }
     });
 
