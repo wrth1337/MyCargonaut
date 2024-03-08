@@ -186,6 +186,109 @@ router.get('/getUserWanted', authenticateToken, async function(req, res, next) {
     }
 });
 
+/**
+ * @swagger
+ * tags:
+ *      - name: wanted
+ *        description: Routes that are connected to the wanted ads of an user.
+ * /wanted/createWanted:
+ *    post:
+ *         summary: Create a new wanted ad.
+ *         security:
+ *             - bearerAuth: []
+ *         description: Create a new wanted ad.
+ *         tags:
+ *             - wanted
+ *         requestBody:
+ *              description: The data of the new wanted ad.
+ *              content:
+ *                    application/json:
+ *                      schema:
+ *                          type: object
+ *                          required:
+ *                              - description
+ *                              - startLocation
+ *                              - endLocation
+ *                              - startDate
+ *                              - endDate
+ *                              - animals
+ *                              - smoker
+ *                              - notes
+ *                              - numSeats
+ *                              - freight
+ *                          properties:
+ *                              description:
+ *                                  type: string
+ *                                  description: The description of the ad.
+ *                                  example: example description
+ *                              startLocation:
+ *                                  type: string
+ *                                  description: The start location of the ad.
+ *                                  example: Town A
+ *                              endLocation:
+ *                                  type: string
+ *                                  description: The end location of the ad.
+ *                                  example: Town B
+ *                              startDate:
+ *                                  type: string
+ *                                  description: The start date of the ad.
+ *                                  example: '2024-01-01'
+ *                                  format: date
+ *                              endDate:
+ *                                  type: string
+ *                                  description: The end date of the ad.
+ *                                  example: '2024-01-02'
+ *                                  format: date
+ *                              animals:
+ *                                  type: boolean
+ *                                  description: The preference for animals.
+ *                                  example: true
+ *                              smoker:
+ *                                  type: boolean
+ *                                  description: The preference for smokers.
+ *                                  example: false
+ *                              notes:
+ *                                  type: string
+ *                                  description: The notes of the ad.
+ *                                  example: example notes
+ *                              numSeats:
+ *                                  type: number
+ *                                  description: The amount of the required seats.
+ *                                  example: 2
+ *                              freight:
+ *                                  type: string
+ *                                  description: The freight of the ad.
+ *                                  example: example freight
+ *         responses:
+ *              200:
+ *                  description: creating new wanted ad was successful.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *              500:
+ *                  description: creating new wanted ad failed.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ * components:
+ *      securitySchemes:
+ *          bearerAuth:
+ *              type: http
+ *              scheme: bearer
+ *              bearerFormat: JWT
+ * security:
+ *  - bearerAuth: []
+ */
 router.post('/createWanted', authenticateToken, async function(req, res, next) {
     try {
         const id = req.user_id;
