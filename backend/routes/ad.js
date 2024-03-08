@@ -624,7 +624,9 @@ router.post('/stop/:id', authenticateToken, async function(req, res, next) {
             let totalPrice = 0;
             await bookings.forEach((booking) => totalPrice += booking.price );
             totalPrice = totalPrice * 0.9;
-            await addUserCoins(ad.userId, totalPrice);
+            let userToPay = ad.userId;
+            if ((await getTypeById(ad.adId)).data === 'wanted') userToPay = bookings[0].userId;
+            await addUserCoins(userToPay, totalPrice);
             res.status(200);
             res.json({status: 1, newState: 'finished'});
         } else {

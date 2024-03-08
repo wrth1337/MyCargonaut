@@ -126,7 +126,6 @@ async function getAdByIdBooking(id) {
     }
 }
 
-// eslint-disable-next-line no-unused-vars
 async function payment(price, userId) {
     return await subtractUserCoins(userId, price);
 }
@@ -569,9 +568,10 @@ router.post('/confirm/:id', authenticateToken, async function(req, res, next) {
     try {
         const bookingId = req.params.id;
         const booking = await getBookingById(bookingId);
-        const ad = await getAdByIdBooking(booking.adId);
+        const ad = (await getAdByIdBooking(booking.adId)).data;
         if ((await getTypeByIdInBooking(booking.ad)).data === 'wanted') {
             const paymentResult = await payment(booking.price, ad.userId);
+            console.log(paymentResult);
             if (!paymentResult.success) {
                 res.status(402);
                 res.send({status: 3, error: 'Not enough coins'});
