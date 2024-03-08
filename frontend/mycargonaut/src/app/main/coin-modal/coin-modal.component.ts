@@ -6,12 +6,12 @@ import { ApiService } from 'src/app/service/api.service';
   styleUrls: ['./coin-modal.component.css']
 })
 export class CoinModalComponent {
-  coinAmount: number =1;
+  coinAmount =1;
   constructor(
     private api: ApiService,
   ){}
   addCoins() {
-    let coinsToAdd = this.coinAmount;
+    const coinsToAdd = this.coinAmount;
     console.log('CoinsToAdd: ' + coinsToAdd);
     this.api.postRequest("coins/add", { coins: coinsToAdd }).subscribe((res: any) => {
       console.log(res);
