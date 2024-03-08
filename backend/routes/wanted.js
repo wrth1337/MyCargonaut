@@ -87,41 +87,11 @@ async function getWantedById(id) {
  * tags:
  *      - name: wanted
  *        description: Routes that are connected to the wanteds of an user
- * /wanted/:id:
- *      get:
- *          summary: get wanted data by adId.
- *          description: get the wanted data for a specified ad.
- *          tags:
- *              - wanted
- *
- *          parameters:
- *              - in: query
- *                name: id
- *                required: true
- *                schema:
- *                  type: number
- *                description: AdId the wanted data is connected to.
- *                example: 2
- *
- *          responses:
- *              200:
- *                  description: wanted data successfully fetched.
- *                  content:
- *                      application/json:
- *                          schema:
- *                              type: object
- *                              properties:
- *                                  status:
- *                                      type: integer
- *                                      description: The status-code.
- *                                  data:
- *                                      $ref: '#/components/schemas/wanted'
- *              204:
- *                  description: query was successful but contains no content.
- *                  content: {}
- * /wanted:
+ * /wanted/getUserWanted:
  *      get:
  *          summary: get user wanteds.
+ *          security:
+ *              - bearerAuth: []
  *          description: get a list of the user wanteds.
  *          tags:
  *              - wanted
@@ -168,6 +138,11 @@ async function getWantedById(id) {
  *                  freight:
  *                      type: string
  *                      description: Description of the freight
+ *          securitySchemes:
+ *              bearerAuth:
+ *                  type: http
+ *                  scheme: bearer
+ *                  bearerFormat: JWT
  */
 router.get('/getUserWanted', authenticateToken, async function(req, res, next) {
     try {
