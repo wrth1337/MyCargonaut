@@ -21,6 +21,20 @@ const pool = mariadb.createPool({
 });
 
 // ---Methods--- //
+async function getRatingsByUserId(userId) {
+    const userVehicles = 'SELECT * FROM rating WHERE userId = ?';
+
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(userVehicles, [userId]);
+        await conn.release();
+        return result;
+    } catch (error) {
+        console.error('Fehler bei der Abfrage:', error);
+        throw error;
+    }
+}
+
 async function saveNewRating(bookingId, userWhoIsEvaluating, userWhoWasEvaluated, punctuality, agreement, pleasent, freight, comment) {
     const newRating = `INSERT INTO rating (bookingId, userWhoIsEvaluating, userWhoWasEvaluated, punctuality, agreement, pleasent, freight, comment) 
                         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
@@ -57,6 +71,52 @@ async function isRatingAlreadyDone(bookingId, author, userId) {
  * tags:
  *      - name: rating
  *        description: Routes that are connected to ratings users.
+ * /rating/{userId}:
+ *      get:
+ *          summary: get user ratings.
+ *          description: get a list of the user ratings.
+ *          tags:
+ *              - rating
+ *          parameters:
+ *              - in: query
+ *                name: userId
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                description: The Id of the user.
+ *                example: 1
+ *          responses:
+ *              200:
+ *                  description: user vehicle data successfully fetched.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  data:
+ *                                      type: array
+ *                                      description: The users rating data.
+ *                                      items:
+ *                                        $ref: '#/components/schemas/rating'
+ *              204:
+ *                  description: query was successful but contains no content.
+ *                  content: {}
+ *              500:
+ *                  description: Gettin rattings failed.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  error:
+ *                                      type: string
+ *                                      description: Internal Server Error.
  * /rating:
  *      post:
  *          summary: Post a new rating.
@@ -209,9 +269,33 @@ async function isRatingAlreadyDone(bookingId, author, userId) {
  *          rating:
  *              type: object
  *              properties:
- *                  name:
+ *                  ratingId:
+ *                      type: number
+ *                      description: The id of the rating.
+ *                  booking:
+ *                      type: number
+ *                      description: The id of the booking the rating is connected to.
+ *                  userWhoIsEvaluating:
+ *                      type: number
+ *                      description: The id of the user who is evaluating.
+ *                  userWhoWasEvaluated:
+ *                      type: number
+ *                      description: The id of the user who was evaluated.
+ *                  punctuality:
+ *                      type: number
+ *                      description: The punctuality rating.
+ *                  agreement:
+ *                      type: number
+ *                      description: The agreement rating.
+ *                  pleasant:
+ *                      type: number
+ *                      description: The pleasent rating.
+ *                  freight:
+ *                      type: number
+ *                      description: The freight rating.
+ *                  comment:
  *                      type: string
- *                      description: The name of the vehicle.
+ *                      description: The optional comment.
  *      securitySchemes:
  *          bearerAuth:
  *              type: http
@@ -220,7 +304,7 @@ async function isRatingAlreadyDone(bookingId, author, userId) {
  * security:
  *  - bearerAuth: []
  */
-router.post('/rating', authenticateToken, async function(req, res, next) {
+router.post('/', authenticateToken, async function(req, res, next) {
     const bookingId = req.body.bookingId;
     const userId = req.user_id;
     const rating = req.body;
@@ -232,6 +316,9 @@ router.post('/rating', authenticateToken, async function(req, res, next) {
         if (ratingExists) {
             res.status(409);
             res.send({status: 1, msg: 'Your already rated this ride.'});
+        } else if (userId == userWhoWasEvaluated) {
+            res.status(409);
+            res.send({status: 2, msg: 'You cant rate youreself'});
         } else {
             // eslint-disable-next-line no-unused-vars
             const newRating = await saveNewRating(bookingId, userId, userWhoWasEvaluated, punctuality, agreement, pleasent, freight, comment);
@@ -246,7 +333,27 @@ router.post('/rating', authenticateToken, async function(req, res, next) {
     }
 });
 
-router.get('/rating/done/:bookingId/:userId', authenticateToken, async function(req, res, next) {
+router.get('/:id', async function(req, res, next) {
+    const userId = req.params.user_id;
+
+    const conn = await pool.getConnection();
+    try {
+        const result = await getRatingsByUserId(userId);
+        if (result.length > 0) {
+            res.status(200);
+            res.json({status: 1, data: result});
+        } else {
+            res.status(204).json(null);
+        }
+    } catch (error) {
+        res.status(500);
+        res.send({status: 500, error: 'Rating couldn´t be saved in db'});
+    } finally {
+        if (conn) await conn.release();
+    }
+});
+
+router.get('/done/:bookingId/:userId', authenticateToken, async function(req, res, next) {
     const bookingId = req.params.bookingId;
     const userId = req.params.userId;
     const author = req.user_id;
@@ -264,4 +371,4 @@ router.get('/rating/done/:bookingId/:userId', authenticateToken, async function(
     }
 });
 
-module.exports = {router, saveNewRating, isRatingAlreadyDone};
+module.exports = {router, saveNewRating, isRatingAlreadyDone, getRatingsByUserId};
