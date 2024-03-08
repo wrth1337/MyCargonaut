@@ -105,6 +105,7 @@ export class ChatComponent implements OnInit {
       this.bookingList = res.data;
       await this.updateUserMap();
       this.bookingList = this.bookingList.filter( booking => !booking.canceled);
+      this.bookingList = this.bookingList.filter( booking => booking.state !== 'denied');
 
       const confirmedBookings = this.bookingList.filter(booking => booking.state === "confirmed");
       this.bookingListAccepted.push(...confirmedBookings);

@@ -2,6 +2,7 @@ const mariadb = require('mariadb');
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 const authenticateToken = require('./auth');
+const {subtractUserCoins, addUserCoins} = require("./coins");
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -108,21 +109,7 @@ async function getBookingsByAd(adId) {
 
 // eslint-disable-next-line no-unused-vars
 async function payment(price, userId, bookingId) {
-    console.log('payment here');
-    // price von user Guthaben abziehen -> Wenn Fehler error oder so
-    // Da beide Operationen atomar zusammenausgeführt werden müssen vllt in einer Query mit ; getrennt
-    const update = `BEGIN;
-                    UPDATE status SET paymentReceived = true WHERE bookingId = ?;
-                    COMMIT;`;
-    try {
-        const conn = await pool.getConnection();
-        const result = await conn.query(update, [bookingId]);
-        await conn.release();
-        return result;
-    } catch (error) {
-        console.error('Fehler bei der Abfrage:', error);
-        throw error;
-    }
+    return await subtractUserCoins(userId, price);
 }
 
 async function getPriceOfBooking(adId, numSeats, freight) {
@@ -141,6 +128,18 @@ async function getPriceOfBooking(adId, numSeats, freight) {
         throw error;
     }
 }
+
+async function getBookingById (bookingId) {
+    const getBooking = 'SELECT * from booking WHERE bookingId = ?';
+    try {
+        const conn = await pool.getConnection();
+        return (await conn.query(getBooking, [bookingId]))[0];
+    } catch (error) {
+        console.error('Fehler bei der Abfrage:', error);
+        throw error;
+    }
+}
+
 // ---Routes--- //
 /**
  * @swagger
@@ -484,7 +483,11 @@ router.post('/', authenticateToken, async function(req, res, next) {
         }
         const price = await getPriceOfBooking(adId, numSeats, freight);
         const result = await newBooking(adId, userId, price, numSeats);
-        // const paymentResult = await payment(price, userId, result.insertId);
+        const paymentResult = await payment(price, userId, result.insertId);
+        if (!paymentResult.success) {
+            res.status(402);
+            res.send({status: 3, error: 'Not enough coins'});
+        }
         if (result.affectedRows > 0) {
             res.status(200);
             res.json({status: 1});
@@ -504,6 +507,8 @@ router.post('/cancel/:id', authenticateToken, async function(req, res, next) {
         const bookingId = req.params.id;
         const result = await cancelBooking(bookingId, userId);
         if (result.affectedRows > 0) {
+            const booking = await getBookingById(bookingId);
+            await addUserCoins(booking.userId, booking.price);
             res.status(200);
             res.json({status: 1});
         } else {
@@ -538,6 +543,8 @@ router.post('/denie/:id', authenticateToken, async function(req, res, next) {
         const bookingId = req.params.id;
         const result = await confirmBooking(bookingId, 'denied');
         if (result.affectedRows > 0) {
+            const booking = await getBookingById(bookingId);
+            await addUserCoins(booking.userId, booking.price);
             res.status(200);
             res.json({status: 1});
         } else {
