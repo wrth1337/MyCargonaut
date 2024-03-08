@@ -18,6 +18,7 @@ import { WantedComponent } from './main/wanted/wanted.component';
 import { CreateOfferComponent } from './main/create-offer/create-offer.component';
 import { ResultpageComponent } from './resultpage/resultpage.component';
 import { AdCardComponent } from './ad-card/ad-card.component';
+import { ProfileDataComponent } from './main/profile-data/profile-data.component';
 import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
@@ -34,6 +35,7 @@ import { ChatComponent } from './chat/chat.component';
     CreateOfferComponent,
     ResultpageComponent,
     AdCardComponent,
+    ProfileDataComponent,
     ChatComponent,
   ],
   imports: [
@@ -46,6 +48,7 @@ import { ChatComponent } from './chat/chat.component';
   ],
   exports:[
     NavbarComponent,
+    ProfileDataComponent,
     HttpClientModule,
     SearchbarComponent,
 
