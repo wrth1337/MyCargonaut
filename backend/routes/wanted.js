@@ -308,7 +308,64 @@ router.post('/createWanted', authenticateToken, async function(req, res, next) {
     }
 });
 
-
+/**
+ * @swagger
+ * tags:
+ *      - name: wanted
+ *        description: Routes that are connected to the wanteds of an user
+ * /wanted/{adId}:
+ *      get:
+ *          summary: get wanted data by adId.
+ *          security:
+ *              - bearerAuth: []
+ *          description: get the wanted data for a specified ad.
+ *          tags:
+ *              - wanted
+ *
+ *          parameters:
+ *              - in: path
+ *                name: adId
+ *                required: true
+ *                schema:
+ *                  type: number
+ *                description: AdId the wanted data is connected to.
+ *                example: 1
+ *
+ *          responses:
+ *              200:
+ *                  description: wanted data successfully fetched.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  data:
+ *                                      $ref: '#/components/schemas/wanted'
+ *              204:
+ *                  description: query was successful but contains no content.
+ *                  content: {}
+ * components:
+ *      schemas:
+ *          wanted:
+ *              type: object
+ *              properties:
+ *                  adId:
+ *                      type: number
+ *                      description: Id of the connected ad
+ *                  freight:
+ *                      type: string
+ *                      description: Description of the freight
+ *      securitySchemes:
+ *          bearerAuth:
+ *              type: http
+ *              scheme: bearer
+ *              bearerFormat: JWT
+ * security:
+ *  - bearerAuth: []
+ */
 router.get('/:id', async function(req, res, next) {
     try {
         const wanted = await getWantedById(req.params.id);
