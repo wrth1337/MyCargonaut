@@ -1,0 +1,39 @@
+.cropped-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    object-position: 25% 25%;
+}
+
+.big {
+    font-size: xx-large;
+}
+.medium {
+    font-size: x-large;
+}
+.center {
+    text-align: center;
+}
+
+.rating {
+    font-size: xx-large;
+}
+  
+.highlight {
+    color: rgb(255, 217, 0);
+}
+
+
+.custom-progress {
+    background-color: var(--primary);
+}
+
+.progress {
+    background-color: #e1e9be;
+    height: 40px;
+}
+
+.ht1 {
+    height: 130px;
+}
+  
