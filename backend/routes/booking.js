@@ -2,7 +2,8 @@ const mariadb = require('mariadb');
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 const authenticateToken = require('./auth');
-const {subtractUserCoins, addUserCoins} = require("./coins");
+const {subtractUserCoins, addUserCoins} = require('./coins');
+const {getWantedById} = require('./wanted');
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -107,8 +108,26 @@ async function getBookingsByAd(adId) {
     }
 }
 
+async function getAdByIdBooking(id) {
+    const query = 'SELECT * FROM ad WHERE adId = ?';
+
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(query, id);
+        await conn.release();
+
+        if (result.length > 0) {
+            return {success: true, data: result[0]};
+        } else {
+            return {success: false};
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
 // eslint-disable-next-line no-unused-vars
-async function payment(price, userId, bookingId) {
+async function payment(price, userId) {
     return await subtractUserCoins(userId, price);
 }
 
@@ -118,24 +137,42 @@ async function getPriceOfBooking(adId, numSeats, freight) {
     try {
         const conn = await pool.getConnection();
         const result = await conn.query(isWanted, [adId]);
-        if (result.length > 0) return 0;
+        if (result.length > 0) return (await getWantedById(adId)).data.price;
         const priceRes = await conn.query(getPrice, [adId]);
         await conn.release();
-        const price = (priceRes[0].pricePerPerson * numSeats + priceRes[0].pricePerFreight * freight);
-        return price;
+        return (priceRes[0].pricePerPerson * numSeats + priceRes[0].pricePerFreight * freight);
     } catch (error) {
         console.error('Fehler bei der Abfrage:', error);
         throw error;
     }
 }
 
-async function getBookingById (bookingId) {
+async function getBookingById(bookingId) {
     const getBooking = 'SELECT * from booking WHERE bookingId = ?';
     try {
         const conn = await pool.getConnection();
         return (await conn.query(getBooking, [bookingId]))[0];
     } catch (error) {
         console.error('Fehler bei der Abfrage:', error);
+        throw error;
+    }
+}
+
+async function getTypeByIdInBooking(adId) {
+    const offer = 'SELECT o.offerId FROM ad JOIN offer o ON ad.adId = o.adId WHERE ad.adId = ?';
+    let res;
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(offer, [adId]);
+        await conn.release();
+        if (result.length > 0) {
+            res = 'offer';
+            return {success: true, data: res};
+        } else {
+            res = 'wanted';
+            return {success: true, data: res};
+        }
+    } catch (error) {
         throw error;
     }
 }
@@ -483,11 +520,15 @@ router.post('/', authenticateToken, async function(req, res, next) {
         }
         const price = await getPriceOfBooking(adId, numSeats, freight);
         const result = await newBooking(adId, userId, price, numSeats);
-        const paymentResult = await payment(price, userId, result.insertId);
-        if (!paymentResult.success) {
-            res.status(402);
-            res.send({status: 3, error: 'Not enough coins'});
+
+        if (await getTypeByIdInBooking(adId).data === 'offer') {
+            const paymentResult = await payment(price, userId);
+            if (!paymentResult.success) {
+                res.status(402);
+                res.send({status: 3, error: 'Not enough coins'});
+            }
         }
+
         if (result.affectedRows > 0) {
             res.status(200);
             res.json({status: 1});
@@ -507,8 +548,11 @@ router.post('/cancel/:id', authenticateToken, async function(req, res, next) {
         const bookingId = req.params.id;
         const result = await cancelBooking(bookingId, userId);
         if (result.affectedRows > 0) {
-            const booking = await getBookingById(bookingId);
-            await addUserCoins(booking.userId, booking.price);
+            const adId = (await getAdByIdBooking(bookingId)).adId;
+            if ((await getTypeByIdInBooking(adId)).data === 'offer') {
+                const booking = await getBookingById(bookingId);
+                await addUserCoins(booking.userId, booking.price);
+            }
             res.status(200);
             res.json({status: 1});
         } else {
@@ -524,7 +568,18 @@ router.post('/cancel/:id', authenticateToken, async function(req, res, next) {
 router.post('/confirm/:id', authenticateToken, async function(req, res, next) {
     try {
         const bookingId = req.params.id;
+        const booking = await getBookingById(bookingId);
+        const ad = await getAdByIdBooking(booking.adId);
+        if ((await getTypeByIdInBooking(booking.ad)).data === 'wanted') {
+            const paymentResult = await payment(booking.price, ad.userId);
+            if (!paymentResult.success) {
+                res.status(402);
+                res.send({status: 3, error: 'Not enough coins'});
+                return;
+            }
+        }
         const result = await confirmBooking(bookingId, 'confirmed');
+
         if (result.affectedRows > 0) {
             res.status(200);
             res.json({status: 1});
@@ -543,8 +598,12 @@ router.post('/denie/:id', authenticateToken, async function(req, res, next) {
         const bookingId = req.params.id;
         const result = await confirmBooking(bookingId, 'denied');
         if (result.affectedRows > 0) {
-            const booking = await getBookingById(bookingId);
-            await addUserCoins(booking.userId, booking.price);
+            const adId = (await getAdByIdBooking(bookingId)).adId;
+            if ((await getTypeByIdInBooking(adId)).data === 'offer') {
+                const booking = await getBookingById(bookingId);
+                await addUserCoins(booking.userId, booking.price);
+            }
+
             res.status(200);
             res.json({status: 1});
         } else {

@@ -3,7 +3,7 @@ const express = require('express');
 const rateLimit = require('express-rate-limit');
 const {getSeatsAvailable, getBookingsByAd} = require('./booking');
 const authenticateToken = require('./auth');
-const {addUserCoins} = require("./coins");
+const {addUserCoins} = require('./coins');
 
 // eslint-disable-next-line new-cap
 const router = express.Router();

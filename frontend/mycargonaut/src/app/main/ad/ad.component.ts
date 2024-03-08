@@ -98,12 +98,19 @@ export class AdComponent implements OnInit{
     })
   }
   onBookingSubmit(form : NgForm) {
-    this.toFewSeatsResponse = false;
-    this.api.postRequest('booking',{numSeats: form.value.numSeats, adId: this.ad.adId, freight: form.value.freight}).subscribe((res:any) => {
-      if (res.status === 1) window.location.reload();
-    }, (error:any) =>{
-      if (error.error.status === 2) this.toFewSeatsResponse = true;
-    });
+    if(this.type === 'offer') {
+      this.toFewSeatsResponse = false;
+      this.api.postRequest('booking',{numSeats: form.value.numSeats, adId: this.ad.adId, freight: form.value.freight}).subscribe((res:any) => {
+        if (res.status === 1) window.location.reload();
+      }, (error:any) =>{
+        if (error.error.status === 2) this.toFewSeatsResponse = true;
+      });
+    } else if (this.type === 'wanted') {
+      console.log(this.typeSpecificContent);
+      this.api.postRequest('booking',{numSeats: this.ad.numSeats, adId: this.ad.adId, freight: this.typeSpecificContent.freight}).subscribe((res:any) => {
+        if (res.status === 1) window.location.reload();
+      });
+    }
   }
   cancel() {
     this.toFewSeatsResponse = false;

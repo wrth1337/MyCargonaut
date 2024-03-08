@@ -67,6 +67,12 @@
             </div>
           </div>
         </div>
+        <div *ngIf="this.notEnoughCoins">
+          <div class="alert alert-danger alert-dismissible" role="alert">
+            <div>Du verfügst nicht über genügend Coins.</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        </div>
       </div>
 
     </div>

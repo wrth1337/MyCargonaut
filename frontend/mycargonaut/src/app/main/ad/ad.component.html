@@ -69,13 +69,16 @@
     <div class="modal" id="bookingModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-body">
+                <div *ngIf="this.type==='offer'" class="modal-body">
                     <p>Sind Sie sich sicher?</p>
                     <span>Anzahl zu buchender Sitzplätze</span>
                     <input id="seats" class="form-control ms-2 m-1" type="number" name="numSeats" placeholder="Anzahl Sitzplätze" min="1" [max]="this.seatsAvailable" ngModel [(ngModel)]="this.default">
                     <span>Menge an Fracht in Kg</span>
                     <input id="seats" class="form-control ms-2 m-1" type="number" name="freight" placeholder="Menge Fracht" min="0" ngModel>
                 </div>
+              <div *ngIf="this.type==='wanted'" class="modal-body">
+                <p>Wollen Sie diese Fahrt übernehmen?</p>
+              </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
                     <input id="submitButton" class="submitButton btn align-middle" type="submit" value="Buchen">
@@ -84,7 +87,7 @@
                           <div>Not enough Seats available.</div>
                           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
-                      </div>
+                    </div>
                 </div>
             </div>
         </div>

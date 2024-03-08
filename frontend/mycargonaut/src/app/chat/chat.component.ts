@@ -22,6 +22,7 @@ export class ChatComponent implements OnInit {
   userMap = new Map<number, string>();
   newMessage = '';
   isOwner = false;
+  notEnoughCoins = false;
 
   constructor(
     private api: ApiService,
@@ -31,6 +32,7 @@ export class ChatComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
+    this.notEnoughCoins = false;
     const authUserData = this.auth.getUserData();
     if(authUserData != null) {
       this.ownUserId = JSON.parse(authUserData).user_id;
@@ -121,8 +123,11 @@ export class ChatComponent implements OnInit {
   }
 
   acceptBooking(booking: any) {
+    this.notEnoughCoins = false;
     this.api.postRequest('booking/confirm/'+booking.bookingId, {}).subscribe((res:any) => {
       this.loadBookingList();
+    }, (error:any) => {
+      this.notEnoughCoins = true;
     });
   }
 
