@@ -4,6 +4,7 @@ import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/service/auth.service';
 import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -15,12 +16,17 @@ import { NgForm } from '@angular/forms';
 
 
 export class ProfileComponent implements OnInit {
+  id = 0;
+  idUrl = 0;
+  isOwner = false;
   userData: any;
   vehicleData: any;
   offerData: any;
   wantedData: any;
   tripData: any;
   rating: any;
+  ratingData: any;
+  authorData: any;
   vehiclesAvailable = false;
   offersAvailable = false;
   wantedsAvailable = false;
@@ -54,12 +60,19 @@ export class ProfileComponent implements OnInit {
     private api: ApiService,
     private auth: AuthService,
     private datePipe: DatePipe,
-    private location: Location
+    private location: Location,
+    private route: ActivatedRoute
   ){}
 
   ngOnInit() {
-    const userId = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;
-    this.api.getRequest("profile/userdata/"+userId).subscribe((res: any) => {
+    this.id = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;
+    this.route.params.subscribe(params => {
+      this.idUrl = params['id'];
+    });
+    if(this.idUrl === this.id) {
+      this.isOwner = true;
+    }
+    this.api.getRequest("profile/userdata/"+this.idUrl).subscribe((res: any) => {
       this.userData = res.userData;
 
       for (const lang of this.language) {
@@ -153,6 +166,11 @@ export class ProfileComponent implements OnInit {
     this.api.deleteRequest('vehicle/' + this.selectedVehicle.vehicleId).subscribe((res:any) => {
       if(res)window.location.reload();
     })
+  }
+  openRatingModal() {
+    this.api.getRequest('profile/userrating/'+this.id).subscribe((res:any) => {
+      this.ratingData = res.ratingData;
+    });
   }
 }
 

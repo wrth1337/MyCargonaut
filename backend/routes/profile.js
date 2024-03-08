@@ -265,5 +265,39 @@ router.post('/edit_profile', authenticateToken, async function(req, res, next) {
     }
 });
 
+async function getUserRating(id) {
+    const rating = 'SELECT r.*, u.firstName, u.lastName, u.picture FROM rating r JOIN user u ON u.userId = r.userWhoIsEvaluating WHERE userWhoWasEvaluated = ?';
+    try {
+        const conn = await pool.getConnection();
+        const resRating = await conn.query(rating, [id]);
+        await conn.release();
+
+        if (resRating.length > 0) {
+            return {success: true, data: resRating};
+        } else {
+            return {success: false};
+        }
+    } catch (error) {
+        console.error('Fehler bei der Abfrage:', error);
+        throw error;
+    }
+}
+
+router.get('/userrating/:id', async function(req, res, next) {
+    try {
+        const rating = await getUserRating(req.params.id);
+        console.log(rating);
+        if (rating.success) {
+            res.status(200);
+            res.json({status: 1, ratingData: rating.data});
+        } else {
+            res.status(204).json(null);
+        }
+    } catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Fetching Profile Data failed'});
+    }
+});
+
 
 module.exports = {router, getUser, editProfile};

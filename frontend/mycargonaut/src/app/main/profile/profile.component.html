@@ -30,9 +30,11 @@
                 <div class="big center username"> {{userData.firstName}} {{userData.lastName}} </div>
                 <div class="center">
                     <div class="rating">
+                        <button style="background-color: white;" data-bs-toggle="modal" data-bs-target="#ratingModal" (click)="this.openRatingModal()">
                         <span *ngFor="let star of stars" class="star" [class.highlight]="star <= this.rating">
                             &#9733;
                         </span>
+                        </button>
                     </div>
                 </div>
 
@@ -306,3 +308,70 @@
       </div>
     </div>
   </div>
+
+
+
+
+<div class="modal fade" id="ratingModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-m">
+        <div class="modal-content">
+            <div class="modal-body p-4">
+                <div class="row pb-3">
+                    <div class="col align-left">
+                        <button type="button" class=" btn returnButton" data-bs-dismiss="modal" aria-label="Close">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="col align-center">
+                        <span class="fs-5">Bewertungen</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                    <div *ngFor="let item of ratingData">
+                        <div>
+                            <div class="row">
+                                <div *ngIf="item.picture; else placeholder">
+                                    <img class="profilepicture" [src]="item.picture" height="100" width="100" alt="Profilbild">
+                                </div>
+                                <ng-template #placeholder>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="var(--primary)" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                                    </svg>
+                                </ng-template>
+                                <div class="medium center username"> {{item.firstName}} {{item.lastName}} </div>
+                            </div>
+                            Pünklichkeit:
+                            <span *ngFor="let star of stars" class="star" [class.highlight]="star <= item.punctuality">
+                                &#9733;
+                            </span>
+                            <br>
+                            Verlässlichkeit:
+                            <span *ngFor="let star of stars" class="star" [class.highlight]="star <= item.agreement">
+                                &#9733;
+                            </span>
+                            <br>
+                            Wohlgefühl:
+                            <span *ngFor="let star of stars" class="star" [class.highlight]="star <= item.pleasent">
+                                &#9733;
+                            </span>
+                            <br>
+                            <div *ngIf="item.freight != null">
+                            Fracht:
+                            <span *ngFor="let star of stars" class="star" [class.highlight]="star <= item.freight">
+                                &#9733;
+                            </span>
+                            </div>
+                            <br>
+                            Kommentar:
+                            <span>{{item.comment}}</span>
+                        </div>
+                    </div>
+                </div>   
+            </div> 
+        </div>
+    </div>
+</div>
