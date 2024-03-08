@@ -44,17 +44,17 @@ async function getUserWanteds(id) {
     }
 }
 
-async function addNewWanted(description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId, freight) {
+async function addNewWanted(description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId, freight, price) {
     const addWantedAd = `
     INSERT INTO ad (description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId)
     VALUES (?,?,?,?,?,?,?,?,?,?)`;
 
-    const addWanted = 'INSERT INTO wanted (adId, freight) VALUES (LAST_INSERT_ID(), ?)';
+    const addWanted = 'INSERT INTO wanted (adId, freight, price) VALUES (LAST_INSERT_ID(), ?, ?)';
 
     try {
         const conn = await pool.getConnection();
         await conn.query(addWantedAd, [description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId]);
-        await conn.query(addWanted, [freight]);
+        await conn.query(addWanted, [freight, price]);
         await conn.release();
         return 1;
     } catch (error) {
@@ -189,8 +189,8 @@ router.get('/getUserWanted', authenticateToken, async function(req, res, next) {
 router.post('/createWanted', authenticateToken, async function(req, res, next) {
     try {
         const id = req.user_id;
-        const {description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, freight} = req.body;
-        const wanted = await addNewWanted(description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, id, freight);
+        const {description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, freight, price} = req.body;
+        const wanted = await addNewWanted(description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, id, freight, price);
 
         if (wanted === 1) {
             res.status(200);
