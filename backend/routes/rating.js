@@ -22,7 +22,7 @@ const pool = mariadb.createPool({
 
 // ---Methods--- //
 async function getRatingsByUserId(userId) {
-    const userVehicles = 'SELECT * FROM rating WHERE userId = ?';
+    const userVehicles = 'SELECT * FROM rating WHERE userWhoWasEvaluated = ?';
 
     try {
         const conn = await pool.getConnection();
@@ -56,8 +56,6 @@ async function isRatingAlreadyDone(bookingId, author, userId) {
     try {
         const conn = await pool.getConnection();
         const result = await conn.query(checkRatingExists, [bookingId, author, userId]);
-        console.log(result)
-        console.log({bookingId, author, userId})
         await conn.release();
         return (result[0].count > 0);
     } catch (error) {
@@ -333,8 +331,8 @@ router.post('/', authenticateToken, async function(req, res, next) {
     }
 });
 
-router.get('/:id', async function(req, res, next) {
-    const userId = req.params.user_id;
+router.get('/:userId', async function(req, res, next) {
+    const userId = req.params.userId;
 
     const conn = await pool.getConnection();
     try {
