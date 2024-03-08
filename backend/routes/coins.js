@@ -142,7 +142,6 @@ router.get('/', authenticateToken, async function(req, res) {
     try {
         const id = req.user_id;
         const userCoins = await getUserCoins(id);
-        console.log(userCoins.data);
 
         if (userCoins.success) {
             res.status(200);
@@ -211,10 +210,9 @@ router.get('/', authenticateToken, async function(req, res) {
 router.post('/add', authenticateToken, async function(req, res) {
     try {
         const id = req.user_id;
-        const coinsToAdd = req.coinsToAdd;
-        console.log('Debug' + id + ' ' + coinsToAdd);
+        const fee = 0.1;
+        const coinsToAdd = (1-fee) * req.body.coins;
         const result = await addUserCoins(id, coinsToAdd);
-
         if (result.success) {
             res.status(200);
             res.json({status: 1, message: 'Coins successfully added'});
@@ -227,6 +225,4 @@ router.post('/add', authenticateToken, async function(req, res) {
         res.json({status: 99, error: 'Adding coins failed'});
     }
 });
-
-
 module.exports = {router, getUserCoins, addUserCoins, subtractUserCoins};

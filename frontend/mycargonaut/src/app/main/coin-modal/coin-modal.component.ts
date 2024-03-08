@@ -15,7 +15,7 @@ export class CoinModalComponent {
     console.log('CoinsToAdd: ' + coinsToAdd);
     this.api.postRequest("coins/add", { coins: coinsToAdd }).subscribe((res: any) => {
       console.log(res);
-      //window.location.reload();
+      window.location.reload();
     });
   }
 }

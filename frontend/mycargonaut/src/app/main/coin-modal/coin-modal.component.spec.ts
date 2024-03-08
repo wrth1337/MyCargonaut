@@ -18,4 +18,15 @@ describe('CoinModalComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should have addCoins method', () => {
+    expect(component.addCoins).toBeTruthy();
+  });
+
+  it('should change coinAmount when addCoins is called', () => {
+    component.coinAmount = 5;
+    component.addCoins();
+    expect(component.coinAmount).not.toEqual(5);
+  });
+
 });
