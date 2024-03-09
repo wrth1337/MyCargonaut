@@ -119,12 +119,20 @@ async function getWantedById(id) {
  *              204:
  *                  description: query was successful but contains no content.
  *                  content: {}
- * /wanted:
+ * /wanted/getUserWanted/{userId}:
  *      get:
- *          summary: get user wanteds.
+ *          summary: get user wanteds by user Id.
  *          description: get a list of the user wanteds.
  *          tags:
  *              - wanted
+ *          parameters:
+ *              - in: path
+ *                name: userId
+ *                required: true
+ *                schema:
+ *                  type: number
+ *                description: User Id the wanted is connected to.
+ *                example: 1
  *          responses:
  *              200:
  *                  description: user wanted data successfully fetched.
@@ -149,6 +157,9 @@ async function getWantedById(id) {
  *          wanted_ad:
  *              type: object
  *              properties:
+ *                  adId:
+ *                      type: number
+ *                      description: The Id of the ad the wanted is connected to.
  *                  startLocation:
  *                      type: string
  *                      description: The start location of the wanted.

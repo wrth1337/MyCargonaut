@@ -31,7 +31,7 @@
                 <div class="center">
                     <div class="rating">
                         <button style="background-color: white; outline: 2px solid var(--primary); border-radius: 25px;" data-bs-toggle="modal" data-bs-target="#ratingModal" (click)="this.openRatingModal()">
-                        <span *ngFor="let star of stars" class="star" [class.highlight]="star <= this.rating">
+                        <span *ngFor="let star of stars" class="stars" [class.highlight]="star <= this.rating">
                             &#9733;
                         </span>
                         </button>
@@ -45,7 +45,7 @@
                     <div class="big"> {{userData.birthdate}}</div>
                     <div> Anzahl Fahrten: {{tripCount}}</div>
                 </div>
-                <div *ngIf="this.isOwner">
+                <div *ngIf="isOwner" class="edit">
                     <button type="button" class="btn" routerLink="/edit_profile">
                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="var(--primary)" class="bi bi-pencil-square" viewBox="0 0 16 16">
                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
@@ -123,8 +123,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div *ngIf="this.isOwner" class="center">
-                                <button *ngIf="this.isOwner" type="button" class="btn align-center newVehicleButton" data-bs-toggle="modal" data-bs-target="#vehicleModal" (click)="clearSelectedVehicle()">
+                                <div *ngIf="isOwner" class="plus center">
+                                <button type="button" class="btn align-center newVehicleButton" data-bs-toggle="modal" data-bs-target="#vehicleModal" (click)="clearSelectedVehicle()">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
                                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
                                     </svg>
@@ -161,7 +161,7 @@
                 </div>
                 </div>
             </div>
-            <div *ngIf="this.isOwner" class="center">
+            <div *ngIf="isOwner" class="plus center">
             <button type="button" class="btn align-right" [routerLink]="['/createOffer']">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
@@ -194,7 +194,7 @@
                 </div>
                 </div>
             </div>
-            <div *ngIf="this.isOwner" class="center">
+            <div *ngIf="isOwner" class="plus center">
             <button type="button" class="btn align-right" [routerLink]="['/addWanted']">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
@@ -381,31 +381,31 @@
                                 </ng-template>
                             </div>
                             <div class="col align-left">
-                                <div>
-                                    <button style="background-color: white;" class="medium card click px-3 mb-4 username" data-bs-dismiss="modal" aria-label="Close" [routerLink]="['/profile', item.userWhoIsEvaluating]"> {{item.firstName}} {{item.lastName}} </button>
+                                <div class="author">
+                                    <button style="background-color: white;" class="medium card click px-3 mb-4" data-bs-dismiss="modal" aria-label="Close" [routerLink]="['/profile', item.userWhoIsEvaluating]"> {{item.firstName}} {{item.lastName}} </button>
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-2">
                         <div class="col">
                             Pünklichkeit:
-                            <span *ngFor="let star of stars" class="big star" [class.highlight]="star <= item.punctuality">
+                            <span *ngFor="let star of stars" class="big star punctuality" [class.highlight]="star <= item.punctuality">
                                 &#9733;
                             </span>
                             <br>
                             Verlässlichkeit:
-                            <span *ngFor="let star of stars" class="big star" [class.highlight]="star <= item.agreement">
+                            <span *ngFor="let star of stars" class="big star agreement" [class.highlight]="star <= item.agreement">
                                 &#9733;
                             </span>
                             <br>
                             Wohlgefühl:
-                            <span *ngFor="let star of stars" class="big star" [class.highlight]="star <= item.pleasent">
+                            <span *ngFor="let star of stars" class="big star pleasent" [class.highlight]="star <= item.pleasent">
                                 &#9733;
                             </span>
                             <br>
                             <div *ngIf="item.freight != null">
                             Fracht:
-                            <span *ngFor="let star of stars" class="big star" [class.highlight]="star <= item.freight">
+                            <span *ngFor="let star of stars" class="big star freight" [class.highlight]="star <= item.freight">
                                 &#9733;
                             </span>
                             </div>

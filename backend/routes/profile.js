@@ -69,6 +69,24 @@ async function editProfile(firstName, lastName, birthdate, picture, description,
     }
 }
 
+async function getUserRating(id) {
+    const rating = 'SELECT r.*, u.firstName, u.lastName, u.picture FROM rating r JOIN user u ON u.userId = r.userWhoIsEvaluating WHERE userWhoWasEvaluated = ?';
+    try {
+        const conn = await pool.getConnection();
+        const resRating = await conn.query(rating, [id]);
+        await conn.release();
+
+        if (resRating.length > 0) {
+            return {success: true, data: resRating};
+        } else {
+            return {success: false};
+        }
+    } catch (error) {
+        console.error('Fehler bei der Abfrage:', error);
+        throw error;
+    }
+}
+
 // ---Routes--- //
 /**
  * @swagger
@@ -265,24 +283,80 @@ router.post('/edit_profile', authenticateToken, async function(req, res, next) {
     }
 });
 
-async function getUserRating(id) {
-    const rating = 'SELECT r.*, u.firstName, u.lastName, u.picture FROM rating r JOIN user u ON u.userId = r.userWhoIsEvaluating WHERE userWhoWasEvaluated = ?';
-    try {
-        const conn = await pool.getConnection();
-        const resRating = await conn.query(rating, [id]);
-        await conn.release();
-
-        if (resRating.length > 0) {
-            return {success: true, data: resRating};
-        } else {
-            return {success: false};
-        }
-    } catch (error) {
-        console.error('Fehler bei der Abfrage:', error);
-        throw error;
-    }
-}
-
+/**
+ * @swagger
+ * tags:
+ *      - name: profile
+ *        description: Routes that are connected to the profile of an user
+ * /profile/userrating/{userId}:
+ *      get:
+ *          summary: get user rating data.
+ *          description: get user rating data.
+ *          tags:
+ *              - profile
+ *          parameters:
+ *              - in: path
+ *                name: userId
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                description: The id of the user.
+ *                example: 1
+ *          responses:
+ *              200:
+ *                  description: user rating data successfully fetched.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  ratingData:
+ *                                      type: object
+ *                                      description: The user rating data.
+ *                                      properties:
+ *                                          ratingId:
+ *                                               type: number
+ *                                               description: The id of the rating.
+ *                                          bookingId:
+ *                                               type: number
+ *                                               description: The id of the booking connected to the rating.
+ *                                          userWhoIsEvaluating:
+ *                                               type: number
+ *                                               description: The id of the user that creates the rating.
+ *                                          userWhoWasEvaluated:
+ *                                               type: number
+ *                                               description: The id of the user that is rated.
+ *                                          punctuality:
+ *                                               type: number
+ *                                               description: The amount of stars awarded for punctuality.
+ *                                          agreement:
+ *                                               type: number
+ *                                               description: The amount of stars awarded for agreement.
+ *                                          pleasent:
+ *                                               type: number
+ *                                               description: The amount of stars awarded for pleasent.
+ *                                          freight:
+ *                                               type: number
+ *                                               description: The amount of stars awarded for freight.
+ *                                          comment:
+ *                                               type: string
+ *                                               description: The comment of the rating.
+ *                                          firstName:
+ *                                               type: string
+ *                                               description: The first name of the user that created the rating.
+ *                                          lastName:
+ *                                               type: string
+ *                                               description: The last name of the user that created the rating.
+ *                                          picture:
+ *                                               type: string
+ *                                               description: The profile picture of the user that created the rating.
+ *              204:
+ *                  description: query was successful but contains no content.
+ *                  content: {}
+ */
 router.get('/userrating/:id', async function(req, res, next) {
     try {
         const rating = await getUserRating(req.params.id);
@@ -299,4 +373,4 @@ router.get('/userrating/:id', async function(req, res, next) {
 });
 
 
-module.exports = {router, getUser, editProfile};
+module.exports = {router, getUser, editProfile, getUserRating};

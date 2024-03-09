@@ -1,6 +1,6 @@
 const {expect, test, afterAll} = require('@jest/globals');
 const {registerNewUser} = require('../routes/user');
-const {getUser, editProfile} = require('../routes/profile');
+const {getUser, editProfile, getUserRating} = require('../routes/profile');
 const mariadb = require('mariadb');
 
 const pool = mariadb.createPool({
@@ -201,6 +201,41 @@ test('edit language data', async () => {
         const dbResult = await getUser(userId);
         expect(dbResult.lang.length).toEqual(1);
         expect(dbResult.lang[0].languageId).toEqual(1);
+    } finally {
+        if (conn) await conn.release();
+    }
+
+    try {
+        conn = await pool.getConnection();
+        await conn.query('DELETE FROM user WHERE email = ?', [email]);
+    } finally {
+        if (conn) await conn.release();
+    }
+});
+
+test('get rating data from new registered user', async () => {
+    const firstName = 'testFirstName';
+    const lastName = 'testLastName';
+    const email = 'testEmail@test.com';
+    const password = 'testPassword';
+    const birthdate = '1990-01-01';
+    const phonenumber = '1234567890';
+
+    const result = await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
+
+    expect(result).toBe(0);
+
+    let conn;
+
+    try {
+        conn = await pool.getConnection();
+
+        const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
+        const userId = id[0].userId;
+
+        const dbResult = await getUserRating(userId);
+
+        expect(dbResult.success).toBeFalsy();
     } finally {
         if (conn) await conn.release();
     }

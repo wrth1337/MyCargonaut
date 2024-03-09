@@ -26,7 +26,6 @@ export class ProfileComponent implements OnInit {
   tripData: any;
   rating: any;
   ratingData: any;
-  authorData: any;
   vehiclesAvailable = false;
   offersAvailable = false;
   wantedsAvailable = false;

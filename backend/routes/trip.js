@@ -68,20 +68,20 @@ async function getTripCount(id) {
  * tags:
  *      - name: trip
  *        description: Routes that are connected to the trips of an user
- * /trip:
+ * /trip/{userId}:
  *      get:
- *          summary: get user trips.
+ *          summary: get user trips by user Id.
  *          description: get a list of the user trips.
  *          tags:
  *              - trip
  *          parameters:
- *              - in: query
- *                name: email
+ *              - in: path
+ *                name: userId
  *                required: true
  *                schema:
- *                  type: string
- *                description: The email of the current user.
- *                example: max@example.com
+ *                  type: number
+ *                description: The id of the current user.
+ *                example: 1
  *          responses:
  *              200:
  *                  description: user trip data successfully fetched.
