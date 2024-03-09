@@ -31,6 +31,7 @@ export class ProfileComponent implements OnInit {
   offersAvailable = false;
   wantedsAvailable = false;
   tripsAvailable = false;
+  ratingsAvailable = false;
   tripCount: any;
   stars: number[] = [1, 2, 3, 4, 5];
 
@@ -65,70 +66,82 @@ export class ProfileComponent implements OnInit {
   ){}
 
   ngOnInit() {
-    this.id = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;
     this.route.params.subscribe(params => {
+      this.isOwner = false;
       this.idUrl = params['id'];
-    });
-    if(this.idUrl === this.id) {
-      this.isOwner = true;
-    }
-    this.api.getRequest("profile/userdata/"+this.idUrl).subscribe((res: any) => {
-      this.userData = res.userData;
-
-      for (const lang of this.language) {
-        this.languageVariables[lang.name] = false;
+      this.id = JSON.parse(this.auth.getUserData() || '{"user_id": 0}').user_id;
+      if(this.idUrl == this.id) {
+        this.isOwner = true;
       }
+    
+      this.api.getRequest("profile/userdata/"+this.idUrl).subscribe((res: any) => {
+        this.userData = res.userData;
 
-      for (const langObj of res.languages) {
-          const langVariable = this.language.find(lang => lang.id === langObj.languageId);
-          if (langVariable) {
-            this.languageVariables[langVariable.name] = true;
+        for (const lang of this.language) {
+          this.languageVariables[lang.name] = false;
+        }
+
+        for (const langObj of res.languages) {
+            const langVariable = this.language.find(lang => lang.id === langObj.languageId);
+            if (langVariable) {
+              this.languageVariables[langVariable.name] = true;
+            }
+        }
+        if(!this.isOwner) {
+          this.userData.lastName = this.userData.lastName.substring(0, 1) + ".";
+        }
+
+        this.rating = Math.round(res.userData.rating);
+        this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
+      });
+
+      this.api.getRequest("vehicle/"+this.idUrl).subscribe((res: any) => {
+        if(res != null) {
+          this.vehiclesAvailable = true;
+          this.vehicleData = res.vehicleData;
+        } else {
+          this.vehiclesAvailable = false;
+        }
+      });
+
+      this.api.getRequest("offer/getUserOffer/"+this.idUrl).subscribe((res: any) => {
+        if(res != null) {
+          this.offersAvailable = true;
+          this.offerData = res.offerData;
+          for(let i = 0; i < this.offerData.length; i++) {
+            this.offerData[i].startDate = this.datePipe.transform(res.offerData[i].startDate, 'dd.MM.yyyy');
           }
-      }
-
-      this.rating = Math.round(res.userData.rating);
-      this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
-    });
-
-    this.api.getRequest("vehicle").subscribe((res: any) => {
-      if(res != null) {
-        this.vehiclesAvailable = true;
-        this.vehicleData = res.vehicleData;
-      }
-    });
-
-    this.api.getRequest("offer/getUserOffer").subscribe((res: any) => {
-      if(res != null) {
-        this.offersAvailable = true;
-        this.offerData = res.offerData;
-        for(let i = 0; i < this.offerData.length; i++) {
-          this.offerData[i].startDate = this.datePipe.transform(res.offerData[i].startDate, 'dd.MM.yyyy');
+        } else {
+          this.offersAvailable = false;
         }
-      }
-    });
+      });
 
-    this.api.getRequest("wanted/getUserWanted").subscribe((res: any) => {
-      if(res != null) {
-        this.wantedsAvailable = true;
-        this.wantedData = res.wantedData;
-        for(let i = 0; i < this.wantedData.length; i++) {
-          this.wantedData[i].startDate = this.datePipe.transform(res.wantedData[i].startDate, 'dd.MM.yyyy');
+      this.api.getRequest("wanted/getUserWanted/"+this.idUrl).subscribe((res: any) => {
+        if(res != null) {
+          this.wantedsAvailable = true;
+          this.wantedData = res.wantedData;
+          for(let i = 0; i < this.wantedData.length; i++) {
+            this.wantedData[i].startDate = this.datePipe.transform(res.wantedData[i].startDate, 'dd.MM.yyyy');
+          }
+        } else {
+          this.wantedsAvailable = false;
         }
-      }
-    });
+      });
 
-    this.api.getRequest("trip").subscribe((res: any) => {
-      if(res != null) {
-        this.tripsAvailable = true;
-        this.tripData = res.tripData;
-        for(let i = 0; i < this.tripData.length; i++) {
-          this.tripData[i].startDate = this.datePipe.transform(res.tripData[i].startDate, 'dd.MM.yyyy');
+      this.api.getRequest("trip/"+this.idUrl).subscribe((res: any) => {
+        if(res != null) {
+          this.tripsAvailable = true;
+          this.tripData = res.tripData;
+          for(let i = 0; i < this.tripData.length; i++) {
+            this.tripData[i].startDate = this.datePipe.transform(res.tripData[i].startDate, 'dd.MM.yyyy');
+          }
+          this.tripCount = this.tripData.length;
         }
-        this.tripCount = this.tripData.length;
-      }
-      else {
-        this.tripCount = 0;
-      }
+        else {
+          this.tripCount = 0;
+          this.tripsAvailable = false;
+        }
+      });
     });
   }
   back(){
@@ -168,8 +181,13 @@ export class ProfileComponent implements OnInit {
     })
   }
   openRatingModal() {
-    this.api.getRequest('profile/userrating/'+this.id).subscribe((res:any) => {
-      this.ratingData = res.ratingData;
+    this.api.getRequest('profile/userrating/'+this.idUrl).subscribe((res:any) => {
+      if(res != null) {
+        this.ratingsAvailable = true;
+        this.ratingData = res.ratingData;
+      } else {
+        this.ratingsAvailable = false;
+      }
     });
   }
 }

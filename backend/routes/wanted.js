@@ -24,7 +24,7 @@ const pool = mariadb.createPool({
 
 async function getUserWanteds(id) {
     const userWanted = `
-    SELECT a.startLocation, a.endLocation, a.startDate
+    SELECT a.adId, a.startLocation, a.endLocation, a.startDate
     FROM ad a
         JOIN wanted w ON w.adId = a.adId
     WHERE a.state = 'created' AND a.userId = ?`;
@@ -169,9 +169,9 @@ async function getWantedById(id) {
  *                      type: string
  *                      description: Description of the freight
  */
-router.get('/getUserWanted', authenticateToken, async function(req, res, next) {
+router.get('/getUserWanted/:id', authenticateToken, async function(req, res, next) {
     try {
-        const id = req.user_id;
+        const id = req.params.id;
         const wanted = await getUserWanteds(id);
 
         if (wanted.success) {

@@ -286,7 +286,6 @@ async function getUserRating(id) {
 router.get('/userrating/:id', async function(req, res, next) {
     try {
         const rating = await getUserRating(req.params.id);
-        console.log(rating);
         if (rating.success) {
             res.status(200);
             res.json({status: 1, ratingData: rating.data});

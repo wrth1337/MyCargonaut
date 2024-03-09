@@ -5,6 +5,10 @@
     object-position: 25% 25%;
 }
 
+.name:hover {
+    text-decoration: underline;
+}
+
 .big {
     font-size: xx-large;
 }

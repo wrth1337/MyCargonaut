@@ -24,7 +24,7 @@ const pool = mariadb.createPool({
 
 async function getUserOffers(id) {
     const userOffers = `
-    SELECT a.startLocation, a.endLocation, a.startDate
+    SELECT a.adId, a.startLocation, a.endLocation, a.startDate
     FROM ad a 
         JOIN offer o ON o.adId = a.adId
     WHERE a.state = 'created'
@@ -179,9 +179,9 @@ async function getOfferById(id) {
  *                      description: The start date of the offer.
  */
 
-router.get('/getUserOffer', authenticateToken, async function(req, res, next) {
+router.get('/getUserOffer/:id', authenticateToken, async function(req, res, next) {
     try {
-        const id = req.user_id;
+        const id = req.params.id;
         const offer = await getUserOffers(id);
 
         if (offer.success) {

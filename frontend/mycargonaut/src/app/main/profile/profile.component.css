@@ -5,11 +5,12 @@
     text-align: center;
 }
 .card {
-    border-width: 1px;
+    border-width: 2px;
     border-color: var(--primary);
+    padding: 3px;
 }
 .custom-border {
-    border-bottom: 1px solid var(--primary);
+    border-bottom: 2px solid var(--primary);
 }
 .big {
     font-size: x-large;
@@ -24,6 +25,10 @@
   
 .highlight {
     color: rgb(255, 217, 0);
+}
+
+.click:hover {
+    text-decoration: underline;
 }
 
 .ht3 {

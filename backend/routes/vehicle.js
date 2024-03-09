@@ -344,9 +344,9 @@ async function deleteUserVehicle(userId, vehicleId) {
  *  - bearerAuth: []
  */
 
-router.get('/vehicle', authenticateToken, async function(req, res, next) {
+router.get('/vehicle/:id', authenticateToken, async function(req, res, next) {
     try {
-        const id = req.user_id;
+        const id = req.params.id;
         const vehicle = await getUserVehicles(id);
         if (vehicle.success) {
             res.status(200);
