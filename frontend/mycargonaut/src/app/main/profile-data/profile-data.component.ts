@@ -56,9 +56,7 @@ export class ProfileDataComponent implements OnInit {
       });
     } else {
       this.userId = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;
-      //if(this.id == this.userId) {
-        this.isOwner = true;
-      //}
+      this.isOwner = true;
       this.getProfileData(this.userId);
     }
   }

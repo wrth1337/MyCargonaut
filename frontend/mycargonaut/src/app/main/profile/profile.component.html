@@ -403,7 +403,7 @@
                                 &#9733;
                             </span>
                             <br>
-                            <div *ngIf="item.freight != null">
+                            <div *ngIf="item.freight !== null">
                             Fracht:
                             <span *ngFor="let star of stars" class="big star freight" [class.highlight]="star <= item.freight">
                                 &#9733;
