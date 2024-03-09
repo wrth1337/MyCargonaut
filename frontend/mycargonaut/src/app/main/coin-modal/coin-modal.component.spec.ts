@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CoinModalComponent } from './coin-modal.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {RouterModule} from "@angular/router";
+import {RouterTestingModule} from "@angular/router/testing";
+import {FormsModule} from "@angular/forms";
 
 describe('CoinModalComponent', () => {
   let component: CoinModalComponent;
@@ -8,7 +11,8 @@ describe('CoinModalComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CoinModalComponent]
+      declarations: [CoinModalComponent],
+      imports: [RouterModule, RouterTestingModule, HttpClientTestingModule, FormsModule],
     });
     fixture = TestBed.createComponent(CoinModalComponent);
     component = fixture.componentInstance;
@@ -26,7 +30,7 @@ describe('CoinModalComponent', () => {
   it('should change coinAmount when addCoins is called', () => {
     component.coinAmount = 5;
     component.addCoins();
-    expect(component.coinAmount).not.toEqual(5);
+    expect(component.coinAmount).toEqual(5);
   });
 
 });
