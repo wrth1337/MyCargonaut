@@ -59,9 +59,9 @@ test('subtractUserCoins with invalid user id', async () => {
 
 test('addUserCoins', async () => {
     try {
-        const firstName = 'testFirstName';
-        const lastName = 'testLastName';
-        const email = 'mail@mail.de';
+        const firstName = 'testFirstNameCoinv';
+        const lastName = 'testLastNameCoinVA';
+        const email = 'mailCoinabc@mail.de';
         const password = 'testPassword';
         const birthdate = '1990-01-01';
         const phonenumber = '1234567890';
@@ -77,15 +77,15 @@ test('addUserCoins', async () => {
     } finally {
         const conn = await pool.getConnection();
         const deleteQuery = 'DELETE FROM user WHERE userId = ?';
-        await conn.query(deleteQuery, [await getUserID('mail@mail.de')]);
+        await conn.query(deleteQuery, [await getUserID('mailCoinabc@mail.de')]);
     }
 });
 
 test('subtractUserCoins', async () => {
     try {
-        const firstName = 'testFirstName';
-        const lastName = 'testLastName';
-        const email = 'mail@mail.de';
+        const firstName = 'testFirstNameCoina';
+        const lastName = 'testLastNameCoinB';
+        const email = 'mailCoinabc@mail.de';
         const password = 'testPassword';
         const birthdate = '1990-01-01';
         const phonenumber = '1234567890';
@@ -104,13 +104,13 @@ test('subtractUserCoins', async () => {
     } finally {
         const conn = await pool.getConnection();
         const deleteQuery = 'DELETE FROM user WHERE userId = ?';
-        await conn.query(deleteQuery, [await getUserID('mail@mail.de')]);
+        await conn.query(deleteQuery, [await getUserID('mailCoinabc@mail.de')]);
     }
 });
 
 test('subtractUserCoins with not enough coins', async () => {
-    const firstName = 'testFirstName';
-    const lastName = 'testLastName';
+    const firstName = 'testFirstNameCoin';
+    const lastName = 'testLastNameCoin';
     const email = 'mailCoin@mail.de';
     const password = 'testPassword';
     const birthdate = '1990-01-01';
