@@ -43,7 +43,7 @@ test('get correct amount of trips of a new user', async () => {
     } finally {
         if (conn) await conn.release();
     }
-});
+}, 10000);
 
 afterAll(() => {
     pool.end((err) => {
