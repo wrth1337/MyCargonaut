@@ -5,25 +5,29 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
+import { AuthModule } from 'src/app/auth/auth.module';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('WantedComponent', () => {
   let component: WantedComponent;
   let fixture: ComponentFixture<WantedComponent>;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     TestBed.configureTestingModule({
       declarations: [WantedComponent],
-      imports: [HttpClientTestingModule, RouterModule, RouterTestingModule, FormsModule]
-    });
+      imports: [HttpClientTestingModule, RouterModule, RouterTestingModule, FormsModule, AuthModule],
+      providers: [],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents()
+  });
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(WantedComponent);
     component = fixture.componentInstance;
 
-    component.userData = {
+    component.user = {
       firstName: 'Max',
       lastName: 'Mustermann',
-      birthdate: '01.01.2000',
-      description: 'Beschreibung',
-      experience: 'Erfahrung'
     };
     localStorage.setItem('userData','{"email":"mails@mails.de","user_id":4}');
 
@@ -35,15 +39,8 @@ describe('WantedComponent', () => {
   });
 
   it('should display user name', () => {  
-    
     const el = fixture.debugElement.query(By.css('.username')).nativeElement.textContent.trim();
     expect(el).toBe('Max Mustermann');
-  });
-
-  it('should display short description', () => {
-  
-    const el = fixture.debugElement.query(By.css('.description')).nativeElement.textContent.trim();
-    expect(el).toBe('Beschreibung');
   });
 
   it('should display [Gesuch erfolgreich erstellt] when submitting a new wanted ad successfully', () => {  
@@ -58,14 +55,11 @@ describe('WantedComponent', () => {
   it('should display placeholder when no profile picture is available', () => {
     const el = fixture.debugElement.query(By.css('.bi-person-circle'));
     expect(el).toBeTruthy();
-
   });
   
   it('should display profile picture when available', () => {
-  
-    component.userData = { picture: 'URL_DES_PROFILBILDS' };
+    component.user.picture = 'URL_DES_PROFILBILDS';
     fixture.detectChanges();
-    
     const el = fixture.debugElement.query(By.css('.profilepicture'));
     const placeholder = fixture.debugElement.query(By.css('.bi-person-circle'));
     expect(placeholder).toBeFalsy();
@@ -128,26 +122,10 @@ describe('WantedComponent', () => {
     expect(getComputedStyle(button.nativeElement).borderColor).toEqual('rgb(0, 91, 82)');
   });
 
-  it('should have correct color for progressbar', () => {
-    const bar = fixture.debugElement.query(By.css('.progress'));
-    expect(getComputedStyle(bar.nativeElement).backgroundColor).toEqual('rgb(225, 233, 190)');
-  });
-
-  it('should have correct color for progress', () => {
-    const bar = fixture.debugElement.query(By.css('.custom-progress'));
-    expect(getComputedStyle(bar.nativeElement).backgroundColor).toEqual('rgb(0, 91, 82)');
-  });
-
-  // Test muss angepasst werden wenn Algorithmus für Erfahrung implementiert wurde
-  it('should update progress bar width based on tripCount', () => {
-    component.tripCount = 5;
-    fixture.detectChanges();
-
-    const progressBar = fixture.debugElement.query(By.css('.progress-bar'));
-
-    const expectedWidth = (component.tripCount / 10) * 100 + '%';
-
-    expect(progressBar.styles['width']).toBe(expectedWidth);
+  it('should have input field startLocation with type text', () => {
+    const el = fixture.debugElement.query(By.css('.startLoc-input'));
+    expect(el).toBeTruthy();
+    expect(el.nativeElement.getAttribute('type')).toEqual('text');
   });
 
   it('should have input field startLocation with type text', () => {

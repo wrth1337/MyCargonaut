@@ -15,10 +15,10 @@ describe('ProfileComponent', () => {
       declarations: [ProfileComponent],
       imports: [HttpClientTestingModule, RouterModule, RouterTestingModule, FormsModule],
     });
-  
+
     fixture = TestBed.createComponent(ProfileComponent);
     component = fixture.componentInstance;
-  
+
     component.userData = {
       firstName: 'Max',
       lastName: 'Mustermann',
@@ -36,8 +36,7 @@ describe('ProfileComponent', () => {
     component.wantedData = [{startLocation: 'Hamburg', endLocation: 'Berlin', startDate: '02.02.2024'}, {startLocation: 'München', endLocation: 'Frankfurt', startDate: '03.03.2024'}];
     component.wantedsAvailable = true;
 
-    component.uotData = [{startLocation: 'Köln', endLocation: 'Düsseldorf', startDate: '04.04.2023'}];
-    component.uwtData = [{startLocation: 'Stuttgart', endLocation: 'Dresden', startDate: '05.05.2023'}];
+    component.tripData = [{startLocation: 'Stuttgart', endLocation: 'Dresden', startDate: '05.05.2023'}, {startLocation: 'Köln', endLocation: 'Düsseldorf', startDate: '04.04.2023'}];
     component.tripsAvailable = true;
 
     component.language = [
@@ -57,30 +56,30 @@ describe('ProfileComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display user name', () => {  
-    
+  it('should display user name', () => {
+
     const el = fixture.debugElement.query(By.css('.username')).nativeElement.textContent.trim();
     expect(el).toBe('Max Mustermann');
   });
 
   it('should display short description', () => {
-  
+
     const el = fixture.debugElement.query(By.css('.description')).nativeElement.textContent.trim();
     expect(el).toBe('Beschreibung');
   });
-  
-  
+
+
   it('should display placeholder when no profile picture is available', () => {
     const el = fixture.debugElement.query(By.css('.bi-person-circle'));
     expect(el).toBeTruthy();
 
   });
-  
+
   it('should display profile picture when available', () => {
-  
+
     component.userData = { picture: 'URL_DES_PROFILBILDS' };
     fixture.detectChanges();
-    
+
     const el = fixture.debugElement.query(By.css('.profilepicture'));
     const placeholder = fixture.debugElement.query(By.css('.bi-person-circle'));
     expect(placeholder).toBeFalsy();
@@ -91,7 +90,7 @@ describe('ProfileComponent', () => {
     component.rating = 4;
     fixture.detectChanges();
     const stars = fixture.debugElement.queryAll(By.css('.star'));
-    
+
     expect(stars.length).toBe(5);
     expect(stars[0].classes['highlight']).toBeTruthy();
     expect(stars[1].classes['highlight']).toBeTruthy();
@@ -104,7 +103,7 @@ it('should highlight 5 stars for the rating', () => {
   component.rating = 5;
   fixture.detectChanges();
   const stars = fixture.debugElement.queryAll(By.css('.star'));
-  
+
   expect(stars.length).toBe(5);
   expect(stars[0].classes['highlight']).toBeTruthy();
   expect(stars[1].classes['highlight']).toBeTruthy();
@@ -117,7 +116,7 @@ it('should highlight 3 stars for the rating', () => {
   component.rating = 3;
   fixture.detectChanges();
   const stars = fixture.debugElement.queryAll(By.css('.star'));
-  
+
   expect(stars.length).toBe(5);
   expect(stars[0].classes['highlight']).toBeTruthy();
   expect(stars[1].classes['highlight']).toBeTruthy();
@@ -222,12 +221,11 @@ it('should display trips if trips are available', () => {
 
   const wanted = fixture.debugElement.query(By.css('.trip')).nativeElement.textContent.trim();
 
-  expect(wanted).toBe('Suche Fahrt von Stuttgart nach Dresden am 05.05.2023  Biete Fahrt von Köln nach Düsseldorf am 04.04.2023');
+  expect(wanted).toBe('Fahrt von Stuttgart nach Dresden am 05.05.2023  Fahrt von Köln nach Düsseldorf am 04.04.2023');
 });
 
 it('should display [keine Fahrten vorhanden] if no trips are available', () => {
-  component.uotData = [];
-  component.uwtData = [];
+  component.tripData = [];
   component.tripsAvailable = false;
   fixture.detectChanges();
 

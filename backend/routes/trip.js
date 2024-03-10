@@ -23,31 +23,38 @@ const pool = mariadb.createPool({
 // ---Methods--- //
 
 async function getUserTrips(id) {
-    const userWantedTrips = `
+    const userTrips = `
     SELECT a.startLocation, a.endLocation, a.startDate
     FROM ad a 
-        JOIN wanted w ON w.adId = a.adId 
-        JOIN booking b ON b.adId = a.adId 
-        JOIN status s ON s.bookingId = b.bookingId 
-    WHERE s.endRide = TRUE AND a.userId = ?`;
-
-    const userOfferedTrips = `
-    SELECT a.startLocation, a.endLocation, a.startDate
-    FROM ad a 
-        JOIN offer o ON o.adId = a.adId
         JOIN booking b ON b.adId = a.adId
-        JOIN status s ON s.bookingId = b.bookingId 
-    WHERE s.endRide = TRUE AND a.userId = ?`;
+    WHERE (a.state != 'created' AND a.userId = ?) OR (b.userId = ?  AND b.canceled = FALSE AND b.state = 'confirmed')`;
 
     try {
         const conn = await pool.getConnection();
-        const uwtresult = await conn.query(userWantedTrips, [id]);
-        const uotresult = await conn.query(userOfferedTrips, [id]);
+        const result = await conn.query(userTrips, [id, id]);
         await conn.release();
-        if (uwtresult.length > 0 || uotresult.length > 0) {
-            return {success: true, uwtdata: uwtresult, uotData: uotresult};
+        if (result.length > 0) {
+            return {success: true, data: result};
         } else {
             return {success: false};
+        }
+    } catch (error) {
+        console.error('Fehler bei der Abfrage:', error);
+        throw error;
+    }
+}
+
+async function getTripCount(id) {
+    const trips = `SELECT a.adId FROM ad a JOIN booking b ON b.adId = a.adId
+    WHERE (a.state != 'created' AND a.userId = ?) OR (b.userId = ?  AND b.canceled = FALSE AND b.state = 'confirmed')`;
+    try {
+        const conn = await pool.getConnection();
+        const tripCount = await conn.query(trips, [id, id]);
+        await conn.release();
+        if (tripCount.length > 0) {
+            return {success: true, data: tripCount};
+        } else {
+            return {success: true, data: []};
         }
     } catch (error) {
         console.error('Fehler bei der Abfrage:', error);
@@ -65,18 +72,16 @@ async function getUserTrips(id) {
  *      get:
  *          summary: get user trips.
  *          description: get a list of the user trips.
- *          security:
- *              - bearerAuth: []
  *          tags:
  *              - trip
  *          parameters:
  *              - in: query
- *                name: userId
+ *                name: email
  *                required: true
  *                schema:
- *                  type: number
- *                description: The id of the current user.
- *                example: 1
+ *                  type: string
+ *                description: The email of the current user.
+ *                example: max@example.com
  *          responses:
  *              200:
  *                  description: user trip data successfully fetched.
@@ -129,23 +134,16 @@ async function getUserTrips(id) {
  *                      type: string
  *                      format: date
  *                      description: The start date of the wanted trip.
- *      securitySchemes:
- *          bearerAuth:
- *              type: http
- *              scheme: bearer
- *              bearerFormat: JWT
- * security:
- *  - bearerAuth: []
  */
 
-router.get('/trip', authenticateToken, async function(req, res, next) {
+router.get('/', authenticateToken, async function(req, res, next) {
     try {
         const id = req.user_id;
         const trip = await getUserTrips(id);
 
         if (trip.success) {
             res.status(200);
-            res.json({status: 1, uwtData: trip.uwtdata, uotData: trip.uotData});
+            res.json({status: 1, tripData: trip.data});
         } else {
             res.status(204).json(null);
         }
@@ -155,5 +153,67 @@ router.get('/trip', authenticateToken, async function(req, res, next) {
     }
 });
 
+/**
+ * @swagger
+ * tags:
+ *      - name: getTripCount
+ *        description: Route that gets all trips by user id.
+ * /trip/getTripCount/{userId}:
+ *      get:
+ *          summary: get user trips.
+ *          description: get all of the user trips.
+ *          tags:
+ *              - trip
+ *          parameters:
+ *              - in: path
+ *                name: userId
+ *                required: true
+ *                schema:
+ *                  type: number
+ *                description: The id of the current user.
+ *                example: 1
+ *          responses:
+ *              200:
+ *                  description: user trip data successfully fetched.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  data:
+ *                                      type: array
+ *                                      description: The user trip data.
+ *                                      items:
+ *                                        $ref: '#/components/schemas/trip'
+ *              204:
+ *                  description: query was successful but contains no content.
+ *                  content: {}
+ * components:
+ *      schemas:
+ *          trip:
+ *              type: object
+ *              properties:
+ *                  adId:
+ *                      type: number
+ *                      description: The id of the ad connected to the trip.
+ */
+router.get('/getTripCount/:id', async function(req, res, next) {
+    try {
+        const trip = await getTripCount(req.params.id);
+        if (trip.success) {
+            res.status(200);
+            res.json({status: 1, data: trip.data});
+        } else {
+            res.status(204).json(null);
+        }
+    } catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Fetching Trip Count failed'});
+    }
+});
 
-module.exports = {router, getUserTrips};
+
+module.exports = {router, getUserTrips, getTripCount};

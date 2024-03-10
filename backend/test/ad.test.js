@@ -35,7 +35,7 @@ test('get ad by correct Id', async () =>{
                 'notes': 'No pets allowed',
                 'numSeats': 4,
                 'picture': null,
-                'active': 1,
+                'state': 'created',
                 'userId': 10,
             });
     } finally {

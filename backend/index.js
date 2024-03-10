@@ -30,7 +30,7 @@ const ad = require('./routes/ad');
 app.use('/ad', ad.router);
 
 const trip = require('./routes/trip');
-app.use('', trip.router);
+app.use('/trip', trip.router);
 
 const searchbar = require('./routes/searchbar');
 app.use('/searchbar', searchbar.router);
@@ -38,6 +38,8 @@ app.use('/searchbar', searchbar.router);
 const chat = require('./routes/chat');
 app.use('/chat', chat.router);
 
+const booking = require('./routes/booking');
+app.use('/booking', booking.router);
 
 // app.js
 const swaggerJSDoc = require('swagger-jsdoc');

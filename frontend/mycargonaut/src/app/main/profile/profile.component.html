@@ -87,13 +87,11 @@
                         <div class="card mb-3">
                             <div class="card-title custom-border"> Sprachen: </div>
                             <div class="card-body overflow-auto">
-                                <div class="row d-flex">
-                                    <div class="langs row d-flex">
-                                        <ng-container *ngFor="let lang of language">
-                                            <div *ngIf="languageVariables[lang.name]" class="col">
-                                                <img [src]="lang.icon" [alt]="lang.name" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
-                                            </div>
-                                        </ng-container>
+                                <div class="row">
+                                    <div class="col d-flex langs" *ngFor="let lang of language">
+                                        <div *ngIf="languageVariables[lang.name]">
+                                            <img [src]="lang.icon" [alt]="lang.name" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -182,12 +180,8 @@
                     <div> Keine Fahrten vorhanden </div>
                 </div>
                 <div class="card-body trip overflow-auto" *ngIf="tripsAvailable">
-                    <div *ngFor="let item of uwtData">
-                        <div> Suche Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
-                        <br>
-                    </div>
-                    <div *ngFor="let item of uotData">
-                        <div> Biete Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
+                    <div *ngFor="let item of tripData">
+                        <div> Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
                         <br>
                     </div>
                 </div>
@@ -233,10 +227,10 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-people-fill" viewBox="0 0 16 16">
                                 <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
                               </svg>
-                            <input id="seats" class="form-control input-text-field ms-2 m-1" type="number" name="numSeats" placeholder="Anzahl Sitzplätze" min="0" required ngModel [(ngModel)]="this.selectedVehicle.numSeats">    
+                            <input id="seats" class="form-control input-text-field ms-2 m-1" type="number" name="numSeats" placeholder="Anzahl Sitzplätze" min="0" required ngModel [(ngModel)]="this.selectedVehicle.numSeats">
                         </div>
                         <div class="inputRow">
-                            <svg fill="var(--primary)" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                            <svg fill="var(--primary)" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                             width="32px" height="32px" viewBox="0 0 612 612" xml:space="preserve">
                             <g>
                            <path d="M610.434,512.716l-95.988-296.691c-4.244-13.117-16.459-22.003-30.245-22.003H382.904

@@ -31,7 +31,6 @@ test('create new wanted ad', async () => {
     const smoker = true;
     const notes = 'testNote';
     const numSeats = 2;
-    const price = 50.0;
     const freight = 'testFreight';
 
     let conn;
@@ -42,7 +41,7 @@ test('create new wanted ad', async () => {
         const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
         const userId = id[0].userId;
 
-        const res = await addNewWanted(description, startLocation, endLocation, startDate, endDate, animals, smoker, price, notes, numSeats, userId, freight);
+        const res = await addNewWanted(description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId, freight);
         expect(res).toBe(1);
 
         const dbResult = await getUserWanteds(userId);

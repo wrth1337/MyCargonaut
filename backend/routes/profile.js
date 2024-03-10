@@ -89,7 +89,7 @@ async function editProfile(firstName, lastName, birthdate, picture, description,
  *                required: true
  *                schema:
  *                  type: string
- *                description: The email of the current user.
+ *                description: The id of the current user.
  *                example: 1
  *          responses:
  *              200:
