@@ -82,6 +82,7 @@ export class CreateOfferComponent {
     });
   }
 
+
   onSubmit(form: NgForm) {
     form.value.endDate = form.value.startDate;
     form.value.smoker = this.smoke;
