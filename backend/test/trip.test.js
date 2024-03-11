@@ -12,10 +12,10 @@ const pool = mariadb.createPool({
 });
 
 test('get correct amount of trips of a new user', async () => {
-    const firstName = 'testFirstName';
-    const lastName = 'testLastName';
-    const email = 'testEmail@test.com';
-    const password = 'testPassword';
+    const firstName = 'testfirstname';
+    const lastName = 'testlastname';
+    const email = 'testemail@test.com';
+    const password = 'testpassword';
     const birthdate = '1990-01-01';
     const phonenumber = '1234567890';
 
