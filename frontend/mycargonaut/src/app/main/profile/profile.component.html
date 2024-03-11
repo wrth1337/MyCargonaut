@@ -110,13 +110,13 @@
                                     </div>
                                     <div *ngIf="vehiclesAvailable">
                                         <div *ngIf="isOwner">
-                                            <div *ngFor="let item of vehicleData">
+                                            <div *ngFor="let item of vehicleData" class="custom-border">
                                                 <button class="vehicleEntry m-2 click" style="background-color: white;" data-bs-toggle="modal" data-bs-target="#vehicleModal" (click)="selectVehicle(item)"> {{item.name}}</button>
                                                 <br>
                                             </div>
                                         </div>
                                         <div *ngIf="!isOwner">
-                                            <div *ngFor="let item of vehicleData">
+                                            <div *ngFor="let item of vehicleData" class="custom-border">
                                                 <span class="vehicleEntry m-2"> {{item.name}}</span>
                                                 <br>
                                             </div>
@@ -213,7 +213,7 @@
                     <div> Keine Fahrten vorhanden </div>
                 </div>
                 <div class="card-body trip overflow-auto" *ngIf="tripsAvailable">
-                    <div *ngFor="let item of tripData">
+                    <div *ngFor="let item of tripData" class="custom-border">
                         <div> Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
                         <br>
                     </div>
