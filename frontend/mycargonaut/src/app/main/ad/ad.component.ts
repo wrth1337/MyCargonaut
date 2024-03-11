@@ -106,7 +106,6 @@ export class AdComponent implements OnInit{
         if (error.error.status === 2) this.toFewSeatsResponse = true;
       });
     } else if (this.type === 'wanted') {
-      console.log(this.typeSpecificContent);
       this.api.postRequest('booking',{numSeats: this.ad.numSeats, adId: this.ad.adId, freight: this.typeSpecificContent.freight}).subscribe((res:any) => {
         if (res.status === 1) window.location.reload();
       });
