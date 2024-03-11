@@ -79,7 +79,6 @@ export class CreateOfferComponent {
     this.api.getRequest("vehicle").subscribe((res: any) => {
       this.vehiclesAvailable = true;
       this.vehicleData = res.vehicleData;
-      console.log("Die Daten sind angekommen: " + res.vehicleData.specialFeatures);
     });
   }
 
