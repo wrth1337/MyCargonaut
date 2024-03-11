@@ -145,6 +145,11 @@
 }
 
 .abortButton{
+    border: none;
     background-color: rgb(255, 47, 47);
     color: white;
+}
+
+.modalWidth {
+    width: fit-content;
 }

@@ -77,13 +77,11 @@
                     <input id="freight" class="form-control mx-2 mb-2 me-2 input-field" type="number" name="freight" placeholder="Menge Fracht" min="0" ngModel>
                     <span class="ms-2 price fs-4 ">Gesamtpreis: </span> 
                     <span class="ms-2 price fs-4 " style="color: var(--primary);">{{this.typeSpecificContent.pricePerFreight * bookingForm.value.freight+ this.typeSpecificContent.pricePerPerson * bookingForm.value.numSeats}}</span>
-
                 </div>
                 <div *ngIf="this.type==='wanted'" class="modal-body">
                     <p class="fs-3">Wollen Sie diese Fahrt übernehmen?</p>
                     <span class="ms-2 price fs-4 ">Angebotener Gesamtpreis: </span> 
                     <span class="ms-2 price fs-4 " style="color: var(--primary);">{{this.typeSpecificContent.price}}</span>
-                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn abortButton" data-bs-dismiss="modal">Abbrechen</button>
@@ -104,7 +102,8 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
-                <p>Sind Sie sich sicher?</p>
+                <p class="fs-3">Fahrt Stornieren?</p>
+                <span>Diese Aktion kann nicht rückgängig gemacht werden!</span>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary abortButton" data-bs-dismiss="modal">Abbrechen</button>
@@ -116,9 +115,10 @@
 
 <div class="modal" id="startModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content modalWidth">
             <div class="modal-body">
-                <p>Sind Sie sich sicher?</p>
+                <p class="fs-3">Fahrt starten?</p>
+                <span>Diese Aktion kann nicht rückgängig gemacht werden!</span>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary abortButton" data-bs-dismiss="modal">Abbrechen</button>
@@ -130,9 +130,10 @@
 
 <div class="modal" id="stopModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content modalWidth">
             <div class="modal-body">
-                <p>Sind Sie sich sicher?</p>
+                <p class="fs-3">Fahrt beenden?</p>
+                <span>Diese Aktion kann nicht rückgängig gemacht werden!</span>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary abortButton" data-bs-dismiss="modal">Abbrechen</button>
