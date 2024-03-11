@@ -12,9 +12,7 @@ export class CoinModalComponent {
   ){}
   addCoins() {
     const coinsToAdd = this.coinAmount;
-    console.log('CoinsToAdd: ' + coinsToAdd);
     this.api.postRequest("coins/add", { coins: coinsToAdd }).subscribe((res: any) => {
-      console.log(res);
       window.location.reload();
     });
   }
