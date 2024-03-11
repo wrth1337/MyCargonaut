@@ -190,7 +190,7 @@ async function getOfferById(id) {
  *                      description: The start date of the offer.
  */
 
-router.get('/getUserOffer/:id', authenticateToken, async function(req, res, next) {
+router.get('/getUserOffer/:id', async function(req, res, next) {
     try {
         const id = req.params.id;
         const offer = await getUserOffers(id);

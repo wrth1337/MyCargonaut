@@ -180,7 +180,7 @@ async function getWantedById(id) {
  *                      type: string
  *                      description: Description of the freight
  */
-router.get('/getUserWanted/:id', authenticateToken, async function(req, res, next) {
+router.get('/getUserWanted/:id', async function(req, res, next) {
     try {
         const id = req.params.id;
         const wanted = await getUserWanteds(id);

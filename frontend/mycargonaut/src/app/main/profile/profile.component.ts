@@ -19,7 +19,14 @@ export class ProfileComponent implements OnInit {
   id = 0;
   idUrl = 0;
   isOwner = false;
-  userData: any;
+  userData = {
+    firstName: '',
+    lastName: '',
+    birthdate: '',
+    picture: '',
+    description: '',
+    experience: ''
+  };
   vehicleData: any;
   offerData: any;
   wantedData: any;
@@ -91,7 +98,7 @@ export class ProfileComponent implements OnInit {
         }
 
         this.rating = Math.round(res.userData.rating);
-        this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
+        this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy')!;
       });
 
       this.api.getRequest("vehicle/"+this.idUrl).subscribe((res: any) => {
@@ -184,6 +191,9 @@ export class ProfileComponent implements OnInit {
       if(res != null) {
         this.ratingsAvailable = true;
         this.ratingData = res.ratingData;
+        this.ratingData.forEach((el: any) => {
+          el.lastName = el.lastName.substring(0, 1) + ".";
+        });
       } else {
         this.ratingsAvailable = false;
       }

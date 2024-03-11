@@ -24,7 +24,8 @@ describe('ProfileComponent', () => {
       lastName: 'Mustermann',
       birthdate: '01.01.2000',
       description: 'Beschreibung',
-      experience: 'Erfahrung'
+      experience: 'Erfahrung',
+      picture: 'URL_DES_PROFILBILDS'
     };
     localStorage.setItem('userData','{"email":"mails@mails.de","user_id":4}');
     component.vehicleData = [{name: 'Car1'}, {name: 'Car2'}];
@@ -49,7 +50,7 @@ describe('ProfileComponent', () => {
       english: false,
     };
     component.isOwner = true;
-    
+
     component.ratingData = [{ratingId: 1, bookingId: 1, userWhoIsEvaluating: 1, userWhoWasEvaluated: 2, punctuality: 4, agreement: 3, pleasent: 1, freight: 5, comment: 'Test Kommentar', firstName: 'Vorname', lastName: 'Nachname', picture: 'profilepicture.jpg'}];
     component.ratingsAvailable = true;
 
@@ -132,16 +133,21 @@ describe('ProfileComponent', () => {
 
 
   it('should display placeholder when no profile picture is available', () => {
+    component.userData = {
+      firstName: 'Max',
+      lastName: 'Mustermann',
+      birthdate: '01.01.2000',
+      description: 'Beschreibung',
+      experience: 'Erfahrung',
+      picture: ''
+    };
+    fixture.detectChanges();
     const el = fixture.debugElement.query(By.css('.bi-person-circle'));
     expect(el).toBeTruthy();
 
   });
 
   it('should display profile picture when available', () => {
-
-    component.userData = { picture: 'URL_DES_PROFILBILDS' };
-    fixture.detectChanges();
-
     const el = fixture.debugElement.query(By.css('.profilepicture'));
     const placeholder = fixture.debugElement.query(By.css('.bi-person-circle'));
     expect(placeholder).toBeFalsy();

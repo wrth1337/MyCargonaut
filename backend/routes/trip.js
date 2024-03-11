@@ -136,7 +136,7 @@ async function getTripCount(id) {
  *                      description: The start date of the wanted trip.
  */
 
-router.get('/:id', authenticateToken, async function(req, res, next) {
+router.get('/:id', async function(req, res, next) {
     try {
         const id = req.params.id;
         const trip = await getUserTrips(id);
