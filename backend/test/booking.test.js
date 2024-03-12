@@ -14,10 +14,10 @@ test('If newBooking updates the booking table correctly', async () => {
     let conn;
     try {
         conn = await pool.getConnection();
-        // eslint-suppress-next-line max-len
+        // eslint-disable-next-line max-len
         await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience) VALUES (123456789,'MaxBooking', 'MustermannBooking', 'maxBoocking@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
 
-        // eslint-suppress-next-line max-len
+        // eslint-disable-next-line max-len
         await conn.query(`INSERT INTO ad (adId,description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) VALUES (123456789,'Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 123456789)`);
         const res = await booking.newBooking(123456789, 123456789, 10, 1);
         expect(res.affectedRows).toEqual(1);
@@ -32,13 +32,13 @@ test('If getSeatsAvailable get the correct amount of seats', async () => {
     let conn;
     try {
         conn = await pool.getConnection();
-        // eslint-suppress-next-line max-len
+        // eslint-disable-next-line max-len
         await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience) VALUES (123456789,'MaxBookingA', 'MustermannBookingB', 'maxBoockingC@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
 
-        // eslint-suppress-next-line max-len
+        // eslint-disable-next-line max-len
         await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience) VALUES (12345678,'MaxBookingC', 'MustermannBookingC', 'maxBoockingC@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
 
-        // eslint-suppress-next-line max-len
+        // eslint-disable-next-line max-len
         await conn.query(`INSERT INTO ad (adId,description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) VALUES (123456789,'Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 123456789)`);
 
         const booking1 = await booking.newBooking(123456789, 123456789, 10, 1);
@@ -61,11 +61,11 @@ test('If a booking is canceled correctly', async () => {
     let conn;
     try {
         conn = await pool.getConnection();
-        await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience) \
-        VALUES (123456789,'MaxBookingD', 'MustermannBookingD', 'maxBoockingD@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
+        // eslint-disable-next-line max-len
+        await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience) VALUES (123456789,'MaxBookingD', 'MustermannBookingD', 'maxBoockingD@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
 
-        await conn.query(`INSERT INTO ad (adId,description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) \
-                    VALUES (123456789,'Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 123456789)`);
+        // eslint-disable-next-line max-len
+        await conn.query(`INSERT INTO ad (adId,description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) VALUES (123456789,'Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 123456789)`);
 
         const bookingResult = await booking.newBooking(123456789, 123456789, 10, 1);
         expect((await booking.getBookingsByAd(123456789))[0].canceled).toEqual(0);
@@ -124,8 +124,8 @@ test('If confirming a booking works', async () => {
     let conn;
     try {
         conn = await pool.getConnection();
-        await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience) \
-        VALUES (123456789,'MaxBooking', 'MustermannBooking', 'max@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
+        // eslint-disable-next-line max-len
+        await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience) VALUES (123456789,'MaxBooking', 'MustermannBooking', 'max@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
 
         await conn.query(`INSERT INTO ad (adId,description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) \
                     VALUES (123456789,'Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 123456789)`);
