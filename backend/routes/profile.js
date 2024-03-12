@@ -265,5 +265,42 @@ router.post('/edit_profile', authenticateToken, async function(req, res, next) {
     }
 });
 
+async function getUserXP(id) {
+    const xp = `
+        SELECT b.numSeats
+        FROM booking b
+        JOIN ad a ON a.adId = b.adId
+        WHERE (b.userId = ? AND b.state = 'confirmed' AND b.canceled = FALSE) OR (a.userId = ? AND a.state != 'created')`;
+    const trips = `SELECT a.adId FROM ad a JOIN booking b ON b.adId = a.adId
+        WHERE (a.state != 'created' AND a.userId = ?) OR (b.userId = ?  AND b.canceled = FALSE AND b.state = 'confirmed')`;
+    const languages = 'SELECT languageId FROM userLanguage WHERE userId = ?';
+    try {
+        const conn = await pool.getConnection();
+        const resNumSeats = await conn.query(xp, [id, id]);
+        const resTrips = await conn.query(trips, [id, id]);
+        const lang = await conn.query(languages, [id]);
+        await conn.release();
+        return {success: true, numSeats: resNumSeats, trips: resTrips, lang: lang};
+    } catch (error) {
+        console.error('Fehler bei der Abfrage:', error);
+        throw error;
+    }
+}
+
+router.get('/experience/:id', async function(req, res, next) {
+    try {
+        const xp = await getUserXP(req.params.id);
+        if (xp.success) {
+            res.status(200);
+            res.json({status: 1, seats: xp.numSeats, trips: xp.trips, lang: xp.lang});
+        } else {
+            res.status(204).json(null);
+        }
+    } catch (error) {
+        res.status(500);
+        res.json({status: 99, error: 'Fetching User Experience failed'});
+    }
+});
+
 
 module.exports = {router, getUser, editProfile};

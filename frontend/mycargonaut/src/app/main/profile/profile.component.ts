@@ -26,6 +26,8 @@ export class ProfileComponent implements OnInit {
   wantedsAvailable = false;
   tripsAvailable = false;
   tripCount: any;
+  xp = 0;
+  level = 1;
   stars: number[] = [1, 2, 3, 4, 5];
 
   language = [
@@ -72,7 +74,6 @@ export class ProfileComponent implements OnInit {
             this.languageVariables[langVariable.name] = true;
           }
       }
-
       this.rating = Math.round(res.userData.rating);
       this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
     });
@@ -117,6 +118,7 @@ export class ProfileComponent implements OnInit {
         this.tripCount = 0;
       }
     });
+    this.userXP(userId);
   }
   back(){
     this.location.back()
@@ -153,6 +155,29 @@ export class ProfileComponent implements OnInit {
     this.api.deleteRequest('vehicle/' + this.selectedVehicle.vehicleId).subscribe((res:any) => {
       if(res)window.location.reload();
     })
+  }
+
+  userXP(userId: any) {
+    this.api.getRequest("profile/experience/"+userId).subscribe((res: any) => {
+      if(res != null) {
+        if(res.numSeats == null) {
+          res.numSeats = [];
+        }
+        if(res.trips == null) {
+          res.trips = [];
+        }
+        if(res.lang == null) {
+          res.lang = [];
+        }
+        let seatCount = 0;
+        res.numSeats.forEach((el:any) => {
+          seatCount += el;
+        });
+        let exp = ((seatCount * 20) * (res.trips.length * 30) + res.lang.length * 10);
+        this.level = Math.floor(exp / 100) + 1;
+        this.xp = exp % 100;
+      }
+    });
   }
 }
 
