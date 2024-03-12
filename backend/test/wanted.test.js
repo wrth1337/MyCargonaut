@@ -1,4 +1,4 @@
-const {expect, test, afterAll} = require('@jest/globals');
+const { expect, test, afterAll } = require('@jest/globals');
 const wanted = require('../routes/wanted');
 const mariadb = require('mariadb');
 
@@ -10,7 +10,7 @@ const pool = mariadb.createPool({
     database: 'cargodb',
 });
 
-test('get wanted by correct Id', async () =>{
+test('get wanted by correct Id', async () => {
     let conn;
     try {
         conn = await pool.getConnection();
@@ -33,12 +33,12 @@ test('get wanted by correct Id', async () =>{
         conn.query(`DELETE FROM user WHERE userId = 101337`);
         if (conn) await conn.release();
     }
-},10000);
+}, 10000);
 
-test('get wanted by wrong Id', async () =>{
+test('get wanted by wrong Id', async () => {
     const res2 = await wanted.getWantedById(99999999999);
-    expect(res2).toEqual({success: false});
-},10000);
+    expect(res2).toEqual({ success: false });
+}, 10000);
 
 afterAll(() => {
     pool.end((err) => {
