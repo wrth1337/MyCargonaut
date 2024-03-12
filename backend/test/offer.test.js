@@ -32,10 +32,18 @@ test('get offer by correct Id', async () =>{
                 'pricePerFreight': 100.0,
             });
     } finally {
-        conn.query(`DELETE FROM ad WHERE adId = 10`);
-        conn.query(`DELETE FROM offer WHERE offerId = 10`);
-        conn.query(`DELETE FROM vehicle WHERE vehicleId = 10`);
-        conn.query(`DELETE FROM user WHERE userId = 10`);
+        await conn.query(`DELETE
+                          FROM ad
+                          WHERE adId = 10`);
+        await conn.query(`DELETE
+                          FROM offer
+                          WHERE offerId = 10`);
+        await conn.query(`DELETE
+                          FROM vehicle
+                          WHERE vehicleId = 10`);
+        await conn.query(`DELETE
+                          FROM user
+                          WHERE userId = 10`);
         if (conn) await conn.release();
     };
 });
