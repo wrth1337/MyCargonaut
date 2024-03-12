@@ -14,7 +14,7 @@
 
           <div class="messageBoxMessage">
             <div>
-              <b>{{userMap.get(booking.userId)}}</b> | {{getTime(booking.timeBooking)}} Uhr
+              <button style="background-color: white;" class="name" [routerLink]="['/profile', booking.userId]">{{userMap.get(booking.userId)}}</button> | {{getTime(booking.timeBooking)}} Uhr
             </div>
             <hr style="margin-top: 0; margin-bottom: 1%">
             <div style="display: flex; flex-direction: row; align-items: center">
@@ -42,7 +42,7 @@
 
           <div class="messageBoxMessage">
             <div>
-              <b>{{userMap.get(booking.userId)}}</b> | {{getTime(booking.timeBooking)}} Uhr
+              <button style="background-color: white;" class="name" [routerLink]="['/profile', booking.userId]">{{userMap.get(booking.userId)}}</button> | {{getTime(booking.timeBooking)}} Uhr
             </div>
             <hr style="margin-top: 0; margin-bottom: 1%">
             <div style="display: flex; flex-direction: row; align-items: center">
@@ -81,7 +81,7 @@
         </div>
         <div class="messageBoxMessage">
           <div>
-            <b>{{userMap.get(message.userId)}}</b> | {{getTime(message.timeMessage)}} Uhr
+            <button style="background-color: white;" class="name" [routerLink]="['/profile', message.userId]">{{userMap.get(message.userId)}}</button> | {{getTime(message.timeMessage)}} Uhr
           </div>
           <hr style="margin-top: 0; margin-bottom: 1%">
           {{message.messageText}}
