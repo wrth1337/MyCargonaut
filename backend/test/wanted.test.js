@@ -1,4 +1,4 @@
-const { expect, test, afterAll } = require('@jest/globals');
+const {expect, test, afterAll} = require('@jest/globals');
 const wanted = require('../routes/wanted');
 const mariadb = require('mariadb');
 
@@ -37,7 +37,7 @@ test('get wanted by correct Id', async () => {
 
 test('get wanted by wrong Id', async () => {
     const res2 = await wanted.getWantedById(99999999999);
-    expect(res2).toEqual({ success: false });
+    expect(res2).toEqual({success: false});
 }, 10000);
 
 afterAll(() => {
