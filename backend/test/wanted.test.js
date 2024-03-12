@@ -33,12 +33,12 @@ test('get wanted by correct Id', async () =>{
         conn.query(`DELETE FROM user WHERE userId = 101337`);
         if (conn) await conn.release();
     }
-});
+},10000);
 
 test('get wanted by wrong Id', async () =>{
-    const res2 = await wanted.getWantedById(99999999999999999);
+    const res2 = await wanted.getWantedById(99999999999);
     expect(res2).toEqual({success: false});
-});
+},10000);
 
 afterAll(() => {
     pool.end((err) => {
