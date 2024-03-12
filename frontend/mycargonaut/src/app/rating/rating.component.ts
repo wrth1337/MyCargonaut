@@ -11,7 +11,6 @@ import {NgForm} from "@angular/forms";
 export class RatingComponent {
   @Input() userWhoIsEvaluating: any;
   @Input() bookingId: any;
-  // Nehmen wir an, dass userId auch von außen als Input kommt
   @Input() userWhoWasEvaluated: any;
   userIsDriver = false;
 
