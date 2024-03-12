@@ -118,12 +118,6 @@ export class ProfileComponent implements OnInit {
       }
     });
 
-    this.api.getRequest("rating/"+ userId).subscribe((res: any) => {
-      if(res != null) {
-        // 
-      }
-      console.log(res);
-    });
   }
   back(){
     this.location.back()
