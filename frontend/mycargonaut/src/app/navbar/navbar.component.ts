@@ -23,6 +23,7 @@ export class NavbarComponent implements OnInit{
       });
       this.userId = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;
     }
+
   }
   isUserLogin(){
     if(this.auth.getToken() != null){this.isLogin = true}

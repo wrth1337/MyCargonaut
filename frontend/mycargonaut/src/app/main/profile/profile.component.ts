@@ -149,6 +149,7 @@ export class ProfileComponent implements OnInit {
         }
       });
     });
+
   }
   back(){
     this.location.back()
