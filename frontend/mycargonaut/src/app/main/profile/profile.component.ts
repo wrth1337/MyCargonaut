@@ -117,6 +117,7 @@ export class ProfileComponent implements OnInit {
         this.tripCount = 0;
       }
     });
+
   }
   back(){
     this.location.back()

@@ -19,7 +19,7 @@
   object-position: 25% 25%;
 }
 
-#PriceInput {
+.PriceInput {
   background-color: transparent;
   border: none;
   color: var(--primary);

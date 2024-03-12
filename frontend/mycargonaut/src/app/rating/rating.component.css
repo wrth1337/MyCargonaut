@@ -1,0 +1,166 @@
+span#rating label {
+  line-height: 45px;
+  cursor: Pointer;
+}
+
+span#rating input[type="radio"] {
+
+}
+
+div.starrating {
+  float: Left;
+  clear: both;
+}
+
+div.starrating:not(:checked) > input {
+  display: None;
+}
+
+div.starrating:not(:checked) > label {
+  float: Right;
+  width: 1em;
+  padding: 0 .1em;
+  overflow: Hidden;
+  white-space: Nowrap;
+  cursor: Pointer;
+  font-size: 200%;
+  line-height: 1.2;
+  color: #D0D0D0;
+}
+
+div.starrating:not(:checked) > label::before {
+  content: '★ ';
+}
+
+div.starrating > input:checked ~ label {
+  color: #FFD700;
+}
+
+div.starrating:not(:checked) > label:hover,
+div.starrating:not(:checked) > label:hover ~ label {
+  color: #FECF41;
+}
+
+div.starrating > input:checked + label:hover,
+div.starrating > input:checked + label:hover ~ label,
+div.starrating > input:checked ~ label:hover,
+div.starrating > input:checked ~ label:hover ~ label,
+div.starrating > label:hover ~ input:checked ~ label {
+  color: #FBB600;
+}
+
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.modal-content{
+  border-color: var(--secondary);
+  border-width: 2px;
+}
+.modal{
+  /*backdrop-filter: blur(2px);*/
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.modal-footer{
+  justify-content: center;
+}
+
+.input-text-field{
+  border-color: var(--secondary);
+  background-color: var(--secondary_light);
+}
+.submitButton{
+  background-color: var(--secondary);
+  color: white;
+}
+.center{
+  text-align: center;
+}
+#SearchFormSection{
+  border: 2px solid var(--secondary);
+  background-color: white;
+  border-radius: 10px;
+  max-width: 55rem;
+}
+.SearchFormInput {
+  border: 2px solid var(--primary);
+  background-color: white;
+  border-radius: 1px;
+  height: 2.5rem;
+  min-height: fit-content;
+}
+#SearchFormButton {
+  border: 1px solid var(--secondary);
+  border-radius: 5px;
+  background-color: var(--secondary);
+  color: var(--light);
+  font-weight: bolder;
+}
+
+#carouselExampleControls.card {
+  background-color: var(--secondary_light);
+}
+/*
+.btn{
+  background-color: var(--secondary);
+  color: white;
+  width: 30px;
+  height: 74px;
+  padding: 0px;
+}
+
+.btn-text{
+  font-weight:900;
+  text-align: center;
+}
+*/
+.active-recomended{
+  text-align: center;
+}
+
+.card{
+  background-color: rgba(29,143,131, 0.34);
+}
+
+.card-title{
+  background-color: white;
+  border-radius: 5px;
+}
+
+.card-text{
+  background-color: white;
+  border-radius: 5px;
+
+}
+
+.card-img-top{
+  max-width: 100%;
+  border-radius: 5px;
+}
+
+.passengers-input{
+  background: url("../../assets/icons/people-fill.svg") no-repeat;
+  background-size: 15%;
+  background-position: 5px;
+  padding-left: 2rem;
+}
+
+.rating-input{
+  background: url("../../assets/icons/star-fill.svg") no-repeat;
+  background-size: 15%;
+  background-position: 5px;
+  padding-left: 2rem;
+}
+.submitButton{
+  background-color: var(--secondary);
+  color: white;
+}
+.input-text-field {
+  border-color: var(--secondary);
+  background-color: var(--secondary_light);
+  height: 20vh;
+  border-radius: 10px;
+}
+
