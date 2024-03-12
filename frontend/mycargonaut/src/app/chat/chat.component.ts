@@ -72,7 +72,6 @@ export class ChatComponent implements OnInit {
     this.api.postRequest("chat/add", {userId: this.ownUserId, adId: this.adId, message: this.newMessage}).subscribe((res:any) => {
       this.loadMessageList();
     });
-
     this.newMessage = '';
   }
 
