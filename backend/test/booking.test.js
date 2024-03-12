@@ -15,7 +15,7 @@ test('If newBooking updates the booking table correctly', async () => {
     try {
         conn = await pool.getConnection();
         await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience) \
-        VALUES (123456789,'Max', 'Mustermann', 'max@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
+        VALUES (123456789,'MaxBooking', 'MustermannBooking', 'maxBoocking@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
 
         await conn.query(`INSERT INTO ad (adId,description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) \
                     VALUES (123456789,'Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 123456789)`);
@@ -28,16 +28,15 @@ test('If newBooking updates the booking table correctly', async () => {
         if (conn) await conn.release();
     }
 });
-
 test('If getSeatsAvailable get the correct amount of seats', async () => {
     let conn;
     try {
         conn = await pool.getConnection();
         await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience) \
-        VALUES (123456789,'Max', 'Mustermann', 'max@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
+        VALUES (123456789,'MaxBookingA', 'MustermannBookingB', 'maxBoockingC@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
 
         await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience) \
-        VALUES (12345678,'Max1', 'Mustermann1', 'max1@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
+        VALUES (12345678,'MaxBookingC', 'MustermannBookingC', 'maxBoockingC@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
 
         await conn.query(`INSERT INTO ad (adId,description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) \
                     VALUES (123456789,'Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 123456789)`);
@@ -63,7 +62,7 @@ test('If a booking is canceled correctly', async () => {
     try {
         conn = await pool.getConnection();
         await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience) \
-        VALUES (123456789,'Max', 'Mustermann', 'max@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
+        VALUES (123456789,'MaxBookingD', 'MustermannBookingD', 'maxBoockingD@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
 
         await conn.query(`INSERT INTO ad (adId,description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) \
                     VALUES (123456789,'Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 123456789)`);
@@ -81,7 +80,6 @@ test('If a booking is canceled correctly', async () => {
         if (conn) await conn.release();
     }
 });
-
 test('If get bookings are working correctly', async () => {
     let conn;
     try {
@@ -118,7 +116,6 @@ test('If get bookings are working correctly', async () => {
 
         conn.query(`DELETE FROM ad WHERE adId = 123456789`);
         conn.query(`DELETE FROM ad WHERE adId = 12345678`);
-
         if (conn) await conn.release();
     }
 });
@@ -128,7 +125,7 @@ test('If confirming a booking works', async () => {
     try {
         conn = await pool.getConnection();
         await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience) \
-        VALUES (123456789,'Max', 'Mustermann', 'max@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
+        VALUES (123456789,'MaxBooking', 'MustermannBooking', 'max@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
 
         await conn.query(`INSERT INTO ad (adId,description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) \
                     VALUES (123456789,'Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 123456789)`);
