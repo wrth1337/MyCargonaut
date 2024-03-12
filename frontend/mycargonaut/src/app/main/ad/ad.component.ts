@@ -35,14 +35,12 @@ export class AdComponent implements OnInit{
     state: ''
   };
   typeSpecificContent:any = {};
-  user: any = {};
   authorId = 4;
   isLogin = false;
   toFewSeatsResponse = false;
   state = '';
   type = '';
   stars: number[] = [1, 2, 3, 4, 5];
-  userData: any;
   adUserBooking:any;
   bookingDone = false;
 
@@ -74,10 +72,6 @@ export class AdComponent implements OnInit{
       })
       this.api.getRequest('ad/' + res.data.adId + '/seats').subscribe((res: any) => {
         this.seatsAvailable = res.seats;
-      })
-      this.api.getRequest("profile/userdata/"+this.authorId).subscribe((res:any) => {
-        this.user = res.userData;
-        this.user.birthdate = this.datepipe.transform(res.userData.birthdate, 'dd.MM.yyyy')
       })
       if (this.isLogin) this.getState();
     })

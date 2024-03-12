@@ -1,6 +1,6 @@
 const {expect, test, afterAll} = require('@jest/globals');
 const argon2 = require('argon2');
-const {registerNewUser, isEmailValid, isPhonenumberValid, isDateValid} = require('../routes/user');
+const {registerNewUser, isEmailValid, isPhonenumberValid, isDateValid, isOver18yo} = require('../routes/user');
 const mariadb = require('mariadb');
 
 const pool = mariadb.createPool({
@@ -181,6 +181,18 @@ test('datevalidation finds falsy dates', async () => {
     expect(await isDateValid('1990-31')).toBeFalsy();
     expect(await isDateValid('1997-01-5')).toBeFalsy();
     expect(await isDateValid('1997-99-99')).toBeFalsy();
+});
+
+// Test: isNotOver18yo()
+test('age validation finds valid dates', async () => {
+    expect(await isOver18yo('1990-04-12')).toBeTruthy();
+    expect(await isOver18yo('2006-03-06')).toBeTruthy();
+});
+test('age validation finds non valid dates', async () => {
+    expect(await isOver18yo('2024-01-01')).toBeFalsy();
+    expect(await isOver18yo('2006-03-08')).toBeTruthy();
+    expect(await isOver18yo('2007-01-01')).toBeFalsy();
+    expect(await isOver18yo('2010-05-23')).toBeFalsy();
 });
 
 // Jest afterAll function
