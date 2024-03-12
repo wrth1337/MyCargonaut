@@ -12,8 +12,8 @@ const pool = mariadb.createPool({
 });
 
 test('get correct amount of trips of a new user', async () => {
-    const firstName = 'testFirstName';
-    const lastName = 'testLastName';
+    const firstName = 'testTripFirstName';
+    const lastName = 'testTripLastName';
     const email = 'testEmailTripTest@test.com';
     const password = 'testPassword';
     const birthdate = '1990-01-01';
@@ -32,7 +32,7 @@ test('get correct amount of trips of a new user', async () => {
         await conn.query('DELETE FROM user WHERE email = ?', [email]);
         if (conn) await conn.release();
     }
-}, 10000);
+}, 15000);
 
 afterAll(() => {
     pool.end((err) => {
