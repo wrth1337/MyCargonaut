@@ -61,7 +61,6 @@ async function getTripCount(id) {
         throw error;
     }
 }
-
 // ---Routes--- //
 /**
  * @swagger
