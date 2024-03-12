@@ -1,5 +1,5 @@
 const {expect, test, afterAll} = require('@jest/globals');
-const { saveNewRating, isRatingAlreadyDone, getRatingsByUserId} = require('../routes/rating');
+const {saveNewRating, getRatingsByUserId} = require('../routes/rating');
 const {newBooking} = require('../routes/booking');
 const mariadb = require('mariadb');
 
@@ -31,6 +31,7 @@ test('add new rating in database via backend', async () => {
 
         // Verify the rating is in the database
         conn = await pool.getConnection();
+        // eslint-disable-next-line max-len
         const dbResult = await conn.query('SELECT * FROM rating WHERE bookingId = ? AND userWhoIsEvaluating = ? AND userWhoWasEvaluated = ?', [bookingId, userWhoIsEvaluating, userWhoWasEvaluated]);
 
         // Expect the user data in the database to match the test data
@@ -44,6 +45,7 @@ test('add new rating in database via backend', async () => {
     try {
         // Clean up the test data from the database
         conn = await pool.getConnection();
+        // eslint-disable-next-line max-len
         await conn.query('DELETE FROM rating WHERE bookingId = ? AND userWhoIsEvaluating = ? AND userWhoWasEvaluated = ?', [bookingId, userWhoIsEvaluating, userWhoWasEvaluated]);
     } finally {
         if (conn) await conn.release();
@@ -90,7 +92,7 @@ test('Get all ratings for one User', async () => {
 // Jest afterAll function
 afterAll(() => {
     // Close the pool
-    pool.end(err => {
+    pool.end((err) => {
         if (err) {
             console.error('Fehler beim Schließen der Datenbankverbindung:', err);
         } else {
