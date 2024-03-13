@@ -25,7 +25,7 @@ export class ProfileComponent implements OnInit {
   offersAvailable = false;
   wantedsAvailable = false;
   tripsAvailable = false;
-  tripCount: any;
+  tripCount = 0;
   xp = 0;
   level = 1;
   stars: number[] = [1, 2, 3, 4, 5];
@@ -118,7 +118,21 @@ export class ProfileComponent implements OnInit {
         this.tripCount = 0;
       }
     });
-    this.userXP(userId);
+
+    this.api.getRequest("profile/experience/"+userId).subscribe((res: any) => {
+      if(res != null) {
+        if(res.seats == null) res.seats = [];
+        if(res.trips == null) res.trips = [];
+        if(res.lang == null) res.lang = [];
+        let seatCount = 0;
+        res.seats.forEach((el:any) => {
+          seatCount += el.numSeats;
+        });
+        let exp = ((seatCount * 20) + (res.trips.length * 30) + res.lang.length * 10);
+        this.level = Math.floor(exp / 100) + 1;
+        this.xp = exp % 100;
+      }
+    });
   }
   back(){
     this.location.back()
@@ -155,29 +169,6 @@ export class ProfileComponent implements OnInit {
     this.api.deleteRequest('vehicle/' + this.selectedVehicle.vehicleId).subscribe((res:any) => {
       if(res)window.location.reload();
     })
-  }
-
-  userXP(userId: any) {
-    this.api.getRequest("profile/experience/"+userId).subscribe((res: any) => {
-      if(res != null) {
-        if(res.numSeats == null) {
-          res.numSeats = [];
-        }
-        if(res.trips == null) {
-          res.trips = [];
-        }
-        if(res.lang == null) {
-          res.lang = [];
-        }
-        let seatCount = 0;
-        res.numSeats.forEach((el:any) => {
-          seatCount += el;
-        });
-        let exp = ((seatCount * 20) * (res.trips.length * 30) + res.lang.length * 10);
-        this.level = Math.floor(exp / 100) + 1;
-        this.xp = exp % 100;
-      }
-    });
   }
 }
 

@@ -24,7 +24,7 @@ const pool = mariadb.createPool({
 
 async function getUserTrips(id) {
     const userTrips = `
-    SELECT a.startLocation, a.endLocation, a.startDate
+    SELECT DISTINCT a.startLocation, a.endLocation, a.startDate
     FROM ad a 
         JOIN booking b ON b.adId = a.adId
     WHERE (a.state != 'created' AND a.userId = ?) OR (b.userId = ?  AND b.canceled = FALSE AND b.state = 'confirmed')`;
@@ -45,7 +45,7 @@ async function getUserTrips(id) {
 }
 
 async function getTripCount(id) {
-    const trips = `SELECT a.adId FROM ad a JOIN booking b ON b.adId = a.adId
+    const trips = `SELECT DISTINCT a.adId FROM ad a JOIN booking b ON b.adId = a.adId
     WHERE (a.state != 'created' AND a.userId = ?) OR (b.userId = ?  AND b.canceled = FALSE AND b.state = 'confirmed')`;
     try {
         const conn = await pool.getConnection();

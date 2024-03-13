@@ -270,8 +270,8 @@ async function getUserXP(id) {
         SELECT b.numSeats
         FROM booking b
         JOIN ad a ON a.adId = b.adId
-        WHERE (b.userId = ? AND b.state = 'confirmed' AND b.canceled = FALSE) OR (a.userId = ? AND a.state != 'created')`;
-    const trips = `SELECT a.adId FROM ad a JOIN booking b ON b.adId = a.adId
+        WHERE (b.userId = ? AND b.state = 'confirmed' AND b.canceled = FALSE) OR (a.userId = ? AND a.state != 'created' AND b.state != 'denied')`;
+    const trips = `SELECT DISTINCT a.adId FROM ad a JOIN booking b ON b.adId = a.adId
         WHERE (a.state != 'created' AND a.userId = ?) OR (b.userId = ?  AND b.canceled = FALSE AND b.state = 'confirmed')`;
     const languages = 'SELECT languageId FROM userLanguage WHERE userId = ?';
     try {

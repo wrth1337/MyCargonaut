@@ -16,7 +16,9 @@ export class ProfileDataComponent implements OnInit {
   ad: any;
   rating: any;
   stars: number[] = [1, 2, 3, 4, 5];
-  tripCount: any;
+  tripCount = 0;
+  xp = 0;
+  level = 1;
   language = [
     { id: 1, name: 'german', icon: '../../../assets/icons/flag-for-flag-germany-svgrepo-com.svg' },
     { id: 2, name: 'english', icon: '../../../assets/icons/flag-for-flag-united-kingdom-svgrepo-com.svg' },
@@ -68,6 +70,21 @@ export class ProfileDataComponent implements OnInit {
 
     this.api.getRequest("trip/getTripCount/"+userId).subscribe((res: any) => {
       this.tripCount = res.data.length;
+    });
+
+    this.api.getRequest("profile/experience/"+userId).subscribe((res: any) => {
+      if(res != null) {
+        if(res.seats == null) res.seats = [];
+        if(res.trips == null) res.trips = [];
+        if(res.lang == null) res.lang = [];
+        let seatCount = 0;
+        res.seats.forEach((el:any) => {
+          seatCount += el.numSeats;
+        });
+        let exp = ((seatCount * 20) + (res.trips.length * 30) + res.lang.length * 10);
+        this.level = Math.floor(exp / 100) + 1;
+        this.xp = exp % 100;
+      }
     });
   }
 }
