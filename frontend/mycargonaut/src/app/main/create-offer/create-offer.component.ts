@@ -27,11 +27,13 @@ export class CreateOfferComponent {
   stars: number[] = [1, 2, 3, 4, 5];
   tripCount: any;
   vehiclesAvailable = false;
-  definedVehicleId = null
+  definedVehicleId = null;
   IsVehicleSelected = false;
-  showFlashMessage = false;
   success = false;
+  error = false;
   approved = false;
+  showErrorProfile = false;
+  showErrorVehicle = false;
   selectedVehicleForOffer = {
     loadingAreaDimensions: null,
     maxWeight: null,
@@ -41,42 +43,18 @@ export class CreateOfferComponent {
     specialFeatures: null,
     vehicleId: null,
   };
-  language = [
-    { id: 1, name: 'german', icon: '../../../assets/icons/flag-for-flag-germany-svgrepo-com.svg' },
-    { id: 2, name: 'english', icon: '../../../assets/icons/flag-for-flag-united-kingdom-svgrepo-com.svg' },
-  ];
-
-  languageVariables: { [key: string]: boolean } = {
-    german: false,
-    english: false,
-  }
 
   ngOnInit() {
-    const userId = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;
+    const userId = JSON.parse(this.auth.getUserData() || '{"user_id" = 0}').user_id;
     this.api.getRequest("profile/userdata/" + userId).subscribe((res: any) => {
       this.userData = res.userData;
-      for (const lang of this.language) {
-        this.languageVariables[lang.name] = false;
-      }
-
-      for (const langObj of res.languages) {
-        const langVariable = this.language.find(lang => lang.id === langObj.languageId);
-        if (langVariable) {
-          this.languageVariables[langVariable.name] = true;
-        }
-      }
       this.rating = Math.round(res.userData.rating);
       this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
     });
-    this.api.getRequest("trip").subscribe((res: any) => {
-      if(res != null) {
-        this.tripCount = res.uwtData.length + res.uotData.length;
-      }
-      else {
-        this.tripCount = 0;
-      }
+    this.api.getRequest("trip/getTripCount/"+userId).subscribe((res: any) => {
+      this.tripCount = res.data.length;
     });
-    this.api.getRequest("vehicle").subscribe((res: any) => {
+    this.api.getRequest("vehicle/"+userId).subscribe((res: any) => {
       this.vehiclesAvailable = true;
       this.vehicleData = res.vehicleData;
     });
@@ -84,23 +62,29 @@ export class CreateOfferComponent {
 
 
   onSubmit(form: NgForm) {
+    this.success = false;
     form.value.endDate = form.value.startDate;
     form.value.smoker = this.smoke;
     form.value.animals = this.pet;
     form.value.notes = null;
     form.value.vehicleId = this.definedVehicleId;
 
-    if (this.definedVehicleId != null) {
+    this.showErrorProfile = !this.approved;
+    this.showErrorVehicle = !this.IsVehicleSelected;
+
+    if(this.approved && this.IsVehicleSelected) {
       this.api.postRequest("offer/createOffer", form.value).subscribe((res: any) => {
         if(res.status === 1) {
           form.reset();
           this.success = true;
+          this.showErrorProfile = false;
+          this.showErrorVehicle = false;
+          this.approved = false;
+          this.error = false;
+          this.pet = true;
+          this.smoke = true;
         }
       });
-      this.showFlash();
-    } else {
-      this.success =false;
-      this.showFlash();
     }
   }
 
@@ -112,18 +96,6 @@ export class CreateOfferComponent {
     this.pet = !this.pet;
   }
 
-  showFlash() {
-    this.showFlashMessage = true;
-
-    setTimeout(() => {
-      this.closeFlashMessage();
-    }, 5000);
-  }
-
-  closeFlashMessage() {
-    this.showFlashMessage = false;
-  }
-
   approveUserdata() {
     this.approved = true;
   }
@@ -132,6 +104,5 @@ export class CreateOfferComponent {
     this.definedVehicleId = item.vehicleId;
     this.IsVehicleSelected = true;
     this.selectedVehicleForOffer = item;
-    console.log(this.selectedVehicleForOffer);
   }
 }

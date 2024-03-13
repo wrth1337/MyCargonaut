@@ -1,7 +1,6 @@
 const mariadb = require('mariadb');
 const express = require('express');
 const rateLimit = require('express-rate-limit');
-const authenticateToken = require('./auth');
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -68,20 +67,20 @@ async function getTripCount(id) {
  * tags:
  *      - name: trip
  *        description: Routes that are connected to the trips of an user
- * /trip:
+ * /trip/{userId}:
  *      get:
- *          summary: get user trips.
+ *          summary: get user trips by user Id.
  *          description: get a list of the user trips.
  *          tags:
  *              - trip
  *          parameters:
- *              - in: query
- *                name: email
+ *              - in: path
+ *                name: userId
  *                required: true
  *                schema:
- *                  type: string
- *                description: The email of the current user.
- *                example: max@example.com
+ *                  type: number
+ *                description: The id of the current user.
+ *                example: 1
  *          responses:
  *              200:
  *                  description: user trip data successfully fetched.
@@ -136,9 +135,9 @@ async function getTripCount(id) {
  *                      description: The start date of the wanted trip.
  */
 
-router.get('/', authenticateToken, async function(req, res, next) {
+router.get('/:id', async function(req, res, next) {
     try {
-        const id = req.user_id;
+        const id = req.params.id;
         const trip = await getUserTrips(id);
 
         if (trip.success) {

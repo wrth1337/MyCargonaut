@@ -189,8 +189,11 @@ test('age validation finds valid dates', async () => {
     expect(await isOver18yo('2006-03-06')).toBeTruthy();
 });
 test('age validation finds non valid dates', async () => {
+    const birthDate = new Date();
+    birthDate.setFullYear(birthDate.getFullYear() - 17);
+    birthDate.setDate(birthDate.getDate() - 364);
+    expect(await isOver18yo(birthDate)).toBeFalsy();
     expect(await isOver18yo('2024-01-01')).toBeFalsy();
-    expect(await isOver18yo('2006-03-08')).toBeFalsy();
     expect(await isOver18yo('2007-01-01')).toBeFalsy();
     expect(await isOver18yo('2010-05-23')).toBeFalsy();
 });

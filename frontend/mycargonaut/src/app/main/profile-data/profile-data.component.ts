@@ -11,7 +11,15 @@ import { AuthService } from 'src/app/service/auth.service';
   providers: [DatePipe]
 })
 export class ProfileDataComponent implements OnInit {
-  userData: any;
+  id = 0;
+  userData = {
+    firstName: '',
+    lastName: '',
+    birthdate: '',
+    picture: '',
+    description: '',
+    experience: ''
+  };
   userId: any;
   ad: any;
   rating: any;
@@ -19,6 +27,8 @@ export class ProfileDataComponent implements OnInit {
   tripCount = 0;
   xp = 0;
   level = 1;
+  isOwner = false;
+
   language = [
     { id: 1, name: 'german', icon: '../../../assets/icons/flag-for-flag-germany-svgrepo-com.svg' },
     { id: 2, name: 'english', icon: '../../../assets/icons/flag-for-flag-united-kingdom-svgrepo-com.svg' },
@@ -37,14 +47,19 @@ export class ProfileDataComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
+    this.id = JSON.parse(this.auth.getUserData() || '{"user_id": 0}').user_id;
     this.ad = this.route.snapshot.paramMap.get('id');
     if(this.ad != null) {
       this.api.getRequest('ad/' + this.ad).subscribe((res: any) => {
         this.userId = res.data.userId;
+        if(this.id == this.userId) {
+          this.isOwner = true;
+        }
         this.getProfileData(this.userId);
       });
     } else {
       this.userId = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;
+      this.isOwner = true;
       this.getProfileData(this.userId);
     }
   }
@@ -63,9 +78,11 @@ export class ProfileDataComponent implements OnInit {
             this.languageVariables[langVariable.name] = true;
           }
       }
-    
+      if(!this.isOwner) {
+        this.userData.lastName = this.userData.lastName.substring(0, 1) + ".";
+      }
       this.rating = Math.round(res.userData.rating);
-      this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
+      this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy')!;
     });
 
     this.api.getRequest("trip/getTripCount/"+userId).subscribe((res: any) => {

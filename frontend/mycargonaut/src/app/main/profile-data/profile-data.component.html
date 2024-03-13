@@ -14,12 +14,14 @@
           </div>
           <div class="col center">
             <div>
-              <p class="medium FormInputLight mb-4 username"> {{userData.firstName}} {{userData.lastName}} </p>
+              <button style="background-color: white;" class="medium name px-3 FormInputLight mb-4 username" [routerLink]="['/profile', this.userId]"> {{userData.firstName}} {{userData.lastName}} </button>
             </div>
             <div>
               <p class="medium"> {{userData.birthdate}} </p>
             </div>
           </div>
+        </div>
+        <div class="row mt-1 mb-5 d-flex">
           <div class="col center">
             <div>
               <p class="FormInputLight medium">Anzahl Fahrten: {{this.tripCount}} </p>
@@ -36,7 +38,7 @@
       <div class="container p-0 mb-3">
           <div class="card mb-3 p-2 ht1 overflow-auto d-flex justify-content-between description"> {{userData.description}}</div>
       </div>
-      <div class="row mb-5">
+      <div class="row mb-3">
           <div class="col">
               <div> Erfahrung </div>
               <div class="progress w-75">
@@ -44,10 +46,12 @@
               </div>
               <div class="progress-label small">Level {{ level }}</div>
           </div>
+      </div>
+      <div class="row mb-3">
           <div class="col">
               <div>Sprachen</div>
-              <div class="row">
-                <div class="col d-flex langs" *ngFor="let lang of language">
+              <div class="row d-flex">
+                <div class="col langs" *ngFor="let lang of language">
                     <div *ngIf="languageVariables[lang.name]">
                         <img [src]="lang.icon" [alt]="lang.name" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
                     </div>

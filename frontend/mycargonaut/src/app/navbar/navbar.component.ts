@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/service/auth.service';
 export class NavbarComponent implements OnInit{
   coins = -1;
   isLogin = false;
+  userId = 0;
   constructor(
     private api: ApiService,
     private auth: AuthService
@@ -20,7 +21,9 @@ export class NavbarComponent implements OnInit{
       this.api.getRequest("coins").subscribe((res: any) => {
         this.coins = parseInt(res.coins);
       });
+      this.userId = JSON.parse(this.auth.getUserData() || '{user_id = 0}').user_id;
     }
+
   }
   isUserLogin(){
     if(this.auth.getToken() != null){this.isLogin = true}

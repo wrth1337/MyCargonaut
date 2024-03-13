@@ -10,7 +10,7 @@
         </button>
     </div>
     <div class="col mx-3 mt-2 centre">
-        <button class="trackingBtn btn fs-5" *ngIf="this.state === 'Stornieren' || this.state === 'Confirmed'" data-bs-toggle="modal" data-bs-target="#trackingModal">Tracking</button>
+        <button class="trackingBtn btn fs-5" *ngIf="this.state === 'Stornieren' || this.state === 'bookingDone' || this.state === 'Confirmed'" data-bs-toggle="modal" data-bs-target="#trackingModal">Tracking</button>
     </div>
     <div class="col"></div>
 </div>
@@ -133,7 +133,7 @@
     </div>
 </div>
 
-    <div class="modal" id="trackingModal" tabindex="-1" *ngIf="this.state === 'Stornieren' || this.state === 'Confirmed'">
+    <div class="modal" id="trackingModal" tabindex="-1" *ngIf="this.state === 'Stornieren'|| this.state === 'bookingDone' || this.state === 'Confirmed'">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body">
@@ -180,7 +180,7 @@
                         </div>
                         <div class="trackingItem m-3">
                             <div class="circle m-1">
-                                <svg *ngIf="" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="var(--primary)" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                <svg *ngIf="this.bookingDone" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="var(--primary)" class="bi bi-check-lg" viewBox="0 0 16 16">
                                     <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
                                 </svg>
                             </div>
@@ -191,3 +191,5 @@
             </div>
         </div>
     </div>
+
+<app-rating [userWhoWasEvaluated]="this.ad.userId" [bookingId]="this.adUserBooking.bookingId" *ngIf="this.adUserBooking"></app-rating>
