@@ -91,16 +91,8 @@ export class ProfileDataComponent implements OnInit {
 
     this.api.getRequest("profile/experience/"+userId).subscribe((res: any) => {
       if(res != null) {
-        if(res.seats == null) res.seats = [];
-        if(res.trips == null) res.trips = [];
-        if(res.lang == null) res.lang = [];
-        let seatCount = 0;
-        res.seats.forEach((el:any) => {
-          seatCount += el.numSeats;
-        });
-        let exp = ((seatCount * 20) + (res.trips.length * 30) + res.lang.length * 10);
-        this.level = Math.floor(exp / 100) + 1;
-        this.xp = exp % 100;
+        this.level = Math.floor(res.data / 100) + 1;
+        this.xp = res.data % 100;
       }
     });
   }

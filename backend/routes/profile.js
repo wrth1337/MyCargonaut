@@ -99,10 +99,15 @@ async function getUserXP(id) {
     try {
         const conn = await pool.getConnection();
         const resNumSeats = await conn.query(xp, [id, id]);
+        let seats = 0;
+        resNumSeats.forEach(el => {
+            seats += el.numSeats;
+        });
         const resTrips = await conn.query(trips, [id, id]);
         const lang = await conn.query(languages, [id]);
+        const exp = ((seats * 20) + (resTrips.length * 30) + lang.length * 10);
         await conn.release();
-        return {success: true, numSeats: resNumSeats, trips: resTrips, lang: lang};
+        return {success: true, exp: exp};
     } catch (error) {
         console.error('Fehler bei der Abfrage:', error);
         throw error;
@@ -361,7 +366,7 @@ router.get('/experience/:id', async function(req, res, next) {
         const xp = await getUserXP(req.params.id);
         if (xp.success) {
             res.status(200);
-            res.json({status: 1, seats: xp.numSeats, trips: xp.trips, lang: xp.lang});
+            res.json({status: 1, data: xp.exp});
         } else {
             res.status(204).json(null);
         }
