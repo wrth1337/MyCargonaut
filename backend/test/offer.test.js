@@ -25,9 +25,9 @@ test('get offer by correct Id', async () => {
         const res = (await offer.getOfferById(10));
         expect(res.data).toEqual(
             {
-                'offerId': 10,
-                'vehicleId': 10,
-                'adId': 10,
+                'offerId': 1012,
+                'vehicleId': 1012,
+                'adId': 1012,
                 'pricePerPerson': 50.0,
                 'pricePerFreight': 100.0,
             });
