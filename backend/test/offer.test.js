@@ -22,7 +22,7 @@ test('get offer by correct Id', async () => {
                 VALUES (1012,'Car1', 4, 500.0, 'car1.jpg', '2x2x2', 'GPS, Bluetooth', 1012)`);
         await conn.query(`INSERT INTO offer (offerId, vehicleId, adId, pricePerPerson, pricePerFreight) \
                 VALUES (1012, 1012, 1012, 50.0, 100.0)`);
-        const res = (await offer.getOfferById(10));
+        const res = (await offer.getOfferById(1012));
         expect(res.data).toEqual(
             {
                 'offerId': 1012,
