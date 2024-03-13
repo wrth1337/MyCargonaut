@@ -24,7 +24,8 @@ describe('ProfileComponent', () => {
       lastName: 'Mustermann',
       birthdate: '01.01.2000',
       description: 'Beschreibung',
-      experience: 'Erfahrung'
+      experience: 'Erfahrung',
+      picture: 'URL_DES_PROFILBILDS'
     };
     localStorage.setItem('userData','{"email":"mails@mails.de","user_id":4}');
     component.vehicleData = [{name: 'Car1'}, {name: 'Car2'}];
@@ -48,6 +49,10 @@ describe('ProfileComponent', () => {
       german: true,
       english: false,
     };
+    component.isOwner = true;
+
+    component.ratingData = [{ratingId: 1, bookingId: 1, userWhoIsEvaluating: 1, userWhoWasEvaluated: 2, punctuality: 4, agreement: 3, pleasent: 1, freight: 5, comment: 'Test Kommentar', firstName: 'Vorname', lastName: 'Nachname', picture: 'profilepicture.jpg'}];
+    component.ratingsAvailable = true;
 
     fixture.detectChanges();
   });
@@ -56,8 +61,66 @@ describe('ProfileComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display user name', () => {
+  it('should display correct stars for puncuality rating', () => {
+    const stars = fixture.debugElement.queryAll(By.css('.punctuality'));
+    expect(stars[0].classes['highlight']).toBeTruthy();
+    expect(stars[1].classes['highlight']).toBeTruthy();
+    expect(stars[2].classes['highlight']).toBeTruthy();
+    expect(stars[3].classes['highlight']).toBeTruthy();
+    expect(stars[4].classes['highlight']).toBeFalsy();
+  });
 
+  it('should display correct stars for agreement rating', () => {
+    const stars = fixture.debugElement.queryAll(By.css('.agreement'));
+    expect(stars[0].classes['highlight']).toBeTruthy();
+    expect(stars[1].classes['highlight']).toBeTruthy();
+    expect(stars[2].classes['highlight']).toBeTruthy();
+    expect(stars[3].classes['highlight']).toBeFalsy();
+    expect(stars[4].classes['highlight']).toBeFalsy();
+  });
+
+  it('should display correct stars for pleasent rating', () => {
+    const stars = fixture.debugElement.queryAll(By.css('.pleasent'));
+    expect(stars[0].classes['highlight']).toBeTruthy();
+    expect(stars[1].classes['highlight']).toBeFalsy();
+    expect(stars[2].classes['highlight']).toBeFalsy();
+    expect(stars[3].classes['highlight']).toBeFalsy();
+    expect(stars[4].classes['highlight']).toBeFalsy();
+  });
+
+  it('should display correct stars for freight rating', () => {
+    const stars = fixture.debugElement.queryAll(By.css('.freight'));
+    expect(stars[0].classes['highlight']).toBeTruthy();
+    expect(stars[1].classes['highlight']).toBeTruthy();
+    expect(stars[2].classes['highlight']).toBeTruthy();
+    expect(stars[3].classes['highlight']).toBeTruthy();
+    expect(stars[4].classes['highlight']).toBeTruthy();
+  });
+
+  it('should display the author of the rating', () => {
+    const el = fixture.debugElement.query(By.css('.author')).nativeElement.textContent.trim();
+    expect(el).toBe('Vorname Nachname');
+  });
+
+  it('should not display the add buttons and edit button when isOwner is false', () => {
+    component.isOwner = false;
+    fixture.detectChanges();
+    const plus = fixture.debugElement.query(By.css('.plus'));
+    const edit = fixture.debugElement.query(By.css('.edit'));
+    expect(plus).toBeFalsy();
+    expect(edit).toBeFalsy();
+  });
+
+  it('should display the add buttons and edit button when isOwner is true', () => {
+    component.isOwner = true;
+    fixture.detectChanges();
+    const plus = fixture.debugElement.query(By.css('.plus'));
+    const edit = fixture.debugElement.query(By.css('.edit'));
+    expect(plus).toBeTruthy();
+    expect(edit).toBeTruthy();
+  });
+
+  it('should display user name', () => {
     const el = fixture.debugElement.query(By.css('.username')).nativeElement.textContent.trim();
     expect(el).toBe('Max Mustermann');
   });
@@ -70,16 +133,21 @@ describe('ProfileComponent', () => {
 
 
   it('should display placeholder when no profile picture is available', () => {
+    component.userData = {
+      firstName: 'Max',
+      lastName: 'Mustermann',
+      birthdate: '01.01.2000',
+      description: 'Beschreibung',
+      experience: 'Erfahrung',
+      picture: ''
+    };
+    fixture.detectChanges();
     const el = fixture.debugElement.query(By.css('.bi-person-circle'));
     expect(el).toBeTruthy();
 
   });
 
   it('should display profile picture when available', () => {
-
-    component.userData = { picture: 'URL_DES_PROFILBILDS' };
-    fixture.detectChanges();
-
     const el = fixture.debugElement.query(By.css('.profilepicture'));
     const placeholder = fixture.debugElement.query(By.css('.bi-person-circle'));
     expect(placeholder).toBeFalsy();
@@ -89,7 +157,7 @@ describe('ProfileComponent', () => {
   it('should highlight 4 stars for the rating', () => {
     component.rating = 4;
     fixture.detectChanges();
-    const stars = fixture.debugElement.queryAll(By.css('.star'));
+    const stars = fixture.debugElement.queryAll(By.css('.stars'));
 
     expect(stars.length).toBe(5);
     expect(stars[0].classes['highlight']).toBeTruthy();
@@ -102,7 +170,7 @@ describe('ProfileComponent', () => {
 it('should highlight 5 stars for the rating', () => {
   component.rating = 5;
   fixture.detectChanges();
-  const stars = fixture.debugElement.queryAll(By.css('.star'));
+  const stars = fixture.debugElement.queryAll(By.css('.stars'));
 
   expect(stars.length).toBe(5);
   expect(stars[0].classes['highlight']).toBeTruthy();
@@ -115,7 +183,7 @@ it('should highlight 5 stars for the rating', () => {
 it('should highlight 3 stars for the rating', () => {
   component.rating = 3;
   fixture.detectChanges();
-  const stars = fixture.debugElement.queryAll(By.css('.star'));
+  const stars = fixture.debugElement.queryAll(By.css('.stars'));
 
   expect(stars.length).toBe(5);
   expect(stars[0].classes['highlight']).toBeTruthy();
@@ -126,11 +194,15 @@ it('should highlight 3 stars for the rating', () => {
 });
 
 it('should have correct background color for edit button', () => {
+  component.isOwner = true;
+  fixture.detectChanges();
   const button = fixture.debugElement.query(By.css('.bi-pencil-square'));
   expect(getComputedStyle(button.nativeElement).fill).toEqual('rgb(0, 91, 82)');
 });
 
 it('should have correct background color for plus button', () => {
+  component.isOwner = true;
+  fixture.detectChanges();
   const button = fixture.debugElement.query(By.css('.bi-plus-circle-fill'));
   expect(getComputedStyle(button.nativeElement).fill).toEqual('rgb(0, 91, 82)');
 });
@@ -267,6 +339,7 @@ it('should have an input field dimensions with type text', () => {
 });
 it('should set updateVehicle to true if a vehicle is clicked', () => {
   component.updateVehicle = false;
+  component.isOwner = true;
   fixture.detectChanges();
   const elem = fixture.debugElement.query(By.css('.vehicleEntry')).nativeElement;
   elem.click();
@@ -275,6 +348,7 @@ it('should set updateVehicle to true if a vehicle is clicked', () => {
 
 it('should set updateVehicle to false if the new vehicle button is clicked', () => {
   component.updateVehicle = true;
+  component.isOwner = true;
   fixture.detectChanges();
   const elem = fixture.debugElement.query(By.css('.newVehicleButton')).nativeElement;
   elem.click();

@@ -14,7 +14,7 @@
                 </div>
 
                 <div *ngIf="userData.picture; else placeholder">
-                    <img class="profilepicture" [src]="userData.picture" height="100" width="100" alt="Logo">
+                    <img class="profilepicture" [src]="userData.picture" height="100" width="100" alt="Profilbild">
                 </div>
                 <ng-template #placeholder>
                     <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="var(--primary)" class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -30,9 +30,11 @@
                 <div class="big center username"> {{userData.firstName}} {{userData.lastName}} </div>
                 <div class="center">
                     <div class="rating">
-                        <span *ngFor="let star of stars" class="star" [class.highlight]="star <= this.rating">
+                        <button style="background-color: white; outline: 2px solid var(--primary); border-radius: 25px;" data-bs-toggle="modal" data-bs-target="#ratingModal" (click)="this.openRatingModal()">
+                        <span *ngFor="let star of stars" class="stars" [class.highlight]="star <= this.rating">
                             &#9733;
                         </span>
+                        </button>
                     </div>
                 </div>
 
@@ -43,7 +45,7 @@
                     <div class="big"> {{userData.birthdate}}</div>
                     <div> Anzahl Fahrten: {{tripCount}}</div>
                 </div>
-                <div>
+                <div *ngIf="isOwner" class="edit">
                     <button type="button" class="btn" routerLink="/edit_profile">
                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="var(--primary)" class="bi bi-pencil-square" viewBox="0 0 16 16">
                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
@@ -107,17 +109,27 @@
                                         <div> Keine Fahrzeuge vorhanden </div>
                                     </div>
                                     <div *ngIf="vehiclesAvailable">
-                                        <div *ngFor="let item of vehicleData">
-                                            <button class="vehicleEntry m-2" style="background-color: white;" data-bs-toggle="modal" data-bs-target="#vehicleModal" (click)="selectVehicle(item)"> {{item.name}}</button>
-                                            <br>
+                                        <div *ngIf="isOwner">
+                                            <div *ngFor="let item of vehicleData" class="custom-border">
+                                                <button class="vehicleEntry m-2 click" style="background-color: white;" data-bs-toggle="modal" data-bs-target="#vehicleModal" (click)="selectVehicle(item)"> {{item.name}}</button>
+                                                <br>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="!isOwner">
+                                            <div *ngFor="let item of vehicleData" class="custom-border">
+                                                <span class="vehicleEntry m-2"> {{item.name}}</span>
+                                                <br>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div *ngIf="isOwner" class="plus center">
                                 <button type="button" class="btn align-center newVehicleButton" data-bs-toggle="modal" data-bs-target="#vehicleModal" (click)="clearSelectedVehicle()">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
                                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
                                     </svg>
                                 </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -136,16 +148,26 @@
                 <div> Keine Angebote vorhanden </div>
             </div>
             <div class="card-body offer ht3 overflow-auto" *ngIf="offersAvailable">
-                <div *ngFor="let item of offerData">
+                <div *ngIf="isOwner">
+                    <div *ngFor="let item of offerData" class="custom-border">
+                        <button class="click" style="background-color: white;" [routerLink]="['/ad', item.adId]"> Biete Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </button>
+                        <br>
+                    </div>
+                </div>
+                <div *ngIf="!isOwner">
+                <div *ngFor="let item of offerData" class="custom-border">
                     <div> Biete Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
                     <br>
                 </div>
+                </div>
             </div>
+            <div *ngIf="isOwner" class="plus center">
             <button type="button" class="btn align-right" [routerLink]="['/createOffer']">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
                 </svg>
             </button>
+            </div>
         </div>
         </div>
         </div>
@@ -157,17 +179,28 @@
             <div class="card-body wanted overflow-auto" *ngIf="!wantedsAvailable">
                 <div> Keine Gesuche vorhanden </div>
             </div>
-            <div class="card-body wanted overflow-auto" *ngIf="wantedData">
-                <div *ngFor="let item of wantedData">
-                    <div > Suche Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
+            <div class="card-body wanted overflow-auto" *ngIf="wantedsAvailable">
+
+                <div *ngIf="isOwner">
+                    <div *ngFor="let item of wantedData" class="custom-border">
+                        <button class="click" style="background-color: white;" [routerLink]="['/ad', item.adId]"> Suche Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </button>
+                        <br>
+                    </div>
+                </div>
+                <div *ngIf="!isOwner">
+                <div *ngFor="let item of wantedData" class="custom-border">
+                    <div> Suche Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
                     <br>
                 </div>
+                </div>
             </div>
+            <div *ngIf="isOwner" class="plus center">
             <button type="button" class="btn align-right" [routerLink]="['/addWanted']">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
                 </svg>
             </button>
+            </div>
         </div>
         </div>
         </div>
@@ -180,7 +213,7 @@
                     <div> Keine Fahrten vorhanden </div>
                 </div>
                 <div class="card-body trip overflow-auto" *ngIf="tripsAvailable">
-                    <div *ngFor="let item of tripData">
+                    <div *ngFor="let item of tripData" class="custom-border">
                         <div> Fahrt von {{item.startLocation}} nach {{item.endLocation}} am {{item.startDate}} </div>
                         <br>
                     </div>
@@ -306,3 +339,87 @@
       </div>
     </div>
   </div>
+
+
+
+
+<div class="modal fade" id="ratingModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-m">
+        <div class="modal-content">
+            <div class="modal-body p-4">
+                <div class="row pb-3 mb-5">
+                    <div class="col align-left">
+                        <button type="button" class=" btn returnButton" data-bs-dismiss="modal" aria-label="Close">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <span class="fs-3">Bewertungen</span>
+                    </div>
+                    <div class="col"></div>
+                </div>
+
+                <div class="row">
+                    <div *ngIf="!ratingsAvailable">
+                        <span> Keine Bewertungen vorhanden </span>
+                    </div>
+                    <div *ngIf="ratingsAvailable">
+                    <div *ngFor="let item of ratingData" class="mb-3 card p-2">
+
+                        <div class="row">
+                            <div class="col-md-2 d-flex" style="border-radius: 50%">
+                                <div *ngIf="item.picture; else placeholder">
+                                    <img class="profilepicture" [src]="item.picture" style="width:100px; height: 100px" alt="Profilbild">
+                                </div>
+                                <ng-template #placeholder>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="var(--primary)" class="bi bi-person-circle" viewBox="0 0 16 16" style="width:100px; height: 100px;">
+                                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                                    </svg>
+                                </ng-template>
+                            </div>
+                            <div class="col align-left">
+                                <div class="author">
+                                    <button style="background-color: white;" class="medium card click px-3 mb-4" data-bs-dismiss="modal" aria-label="Close" [routerLink]="['/profile', item.userWhoIsEvaluating]"> {{item.firstName}} {{item.lastName}} </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                        <div class="col">
+                            Pünklichkeit:
+                            <span *ngFor="let star of stars" class="big star punctuality" [class.highlight]="star <= item.punctuality">
+                                &#9733;
+                            </span>
+                            <br>
+                            Verlässlichkeit:
+                            <span *ngFor="let star of stars" class="big star agreement" [class.highlight]="star <= item.agreement">
+                                &#9733;
+                            </span>
+                            <br>
+                            Wohlgefühl:
+                            <span *ngFor="let star of stars" class="big star pleasent" [class.highlight]="star <= item.pleasent">
+                                &#9733;
+                            </span>
+                            <br>
+                            <div *ngIf="item.freight !== null">
+                            Fracht:
+                            <span *ngFor="let star of stars" class="big star freight" [class.highlight]="star <= item.freight">
+                                &#9733;
+                            </span>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="col">
+                            Kommentar:
+                            <br>
+                            <span>{{item.comment}}</span>
+                        </div>
+                    </div>
+                    </div>
+                </div>  
+            </div> 
+        </div>
+    </div>
+</div>

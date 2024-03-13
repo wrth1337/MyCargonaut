@@ -45,9 +45,8 @@ describe('WantedComponent', () => {
 
   it('should display [Gesuch erfolgreich erstellt] when submitting a new wanted ad successfully', () => {  
     component.success = true;
-    component.showFlashMessage = true;
     fixture.detectChanges();
-    const el = fixture.debugElement.query(By.css('.flashmessage')).nativeElement.textContent.trim();
+    const el = fixture.debugElement.query(By.css('.alert-success')).nativeElement.textContent.trim();
     expect(el).toBe('Gesuch erfolgreich erstellt.');
   });
 

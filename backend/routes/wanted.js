@@ -24,7 +24,7 @@ const pool = mariadb.createPool({
 
 async function getUserWanteds(id) {
     const userWanted = `
-    SELECT a.startLocation, a.endLocation, a.startDate
+    SELECT a.adId, a.startLocation, a.endLocation, a.startDate
     FROM ad a
         JOIN wanted w ON w.adId = a.adId
     WHERE a.state = 'created' AND a.userId = ?`;
@@ -119,12 +119,20 @@ async function getWantedById(id) {
  *              204:
  *                  description: query was successful but contains no content.
  *                  content: {}
- * /wanted:
+ * /wanted/getUserWanted/{userId}:
  *      get:
- *          summary: get user wanteds.
+ *          summary: get user wanteds by user Id.
  *          description: get a list of the user wanteds.
  *          tags:
  *              - wanted
+ *          parameters:
+ *              - in: path
+ *                name: userId
+ *                required: true
+ *                schema:
+ *                  type: number
+ *                description: User Id the wanted is connected to.
+ *                example: 1
  *          responses:
  *              200:
  *                  description: user wanted data successfully fetched.
@@ -149,6 +157,9 @@ async function getWantedById(id) {
  *          wanted_ad:
  *              type: object
  *              properties:
+ *                  adId:
+ *                      type: number
+ *                      description: The Id of the ad the wanted is connected to.
  *                  startLocation:
  *                      type: string
  *                      description: The start location of the wanted.
@@ -169,9 +180,9 @@ async function getWantedById(id) {
  *                      type: string
  *                      description: Description of the freight
  */
-router.get('/getUserWanted', authenticateToken, async function(req, res, next) {
+router.get('/getUserWanted/:id', async function(req, res, next) {
     try {
-        const id = req.user_id;
+        const id = req.params.id;
         const wanted = await getUserWanteds(id);
 
         if (wanted.success) {
