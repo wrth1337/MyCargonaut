@@ -72,3 +72,10 @@
   background-position: 5px;
   padding-left: 2rem;
 }
+
+.freight-input{
+  background: url("../../assets/icons/weight-tool-svgrepo-com.svg") no-repeat;
+  background-size: 15%;
+  background-position: 5px;
+  padding-left: 2rem;
+}
