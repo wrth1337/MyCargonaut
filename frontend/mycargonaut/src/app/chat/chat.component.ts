@@ -78,6 +78,7 @@ export class ChatComponent implements OnInit {
   async getUsername(userId: number): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       this.api.getRequest("profile/userdata/" + userId).subscribe((res: any) => {
+        res.userData.lastName = res.userData.lastName.substring(0, 1) + ".";
         const fullName = res.userData.firstName + ' ' + res.userData.lastName;
         resolve(fullName);
       }, error => {
