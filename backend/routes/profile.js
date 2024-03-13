@@ -87,6 +87,28 @@ async function getUserRating(id) {
     }
 }
 
+async function getUserXP(id) {
+    const xp = `
+        SELECT b.numSeats
+        FROM booking b
+        JOIN ad a ON a.adId = b.adId
+        WHERE (b.userId = ? AND b.state = 'confirmed' AND b.canceled = FALSE) OR (a.userId = ? AND a.state != 'created' AND b.state != 'denied')`;
+    const trips = `SELECT DISTINCT a.adId FROM ad a JOIN booking b ON b.adId = a.adId
+        WHERE (a.state != 'created' AND a.userId = ?) OR (b.userId = ?  AND b.canceled = FALSE AND b.state = 'confirmed')`;
+    const languages = 'SELECT languageId FROM userLanguage WHERE userId = ?';
+    try {
+        const conn = await pool.getConnection();
+        const resNumSeats = await conn.query(xp, [id, id]);
+        const resTrips = await conn.query(trips, [id, id]);
+        const lang = await conn.query(languages, [id]);
+        await conn.release();
+        return {success: true, numSeats: resNumSeats, trips: resTrips, lang: lang};
+    } catch (error) {
+        console.error('Fehler bei der Abfrage:', error);
+        throw error;
+    }
+}
+
 // ---Routes--- //
 /**
  * @swagger
@@ -96,8 +118,6 @@ async function getUserRating(id) {
  * /profile/userdata/{userId}:
  *      get:
  *          summary: get user profile data.
- *          security:
- *              - bearerAuth: []
  *          description: get user profile data.
  *          tags:
  *              - profile
@@ -158,14 +178,6 @@ async function getUserRating(id) {
  *              204:
  *                  description: query was successful but contains no content.
  *                  content: {}
- * components:
- *      securitySchemes:
- *          bearerAuth:
- *              type: http
- *              scheme: bearer
- *              bearerFormat: JWT
- * security:
- *  - bearerAuth: []
  */
 router.get('/userdata/:id', async function(req, res, next) {
     try {
@@ -283,28 +295,67 @@ router.post('/edit_profile', authenticateToken, async function(req, res, next) {
     }
 });
 
-async function getUserXP(id) {
-    const xp = `
-        SELECT b.numSeats
-        FROM booking b
-        JOIN ad a ON a.adId = b.adId
-        WHERE (b.userId = ? AND b.state = 'confirmed' AND b.canceled = FALSE) OR (a.userId = ? AND a.state != 'created' AND b.state != 'denied')`;
-    const trips = `SELECT DISTINCT a.adId FROM ad a JOIN booking b ON b.adId = a.adId
-        WHERE (a.state != 'created' AND a.userId = ?) OR (b.userId = ?  AND b.canceled = FALSE AND b.state = 'confirmed')`;
-    const languages = 'SELECT languageId FROM userLanguage WHERE userId = ?';
-    try {
-        const conn = await pool.getConnection();
-        const resNumSeats = await conn.query(xp, [id, id]);
-        const resTrips = await conn.query(trips, [id, id]);
-        const lang = await conn.query(languages, [id]);
-        await conn.release();
-        return {success: true, numSeats: resNumSeats, trips: resTrips, lang: lang};
-    } catch (error) {
-        console.error('Fehler bei der Abfrage:', error);
-        throw error;
-    }
-}
-
+/**
+ * @swagger
+ * tags:
+ *      - name: profile
+ *        description: Routes that are connected to the profile of an user
+ * /profile/experience/{userId}:
+ *      get:
+ *          summary: get user experience.
+ *          description: get user experience.
+ *          tags:
+ *              - profile
+ *          parameters:
+ *              - in: path
+ *                name: userId
+ *                required: true
+ *                schema:
+ *                  type: string
+ *                description: The id of the user.
+ *                example: 1
+ *          responses:
+ *              200:
+ *                  description: user experience successfully fetched.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      description: The status-code.
+ *                                  seats:
+ *                                      type: array
+ *                                      description: The amount of passengers the user has travelled with.
+ *                                      items:
+ *                                        type: object
+ *                                        properties:
+ *                                            numSeats:
+ *                                                type: number
+ *                                                description: The amount of taken seats from a trip.
+ *                                  trips:
+ *                                      type: array
+ *                                      description: All trips of a user.
+ *                                      items:
+ *                                        type: object
+ *                                        properties:
+ *                                            adId:
+ *                                                type: number
+ *                                                description: The ad id connected to the trip.
+ *                                  lang:
+ *                                      type: array
+ *                                      description: All languages spoken by a user.
+ *                                      items:
+ *                                        type: object
+ *                                        properties:
+ *                                            languageId:
+ *                                                type: number
+ *                                                description: The id of the language.
+ *              204:
+ *                  description: query was successful but contains no content.
+ *                  content: {}
+ */
 router.get('/experience/:id', async function(req, res, next) {
     try {
         const xp = await getUserXP(req.params.id);

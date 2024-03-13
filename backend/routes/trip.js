@@ -92,22 +92,17 @@ async function getTripCount(id) {
  *                                  status:
  *                                      type: integer
  *                                      description: The status-code.
- *                                  uwtData:
+ *                                  tripData:
  *                                      type: array
- *                                      description: The user wanted trip data.
+ *                                      description: The user trip data.
  *                                      items:
- *                                        $ref: '#/components/schemas/wantedTrip'
- *                                  uotData:
- *                                      type: array
- *                                      description: The user offered trip data.
- *                                      items:
- *                                        $ref: '#/components/schemas/offeredTrip'
+ *                                        $ref: '#/components/schemas/trip'
  *              204:
  *                  description: query was successful but contains no content.
  *                  content: {}
  * components:
  *      schemas:
- *          offeredTrip:
+ *          trip:
  *              type: object
  *              properties:
  *                  startLocation:
@@ -120,21 +115,7 @@ async function getTripCount(id) {
  *                      type: string
  *                      format: date
  *                      description: The start date of the offered trip.
- *          wantedTrip:
- *              type: object
- *              properties:
- *                  startLocation:
- *                      type: string
- *                      description: The start location of the wanted trip.
- *                  endLocation:
- *                      type: string
- *                      description: The end location of the wanted trip.
- *                  startDate:
- *                      type: string
- *                      format: date
- *                      description: The start date of the wanted trip.
  */
-
 router.get('/:id', async function(req, res, next) {
     try {
         const id = req.params.id;
