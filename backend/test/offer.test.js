@@ -17,11 +17,11 @@ test('get offer by correct Id', async () => {
         await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience) \
                 VALUES (1012,'Max', 'Mustermann', 'max@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
         await conn.query(`INSERT INTO ad (adId,description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId) \
-                VALUES (1012,'Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 10)`);
+                VALUES (1012,'Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 1012)`);
         await conn.query(`INSERT INTO vehicle (vehicleId, name, numSeats, maxWeight, picture, loadingAreaDimensions, specialFeatures, userId) \
-                VALUES (1012,'Car1', 4, 500.0, 'car1.jpg', '2x2x2', 'GPS, Bluetooth', 10)`);
+                VALUES (1012,'Car1', 4, 500.0, 'car1.jpg', '2x2x2', 'GPS, Bluetooth', 1012)`);
         await conn.query(`INSERT INTO offer (offerId, vehicleId, adId, pricePerPerson, pricePerFreight) \
-                VALUES (1012, 10, 10, 50.0, 100.0)`);
+                VALUES (1012, 1012, 1012, 50.0, 100.0)`);
         const res = (await offer.getOfferById(10));
         expect(res.data).toEqual(
             {
