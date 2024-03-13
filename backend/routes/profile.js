@@ -409,4 +409,4 @@ router.get('/userrating/:id', async function(req, res, next) {
     }
 });
 
-module.exports = {router, getUser, editProfile, getUserRating};
+module.exports = {router, getUser, editProfile, getUserRating, getUserXP};
