@@ -12,10 +12,10 @@ const pool = mariadb.createPool({
 });
 
 test('get profile data from new registered user', async () => {
-    const firstName = 'testFirstName';
-    const lastName = 'testLastName';
-    const email = 'testEmail@test.com';
-    const password = 'testPassword';
+    const firstName = 'profileTestFirstName';
+    const lastName = 'profileTestLastName';
+    const email = 'profileTestEmail@test.com';
+    const password = 'profileTestPassword';
     const birthdate = '1990-01-01';
     const phonenumber = '1234567890';
 
@@ -55,17 +55,17 @@ test('get profile data from new registered user', async () => {
 });
 
 test('change profile data from user', async () => {
-    const firstName = 'testFirstName';
-    const lastName = 'testLastName';
-    const email = 'testEmail@test.com';
-    const password = 'testPassword';
+    const firstName = 'profileTestFirstName';
+    const lastName = 'profileTestLastName';
+    const email = 'profileTestEmail@test.com';
+    const password = 'profileTestPassword';
     const birthdate = '1990-01-01';
     const phonenumber = '1234567890';
 
-    const description = 'testDescription';
-    const experience = 'testExperience';
-    const newFirstName = 'testFirstName2';
-    const newLastName = 'testLastName2';
+    const description = 'profileTestDescription';
+    const experience = 'profileTestExperience';
+    const newFirstName = 'profileTestFirstName2';
+    const newLastName = 'profileTestLastName2';
     const newBirthdate = '1990-01-02';
     const picture = 'testPicture.jpg';
 
@@ -111,17 +111,17 @@ test('change profile data from user', async () => {
 });
 
 test('add two languages to profile', async () => {
-    const firstName = 'testFirstName';
-    const lastName = 'testLastName';
-    const email = 'testEmail@test.com';
-    const password = 'testPassword';
+    const firstName = 'profileTestFirstName';
+    const lastName = 'profileTestLastName';
+    const email = 'profileTestEmail@test.com';
+    const password = 'profileTestPassword';
     const birthdate = '1990-01-01';
     const phonenumber = '1234567890';
 
-    const description = 'testDescription';
-    const experience = 'testExperience';
-    const newFirstName = 'testFirstName2';
-    const newLastName = 'testLastName2';
+    const description = 'profileTestDescription';
+    const experience = 'profileTestExperience';
+    const newFirstName = 'profileTestFirstName2';
+    const newLastName = 'profileTestLastName2';
     const newBirthdate = '1990-01-02';
     const picture = 'testPicture.jpg';
 
@@ -163,17 +163,17 @@ test('add two languages to profile', async () => {
 });
 
 test('edit language data', async () => {
-    const firstName = 'testFirstName';
-    const lastName = 'testLastName';
-    const email = 'testEmail@test.com';
-    const password = 'testPassword';
+    const firstName = 'profileTestFirstName';
+    const lastName = 'profileTestLastName';
+    const email = 'profileTestEmail@test.com';
+    const password = 'profileTestPassword';
     const birthdate = '1990-01-01';
     const phonenumber = '1234567890';
 
-    const description = 'testDescription';
-    const experience = 'testExperience';
-    const newFirstName = 'testFirstName2';
-    const newLastName = 'testLastName2';
+    const description = 'profileTestDescription';
+    const experience = 'profileTestExperience';
+    const newFirstName = 'profileTestFirstName2';
+    const newLastName = 'profileTestLastName2';
     const newBirthdate = '1990-01-02';
     const picture = 'testPicture.jpg';
 
@@ -214,10 +214,10 @@ test('edit language data', async () => {
 });
 
 test('get rating data from new registered user', async () => {
-    const firstName = 'testFirstName';
-    const lastName = 'testLastName';
-    const email = 'testEmail@test.com';
-    const password = 'testPassword';
+    const firstName = 'profileTestFirstName';
+    const lastName = 'profileTestLastName';
+    const email = 'profileTestEmail@test.com';
+    const password = 'profileTestPassword';
     const birthdate = '1990-01-01';
     const phonenumber = '1234567890';
 
