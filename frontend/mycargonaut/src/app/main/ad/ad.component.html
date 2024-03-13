@@ -1,7 +1,7 @@
 <div class="infront" *ngIf="state === 'Bewerten'">
 
 </div>
-<div class="row" style="width: 100%;">
+<div class="row" style="width: 100%; height: 100%;">
     <div class="col">
         <button class="btn returnBtn mx-3" [routerLink]="['/']">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="var(--primary)" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
@@ -16,7 +16,7 @@
 </div>
 <div class="row p-3" style="width: 100%;">
     <div class="col-md">
-        <div class="card">
+        <div class="card" style="height: 100%">
             <div class="card-header p-3 fs-5">
                 Übersicht
             </div>
@@ -30,7 +30,8 @@
                         Price per Freight: {{typeSpecificContent.pricePerFreight}}
                     </div>
                     <div *ngIf="this.type === 'wanted'">
-                        Freight: {{typeSpecificContent.freight}}
+                        Preis: {{typeSpecificContent.price}} <br>
+                        Fracht: {{typeSpecificContent.freight}}
                     </div>
                 </div>
 
@@ -53,7 +54,7 @@
 
     </div>
     <div class="col-md">
-        <div class="card chatCard mx-5">
+        <div class="card chatCard">
             <div class="card-header p-3 fs-5 chatCardHeader">
                 Chat mit Nutzer
             </div>
