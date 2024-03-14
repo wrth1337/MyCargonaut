@@ -40,6 +40,16 @@
     text-align: center;
 }
 
+.buttonPrimary {
+    width: auto;
+    height: auto;
+    background-color: var(--primary);
+    color: white;
+    font-size: large;
+    padding: 10px;
+    border-radius: 5px;
+}
+
 .active-recomended{
     text-align: center;
 }
