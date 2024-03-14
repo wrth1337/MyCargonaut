@@ -88,22 +88,22 @@ async function deleteUserVehicle(userId, vehicleId) {
  * tags:
  *      - name: vehicle
  *        description: Routes that are connected to the vehicles of an user
- * /vehicle:
+ * /vehicle/{userId}:
  *      get:
- *          summary: get user vehicles.
+ *          summary: get user vehicles by user Id.
  *          security:
  *              - bearerAuth: []
  *          description: get a list of the user vehicles.
  *          tags:
  *              - vehicle
  *          parameters:
- *              - in: query
- *                name: email
+ *              - in: path
+ *                name: userId
  *                required: true
  *                schema:
- *                  type: string
- *                description: The email of the current user.
- *                example: max@example.com
+ *                  type: number
+ *                description: The id of the current user.
+ *                example: 1
  *          responses:
  *              200:
  *                  description: user vehicle data successfully fetched.
@@ -344,9 +344,9 @@ async function deleteUserVehicle(userId, vehicleId) {
  *  - bearerAuth: []
  */
 
-router.get('/vehicle', authenticateToken, async function(req, res, next) {
+router.get('/vehicle/:id', async function(req, res, next) {
     try {
-        const id = req.user_id;
+        const id = req.params.id;
         const vehicle = await getUserVehicles(id);
         if (vehicle.success) {
             res.status(200);

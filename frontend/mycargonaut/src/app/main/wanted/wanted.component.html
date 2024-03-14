@@ -1,10 +1,10 @@
 <div class="container-fluid p-5">
-  <div class="col col-rows-2">
-    <div id="UserOverview" class="row-3 mb-5 card container borderPrimary g-0">
+  <div class="row row-cols-2">
+    <div id="UserOverview" class="col-4 mb-5 card container borderPrimary g-0">
         <div class="container">
           <div class="row p-2" style="border-bottom: 2px solid var(--primary)">
             <div class="col">
-              <p class="m-0 medium">Bitte überprüfe deine Angaben!</p>
+              <p class="m-0 small">Bitte überprüfe deine Angaben!</p>
             </div>
             <div class="col" style="display: flex; justify-content: center; align-items: center">
                 <button id="ChangePersonalData" routerLink="/edit_profile" class="buttonPrimary btn fs-5 editButton" [disabled]="approved">Ändern</button>
@@ -27,7 +27,7 @@
     </div>
 
 
-    <div id="OfferCard" class="row-3 mb-5 card container borderPrimary g-0">
+    <div id="OfferCard" class="col-6 mb-5 card container borderPrimary g-0">
         <div class="container">
             <div class="row p-2" style="border-bottom: 2px solid var(--primary)">
               <div class="col">
@@ -85,11 +85,11 @@
             </div>
         
             <div class="container g-0 mb-5">
-                <textarea name="description" placeholder="Schreibe etwas zur dir, zu der Fahrt..." class="FormInputLight w-100" rows="10" ngModel></textarea>
+                <textarea name="description" placeholder="Schreibe etwas zur dir, zu der Fahrt..." class="FormInputLight w-100" rows="10" required ngModel></textarea>
             </div>
           
-          <div class="row mb-5">
-            <div class="col-md-8 mb-5">
+          <div class="row mb-3">
+            <div class="col-6 mb-3">
                 <div class="d-flex justify-content-left align-items-center">
                     <div class="mx-4" *ngIf="!this.smoke">
                         <button style="background-color: transparent; color: var(--primary)" (click)="updateSmoke()">
@@ -113,13 +113,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-6">
                 <div id="CalculatedPrice" class="container borderPrimary p-3">
                     <div class="row d-flex align-items-center justify-content-center">
-                        <div class="col">
-                            <input id="PriceInput" name="price" type="number" placeholder="50" class="fs-2 w-75" required ngModel>
+                        <div class="col-6">
+                            <input id="PriceInput" name="price" type="number" placeholder="50" class="fs-2 w-100" required ngModel>
                         </div>
-                        <div class="col">
+                        <div class="col-6">
                             <span class="material-symbols-outlined" style="font-size: xxx-large">toll</span>
                         </div>
                     </div>
@@ -134,17 +134,19 @@
               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
           </div>
-          </form>
-        </div>
-        <div *ngIf="showFlashMessage" class="alert alert-success alert-dismissible fade show flash" role="alert">
-            <div class="center">
-                <div *ngIf="this.success" class="medium center flashmessage">
-                    Gesuch erfolgreich erstellt.
-                </div>
-                <div *ngIf="!this.success" class="medium center">
-                    Fehler bei Erstellung.
-                </div>
+          <div *ngIf="success">
+            <div class="alert alert-success alert-dismissible" role="alert">
+              <div>Gesuch erfolgreich erstellt.</div>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
+          </div>
+          <div *ngIf="error">
+            <div class="alert alert-danger alert-dismissible" role="alert">
+              <div>Fehler bei Erstellung.</div>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          </div>
+          </form>
         </div>
     </div>
 </div>

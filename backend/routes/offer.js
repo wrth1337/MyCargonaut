@@ -24,7 +24,7 @@ const pool = mariadb.createPool({
 
 async function getUserOffers(id) {
     const userOffers = `
-    SELECT a.startLocation, a.endLocation, a.startDate
+    SELECT a.adId, a.startLocation, a.endLocation, a.startDate
     FROM ad a 
         JOIN offer o ON o.adId = a.adId
     WHERE a.state = 'created'
@@ -50,7 +50,7 @@ async function addOffer(description, startLocation, endLocation, startDate, endD
     const addOfferAd = `
         INSERT INTO ad (description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId)
         VALUES (?,?,?,?,?,?,?,?,?,?)`;
-    const addOffer = 'INSERT INTO offer (vehicleId, adId, pricePerPerson, pricePerFreight) VALUES (?, LAST_INSERT_ID(), ?, ?)';
+    const addOffer = 'INSERT INTO offer (vehicleId, adId, pricePerPerson, pricePerFreight) VALUES (?, ?, ?, ?)';
 
     try {
         const conn = await pool.getConnection();
@@ -121,12 +121,20 @@ async function getOfferById(id) {
  *              204:
  *                  description: query was successful but contains no content.
  *                  content: {}
- * /offer:
+ * /offer/getUserOffer/{userId}:
  *      get:
- *          summary: get user offers.
+ *          summary: get user offers by user Id.
  *          description: get a list of the user offer ads.
  *          tags:
  *              - offer
+ *          parameters:
+ *              - in: path
+ *                name: userId
+ *                required: true
+ *                schema:
+ *                  type: number
+ *                description: User Id the offer is connected to.
+ *                example: 1
  *          responses:
  *              200:
  *                  description: user offer ad data successfully fetched.
@@ -166,6 +174,9 @@ async function getOfferById(id) {
  *          offer_ad:
  *              type: object
  *              properties:
+ *                  adId:
+ *                      type: number
+ *                      description: The Id of the ad the offer is connected to.
  *                  startLocation:
  *                      type: string
  *                      description: The start location of the offer.
@@ -178,9 +189,9 @@ async function getOfferById(id) {
  *                      description: The start date of the offer.
  */
 
-router.get('/getUserOffer', authenticateToken, async function(req, res, next) {
+router.get('/getUserOffer/:id', async function(req, res, next) {
     try {
-        const id = req.user_id;
+        const id = req.params.id;
         const offer = await getUserOffers(id);
 
         if (offer.success) {

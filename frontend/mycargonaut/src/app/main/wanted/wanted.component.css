@@ -16,6 +16,9 @@
 .medium {
     font-size: x-large;
 }
+.small {
+    font-size: medium;
+}
 .center {
     text-align: center;
 }
