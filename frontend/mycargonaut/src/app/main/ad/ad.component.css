@@ -4,10 +4,6 @@
     border-radius: 100%;
     width: 150px;
     height: 150px;
-    z-index: 999;
-    left: 90%;
-    bottom: 20%;
-    position: relative;
 }
 .trackingBtn{
     background-color: var(--secondary);
@@ -27,8 +23,10 @@
 .centre{
     text-align: center;
 }
-.price {
+.header {
+    font-size: large;
     color: var(--primary);
+    font-weight: 500;
 }
 .medium {
     font-size: x-large;
@@ -40,6 +38,7 @@
     border-color: rgba(29,143,131, 0.4);
     padding: 0.5rem;
     max-height: 180px;
+    width: 40vw;
     overflow: scroll;
 }
 .star{
@@ -63,10 +62,9 @@
     padding:0;
 }
 .adCard{
-    max-width: 40vw;
     background-color: rgba(29,143,131, 0.4);
     border:none;
-    height: 100%;
+    height: fit-content;
 }
 .adCardTitle{
     background-color: white;
@@ -81,7 +79,7 @@
     flex: 1;    
 }
 .adCardBody{
-    height: 0;
+    height: fit-content;
     display: flex;
     flex-direction: column;
 }
@@ -95,6 +93,10 @@
     border-color: var(--secondary);
     background-color: white;
     text-align: center;
+}
+.profileCard {
+    border-color: var(--secondary);
+    height: 100%;
 }
 .chatCard{
     border-color: var(--secondary);
