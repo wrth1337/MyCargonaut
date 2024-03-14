@@ -30,7 +30,8 @@
   <div class="col">
     <div class="row m-0 justify-content-center active-recomended" *ngIf="loaded">
       <div class="card m-3" style="width: 20rem;" [routerLink]="['/ad', content[(((index +2) % 6) + 6) % 6].adId]">
-        <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
+        <img *ngIf="this.content[index + 2].type === 'offer'" src="../../assets/image.png" class="card-img-top p-3" alt="...">
+        <img *ngIf="this.content[index + 2].type === 'wanted'" src="../../assets/OIG2.jpeg" class="card-img-top p-3" alt="...">
         <div class="card-body">
           <h5 class="card-title">{{writeTitle(content[(((index +2) % 6) + 6) % 6])}}</h5>
           <p class="card-text">{{content[(((index + 2) % 6) + 6) % 6].description}}</p>
@@ -38,15 +39,17 @@
       </div>
 
       <div class="card m-3" style="width: 20rem;" [routerLink]="['/ad', content[(((index +1) % 6) + 6) % 6].adId]">
-        <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
-        <div class="card-body">
+        <img *ngIf="this.content[index + 1].type === 'offer'" src="../../assets/image.png" class="card-img-top p-3" alt="...">
+        <img *ngIf="this.content[index + 1].type === 'wanted'" src="../../assets/OIG2.jpeg" class="card-img-top p-3" alt="...">
+          <div class="card-body">
           <h5 class="card-title">{{writeTitle(content[(((index + 1) % 6) + 6) % 6])}}</h5>
           <p class="card-text">{{content[(((index + 1) % 6) + 6) % 6].description}}</p>
         </div>
       </div>
       <div class="card m-3" style="width: 20rem;" [routerLink]="['/ad', content[(((index) % 6) + 6) % 6].adId]">
-        <img src="https://placehold.jp/380x210.png" class="card-img-top p-3" alt="...">
-        <div class="card-body">
+        <img *ngIf="this.content[index].type === 'offer'" src="../../assets/image.png" class="card-img-top p-3" alt="...">
+        <img *ngIf="this.content[index].type === 'wanted'" src="../../assets/OIG2.jpeg" class="card-img-top p-3" alt="...">
+          <div class="card-body">
           <h5 class="card-title">{{writeTitle(content[(((index) % 6) + 6) % 6])}}</h5>
           <p class="card-text">{{content[(((index) % 6) + 6) % 6].description}}</p>
         </div>

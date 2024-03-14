@@ -12,7 +12,7 @@ import {SearchService} from "../service/search.service";
 })
 export class SearchbarComponent {
   @Output() searchEvent = new EventEmitter<any>();
-
+  defaultType = "offer";
   constructor(private api: ApiService, private searchService: SearchService, protected router: Router) {}
 
   onSubmit(form: NgForm) {

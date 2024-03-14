@@ -1,10 +1,13 @@
 .coin {
-  margin-right: 20px;
-  font-size: 18px;  /* Change the font size */
-  color: gold;  /* Change the font color */
-  background-color: #333;  /* Add a background color */
-  padding: 5px 10px;  /* Add some padding */
+  color: var(--primary);  /* Change the font color */
   border-radius: 5px;  /* Add rounded corners */
+}
+.coin-btn {
+  width: fit-content;
+}
+
+.coin:hover{
+  color: gold;
 }
 
 .lastCol{
@@ -15,4 +18,11 @@
   max-width: 100%;
   z-index: 11;
   position: relative;
+}
+
+.coin-icon {
+  margin-left: 5px;
+}
+.coin-icon:hover {
+  margin-left: 5px;
 }

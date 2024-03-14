@@ -1,7 +1,7 @@
 <div class="infront" *ngIf="state === 'Bewerten'">
 
 </div>
-<div class="row" style="width: 100%;">
+<div class="row" style="width: 100%; height: 100%;">
     <div class="col">
         <button class="btn returnBtn mx-3" [routerLink]="['/']">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="var(--primary)" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
@@ -29,8 +29,8 @@
     </div>
     <div class="col-5">
         <div class="card adCard p-3">
-            <img src="https://placehold.jp/380x210.png" class="card-img-top adCardImg p-3" alt="...">
-            <div class="card-body adCardBody">
+                <img *ngIf="this.type === 'offer'" src="../../assets/image.png" class="card-img-top p-3" alt="...">
+                <img *ngIf="this.type === 'wanted'" src="../../assets/OIG2.jpeg" class="card-img-top p-3" alt="...">            <div class="card-body adCardBody">
                 <h5 class="card-title adCardTitle p-1">{{writeTitle(ad)}}</h5>
                 <p class="card-text adCardText p-1 lh-xl">{{ad.description}}</p>
             </div>

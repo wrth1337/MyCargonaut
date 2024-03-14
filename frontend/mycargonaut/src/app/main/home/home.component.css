@@ -62,13 +62,17 @@
 .card-title{
     background-color: white;
     border-radius: 5px;
-}
-
-.card-text{
+    height: 50px;
+  }
+  
+  .card-text{
     background-color: white;
     border-radius: 5px;
-
-}
+    height: 100px;
+    text-align: left;
+    padding: 5px;
+    overflow: hidden;
+  }
 
 .card-img-top{
     max-width: 100%;

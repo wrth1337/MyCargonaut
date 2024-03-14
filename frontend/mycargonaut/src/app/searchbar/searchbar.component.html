@@ -10,7 +10,7 @@
             <input class="form-control SearchFormInput w-100" id="startDate" type="date" name="startDate" placeholder="Datum" ngModel>
           </div>
           <div class="col ps-2 pe-0">
-            <input class="form-control SearchFormInput w-100" id="freight" type="text" name="freight" placeholder="Fracht in kg?m^3?" ngModel>
+            <input class="form-control SearchFormInput w-100 freight-input" id="freight" type="text" name="freight" placeholder="Fracht in kg?m^3?" ngModel>
           </div>
         </div>
       </div>
@@ -72,7 +72,7 @@
       </div>
       <div class="col-md-2">
         <div class="row p-2">
-          <select class="SearchFormInput w-100" id="typ" name="typ" ngModel>
+          <select class="SearchFormInput w-100" id="typ" name="typ" ngModel [(ngModel)]="defaultType">
             <option value="offer" selected >Angebot</option>
             <option value="wanted">Gesuch</option>
           </select>

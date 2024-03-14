@@ -1,7 +1,7 @@
 .chat {
   display: flex;
   flex-direction: column;
-  height: 500px;
+  height: 100%;
 }
 .name {
   font-weight: bold;
