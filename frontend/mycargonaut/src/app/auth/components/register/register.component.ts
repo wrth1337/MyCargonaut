@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ApiService } from 'src/app/service/api.service';
 
 @Component({
@@ -20,6 +21,7 @@ export class RegisterComponent implements OnInit{
 
   constructor(
     private api: ApiService,
+    private router: Router
   ){}
 
   onSubmit(form: NgForm){
@@ -27,14 +29,16 @@ export class RegisterComponent implements OnInit{
       this.arePasswordsMissmatching = true;
       return;
     }
-    this.api.postRequest("user/register", form.value).subscribe((res:any) =>{
-      console.log(res);
+    this.api.postRequest("user/register", form.value).subscribe(async (res:any) =>{
+      if (res.status === 0) {
+        await this.router.navigate(['/']);
+        location.reload();
+      }
     }, (error:any) =>{
       if(error.error.status == 3){
         this.phonenumberInvalid = true;
       }
       if(error.error.status == 4){
-        console.log('email invalid');
         this.emailInvalid = true;
       }
       if(error.error.status == 5){
