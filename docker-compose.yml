@@ -24,7 +24,7 @@ services:
         hostname: database
         ports:
             - "3306:3306"
-        command: --max-connections=20
+        command: max-connections=600
 
     frontend:
         container_name: frontend
