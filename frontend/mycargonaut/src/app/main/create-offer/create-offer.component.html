@@ -2,70 +2,28 @@
   <div class="row row-cols-3">
     <!--Left part of page-->
     <div id="UserOverview" class="col-3 container borderPrimary g-0">
-      <!--"Bestätigen Button"-->
       <div class="container">
         <div class="row p-2" style="border-bottom: 2px solid var(--primary)">
           <div class="col">
-            <p class="m-0">Bitte überprüfe deine Angaben!</p>
+            <p class="m-0 small">Bitte überprüfe deine Angaben!</p>
           </div>
           <div class="col" style="display: flex; justify-content: center; align-items: center">
-            <button id="ConfirmUserData" class="buttonPrimary">Bestätigen</button>
+            <button id="ChangePersonalData" routerLink="/edit_profile" class="buttonPrimary btn fs-5 editButton" [disabled]="approved">Ändern</button>
           </div>
         </div>
       </div>
-      <div class="p-3">
-        <!--Profile Picture, Name, Rating, Age, Amount of Offers-->
-        <div id="personalData" class="container borderPrimary p-2 position-relative">
-          <div class="container p-0">
-            <div class="row mt-3">
-              <div class="col-4" style="border-radius: 50%">
-                <img src="assets/ProfilePicture/CharlieDieMaus.jpg" alt="Profilbild" class="cropped-img pictureCircle" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center">
-              </div>
-              <div class="col-8">
-                <div>
-                  <p class="FormInputLight mb-0">Max M.</p>
-                </div>
-                <div>
-                  <p>30 Jahre</p>
-                </div>
-                <div>
-                  <p class="FormInputLight">Anzahl Fahrten: 10</p>
-                </div>
-              </div>
-            </div>
-            <div class="mb-3">
-              <span class="col p-0 material-symbols-outlined">grade</span>
-              <span class="col p-0 material-symbols-outlined">grade</span>
-              <span class="col p-0 material-symbols-outlined">grade</span>
-              <span class="col p-0 material-symbols-outlined">grade</span>
-              <span class="col p-0 material-symbols-outlined">grade</span>
-            </div>
+      <div class="row p-2">
+        <app-profile-data></app-profile-data>
+        <button id="ConfirmUserData" class="buttonPrimary fs-5 position-relative top-100 start-50 translate-middle okButton mt-5" (click)="approveUserdata()">
+          <div *ngIf="!this.approved"> Bestätigen </div>
+          <div *ngIf="this.approved">
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-check-circle" viewBox="0 0 16 16">
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                  <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+              </svg>
+              Daten bestätigt
           </div>
-          <!--"About me"-->
-          <div class="container p-0 mb-3">
-            <textarea placeholder="Über mich..." class="FormInputLight w-100" rows="5"></textarea>
-          </div>
-          <!--Experience-->
-          <div class="mb-3">
-            <p>Erfahrung</p>
-            <div id="ExperienceFrame" style="height: 10px; width: 100%; border: solid var(--primary)">
-              <div id="ExperienceBar" style="background-color: var(--primary); height: 6px; width: 45%; border: solid var(--primary)"></div>
-            </div>
-          </div>
-          <!--Languages-->
-          <div class="col mb-5">
-            <p class="mb-1">Sprachen</p>
-            <div class="row">
-              <div class="col">
-                <img src="assets/LanguageIcons/Deutsch.png" alt="Deutsche Sprache" class="cropped-img" style="width:25px; height: 25px; display: flex; justify-content: center; align-self: center">
-              </div>
-              <div class="col">
-                <img src="assets/LanguageIcons/Englisch.png" alt="Englische Sprache" class="cropped-img" style="width:25px; height: 25px; display: flex; justify-content: center; align-self: center">
-              </div>
-            </div>
-          </div>
-          <button id="ChangePersonalData" class="buttonPrimary position-absolute top-100 start-50 translate-middle">Ändern</button>
-        </div>
+        </button>
       </div>
     </div>
     <!--Middle part of page-->
@@ -76,66 +34,77 @@
           <div class="FormInputLight p-3 mb-3">
             <div class="row p-3">
               <div class="col g-0 pe-2">
-                <input class="FormInputColor w-100" type="text" name="startLocation" placeholder="Von..." ngModel>
+                <input class="FormInputColor w-100" type="text" name="startLocation" placeholder="Von..." required ngModel>
               </div>
               <div class="col g-0 ps-2">
-                <input class="FormInputColor w-100" type="text" name="endLocation" placeholder="Nach..." ngModel>
+                <input class="FormInputColor w-100" type="text" name="endLocation" placeholder="Nach..." required ngModel>
               </div>
             </div>
             <div class="row p-3">
               <div class="col g-0 pe-2">
-                <input class="FormInputColor w-100" type="date" name="startDate"  ngModel>
+                <input class="FormInputColor w-100" type="date" name="startDate" required ngModel>
               </div>
               <div class="col g-0 px-2">
-                <input class="FormInputColor w-100" type="text" name="freight" placeholder="Fracht in kg?m^3?" ngModel>
+                <input class="FormInputColor w-100" type="text" name="freight" placeholder="Fracht in kg?m^3?" required ngModel>
               </div>
               <div class="col g-0 ps-2">
-                <!--
-                <i><span class="material-symbols-outlined">person_add</span></i>
-                -->
-                <input class="FormInputColor w-100" type="number" name="numSeats" ngModel>
+                <input class="FormInputColor w-100" type="number" name="numSeats" placeholder="Anzahl verfügbarer Sitze" required ngModel>
               </div>
             </div>
           </div>
           <!--User-->
-          <div class="row p-3 mb-3">
-            <div class="col-4 container overflow-hidden">
-              <img src="assets/ProfilePicture/CharlieDieMaus.jpg" alt="Profilbild" class="cropped-img pictureCircle" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center">
+          <div class="row p-3 mb-3 mt-3">
+            <div class="col-md-3 container">
+                <div *ngIf="userData.picture; else placeholder" class="d-flex align-items-center">
+                    <img class="profilepicture" [src]="userData.picture" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center" alt="Profilbild">
+                </div>
+                <ng-template #placeholder class="d-flex align-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="var(--primary)" class="bi bi-person-circle" viewBox="0 0 16 16" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                    </svg>
+                </ng-template>
+            
             </div>
-            <div class="col-1"></div>
-            <div class="col-7">
-              <div class="row">
-                <p class="FontPrimary fs-3 fw-semibold g-0">Max M.</p>
-              </div>
-              <div class="row w-75" style="color: var(--primary)">
-                <span class="col p-0 material-symbols-outlined">grade</span>
-                <span class="col p-0 material-symbols-outlined">grade</span>
-                <span class="col p-0 material-symbols-outlined">grade</span>
-                <span class="col p-0 material-symbols-outlined">grade</span>
-                <span class="col p-0 material-symbols-outlined">grade</span>
-              </div>
+            <div class="col-md-6 center">
+                <div class="row">
+                    <p class="FontPrimary fs-3 fw-semibold g-0 username"> {{userData.firstName}} {{userData.lastName}} </p>
+                </div>
+                <div class="row">
+                    <div class="rating">
+                        <span *ngFor="let star of stars" class="star" [class.highlight]="star <= this.rating">
+                            &#9733;
+                        </span>
+                    </div>
+                </div>
             </div>
-          </div>
+            <div class="col-md-3"></div>
+        </div>
           <!--Description-->
           <div class="container g-0 mb-5">
-            <textarea name="OfferDescription" placeholder="Schreibe etwas zur dir, zu der Fahrt..." class="FormInputLight w-100" rows="10" ngModel></textarea>
+            <textarea name="OfferDescription" placeholder="Schreibe etwas zur dir, zu der Fahrt..." class="FormInputLight w-100" rows="10" required ngModel></textarea>
           </div>
           <!--Vehicle-->
-          <div class="FormInputLight mb-5">
-            <div class="row p-3">
-              <div class="col-3" style="display: flex; justify-content: center; align-self: center">
-                <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:75px; height: 75px">
-              </div>
-              <div class="col-9">
-                <div class="container">
-                  <div class="row">
-                    <div class="col FormInputLight m-2">
-                      <p class="p-2 m-0">Transporter</p>
+          <div class="FormInputLight mb-5 p-3" *ngIf="!IsVehicleSelected">
+            <h3>Bitte Fahrzeug wählen!</h3>
+          </div>
+          <div class="FormInputLight mb-5" *ngIf="IsVehicleSelected">
+            <div>
+              <div class="row p-3">
+                <div class="col-3" style="display: flex; justify-content: center; align-self: center">
+                  <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:75px; height: 75px">
+                </div>
+                <div class="col-9">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col FormInputLight m-2">
+                        <p class="p-2 m-0"> {{selectedVehicleForOffer.name}}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col FormInputLight m-2">
-                      <p class="p-2 m-0">Transporter mit x Volumen</p>
+                    <div class="row">
+                      <div class="col FormInputLight m-2">
+                        <p class="p-2 m-0"> {{selectedVehicleForOffer.specialFeatures}}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -143,7 +112,7 @@
             </div>
           </div>
           <!--Preferences and price-->
-          <div class="row mb-5">
+          <div class="row mb-5 justify-content-center align-items-center">
             <div class="col">
               <div class="d-flex justify-content-center align-items-center">
                 <div class="mx-4" *ngIf="!this.smoke">
@@ -168,34 +137,68 @@
                 </div>
               </div>
             </div>
-            <div class="col">
-              <div id="CalculatedPrice" class="container borderPrimary p-3 h-100">
-                <div class="row">
-                  <div class="col" style="display: flex; align-items: center; justify-content: end">
-                    <input id="PriceInput" name="pricePerPerson" type="number" placeholder="50" class="fs-2 w-75" ngModel>
+          </div>
+          <div class="row mb-5 justify-content-center align-items-center">
+            <div class="col-6">
+              <div>
+                <p class="price">Preis pro Person</p>
+              </div>
+              <div id="CalculatedPrice" class="container borderPrimary p-3">
+                <div class="row d-flex align-items-center justify-content-center">
+                  <div class="col-6">
+                      <input id="PriceInput" name="price" type="number" placeholder="50" class="fs-2 w-100" required ngModel>
                   </div>
-                  <div class="col" style="display: flex; align-items: center">
-                    <span class="material-symbols-outlined" style="font-size: xxx-large">toll</span>
+                  <div class="col-6">
+                      <span class="material-symbols-outlined" style="font-size: xxx-large">toll</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div>
+                <p class="price">Preis pro Fracht</p>
+              </div>
+              <div id="FreightPrice" class="container borderPrimary p-3 h-100">
+                <div class="row d-flex align-items-center justify-content-center">
+                  <div class="col-6">
+                      <input id="PriceInput" name="price" type="number" placeholder="50" class="fs-2 w-100" required ngModel>
+                  </div>
+                  <div class="col-6">
+                      <span class="material-symbols-outlined" style="font-size: xxx-large">toll</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <button id="ConfirmOffer" type="submit" class="buttonPrimary fs-4 position-absolute top-100 start-50 translate-middle p-3">Angebot bestätigen</button>
-        </form>
-        <div *ngIf="showFlashMessage" class="alert alert-success alert-dismissible fade show flash" role="alert">
-          <div class="center">
-            <div *ngIf="this.success" class="medium center flashmessage">
-              Gesuch erfolgreich erstellt.
-            </div>
-            <div *ngIf="!this.success" class="medium center">
-              Fehler bei Erstellung.
+          <input id="ConfirmOffer" type="submit" class="btn buttonPrimary fs-4 position-absolute top-100 start-50 translate-middle p-3" value="Angebot bestätigen" [disabled]="!offerForm.valid">
+          <div *ngIf="success">
+            <div class="alert alert-success alert-dismissible" role="alert">
+              <div>Angebot erfolgreich erstellt.</div>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
           </div>
-        </div>
+          <div *ngIf="error">
+            <div class="alert alert-danger alert-dismissible" role="alert">
+              <div>Fehler bei Erstellung.</div>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          </div>
+          <div *ngIf="showErrorProfile">
+            <div class="alert alert-danger alert-dismissible" role="alert">
+              <div>Bitte bestätige Deine Profildaten.</div>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          </div>
+          <div *ngIf="showErrorVehicle">
+            <div class="alert alert-danger alert-dismissible" role="alert">
+              <div>Bitte wähle ein Fahrzeug aus.</div>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
-    <!--Left part of page-->
+    <!--Right part of page-->
     <div id="VehicleSelection" class="col-3 container borderPrimary g-0">
       <div id="VehicleSelectionHeader" class="col container-fluid">
         <div class="row-cols-1">
@@ -210,98 +213,32 @@
         </div>
       </div>
       <div id="VehicleSelectionBody" class="col container g-0 p-3">
-        <button class="mb-3" style="background-color: transparent">
-          <div class="FormInputLight">
-            <div class="row p-3">
-              <div class="col-3" style="display: flex; justify-content: center; align-self: center">
-                <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:50px; height: 50px">
-              </div>
-              <div class="col-9">
-                <div class="container">
-                  <div class="row">
-                    <div class="col FormInputLight m-2">
-                      <p class="p-2 m-0">Transporter</p>
+        <div *ngFor="let item of vehicleData">
+
+          <button class="container mb-3" style="background-color: transparent" (click)="selectToOffer(item)">
+            <div class="FormInputLight">
+              <div class="row p-3">
+                <div class="col-3" style="display: flex; justify-content: center; align-self: center">
+                  <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:50px; height: 50px">
+                </div>
+                <div class="col-9">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col FormInputLight m-2">
+                        <p class="p-2 m-0"> {{item.name}}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col FormInputLight m-2">
-                      <p class="p-2 m-0">Transporter mit x Volumen</p>
+                    <div class="row">
+                      <div class="col FormInputLight m-2">
+                        <p class="p-2 m-0"> {{item.specialFeatures}}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </button>
-        <button class="mb-3" style="background-color: transparent">
-          <div class="FormInputLight">
-            <div class="row p-3">
-              <div class="col-3" style="display: flex; justify-content: center; align-self: center">
-                <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:50px; height: 50px">
-              </div>
-              <div class="col-9">
-                <div class="container">
-                  <div class="row">
-                    <div class="col FormInputLight m-2">
-                      <p class="p-2 m-0">Transporter</p>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col FormInputLight m-2">
-                      <p class="p-2 m-0">Transporter mit x Volumen</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </button>
-        <button class="mb-3" style="background-color: transparent">
-          <div class="FormInputLight">
-            <div class="row p-3">
-              <div class="col-3" style="display: flex; justify-content: center; align-self: center">
-                <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:50px; height: 50px">
-              </div>
-              <div class="col-9">
-                <div class="container">
-                  <div class="row">
-                    <div class="col FormInputLight m-2">
-                      <p class="p-2 m-0">Transporter</p>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col FormInputLight m-2">
-                      <p class="p-2 m-0">Transporter mit x Volumen</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </button>
-        <button class="mb-3" style="background-color: transparent">
-          <div class="FormInputLight">
-            <div class="row p-3">
-              <div class="col-3" style="display: flex; justify-content: center; align-self: center">
-                <img src="assets/PictureVehicle/Transporter1.jpg" alt="Bild des Fahrzeugs" class="cropped-img" style="width:50px; height: 50px">
-              </div>
-              <div class="col-9">
-                <div class="container">
-                  <div class="row">
-                    <div class="col FormInputLight m-2">
-                      <p class="p-2 m-0">Transporter</p>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col FormInputLight m-2">
-                      <p class="p-2 m-0">Transporter mit x Volumen</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </button>
+          </button>
+        </div>
       </div>
     </div>
   </div>

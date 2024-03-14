@@ -72,13 +72,8 @@ export class EditProfileComponent implements OnInit {
       this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
     });
 
-    this.api.getRequest("trip").subscribe((res: any) => {
-      if(res != null) {
-        this.tripCount = res.uwtData.length + res.uotData.length;
-      }
-      else {
-        this.tripCount = 0;
-      }
+    this.api.getRequest("trip/getTripCount/"+userId).subscribe((res: any) => {
+      this.tripCount = res.data.length;
     });
 
   }

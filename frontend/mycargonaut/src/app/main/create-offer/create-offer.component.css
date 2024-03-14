@@ -19,10 +19,85 @@
   object-position: 25% 25%;
 }
 
+.PriceInput {
+  background-color: transparent;
+  border: none;
+  color: var(--primary);
+  -moz-appearance: textfield;
+}
+
+.card {
+  border-width: 2px;
+  border-color: var(--primary);
+}
+
+.big {
+  font-size: xx-large;
+}
+.medium {
+  font-size: x-large;
+}
+.small {
+  font-size: medium;
+}
+.center {
+  text-align: center;
+}
+
+.rating {
+  font-size: xx-large;
+}
+
+.highlight {
+  color: rgb(255, 217, 0);
+}
+
+
+.custom-progress {
+  background-color: var(--primary);
+}
+
+.progress {
+  background-color: #e1e9be;
+  height: 40px;
+}
+
+.buttonPrimary {
+  width: auto;
+  height: auto;
+  background-color: var(--primary);
+  color: white;
+  font-size: large;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.buttonPrimary:hover {
+  background-color: var(--secondary);
+}
+
+.custom-progress {
+  background-color: var(--primary);
+}
+
+.progress {
+  background-color: #e1e9be;
+  height: 40px;
+}
+
+.ht1 {
+  height: 130px;
+}
+
 #PriceInput {
   background-color: transparent;
   border: none;
   color: var(--primary);
   -moz-appearance: textfield;
 }
+
+.price {
+  color: var(--primary);
+}
+
 
