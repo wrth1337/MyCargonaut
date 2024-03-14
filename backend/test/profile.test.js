@@ -284,11 +284,11 @@ test('get rating data', async () => {
         );
 
     } finally {
+        conn.query(`DELETE FROM rating WHERE ratingId = 1324`);
+        conn.query(`DELETE FROM booking WHERE bookingId = 1234`);
+        conn.query(`DELETE FROM ad WHERE adId = 123`);
         conn.query(`DELETE FROM user WHERE userId = 12345`);
         conn.query(`DELETE FROM user WHERE userId = 123456`);
-        conn.query(`DELETE FROM ad WHERE adId = 123`);
-        conn.query(`DELETE FROM booking WHERE bookingId = 1234`);
-        conn.query(`DELETE FROM rating WHERE ratingId = 1324`);
 
         if (conn) await conn.release();
     }
