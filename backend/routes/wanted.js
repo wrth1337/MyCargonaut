@@ -135,9 +135,15 @@ async function getWantedById(id) {
  *                  adId:
  *                      type: number
  *                      description: Id of the connected ad
+ *                  wantedId:
+ *                      type: number
+ *                      description: Id of the wanted.
  *                  freight:
  *                      type: string
  *                      description: Description of the freight
+ *                  price:
+ *                      type: number
+ *                      description: Price.
  *          securitySchemes:
  *              bearerAuth:
  *                  type: http
@@ -330,9 +336,15 @@ router.post('/createWanted', authenticateToken, async function(req, res, next) {
  *                  adId:
  *                      type: number
  *                      description: Id of the connected ad
+ *                  wantedId:
+ *                      type: number
+ *                      description: Id of the wanted.
  *                  freight:
  *                      type: string
  *                      description: Description of the freight
+ *                  price:
+ *                      type: number
+ *                      description: Price.
  *      securitySchemes:
  *          bearerAuth:
  *              type: http
