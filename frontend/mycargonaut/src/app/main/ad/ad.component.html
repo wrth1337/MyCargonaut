@@ -15,36 +15,77 @@
     <div class="col"></div>
 </div>
 <div class="row p-3" style="width: 100%;">
-    <div class="col-md">
+    <div class="col-3">
         <div class="card">
             <div class="card-header p-3 fs-5">
                 Übersicht
             </div>
             <div class="card-body p-2">
-                <div class="profile m-2">
+                <div class="m-2">
                     <app-profile-data></app-profile-data>
                 </div>
-                <div class="profile m-2">
-                    <div *ngIf="this.type === 'offer'">
-                        Price per Person: {{typeSpecificContent.pricePerPerson}} <br>
-                        Price per Freight: {{typeSpecificContent.pricePerFreight}}
-                    </div>
-                    <div *ngIf="this.type === 'wanted'">
-                        Freight: {{typeSpecificContent.freight}}
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
-    <div class="col-md">
+    <div class="col-5">
         <div class="card adCard p-3">
             <img src="https://placehold.jp/380x210.png" class="card-img-top adCardImg p-3" alt="...">
             <div class="card-body adCardBody">
                 <h5 class="card-title adCardTitle p-1">{{writeTitle(ad)}}</h5>
                 <p class="card-text adCardText p-1 lh-xl">{{ad.description}}</p>
             </div>
-          </div>
+
+            <div class="m-1">
+                <div *ngIf="this.type === 'offer'">
+                    <div class="row mb-5 justify-content-center align-items-center">
+                        <div class="col-6">
+                          <div>
+                            <p class="price">Preis pro Person</p>
+                          </div>
+                          <div id="CalculatedPrice" class="container borderPrimary p-3">
+                            <div class="row d-flex align-items-center justify-content-center">
+                              <div class="col-6">
+                                <span class="medium">{{typeSpecificContent.pricePerPerson}}</span>
+                              </div>
+                              <div class="col-6">
+                                  <span class="material-symbols-outlined" style="font-size: xxx-large">toll</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div>
+                            <p class="price">Preis pro Fracht</p>
+                          </div>
+                          <div id="FreightPrice" class="container borderPrimary p-3 h-100">
+                            <div class="row d-flex align-items-center justify-content-center">
+                                <div class="col-6">
+                                    <span class="medium">{{typeSpecificContent.pricePerFreight}}</span>
+                                </div>
+                              <div class="col-6">
+                                  <span class="material-symbols-outlined" style="font-size: xxx-large">toll</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+                <div *ngIf="this.type === 'wanted'">
+                    <div class="col-6">
+                        <div>
+                          <p class="price">Fracht</p>
+                        </div>
+                        <div class="container h-100">
+                          <div class="row">
+                              <div class="col">
+                                  <p class="card-text adCardText p-1 lh-xl">{{typeSpecificContent.freight}}</p>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
           <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#ratingModal" *ngIf="this.state === 'Bewerten'">Bewerten</button>
           <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#bookingModal" *ngIf="this.isLogin && this.state === 'Buchen' && this.seatsAvailable > 0">{{this.state}}</button>
           <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#cancelingModal" *ngIf="this.isLogin && this.state === 'Stornieren'">{{this.state}}</button>
@@ -52,8 +93,8 @@
           <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#stopModal" *ngIf="this.isLogin && this.state === 'Author' && this.ad.state === 'started'">Fahrt beenden</button>
 
     </div>
-    <div class="col-md">
-        <div class="card chatCard mx-5">
+    <div class="col-4">
+        <div class="card chatCard">
             <div class="card-header p-3 fs-5 chatCardHeader">
                 Chat mit Nutzer
             </div>

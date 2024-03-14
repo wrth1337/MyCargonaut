@@ -24,14 +24,14 @@
 .card{
     border-color: var(--secondary);
 }
-.profile{
-    border-width: 1px;
-    border-style: double;
-    border-radius: 5px;
-    border-color: var(--secondary);
-}
 .centre{
     text-align: center;
+}
+.price {
+    color: var(--primary);
+}
+.medium {
+    font-size: x-large;
 }
 .description{
     border-width: 1px;
