@@ -159,19 +159,6 @@ describe('EditProfileComponent', () => {
     expect(getComputedStyle(bar.nativeElement).backgroundColor).toEqual('rgb(0, 91, 82)');
   });
 
-  // Test muss angepasst werden wenn Algorithmus für Erfahrung implementiert wurde
-  it('should update progress bar width based on tripCount', () => {
-    component.tripCount = 5;
-    fixture.detectChanges();
-
-    const progressBar = fixture.debugElement.query(By.css('.progress-bar'));
-
-    const expectedWidth = (component.tripCount / 10) * 100 + '%';
-
-    expect(progressBar.styles['width']).toBe(expectedWidth);
-  });
-
-
   afterEach(() => {
     localStorage.clear();
   });

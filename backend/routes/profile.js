@@ -100,7 +100,7 @@ async function getUserXP(id) {
         const conn = await pool.getConnection();
         const resNumSeats = await conn.query(xp, [id, id]);
         let seats = 0;
-        resNumSeats.forEach(el => {
+        resNumSeats.forEach((el) => {
             seats += el.numSeats;
         });
         const resTrips = await conn.query(trips, [id, id]);

@@ -190,7 +190,8 @@ test('edit language data', async () => {
 
     try {
         conn = await pool.getConnection();
-        await conn.query(`INSERT INTO language(languageId, languageName, languagePicture) VALUES  (10, 'Deutsch', 'deutschlandflagge.jpg'), (20, 'Englisch', 'americanflag.jpg')`);
+        await conn.query(`INSERT INTO language(languageId, languageName, languagePicture) 
+        VALUES  (10, 'Deutsch', 'deutschlandflagge.jpg'), (20, 'Englisch', 'americanflag.jpg')`);
         const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
         const userId = id[0].userId;
 
@@ -279,10 +280,9 @@ test('get rating data', async () => {
                 'comment': 'Test comment',
                 'firstName': 'Vorname',
                 'lastName': 'Nachname',
-                'picture': 'user2.jpg'
-            }
+                'picture': 'user2.jpg',
+            },
         );
-
     } finally {
         conn.query(`DELETE FROM rating WHERE ratingId = 1324`);
         conn.query(`DELETE FROM booking WHERE bookingId = 1234`);
@@ -305,7 +305,7 @@ test('get user experience', async () => {
         await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience)
         VALUES (12345,'Max', 'Mustermann', 'max@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung'),
                (123456,'Vorname', 'Nachname', 'mail@example.com', 'pass123', '1990-05-15', '123456780', 100.0, 'user2.jpg', 'Hi was geht so', 'Viel Erfahrung'),
-               (1234567,'Vorname2', 'Nachname2', 'mail2@example.com', 'pass123', '1990-05-15', '123456780', 100.0, 'user3.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
+               (1234567,'Vorname2', 'Nachname2', 'mail2@example.com', 'pass123', '1990-05-15', '123456780', 10.0, 'user3.jpg', 'Hi was geht', 'Viel Erfahrung')`);
         await conn.query(`INSERT INTO userLanguage (userLanguageId, userId, languageId)
         VALUES (1234, 12345, 10),
                (12345, 12345, 20)`);
@@ -328,7 +328,6 @@ test('get user experience', async () => {
 
         const dbResult = await getUserXP(12345);
         expect(dbResult.exp).toEqual(350);
-
     } finally {
         conn.query(`DELETE FROM userLanguage WHERE userLanguageId = 1234`);
         conn.query(`DELETE FROM userLanguage WHERE userLanguageId = 12345`);

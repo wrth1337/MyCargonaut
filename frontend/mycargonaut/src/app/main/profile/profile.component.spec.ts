@@ -227,16 +227,17 @@ it('should have correct color for progress', () => {
   expect(getComputedStyle(bar.nativeElement).backgroundColor).toEqual('rgb(0, 91, 82)');
 });
 
-// Test muss angepasst werden wenn Algorithmus für Erfahrung implementiert wurde
-it('should update progress bar width based on tripCount', () => {
-  component.tripCount = 5;
+it('should update progress bar width based on xp', () => {
+  component.xp = 70;
   fixture.detectChanges();
 
   const progressBar = fixture.debugElement.query(By.css('.progress-bar'));
+  const level = fixture.debugElement.query(By.css('.progress-label')).nativeElement.textContent.trim();
 
-  const expectedWidth = (component.tripCount / 10) * 100 + '%';
+  const expectedWidth = (component.xp) + '%';
 
   expect(progressBar.styles['width']).toBe(expectedWidth);
+  expect(level).toBe('Level 1');
 });
 
 it('should display vehicles if vehicles are available', () => {
