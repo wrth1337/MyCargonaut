@@ -31,6 +31,7 @@ test('create new wanted ad', async () => {
     const smoker = true;
     const notes = 'testNote';
     const numSeats = 2;
+    const price = 20.0;
     const freight = 'testFreight';
 
     let conn;
@@ -41,7 +42,7 @@ test('create new wanted ad', async () => {
         const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
         const userId = id[0].userId;
 
-        const res = await addNewWanted(description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId, freight);
+        const res = await addNewWanted(description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId, freight, price);
         expect(res).toBe(1);
 
         const dbResult = await getUserWanteds(userId);
@@ -90,7 +91,7 @@ test('create new wanted ad fail because not all required input fields are filled
         const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
         const userId = id[0].userId;
 
-        const res = await addNewWanted(description, startLocation, startDate, endDate, animals, smoker, price, notes, numSeats, userId, freight);
+        const res = await addNewWanted(description, startLocation, startDate, endDate, animals, smoker, notes, numSeats, userId, freight, price);
         expect(res).toBe(0);
     } finally {
         if (conn) await conn.release();
