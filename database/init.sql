@@ -97,6 +97,7 @@ CREATE OR REPLACE TABLE wanted(
     wantedId int not null PRIMARY KEY auto_increment,
     adId int not null,
     freight VARCHAR(1024),
+    price DOUBLE not null,
     CONSTRAINT fk_ad_id_wanted
    	FOREIGN KEY (adId) REFERENCES ad(adId)
     ON DELETE CASCADE

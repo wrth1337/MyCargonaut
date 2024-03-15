@@ -1,8 +1,9 @@
 const mariadb = require('mariadb');
 const express = require('express');
 const rateLimit = require('express-rate-limit');
-const {getSeatsAvailable} = require('./booking');
+const {getSeatsAvailable, getBookingsByAd} = require('./booking');
 const authenticateToken = require('./auth');
+const {addUserCoins} = require('./coins');
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -618,6 +619,14 @@ router.post('/stop/:id', authenticateToken, async function(req, res, next) {
     try {
         const result = await stopAdById(req.params.id, req.user_id);
         if (result.affectedRows > 0) {
+            const ad = (await getAdById(req.params.id)).data;
+            const bookings = (await getBookingsByAd(req.params.id)).filter((booking) => booking.state === 'confirmed');
+            let totalPrice = 0;
+            await bookings.forEach((booking) => totalPrice += booking.price );
+            totalPrice = totalPrice * 0.9;
+            let userToPay = ad.userId;
+            if ((await getTypeById(ad.adId)).data === 'wanted') userToPay = bookings[0].userId;
+            await addUserCoins(userToPay, totalPrice);
             res.status(200);
             res.json({status: 1, newState: 'finished'});
         } else {

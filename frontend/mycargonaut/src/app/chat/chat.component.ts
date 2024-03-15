@@ -41,9 +41,9 @@ export class ChatComponent implements OnInit {
   bookingRateSet = new Set<number>();
   newMessage = '';
   isOwner = false;
+  notEnoughCoins = false;
   userToRateId = 0;
   bookingToRateId = 0;
-
 
   constructor(
     private api: ApiService,
@@ -53,6 +53,7 @@ export class ChatComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
+    this.notEnoughCoins = false;
     const authUserData = this.auth.getUserData();
     if(authUserData != null) {
       this.ownUserId = JSON.parse(authUserData).user_id;
@@ -128,6 +129,7 @@ export class ChatComponent implements OnInit {
       this.bookingList = res.data;
       await this.updateUserMap();
       this.bookingList = this.bookingList.filter( booking => !booking.canceled);
+      this.bookingList = this.bookingList.filter( booking => booking.state !== 'denied');
 
       const confirmedBookings = this.bookingList.filter(booking => booking.state === "confirmed");
       this.bookingListAccepted.push(...confirmedBookings);
@@ -150,8 +152,11 @@ export class ChatComponent implements OnInit {
   }
 
   acceptBooking(booking: any) {
+    this.notEnoughCoins = false;
     this.api.postRequest('booking/confirm/'+booking.bookingId, {}).subscribe((res:any) => {
       this.loadBookingList();
+    }, (error:any) => {
+      this.notEnoughCoins = true;
     });
   }
 
