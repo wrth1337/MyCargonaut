@@ -54,9 +54,8 @@ async function addOffer(description, startLocation, endLocation, startDate, endD
 
     try {
         const conn = await pool.getConnection();
-        const resA = await conn.query(addOfferAd, [description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId]);
-        const adId = resA.insertId;
-        await conn.query(addOffer, [vehicleId, adId, pricePerPerson, pricePerFreight]);
+        await conn.query(addOfferAd, [description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId]);
+        await conn.query(addOffer, [vehicleId, pricePerPerson, pricePerFreight]);
         await conn.release();
         return 1;
     } catch (error) {

@@ -63,6 +63,7 @@ async function addUserCoins(id, coinsToAdd) {
             return {success: false};
         }
     } catch (error) {
+        console.error('Fehler bei addUserCoins: ', error);
         throw error;
     }
 }

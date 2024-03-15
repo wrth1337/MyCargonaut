@@ -128,3 +128,28 @@
     background-color: var(--secondary_light);
     border-radius: 50%;
 }
+
+.price {
+    color: var(--secondary);
+}
+
+.input-field {
+    border-color: var(--primary);
+    background-color: var(--secondary_light);
+    width: -moz-available;
+}
+
+.submitButton{
+    background-color: var(--secondary);
+    color: white;
+}
+
+.abortButton{
+    border: none;
+    background-color: rgb(255, 47, 47);
+    color: white;
+}
+
+.modalWidth {
+    width: fit-content;
+}
