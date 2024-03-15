@@ -110,5 +110,5 @@
 
 </div>
 
-<app-rating [userWhoWasEvaluated]="this.userToRateId" [bookingId]="this.bookingToRateId"></app-rating>
+<app-rating [userWhoWasEvaluated]="this.userToRateId" [bookingId]="this.bookingToRateId" *ngIf="isOwner"></app-rating>
 
