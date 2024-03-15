@@ -156,22 +156,29 @@
     <div class="modal" id="bookingModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-body">
-                    <p>Sind Sie sich sicher?</p>
-                    <span>Anzahl zu buchender Sitzplätze</span>
-                    <input id="seats" class="form-control ms-2 m-1" type="number" name="numSeats" placeholder="Anzahl Sitzplätze" min="1" [max]="this.seatsAvailable" ngModel [(ngModel)]="this.default">
-                    <span>Menge an Fracht in Kg</span>
-                    <input id="seats" class="form-control ms-2 m-1" type="number" name="freight" placeholder="Menge Fracht" min="0" ngModel>
+                <div *ngIf="this.type==='offer'" class="modal-body">
+                    <p class="fs-4 ms-2">Buchung</p>
+                    <span class="ms-2">Anzahl zu buchender Sitzplätze</span>
+                    <input id="seats" class="form-control mx-2 mb-2 input-field" type="number" name="numSeats" placeholder="Anzahl Sitzplätze" min="1" [max]="this.seatsAvailable" ngModel [(ngModel)]="this.default">
+                    <span class="ms-2">Menge an Fracht in Kg</span>
+                    <input id="freight" class="form-control mx-2 mb-2 me-2 input-field" type="number" name="freight" placeholder="Menge Fracht" min="0" ngModel>
+                    <span class="ms-2 price fs-4 ">Gesamtpreis: </span> 
+                    <span class="ms-2 price fs-4 " style="color: var(--primary);">{{this.typeSpecificContent.pricePerFreight * bookingForm.value.freight+ this.typeSpecificContent.pricePerPerson * bookingForm.value.numSeats}}</span>
+                </div>
+                <div *ngIf="this.type==='wanted'" class="modal-body">
+                    <p class="fs-3">Wollen Sie diese Fahrt übernehmen?</p>
+                    <span class="ms-2 price fs-4 ">Angebotener Gesamtpreis: </span> 
+                    <span class="ms-2 price fs-4 " style="color: var(--primary);">{{this.typeSpecificContent.price}}</span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
-                    <input id="submitButton" class="submitButton btn align-middle" type="submit" value="Buchen">
+                    <button type="button" class="btn abortButton" data-bs-dismiss="modal">Abbrechen</button>
+                    <input id="submitButton" class="submitButton greenButton btn align-middle" type="submit" value="Buchen">
                     <div *ngIf="toFewSeatsResponse">
                         <div class="alert alert-danger alert-dismissible" role="alert">
-                          <div>Not enough Seats available.</div>
+                          <div>Nicht genügend Plätze vorhanden.</div>
                           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
-                      </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -182,10 +189,11 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
-                <p>Sind Sie sich sicher?</p>
+                <p class="fs-3">Fahrt Stornieren?</p>
+                <span>Diese Aktion kann nicht rückgängig gemacht werden!</span>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                <button type="button" class="btn btn-secondary abortButton" data-bs-dismiss="modal">Abbrechen</button>
                 <input id="submitButton" class="submitButton btn align-middle" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#startModal" type="submit" value="Stornieren" (click)="cancel()">
             </div>
         </div>
@@ -194,12 +202,13 @@
 
 <div class="modal" id="startModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content modalWidth">
             <div class="modal-body">
-                <p>Sind Sie sich sicher?</p>
+                <p class="fs-3">Fahrt starten?</p>
+                <span>Diese Aktion kann nicht rückgängig gemacht werden!</span>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                <button type="button" class="btn btn-secondary abortButton" data-bs-dismiss="modal">Abbrechen</button>
                 <input id="submitButton" class="submitButton btn align-middle" data-bs-dismiss="modal" data-bs-target="#startModal" type="submit" value="Fahrt starten" (click)="start()">
             </div>
         </div>
@@ -208,12 +217,13 @@
 
 <div class="modal" id="stopModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content modalWidth">
             <div class="modal-body">
-                <p>Sind Sie sich sicher?</p>
+                <p class="fs-3">Fahrt beenden?</p>
+                <span>Diese Aktion kann nicht rückgängig gemacht werden!</span>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                <button type="button" class="btn btn-secondary abortButton" data-bs-dismiss="modal">Abbrechen</button>
                 <input id="submitButton" class="submitButton btn align-middle" data-bs-dismiss="modal" data-bs-target="#stopModal" type="submit" value="Fahrt stoppen" (click)="stop()">
             </div>
         </div>
