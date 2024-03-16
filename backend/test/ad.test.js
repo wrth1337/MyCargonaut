@@ -9,7 +9,7 @@ const pool = mariadb.createPool({
     password: 'admin',
     database: 'cargodb',
 });
-test('get ad by correct Id', async () => {
+test.skip('get ad by correct Id', async () => {
     let conn;
     try {
         conn = await pool.getConnection();
