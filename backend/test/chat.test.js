@@ -11,14 +11,13 @@ const pool = mariadb.createPool({
 });
 
 test('addMessage: add a message', async () =>{
+    let conn;
     try {
         conn = await pool.getConnection();
-
         await conn.query('DELETE FROM user WHERE userId = 100');
         await conn.query('DELETE FROM user WHERE userId = 101');
-
-        await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience)
-            VALUES (100,'Max', 'Mustermann', 'max@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
+        // eslint-disable-next-line max-len
+        await conn.query(`INSERT INTO user (userId, firstName, lastName, email, password, birthdate, phonenumber, coins, picture, description, experience) VALUES (100,'MaxChat', 'Mustermann', 'maxChat@example.com', 'pass123', '1990-05-15', '123456789', 100.0, 'user1.jpg', 'Hi was geht so', 'Viel Erfahrung')`);
         await conn.query(`INSERT INTO ad (adId,description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId)
             VALUES (100,'Ja Beschreibung halt so lololol', 'City A', 'City B', '2023-01-10', '2023-01-15', 0, 1, 'No pets allowed', 4, 100)`);
         await conn.query(`INSERT INTO vehicle (vehicleId, name, numSeats, maxWeight, picture, loadingAreaDimensions, specialFeatures, userId)
@@ -29,19 +28,19 @@ test('addMessage: add a message', async () =>{
         await addMessage(100, 100, 'This is a testmessage');
         let result = await conn.query('SELECT messageText FROM message WHERE userId = 100');
         expect(result[0].messageText).toBe('This is a testmessage');
-        conn.query('DELETE FROM message WHERE adId = 100');
+        await conn.query('DELETE FROM message WHERE adId = 100');
         // eslint-disable-next-line max-len
         const longmessage = 'This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. This is a long message.';
         await addMessage(100, 100, longmessage);
         result = await conn.query('SELECT messageText FROM message WHERE userId = 100');
         expect(result[0].messageText).toBe(longmessage);
     } finally {
-        conn.query('DELETE FROM message WHERE adId = 100');
-        conn.query(`DELETE FROM ad WHERE adId = 100`);
-        conn.query(`DELETE FROM offer WHERE offerId = 100`);
-        conn.query(`DELETE FROM vehicle WHERE vehicleId = 100`);
-        conn.query(`DELETE FROM user WHERE userId = 100`);
-        if (conn) await conn.release();
+        await conn.query('DELETE FROM message WHERE adId = 100');
+        await conn.query(`DELETE FROM ad WHERE adId = 100`);
+        await conn.query(`DELETE FROM offer WHERE offerId = 100`);
+        await conn.query(`DELETE FROM vehicle WHERE vehicleId = 100`);
+        await conn.query(`DELETE FROM user WHERE userId = 100`);
+        if (conn) await conn.end();
     }
 });
 
@@ -88,7 +87,7 @@ test('getLastMessages: Receive all messages', async () =>{
         conn.query(`DELETE FROM user WHERE userId = 100`);
         conn.query(`DELETE FROM user WHERE userId = 101`);
 
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 });
 

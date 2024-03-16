@@ -66,7 +66,6 @@ async function addOffer(description, startLocation, endLocation, startDate, endD
 
 async function getOfferById(id) {
     const query = 'SELECT * FROM offer WHERE adId = ?';
-
     try {
         const conn = await pool.getConnection();
         const result = await conn.query(query, id);

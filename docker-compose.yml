@@ -24,7 +24,7 @@ services:
         hostname: database
         ports:
             - "3306:3306"
-            
+
     frontend:
         container_name: frontend
         build:

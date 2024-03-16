@@ -43,14 +43,14 @@ test('get profile data from new registered user', async () => {
         expect(dbResult.data.rating).toEqual('0.00000000');
         expect(dbResult.lang.length).toEqual(0);
     } finally {
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 
     try {
         conn = await pool.getConnection();
         await conn.query('DELETE FROM user WHERE email = ?', [email]);
     } finally {
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 });
 
@@ -99,14 +99,14 @@ test('change profile data from user', async () => {
         expect(dbResult.data.experience).toEqual(experience);
         expect(dbResult.data.rating).toEqual('0.00000000');
     } finally {
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 
     try {
         conn = await pool.getConnection();
         await conn.query('DELETE FROM user WHERE email = ?', [email]);
     } finally {
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 });
 
@@ -151,14 +151,14 @@ test('add two languages to profile', async () => {
         expect(dbResult.lang[0].languageId).toEqual(1);
         expect(dbResult.lang[1].languageId).toEqual(2);
     } finally {
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 
     try {
         conn = await pool.getConnection();
         await conn.query('DELETE FROM user WHERE email = ?', [email]);
     } finally {
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 });
 
@@ -202,14 +202,14 @@ test('edit language data', async () => {
         expect(dbResult.lang.length).toEqual(1);
         expect(dbResult.lang[0].languageId).toEqual(1);
     } finally {
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 
     try {
         conn = await pool.getConnection();
         await conn.query('DELETE FROM user WHERE email = ?', [email]);
     } finally {
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 });
 
@@ -237,14 +237,14 @@ test('get rating data from new registered user', async () => {
 
         expect(dbResult.success).toBeFalsy();
     } finally {
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 
     try {
         conn = await pool.getConnection();
         await conn.query('DELETE FROM user WHERE email = ?', [email]);
     } finally {
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 });
 
