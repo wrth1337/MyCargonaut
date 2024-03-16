@@ -21,8 +21,8 @@
                 Übersicht
             </div>
             <div class="card-body p-2">
-                <div class="profile m-2">
-                    <app-profile-data></app-profile-data>
+                <div class="m-2">
+                    <app-profile-data style="height: 100%"></app-profile-data>
                 </div>
                 <div class="profile m-2">
                     <div *ngIf="this.type === 'offer'">
@@ -35,23 +35,118 @@
                         Sitze: {{typeSpecificContent.numSeats}} 
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
-    <div class="col-md">
+    <div class="col-5">
         <div class="card adCard p-3">
                 <img *ngIf="this.type === 'offer'" src="../../assets/image.png" class="card-img-top p-3" alt="...">
                 <img *ngIf="this.type === 'wanted'" src="../../assets/OIG2.jpeg" class="card-img-top p-3" alt="...">            <div class="card-body adCardBody">
                 <h5 class="card-title adCardTitle p-1">{{writeTitle(ad)}}</h5>
-                <p class="card-text adCardText p-1 lh-xl">{{ad.description}}</p>
+                <p class="card-text adCardText p-1 lh-xl mb-5">{{ad.description}}</p>
+                <div class="m-1">
+                    <div class="col mb-5">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="mx-4" *ngIf="!ad.smoker">
+                                <img class="smokefree" width="50" heigth="50" src="../../../assets/icons/smoke-free-svgrepo-com.svg" alt="Logo">
+                            </div>
+                            <div class="mx-4" *ngIf="ad.smoker">
+                                <img class="smoke" width="50" heigth="50" src="../../../assets/icons/smoke-svgrepo-com.svg" alt="Logo">
+                            </div>
+                            <div class="mx-4" *ngIf="ad.animals">
+                                <img class="pets" width="50" heigth="50" src="../../../assets/icons/walking-dog-sign-svgrepo-com.svg" alt="Logo">
+                            </div>
+                            <div class="mx-4" *ngIf="!ad.animals">
+                                <img class="nopets" width="50" heigth="50" src="../../../assets/icons/no-pets-svgrepo-com.svg" alt="Logo">
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="this.type === 'offer'">
+                        <div class="col">
+                            <p class="header"> Anzahl verfügbarer Sitze: {{this.seatsAvailable}} </p>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-6">
+                              <div>
+                                <p class="header">Preis pro Person</p>
+                              </div>
+                              <div id="CalculatedPrice" class="container borderPrimary p-3">
+                                <div class="row d-flex align-items-center justify-content-center">
+                                  <div class="col-6">
+                                    <span class="medium">{{typeSpecificContent.pricePerPerson}}</span>
+                                  </div>
+                                  <div class="col-6">
+                                      <span class="material-symbols-outlined" style="font-size: xxx-large">toll</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-6"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                              <div>
+                                <p class="header">Preis pro Fracht</p>
+                              </div>
+                              <div id="FreightPrice" class="container borderPrimary p-3">
+                                <div class="row d-flex align-items-center justify-content-center">
+                                    <div class="col-6">
+                                        <span class="medium">{{typeSpecificContent.pricePerFreight}}</span>
+                                    </div>
+                                  <div class="col-6">
+                                      <span class="material-symbols-outlined" style="font-size: xxx-large">toll</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-1"></div>
+                            <div class="col-5 align-items-right">
+                                <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#ratingModal" *ngIf="this.state === 'Bewerten'">Bewerten</button>
+                                <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#bookingModal" *ngIf="this.isLogin && this.state === 'Buchen' && this.seatsAvailable > 0">{{this.state}}</button>
+                                <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#cancelingModal" *ngIf="this.isLogin && this.state === 'Stornieren'">{{this.state}}</button>
+                                <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#startModal" *ngIf="this.isLogin && this.state === 'Author' && this.ad.state === 'created'">Fahrt starten</button>
+                                <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#stopModal" *ngIf="this.isLogin && this.state === 'Author' && this.ad.state === 'started'">Fahrt beenden</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="this.type === 'wanted'">
+                        <div class="col">
+                            <p class="header"> Anzahl benötigter Sitze: {{ad.numSeats}} </p>
+                        </div>
+                        <div class="col">
+                            <div>
+                              <p class="header">Fracht: {{typeSpecificContent.freight}} </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div>
+                                    <p class="header">Preis</p>
+                                </div>
+                                <div class="container borderPrimary p-3">
+                                    <div class="row d-flex align-items-center justify-content-center">
+                                        <div class="col-6">
+                                            <span class="medium">  </span>
+                                        </div>
+                                        <div class="col-6">
+                                            <span class="material-symbols-outlined" style="font-size: xxx-large">toll</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-1"></div>
+                            <div class="col-5 align-items-right">
+                                <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#ratingModal" *ngIf="this.state === 'Bewerten'">Bewerten</button>
+                                <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#bookingModal" *ngIf="this.isLogin && this.state === 'Buchen' && this.seatsAvailable > 0">{{this.state}}</button>
+                                <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#cancelingModal" *ngIf="this.isLogin && this.state === 'Stornieren'">{{this.state}}</button>
+                                <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#startModal" *ngIf="this.isLogin && this.state === 'Author' && this.ad.state === 'created'">Fahrt starten</button>
+                                <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#stopModal" *ngIf="this.isLogin && this.state === 'Author' && this.ad.state === 'started'">Fahrt beenden</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#ratingModal" *ngIf="this.state === 'Bewerten'">Bewerten</button>
-          <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#bookingModal" *ngIf="this.isLogin && this.state === 'Buchen' && this.seatsAvailable > 0">{{this.state}}</button>
-          <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#cancelingModal" *ngIf="this.isLogin && this.state === 'Stornieren'">{{this.state}}</button>
-          <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#startModal" *ngIf="this.isLogin && this.state === 'Author' && this.ad.state === 'created'">Fahrt starten</button>
-          <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#stopModal" *ngIf="this.isLogin && this.state === 'Author' && this.ad.state === 'started'">Fahrt beenden</button>
+        </div>
 
     </div>
     <div class="col-md">
