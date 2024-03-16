@@ -9,7 +9,6 @@ const pool = mariadb.createPool({
     password: 'admin',
     database: 'cargodb',
 });
-jest.useFakeTimers('legacy');
 test.skip('Create/ Update / Delete a vehicle', async () => {
     let conn;
     try {
