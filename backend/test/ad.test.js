@@ -56,7 +56,7 @@ test.skip('get ad by correct Id', async () => {
 });
 
 test('get ad by wrong Id', async () => {
-    const res2 = await ad.getAdById(99999999999);
+    const res2 = await ad.getAdById(9999);
     expect(res2).toEqual({success: false});
 });
 
