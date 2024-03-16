@@ -37,8 +37,10 @@ export class ProfileComponent implements OnInit {
   offersAvailable = false;
   wantedsAvailable = false;
   tripsAvailable = false;
+  tripCount = 0;
+  xp = 0;
+  level = 1;
   ratingsAvailable = false;
-  tripCount: any;
   stars: number[] = [1, 2, 3, 4, 5];
 
   language = [
@@ -148,8 +150,14 @@ export class ProfileComponent implements OnInit {
           this.tripsAvailable = false;
         }
       });
-    });
 
+      this.api.getRequest("profile/experience/"+this.idUrl).subscribe((res: any) => {
+        if(res != null) {
+          this.level = Math.floor(res.data / 100) + 1;
+          this.xp = res.data % 100;
+        }
+      });
+    });
   }
   back(){
     this.location.back()
