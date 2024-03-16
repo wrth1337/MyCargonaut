@@ -18,7 +18,7 @@
   </ul>
 * **Permanent nebenbei:** Dependabot, integriert via GitHub
   
-Bei der Auswahl der Tools, welche in der Pipeline verwendet werden, wurde sich an den einzelnen CI/CD-Phasen aus der Vorlesung orienriert.
+Bei der Auswahl der Tools, welche in der Pipeline verwendet werden, wurde sich an den einzelnen CI/CD-Phasen aus der Vorlesung orientiert.
 Daher lassen sich die Tools den einzelnen Phasen zuordnen:
 * **Commit-Phase:** Linting und Testing
 * **Report-Phase:** CodeQL
