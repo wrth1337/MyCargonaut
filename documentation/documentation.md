@@ -77,6 +77,11 @@ Der Deployment-Prozess in diesem Projekt nutzt Docker und Docker Compose, um ein
 1. **Erstellen des Docker-Images**: Führen Sie den Befehl `docker-compose build` aus, um das Docker-Image für das Projekt zu erstellen. Dieser Befehl liest die `docker-compose.yml`-Datei und erstellt Docker-Images für alle in der Datei definierten Dienste.
 
 2. **Starten der Anwendung**: Nachdem das Docker-Image erstellt wurde, können Sie die Anwendung starten, indem Sie den Befehl `docker-compose up` ausführen. Dieser Befehl startet alle in der `docker-compose.yml`-Datei definierten Dienste in der richtigen Reihenfolge.
+3. Ablauf:
+   1. Navigieren in das root Directory des Projektes
+   2. (sudo) docker compose build
+   3. (sudo) docker compose up
+   4. Über den Browser kann nun unter der URL http://localhost die Seite aufgerufen werden
 
 Bitte beachten Sie, dass Sie Docker und Docker Compose auf Ihrem Computer installiert haben müssen, um diese Schritte ausführen zu können.
 
@@ -94,7 +99,8 @@ Das Projekt gliedert sich in Front / Backend / Database und Dokumenatation
   - 'Is the user story finished to such an extent that no further work is required after the pull request (excluding hotfixes and adjustments)?'
 
 # Test Strategie
-Jede Funktion wird in sofern sinnvoll umsetzbar mit Unittests getestet. Dies gilt für sowohl Front- als auch Backend. Im Frontend wird Jasmin/Karma mit der Angular Integration genutzt, Im Backend wird Jest verwendet. Zu jeder sinnvoll zu testenden Funktion sollten mindestens zwei Unittests geschrieben werden, welche die korrekte Funktionalität der jeweiligen Funktion sicherstellt.
+Jede Funktion wird in sofern sinnvoll umsetzbar mit Unittests getestet. Dies gilt für sowohl Front- als auch Backend. Im Frontend wird Jasmin/Karma mit der Angular Integration genutzt, Im Backend wird Jest verwendet. Zu jeder sinnvoll zu testenden Funktion sollten mindestens zwei Unittests geschrieben werden, welche die korrekte Funktionalität der jeweiligen Funktion sicherstellt. Um zu gewährleisten, dass der Code immer alle Testansrüche erfüllt, muss dieser bei einem PullRequest über die CI/CD Pipeline alle Tests erfolgreich durchführen. 
 
 # Entity Relationship Diagramm
-![img.png](images/ERDCargonaut.png)
+![graphviz](https://github.com/wrth1337/MyCargonaut/assets/13363982/607fcb47-6ef4-48a9-b41f-bee956480d22)
+
