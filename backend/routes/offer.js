@@ -50,7 +50,7 @@ async function addOffer(description, startLocation, endLocation, startDate, endD
     const addOfferAd = `
         INSERT INTO ad (description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId)
         VALUES (?,?,?,?,?,?,?,?,?,?)`;
-    const addOffer = 'INSERT INTO offer (vehicleId, adId, pricePerPerson, pricePerFreight) VALUES (?, ?, ?, ?)';
+    const addOffer = 'INSERT INTO offer (vehicleId, adId, pricePerPerson, pricePerFreight) VALUES (?, last_insert_id(), ?, ?)';
 
     try {
         const conn = await pool.getConnection();
