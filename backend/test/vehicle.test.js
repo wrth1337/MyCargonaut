@@ -26,7 +26,7 @@ test.skip('Create/ Update / Delete a vehicle', async () => {
         const res3 = await vehicle.deleteUserVehicle(999999, res.insertId);
         expect(res3.affectedRows).toEqual(1);
     } finally {
-        conn.query(`DELETE FROM user WHERE userId = 999999`);
+        await conn.query(`DELETE FROM user WHERE userId = 999999`);
 
         if (conn) await conn.release();
     }
@@ -53,7 +53,7 @@ test('Get all vehicle for one User', async () => {
 
         await vehicle.deleteUserVehicle(999999, res2.insertId);
     } finally {
-        conn.query(`DELETE FROM user WHERE userId = 999999`);
+        await conn.query(`DELETE FROM user WHERE userId = 999999`);
         if (conn) await conn.release();
     }
 },20000);

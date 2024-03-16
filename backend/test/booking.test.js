@@ -22,8 +22,8 @@ test('If newBooking updates the booking table correctly', async () => {
         const res = await booking.newBooking(123456789, 123456789, 10, 1);
         expect(res.affectedRows).toEqual(1);
     } finally {
-        conn.query(`DELETE FROM user WHERE userId = 123456789`);
-        conn.query(`DELETE FROM ad WHERE adId = 123456789`);
+        await conn.query(`DELETE FROM user WHERE userId = 123456789`);
+        await conn.query(`DELETE FROM ad WHERE adId = 123456789`);
 
         if (conn) await conn.release();
     }
@@ -49,9 +49,9 @@ test('If getSeatsAvailable get the correct amount of seats', async () => {
 
         expect(res).toBe(2);
     } finally {
-        conn.query(`DELETE FROM user WHERE userId = 123456789`);
-        conn.query(`DELETE FROM user WHERE userId = 12345678`);
-        conn.query(`DELETE FROM ad WHERE adId = 123456789`);
+        await conn.query(`DELETE FROM user WHERE userId = 123456789`);
+        await conn.query(`DELETE FROM user WHERE userId = 12345678`);
+        await conn.query(`DELETE FROM ad WHERE adId = 123456789`);
 
         if (conn) await conn.release();
     }
@@ -74,8 +74,8 @@ test('If a booking is canceled correctly', async () => {
         expect(res.affectedRows).toEqual(1);
         expect(res2.canceled).toBe(1);
     } finally {
-        conn.query(`DELETE FROM user WHERE userId = 123456789`);
-        conn.query(`DELETE FROM ad WHERE adId = 123456789`);
+        await conn.query(`DELETE FROM user WHERE userId = 123456789`);
+        await conn.query(`DELETE FROM ad WHERE adId = 123456789`);
 
         if (conn) await conn.release();
     }

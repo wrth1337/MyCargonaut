@@ -29,9 +29,9 @@ test.skip('get wanted by correct Id', async () => {
                 'weight': 420,
             });
     } finally {
-        conn.query(`DELETE FROM ad WHERE adId = 10`);
-        conn.query(`DELETE FROM wanted WHERE wantedId = 10`);
-        conn.query(`DELETE FROM user WHERE userId = 101337`);
+        await onn.query(`DELETE FROM ad WHERE adId = 10`);
+        await conn.query(`DELETE FROM wanted WHERE wantedId = 10`);
+        await conn.query(`DELETE FROM user WHERE userId = 101337`);
         if (conn) await conn.release();
     }
 }, 10000);
