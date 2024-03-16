@@ -41,7 +41,7 @@ test('create new wanted ad', async () => {
         const id = await conn.query('SELECT userId FROM user WHERE email = ?', [email]);
         const userId = id[0].userId;
 
-        const res = await addNewWanted(description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId, freight);
+        const res = await addNewWanted(description, startLocation, endLocation, startDate, endDate, animals, smoker, notes, numSeats, userId, freight, 420);
         expect(res).toBe(1);
 
         const dbResult = await getUserWanteds(userId);
