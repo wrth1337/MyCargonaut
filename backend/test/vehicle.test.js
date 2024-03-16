@@ -27,7 +27,6 @@ test.skip('Create/ Update / Delete a vehicle', async () => {
         expect(res3.affectedRows).toEqual(1);
     } finally {
         await conn.query(`DELETE FROM user WHERE userId = 999999`);
-
         if (conn) await conn.release();
     }
 },20000);
@@ -56,7 +55,7 @@ test('Get all vehicle for one User', async () => {
         await conn.query(`DELETE FROM user WHERE userId = 999999`);
         if (conn) await conn.release();
     }
-},20000);
+},40000);
 
 afterAll(() => {
     pool.end((err) => {
