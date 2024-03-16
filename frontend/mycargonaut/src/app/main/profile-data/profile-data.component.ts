@@ -24,8 +24,11 @@ export class ProfileDataComponent implements OnInit {
   ad: any;
   rating: any;
   stars: number[] = [1, 2, 3, 4, 5];
-  tripCount: any;
+  tripCount = 0;
+  xp = 0;
+  level = 1;
   isOwner = false;
+
   language = [
     { id: 1, name: 'german', icon: '../../../assets/icons/flag-for-flag-germany-svgrepo-com.svg' },
     { id: 2, name: 'english', icon: '../../../assets/icons/flag-for-flag-united-kingdom-svgrepo-com.svg' },
@@ -84,6 +87,13 @@ export class ProfileDataComponent implements OnInit {
 
     this.api.getRequest("trip/getTripCount/"+userId).subscribe((res: any) => {
       this.tripCount = res.data.length;
+    });
+
+    this.api.getRequest("profile/experience/"+userId).subscribe((res: any) => {
+      if(res != null) {
+        this.level = Math.floor(res.data / 100) + 1;
+        this.xp = res.data % 100;
+      }
     });
   }
 }

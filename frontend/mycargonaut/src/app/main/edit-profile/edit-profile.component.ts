@@ -17,6 +17,8 @@ export class EditProfileComponent implements OnInit {
   userData: any;
   rating: any;
   tripCount: any;
+  level = 1;
+  xp = 0;
   stars: number[] = [1, 2, 3, 4, 5];
   editUser = false;
   editBirth = false;
@@ -74,6 +76,13 @@ export class EditProfileComponent implements OnInit {
 
     this.api.getRequest("trip/getTripCount/"+userId).subscribe((res: any) => {
       this.tripCount = res.data.length;
+    });
+
+    this.api.getRequest("profile/experience/"+userId).subscribe((res: any) => {
+      if(res != null) {
+        this.level = Math.floor(res.data / 100) + 1;
+        this.xp = res.data % 100;
+      }
     });
 
   }

@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit{
     this.loaded = false;
     this.api.getRequest('ad/last').subscribe((res:any) => {
       this.content = res.data.result;
+      /*
       this.loaded = true;
       this.content.forEach(n => {
         n.intermediateGoals = [];
@@ -34,9 +35,11 @@ export class HomeComponent implements OnInit{
           n.type = res.data;
         })
       })
+      */
     })
 
   }
+  /*
   next() {
     this.index++;
     this.index = this.index % 6;
@@ -55,5 +58,5 @@ export class HomeComponent implements OnInit{
     res += ' nach ' + input.endLocation;
     return res;
   }
+  */
 }
-

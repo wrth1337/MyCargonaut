@@ -26,7 +26,7 @@ export class RatingComponent {
       freight: form.value.freightRating,
       comment: form.value.comment
     };
-    this.api.postRequest("rating", formData);
+    this.api.postRequest("rating", formData).subscribe();
   }
 }
 

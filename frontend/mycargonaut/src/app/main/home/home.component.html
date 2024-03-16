@@ -15,6 +15,10 @@
     </button>
 </div>
 <div id="RecomendedOffers" class="row">
+  <div *ngFor="let a of content" class="col">
+    <app-ad-card [ad]="a.adId"></app-ad-card>
+  </div>
+  <!--
   <div class="col-md-auto">
     <br>
     <br>
@@ -118,3 +122,4 @@
     </button>
   </div>
 </div>
+-->

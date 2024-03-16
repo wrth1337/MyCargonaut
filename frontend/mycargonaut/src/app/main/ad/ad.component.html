@@ -15,8 +15,8 @@
     <div class="col"></div>
 </div>
 <div class="row p-3" style="width: 100%;">
-    <div class="col-3">
-        <div class="card profileCard">
+    <div class="col-md">
+        <div class="card" style="height: 100%">
             <div class="card-header p-3 fs-5">
                 Übersicht
             </div>
@@ -24,14 +24,24 @@
                 <div class="m-2">
                     <app-profile-data style="height: 100%"></app-profile-data>
                 </div>
+                <div class="profile m-2">
+                    <div *ngIf="this.type === 'offer'">
+                        Price per Person: {{typeSpecificContent.pricePerPerson}} <br>
+                        Price per Freight: {{typeSpecificContent.pricePerFreight}}
+                    </div>
+                    <div *ngIf="this.type === 'wanted'">
+                        Preis: {{typeSpecificContent.price}} <br>
+                        Fracht: {{typeSpecificContent.freight}} <br>
+                        Sitze: {{typeSpecificContent.numSeats}} 
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div class="col-5">
         <div class="card adCard p-3">
-            <img *ngIf="this.type === 'offer'" src="../../assets/image.png" class="card-img-top p-3" alt="...">
-            <img *ngIf="this.type === 'wanted'" src="../../assets/OIG2.jpeg" class="card-img-top p-3" alt="...">
-            <div class="card-body adCardBody">
+                <img *ngIf="this.type === 'offer'" src="../../assets/image.png" class="card-img-top p-3" alt="...">
+                <img *ngIf="this.type === 'wanted'" src="../../assets/OIG2.jpeg" class="card-img-top p-3" alt="...">            <div class="card-body adCardBody">
                 <h5 class="card-title adCardTitle p-1">{{writeTitle(ad)}}</h5>
                 <p class="card-text adCardText p-1 lh-xl mb-5">{{ad.description}}</p>
                 <div class="m-1">
@@ -139,7 +149,7 @@
         </div>
 
     </div>
-    <div class="col-4">
+    <div class="col-md">
         <div class="card chatCard">
             <div class="card-header p-3 fs-5 chatCardHeader">
                 Chat mit Nutzer
