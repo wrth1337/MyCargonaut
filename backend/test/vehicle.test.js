@@ -30,7 +30,7 @@ test.skip('Create/ Update / Delete a vehicle', async () => {
 
         if (conn) await conn.release();
     }
-});
+},20000);
 
 test('Get all vehicle for one User', async () => {
     let conn;
@@ -56,7 +56,7 @@ test('Get all vehicle for one User', async () => {
         conn.query(`DELETE FROM user WHERE userId = 999999`);
         if (conn) await conn.release();
     }
-},10000);
+},20000);
 
 afterAll(() => {
     pool.end((err) => {

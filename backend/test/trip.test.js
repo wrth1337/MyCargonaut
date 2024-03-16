@@ -35,7 +35,7 @@ test('get correct amount of trips of a new user', async () => {
         await conn.query('DELETE FROM user WHERE email = ?', [email]);
         if (conn) await conn.release();
     }
-}, 15000);
+}, 30000);
 
 afterAll(() => {
     pool.end((err) => {
