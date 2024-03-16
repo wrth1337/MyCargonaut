@@ -26,7 +26,7 @@ test('get wanted by correct Id', async () => {
                 'wantedId': 10,
                 'adId': 10,
                 'freight': 'Freight',
-                'weight': 420
+                'weight': 420,
             });
     } finally {
         conn.query(`DELETE FROM ad WHERE adId = 10`);
