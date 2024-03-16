@@ -48,15 +48,25 @@
 .card-title{
   background-color: white;
   border-radius: 5px;
+  min-height: 50px;
+  height: fit-content;
 }
 
 .card-text{
   background-color: white;
   border-radius: 5px;
-
+  text-align: left;
+  padding: 5px;
+  overflow: hidden;
+  flex: 1;
 }
 
 .card-img-top{
   max-width: 100%;
   border-radius: 5px;
+}
+.card-body {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
 }

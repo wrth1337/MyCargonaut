@@ -310,7 +310,7 @@ router.post('/', authenticateToken, async function(req, res, next) {
 
     const conn = await pool.getConnection();
     try {
-        const ratingExists = await isRatingAlreadyDone(bookingId, userId);
+        const ratingExists = await isRatingAlreadyDone(bookingId, userId, userWhoWasEvaluated);
         if (ratingExists) {
             res.status(409);
             res.send({status: 1, msg: 'Your already rated this ride.'});
