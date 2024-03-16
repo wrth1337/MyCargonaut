@@ -50,14 +50,14 @@ test('create new wanted ad', async () => {
         expect(dbResult.data[0].endLocation).toEqual(endLocation);
         expect(dbResult.data[0].startDate).toEqual(new Date(startDate));
     } finally {
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 
     try {
         conn = await pool.getConnection();
         await conn.query('DELETE FROM user WHERE email = ?', [email]);
     } finally {
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 });
 
@@ -93,14 +93,14 @@ test('create new wanted ad fail because not all required input fields are filled
         const res = await addNewWanted(description, startLocation, startDate, endDate, animals, smoker, price, notes, numSeats, userId, freight);
         expect(res).toBe(0);
     } finally {
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 
     try {
         conn = await pool.getConnection();
         await conn.query('DELETE FROM user WHERE email = ?', [email]);
     } finally {
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 });
 

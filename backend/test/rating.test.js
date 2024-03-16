@@ -54,14 +54,14 @@ test('add new rating in database via backend', async () => {
        await conn.query(`DELETE FROM booking WHERE bookingId = ?`, [bookingRes.insertId]);
 
 
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 
     try {
         // Clean up the test data from the database
         conn = await pool.getConnection();
     } finally {
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 });
 
@@ -100,7 +100,7 @@ test('Get all ratings for one User', async () => {
        await conn.query(`DELETE FROM user WHERE userId = 999997`);
        await conn.query(`DELETE FROM ad WHERE userId = 123456789`);
 
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 });
 

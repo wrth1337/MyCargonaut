@@ -40,7 +40,7 @@ test('addMessage: add a message', async () =>{
         await conn.query(`DELETE FROM offer WHERE offerId = 100`);
         await conn.query(`DELETE FROM vehicle WHERE vehicleId = 100`);
         await conn.query(`DELETE FROM user WHERE userId = 100`);
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 });
 
@@ -87,7 +87,7 @@ test('getLastMessages: Receive all messages', async () =>{
         conn.query(`DELETE FROM user WHERE userId = 100`);
         conn.query(`DELETE FROM user WHERE userId = 101`);
 
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 });
 

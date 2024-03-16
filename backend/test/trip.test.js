@@ -23,7 +23,7 @@ test('get correct amount of trips of a new user', async () => {
     await conn.query('DELETE FROM user WHERE email = ?', [email]);
     const result = await registerNewUser(firstName, lastName, email, password, birthdate, phonenumber);
     expect(result).toBe(0);
-    await conn.release();
+    await conn.end();
 
     try {
         conn = await pool.getConnection();
@@ -33,7 +33,7 @@ test('get correct amount of trips of a new user', async () => {
         expect(dbResult.data.length).toBe(0);
     } finally {
         await conn.query('DELETE FROM user WHERE email = ?', [email]);
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 }, 30000);
 

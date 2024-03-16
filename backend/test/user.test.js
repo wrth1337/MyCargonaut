@@ -40,7 +40,7 @@ test('register new user in database via backend', async () => {
         expect(dbResult[0].phonenumber).toBe(phonenumber);
     } finally {
         // Always release the connection
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 
     try {
@@ -49,7 +49,7 @@ test('register new user in database via backend', async () => {
         await conn.query('DELETE FROM user WHERE email = ?', [email]);
     } finally {
         // Always release the connection
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 });
 
@@ -82,7 +82,7 @@ test('registerNewUser argon2id functionality', async () => {
         expect(isVerified).toBe(true);
     } finally {
         // Always release the connection
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 
     try {
@@ -91,7 +91,7 @@ test('registerNewUser argon2id functionality', async () => {
         await conn.query('DELETE FROM user WHERE email = ?', [email]);
     } finally {
         // Always release the connection
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 });
 test('registerNewUser argon2id functionality negativ test', async () => {
@@ -122,7 +122,7 @@ test('registerNewUser argon2id functionality negativ test', async () => {
         expect(isVerified).toBe(false);
     } finally {
         // Always release the connection
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 
     try {
@@ -131,7 +131,7 @@ test('registerNewUser argon2id functionality negativ test', async () => {
         await conn.query('DELETE FROM user WHERE email = ?', [email]);
     } finally {
         // Always release the connection
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 });
 

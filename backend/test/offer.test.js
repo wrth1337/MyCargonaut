@@ -44,7 +44,7 @@ test.skip('get offer by correct Id', async () => {
         await conn.query(`DELETE
                           FROM user
                           WHERE userId = 1012`);
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     };
 });
 

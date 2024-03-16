@@ -51,7 +51,7 @@ test.skip('get ad by correct Id', async () => {
         await conn.query(`DELETE
                           FROM user
                           WHERE userId = 10`);
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 });
 

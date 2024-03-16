@@ -25,7 +25,7 @@ test('If newBooking updates the booking table correctly', async () => {
         await conn.query(`DELETE FROM user WHERE userId = 123456789`);
         await conn.query(`DELETE FROM ad WHERE adId = 123456789`);
 
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 });
 test('If getSeatsAvailable get the correct amount of seats', async () => {
@@ -53,7 +53,7 @@ test('If getSeatsAvailable get the correct amount of seats', async () => {
         await conn.query(`DELETE FROM user WHERE userId = 12345678`);
         await conn.query(`DELETE FROM ad WHERE adId = 123456789`);
 
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 });
 
@@ -77,7 +77,7 @@ test('If a booking is canceled correctly', async () => {
         await conn.query(`DELETE FROM user WHERE userId = 123456789`);
         await conn.query(`DELETE FROM ad WHERE adId = 123456789`);
 
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 });
 test('If get bookings are working correctly', async () => {
@@ -116,7 +116,7 @@ test('If get bookings are working correctly', async () => {
 
         conn.query(`DELETE FROM ad WHERE adId = 123456789`);
         conn.query(`DELETE FROM ad WHERE adId = 12345678`);
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 });
 
@@ -138,7 +138,7 @@ test('If confirming a booking works', async () => {
         conn.query(`DELETE FROM user WHERE userId = 123456789`);
         conn.query(`DELETE FROM ad WHERE adId = 123456789`);
 
-        if (conn) await conn.release();
+        if (conn) await conn.end();
     }
 });
 afterAll(() => {
