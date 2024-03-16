@@ -12,7 +12,7 @@ const pool = mariadb.createPool({
 
 test('addMessage: add a message', async () =>{
     try {
-        await conn = await pool.getConnection();
+        let conn = await pool.getConnection();
         await conn.query('DELETE FROM user WHERE userId = 100');
         await conn.query('DELETE FROM user WHERE userId = 101');
         // eslint-disable-next-line max-len
