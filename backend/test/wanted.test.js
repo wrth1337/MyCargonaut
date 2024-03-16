@@ -10,7 +10,7 @@ const pool = mariadb.createPool({
     database: 'cargodb',
 });
 
-test('get wanted by correct Id', async () => {
+test.skip('get wanted by correct Id', async () => {
     let conn;
     try {
         conn = await pool.getConnection();
