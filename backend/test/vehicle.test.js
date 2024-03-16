@@ -1,4 +1,4 @@
-const {expect, test, afterAll} = require('@jest/globals');
+const {expect, test, afterAll, jest} = require('@jest/globals');
 const vehicle = require('../routes/vehicle');
 const mariadb = require('mariadb');
 
@@ -9,7 +9,7 @@ const pool = mariadb.createPool({
     password: 'admin',
     database: 'cargodb',
 });
-
+jest.useFakeTimers('legacy');
 test.skip('Create/ Update / Delete a vehicle', async () => {
     let conn;
     try {
