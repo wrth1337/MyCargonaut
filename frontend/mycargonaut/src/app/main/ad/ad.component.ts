@@ -42,6 +42,7 @@ export class AdComponent implements OnInit{
   type = '';
   stars: number[] = [1, 2, 3, 4, 5];
   adUserBooking:any;
+  bookingDone = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -88,22 +89,34 @@ export class AdComponent implements OnInit{
       if (this.adUserBooking.state === 'denied') {
         return this.state = 'NoOptions';
       }
+      if (this.ad.state === 'finished' && this.adUserBooking.state === 'confirmed') {
+        this.api.getRequest('rating/done/'+this.adUserBooking.bookingId+ '/' + this.ad.userId).subscribe((ratingRes:any) => {
+          if (ratingRes) this.bookingDone = ratingRes.ratingDone;
+          if (this.bookingDone) this.state = 'bookingDone';
+          else this.state = 'Bewerten';
+        });
+        return;
+      }
       if (this.adUserBooking.state === 'confirmed')
         return this.state = 'Confirmed';
-      if (this.ad.state === 'finished' && this.adUserBooking.state === 'confirmed')
-        return this.state = 'Bewerten';
       if (this.adUserBooking.canceled)
         return this.state = 'Buchen';
       return this.state = 'Stornieren';
     })
   }
   onBookingSubmit(form : NgForm) {
-    this.toFewSeatsResponse = false;
-    this.api.postRequest('booking',{numSeats: form.value.numSeats, adId: this.ad.adId, freight: form.value.freight}).subscribe((res:any) => {
-      if (res.status === 1) window.location.reload();
-    }, (error:any) =>{
-      if (error.error.status === 2) this.toFewSeatsResponse = true;
-    });
+    if(this.type === 'offer') {
+      this.toFewSeatsResponse = false;
+      this.api.postRequest('booking',{numSeats: form.value.numSeats, adId: this.ad.adId, freight: form.value.freight}).subscribe((res:any) => {
+        if (res.status === 1) window.location.reload();
+      }, (error:any) =>{
+        if (error.error.status === 2) this.toFewSeatsResponse = true;
+      });
+    } else if (this.type === 'wanted') {
+      this.api.postRequest('booking',{numSeats: this.ad.numSeats, adId: this.ad.adId, freight: this.typeSpecificContent.freight}).subscribe((res:any) => {
+        if (res.status === 1) window.location.reload();
+      });
+    }
   }
   cancel() {
     this.toFewSeatsResponse = false;

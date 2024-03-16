@@ -3,6 +3,12 @@
   flex-direction: column;
   height: 500px;
 }
+.name {
+  font-weight: bold;
+}
+.name:hover {
+  text-decoration: underline;
+}
 
   .bookingAndChat {
     /*overflow-y: scroll;*/
