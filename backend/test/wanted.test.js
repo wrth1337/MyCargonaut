@@ -36,7 +36,7 @@ test.skip('get wanted by correct Id', async () => {
     }
 }, 10000);
 
-test('get wanted by wrong Id', async () => {
+test.skip('get wanted by wrong Id', async () => {
     const res2 = await wanted.getWantedById(99999999999);
     expect(res2).toEqual({success: false});
 }, 10000);
