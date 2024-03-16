@@ -6,12 +6,25 @@
 ##### **Database**: MariaDB
 ##### **Documentation**: Swagger
 ##### **Testing**: Jest für Backend ; Karma/Jasmin für Frontend
-##### **CI/CD-Pipeline**:
-* **Commit-Phase**: ESLint ; Backend Test ; Frontend Test
-* **Report-Phase**: CodeQL
-* **UAT-Phase**: -WIP-
-* **SAT-Phase**: Dependabot
-* **Deploy-Phase**: Building a Docker-Container from master branch
+
+##### **CI/CD-Pipeline:**
+* **Bei Commit**: ESLint für <a href="https://github.com/wrth1337/MyCargonaut/blob/develop/.github/workflows/Lint_Frontend.yml">Front-</a> und <a href="https://github.com/wrth1337/MyCargonaut/blob/develop/.github/workflows/Lint_Backend.yml">Backend</a>
+* **Bei Pull-Request:**
+  <ul>
+   <li><a href="https://github.com/wrth1337/MyCargonaut/blob/develop/.github/workflows/Frontend%20tests.yml">Frontendtests via Jasmin/Karma</a></li>
+   <li><a href="https://github.com/wrth1337/MyCargonaut/blob/develop/.github/workflows/Backend%20tests.yml">Backendtests via Jest</a></li>
+   <li><a href="https://github.com/wrth1337/MyCargonaut/blob/develop/.github/workflows/codeql.yml">CodeQL</a></li>
+   <li><a href="https://github.com/wrth1337/MyCargonaut/blob/develop/.github/workflows/dod-checker.yaml">Definition of Done</a></li>
+  </ul>
+* **Permanent nebenbei:** Dependabot, integriert via GitHub
+  
+Bei der Auswahl der Tools, welche in der Pipeline verwendet werden, wurde sich an den einzelnen CI/CD-Phasen aus der Vorlesung orienriert.
+Daher lassen sich die Tools den einzelnen Phasen zuordnen:
+* **Commit-Phase:** Linting und Testing
+* **Report-Phase:** CodeQL
+* **UAT-Phase:** Definition of Done
+* **SAT-Phase:** Dependabot, CodeQL
+* **Deploy-Phase:** Building a Docker-Container from master branch
 
 ## Designs
 ### Wireframe
