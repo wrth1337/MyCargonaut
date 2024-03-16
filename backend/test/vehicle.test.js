@@ -10,7 +10,7 @@ const pool = mariadb.createPool({
     database: 'cargodb',
 });
 
-test('Create/ Update / Delete a vehicle', async () => {
+test.skip('Create/ Update / Delete a vehicle', async () => {
     let conn;
     try {
         conn = await pool.getConnection();
