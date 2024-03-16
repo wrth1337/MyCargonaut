@@ -83,6 +83,8 @@ export class CreateOfferComponent {
           this.error = false;
           this.pet = true;
           this.smoke = true;
+        } else {
+          this.error = true;
         }
       });
     }
