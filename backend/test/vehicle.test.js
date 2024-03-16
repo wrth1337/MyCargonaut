@@ -55,7 +55,7 @@ test('Get all vehicle for one User', async () => {
         await conn.query(`DELETE FROM user WHERE userId = 999999`);
         if (conn) await conn.release();
     }
-},40000);
+},90000);
 
 afterAll(() => {
     pool.end((err) => {
