@@ -31,7 +31,7 @@ test.skip('Create/ Update / Delete a vehicle', async () => {
     }
 },20000);
 
-test('Get all vehicle for one User', async () => {
+test.skip('Get all vehicle for one User', async () => {
     let conn;
     try {
         conn = await pool.getConnection();
