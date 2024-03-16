@@ -47,7 +47,7 @@ Key-Features:
 * Enhancing user experience, "My Cargonaut" allows individuals to provide ratings for rides, fostering a sense of community trust. Additionally, the platform facilitates secure payment transactions for added convenience.
 * Each user enjoys the benefits of a personalized profile, enabling them to manage their ride history, preferences, and other relevant details, contributing to a tailored and user-centric experience.
 
-My Cargonaut" not only serves as a practical car-sharing solution but also stands as a living project for the exploration of modern software development concepts.
+"My Cargonaut" not only serves as a practical car-sharing solution but also stands as a living project for the exploration of modern software development concepts.
 The project places a strong emphasis on collaborative development using SCRUM, providing students with hands-on experience in agile methodologies and effective teamwork.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -71,8 +71,8 @@ The project places a strong emphasis on collaborative development using SCRUM, p
 
 ## Roadmap
 
-- [ ] 15.01.2024: First showcase of the current state of development
-- [ ] 03/2024: Finish the project and hand in for inspection
+- [x] 15.01.2024: First showcase of the current state of development
+- [x] 03/2024: Finish the project and hand in for inspection
 
 See the [open issues](https://github.com/wrth1337/MyCargonaut/issues) for a full list of proposed features (and known issues).
 
