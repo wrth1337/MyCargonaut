@@ -1,4 +1,3 @@
-
 # Projektübersicht
 ## Technologie Auswahl
 ##### **Frontend**: Angular
@@ -25,7 +24,6 @@ Daher lassen sich die Tools den einzelnen Phasen zuordnen:
 * **UAT-Phase:** Definition of Done
 * **SAT-Phase:** Dependabot, CodeQL
 * **Deploy-Phase:** Building a Docker-Container from master branch
-
 ## Designs
 ### Wireframe
 
@@ -40,6 +38,12 @@ https://www.figma.com/file/KKf76zk0DRwQwSF8pQnTUf/MyCargonaut---Wireframe?type=d
 ## Entity Relationship Diagramm
 ![graphviz](https://github.com/wrth1337/MyCargonaut/assets/13363982/607fcb47-6ef4-48a9-b41f-bee956480d22)
 
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 # Entwicklungsumgebung einrichten
 ## Setup für Entwickler
@@ -72,6 +76,12 @@ Der Deployment-Prozess in diesem Projekt nutzt Docker und Docker Compose, um ein
 
 Bitte beachten Sie, dass Sie Docker und Docker Compose auf Ihrem Computer installiert haben müssen, um diese Schritte ausführen zu können.
 
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 # Code-Qualität und Sicherheit
 ## Code Style und Linting
@@ -97,6 +107,12 @@ Zusätzlich zu Dependabot wird auch GitHub CodeQL für die statische Code-Analys
 
 Durch die Kombination von Dependabot und CodeQL stellen wir sicher, dass unser Code sowohl aktuell als auch sicher ist.
 
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 # Dokumentation und Tests
 ## API Documentation
