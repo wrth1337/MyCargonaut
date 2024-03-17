@@ -36,7 +36,7 @@ https://www.figma.com/file/KKf76zk0DRwQwSF8pQnTUf/MyCargonaut---Wireframe?type=d
 ![img.png](images/Mockup.png)
 
 ## Entity Relationship Diagramm
-![graphviz](https://github.com/wrth1337/MyCargonaut/assets/13363982/a8fff134-6a03-4718-bfff-2186336f6547)
+![img.png](images/ERD_Database.png)
 
 
 <br>
