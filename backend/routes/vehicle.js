@@ -13,7 +13,7 @@ const limiter = rateLimit({
 router.use(limiter);
 
 const pool = mariadb.createPool({
-    host: '0.0.0.0',
+    host: 'database',
     port: '3306',
     user: 'root',
     password: 'admin',
