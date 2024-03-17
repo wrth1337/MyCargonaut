@@ -24,7 +24,8 @@ describe('EditProfileComponent', () => {
       lastName: 'Mustermann',
       birthdate: '01.01.2000',
       description: 'Beschreibung',
-      experience: 'Erfahrung'
+      experience: 'Erfahrung',
+      picture: 'URL_DES_PROFILBILDS'
     };
     localStorage.setItem('userData','{"email":"mails@mails.de","user_id":4}');
     fixture.detectChanges();
@@ -74,16 +75,21 @@ describe('EditProfileComponent', () => {
   });
   
   it('should display placeholder when no profile picture is available', () => {
+    component.userData = {
+      firstName: 'Max',
+      lastName: 'Mustermann',
+      birthdate: '01.01.2000',
+      description: 'Beschreibung',
+      experience: 'Erfahrung',
+      picture: ''
+    };
+    fixture.detectChanges();
     const el = fixture.debugElement.query(By.css('.bi-person-circle'));
     expect(el).toBeTruthy();
 
   });
   
   it('should display profile picture when available', () => {
-  
-    component.userData = { picture: 'URL_DES_PROFILBILDS' };
-    fixture.detectChanges();
-    
     const el = fixture.debugElement.query(By.css('.profilepicture'));
     const placeholder = fixture.debugElement.query(By.css('.bi-person-circle'));
     expect(placeholder).toBeFalsy();
