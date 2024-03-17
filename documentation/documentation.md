@@ -49,7 +49,7 @@ https://www.figma.com/file/KKf76zk0DRwQwSF8pQnTUf/MyCargonaut---Wireframe?type=d
 ## Setup für Entwickler
 Um die Entwicklungsumgebung für dieses Projekt einzurichten, folgen Sie bitte den unten aufgeführten Schritten:
 
-1. **Repositorium klonen**: Klonen Sie das Repositorium auf Ihren lokalen Computer mit dem Befehl `git clone <repository-url>`. Ersetzen Sie `<repository-url>` durch die URL Ihres Repositoriums.
+1. **Repo klonen**: Klonen Sie das Repositorium auf Ihren lokalen Computer mit dem Befehl `git clone <repository-url>`. Ersetzen Sie `<repository-url>` durch die URL Ihres Repositoriums.
 
 2. **Docker-Container erstellen**: Führen Sie den Befehl `docker-compose build` aus, um die Docker-Container für das Projekt zu erstellen.
 
