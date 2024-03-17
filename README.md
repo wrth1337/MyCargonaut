@@ -133,7 +133,7 @@ All members of "Group 2" were involved in the project.
 [issues-url]: https://github.com/wrth1337/MyCargonaut/issues
 [license-shield]: https://img.shields.io/github/license/wrth1337/MyCargonaut.svg?style=for-the-badge
 [license-url]: https://github.com/wrth1337/MyCargonaut/blob/develop/LICENSE
-[product-screenshot]: documentation/images/Webapp-Example.png
+[product-screenshot]: documentation/images/Webapp-NewExample.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
