@@ -24,17 +24,6 @@
                 <div class="m-2">
                     <app-profile-data style="height: 100%"></app-profile-data>
                 </div>
-                <div class="profile m-2">
-                    <div *ngIf="this.type === 'offer'">
-                        Price per Person: {{typeSpecificContent.pricePerPerson}} <br>
-                        Price per Freight: {{typeSpecificContent.pricePerFreight}}
-                    </div>
-                    <div *ngIf="this.type === 'wanted'">
-                        Preis: {{typeSpecificContent.price}} <br>
-                        Fracht: {{typeSpecificContent.freight}} <br>
-                        Sitze: {{typeSpecificContent.numSeats}} 
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -126,7 +115,7 @@
                                 <div class="container borderPrimary p-3">
                                     <div class="row d-flex align-items-center justify-content-center">
                                         <div class="col-6">
-                                            <span class="medium">  </span>
+                                            <span class="medium"> {{typeSpecificContent.price}} </span>
                                         </div>
                                         <div class="col-6">
                                             <span class="material-symbols-outlined" style="font-size: xxx-large">toll</span>
@@ -172,12 +161,12 @@
                     <input id="seats" class="form-control mx-2 mb-2 input-field" type="number" name="numSeats" placeholder="Anzahl Sitzplätze" min="1" [max]="this.seatsAvailable" ngModel [(ngModel)]="this.default">
                     <span class="ms-2">Menge an Fracht in Kg</span>
                     <input id="freight" class="form-control mx-2 mb-2 me-2 input-field" type="number" name="freight" placeholder="Menge Fracht" min="0" ngModel>
-                    <span class="ms-2 price fs-4 ">Gesamtpreis: </span> 
+                    <span class="ms-2 price fs-4 ">Gesamtpreis: </span>
                     <span class="ms-2 price fs-4 " style="color: var(--primary);">{{this.typeSpecificContent.pricePerFreight * bookingForm.value.freight+ this.typeSpecificContent.pricePerPerson * bookingForm.value.numSeats}}</span>
                 </div>
                 <div *ngIf="this.type==='wanted'" class="modal-body">
                     <p class="fs-3">Wollen Sie diese Fahrt übernehmen?</p>
-                    <span class="ms-2 price fs-4 ">Angebotener Gesamtpreis: </span> 
+                    <span class="ms-2 price fs-4 ">Angebotener Gesamtpreis: </span>
                     <span class="ms-2 price fs-4 " style="color: var(--primary);">{{this.typeSpecificContent.price}}</span>
                 </div>
                 <div class="modal-footer">

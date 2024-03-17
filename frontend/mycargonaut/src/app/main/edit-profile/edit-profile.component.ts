@@ -14,7 +14,14 @@ import { Location } from '@angular/common';
 
 
 export class EditProfileComponent implements OnInit {
-  userData: any;
+  userData = {
+    firstName: '',
+    lastName: '',
+    birthdate: '',
+    picture: '',
+    description: '',
+    experience: ''
+  };
   rating: any;
   tripCount: any;
   level = 1;
@@ -71,7 +78,7 @@ export class EditProfileComponent implements OnInit {
       }
 
       this.rating = Math.round(res.userData.rating);
-      this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy');
+      this.userData.birthdate = this.datePipe.transform(res.userData.birthdate, 'dd.MM.yyyy')!;
     });
 
     this.api.getRequest("trip/getTripCount/"+userId).subscribe((res: any) => {
@@ -89,14 +96,13 @@ export class EditProfileComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     form.value.language = this.language.map(lang => ({ languageId: lang.id, selected: this.languageVariables[lang.name] }));
-
     if(!this.editUser) {
       form.value.firstName = this.userData.firstName;
       form.value.lastName = this.userData.lastName;
     }
     if(!this.editBirth) {
       const birthdate = this.formatBirthdate();
-      this.userData.birthdate = this.datePipe.transform(birthdate, 'yyyy-MM-dd');
+      this.userData.birthdate = this.datePipe.transform(birthdate, 'yyyy-MM-dd')!;
       form.value.birthdate = this.userData.birthdate;
     }
     
@@ -107,7 +113,7 @@ export class EditProfileComponent implements OnInit {
         this.success = true;
       }
     });
-    this.userData.birthdate = this.datePipe.transform(this.userData.birthdate, 'dd.MM.yyyy');
+    this.userData.birthdate = this.datePipe.transform(this.userData.birthdate, 'dd.MM.yyyy')!;
     this.editUser = false;
     this.editBirth = false;
 
@@ -125,11 +131,11 @@ export class EditProfileComponent implements OnInit {
   editBirthdate() {
     this.editBirth = !this.editBirth;
     if(!this.editBirth) {
-      this.userData.birthdate = this.datePipe.transform(this.userData.birthdate, 'dd.MM.yyyy');
+      this.userData.birthdate = this.datePipe.transform(this.userData.birthdate, 'dd.MM.yyyy')!;
     }
     else {
       const birthdate = this.formatBirthdate();
-      this.userData.birthdate = this.datePipe.transform(birthdate, 'yyyy-MM-dd');
+      this.userData.birthdate = this.datePipe.transform(birthdate, 'yyyy-MM-dd')!;
     }
   }
 
