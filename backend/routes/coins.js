@@ -216,8 +216,7 @@ router.post('/add', authenticateToken, async function(req, res) {
 
         if (coinsToAdd <= 0) {
             res.status(400);
-            res.json({status: 99, error: 'Invalid amount. Must be greater than 0'});
-            return;
+            res.send({status: 99, error: 'Invalid amount. Must be greater than 0'});
         }
 
         const result = await addUserCoins(id, coinsToAdd);
