@@ -44,7 +44,7 @@ const jwtSecret = process.env.JWT_SECRET || 'TEST_DEV_SECRET';
 // ---Methods--- //
 async function registerNewUser(firstName, lastName, email, password, birthdate, phonenumber) {
     const hashedPassword = await argon2.hash(password);
-    const newUser ='INSERT INTO user (firstName, lastName, email, password, birthdate, phonenumber, coins) VALUES (?, ?, ?, ?, ?, ?, 0)';
+    const newUser ='INSERT INTO user (firstName, lastName, email, password, birthdate, phonenumber, coins) VALUES (?, ?, ?, ?, ?, ?, 500)';
     try {
         const conn = await pool.getConnection();
         // eslint-disable-next-line no-unused-vars
