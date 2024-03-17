@@ -1,0 +1,153 @@
+<div class="container-fluid p-5">
+  <div class="row row-cols-2">
+    <div id="UserOverview" class="col-4 mb-5 card container borderPrimary g-0">
+        <div class="container">
+          <div class="row p-2" style="border-bottom: 2px solid var(--primary)">
+            <div class="col">
+              <p class="m-0 small">Bitte überprüfe deine Angaben!</p>
+            </div>
+            <div class="col" style="display: flex; justify-content: center; align-items: center">
+                <button id="ChangePersonalData" routerLink="/edit_profile" class="buttonPrimary btn fs-5 editButton" [disabled]="approved">Ändern</button>
+            </div>
+          </div>
+        </div>
+        <div class="row p-3">
+          <app-profile-data></app-profile-data>
+          <button id="ConfirmUserData" class="buttonPrimary fs-5 position-absolute top-100 start-50 translate-middle okButton" (click)="approveUserdata()">
+            <div *ngIf="!this.approved"> Bestätigen </div>
+            <div *ngIf="this.approved">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-check-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                    <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+                </svg>
+                Daten bestätigt
+            </div>
+          </button>
+        </div>
+    </div>
+
+
+    <div id="OfferCard" class="col-6 mb-5 card container borderPrimary g-0">
+        <div class="container">
+            <div class="row p-2" style="border-bottom: 2px solid var(--primary)">
+              <div class="col">
+                <p class="m-0 medium">Bitte gib Details zu deinem Gesuch an!</p>
+              </div>
+            </div>
+        </div>
+        <form class="p-3 mb-3 mt-3" #wantedForm="ngForm" (ngSubmit)="onSubmit(wantedForm)">
+            <div class="row p-3">
+              <div class="col g-0 pe-2">
+                <input name="startLocation" class="FormInputColor w-100 startLoc-input" type="text" placeholder="Von..." required ngModel>
+              </div>
+              <div class="col g-0 ps-2">
+                <input name="endLocation" class="FormInputColor w-100 endLoc-input" type="text" placeholder="Nach..." required ngModel>
+              </div>
+            </div>
+            <div class="row p-3">
+              <div class="col g-0 pe-2">
+                <input name="startDate" class="FormInputColor w-100 startDate-input" type="date" required ngModel>
+              </div>
+              <div class="col g-0 px-2">
+                <input name="freight" class="FormInputColor w-100 freight-input" type="text" placeholder="Fracht in kg?m^3?" required ngModel>
+              </div>
+              <div class="col g-0 ps-2">
+                <input name="numSeats" class="FormInputColor w-100 numSeats-input" type="number" placeholder="Anzahl benötigter Sitze" required ngModel>
+              </div>
+            </div>
+            
+            <div class="row p-3 mb-3 mt-3">
+                <div class="col-md-3 container">
+                    <div *ngIf="user.picture; else placeholder" class="d-flex align-items-center">
+                        <img class="profilepicture" [src]="user.picture" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center" alt="Profilbild">
+                    </div>
+                    <ng-template #placeholder class="d-flex align-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="var(--primary)" class="bi bi-person-circle" viewBox="0 0 16 16" style="width:75px; height: 75px; display: flex; justify-content: center; align-self: center">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                        </svg>
+                    </ng-template>
+                
+                </div>
+                <div class="col-md-6 center">
+                    <div class="row">
+                        <p class="FontPrimary fs-3 fw-semibold g-0 username"> {{user.firstName}} {{user.lastName}} </p>
+                    </div>
+                    <div class="row">
+                        <div class="rating">
+                            <span *ngFor="let star of stars" class="star" [class.highlight]="star <= this.rating">
+                                &#9733;
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        
+            <div class="container g-0 mb-5">
+                <textarea name="description" placeholder="Schreibe etwas zur dir, zu der Fahrt..." class="FormInputLight w-100" rows="10" required ngModel></textarea>
+            </div>
+          
+          <div class="row mb-3">
+            <div class="col-6 mb-3">
+                <div class="d-flex justify-content-left align-items-center">
+                    <div class="mx-4" *ngIf="!this.smoke">
+                        <button style="background-color: transparent; color: var(--primary)" (click)="updateSmoke()">
+                            <img class="smokefree" width="50" heigth="50" src="../../../assets/icons/smoke-free-svgrepo-com.svg" alt="Logo">
+                        </button>
+                    </div>
+                    <div class="mx-4" *ngIf="this.smoke">
+                        <button style="background-color: transparent; color: var(--primary)" (click)="updateSmoke()">
+                            <img class="smoke" width="50" heigth="50" src="../../../assets/icons/smoke-svgrepo-com.svg" alt="Logo">
+                        </button>
+                    </div>
+                    <div class="mx-4" *ngIf="this.pet">
+                        <button style="background-color: transparent; color: var(--primary)" (click)="updatePet()">
+                            <img class="pets" width="50" heigth="50" src="../../../assets/icons/walking-dog-sign-svgrepo-com.svg" alt="Logo">
+                        </button>
+                    </div>
+                    <div class="mx-4" *ngIf="!this.pet">
+                        <button style="background-color: transparent; color: var(--primary)" (click)="updatePet()">
+                            <img class="nopets" width="50" heigth="50" src="../../../assets/icons/no-pets-svgrepo-com.svg" alt="Logo">
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div id="CalculatedPrice" class="container borderPrimary p-3">
+                    <div class="row d-flex align-items-center justify-content-center">
+                        <div class="col-6">
+                            <input id="PriceInput" name="price" type="number" placeholder="50" class="fs-2 w-100" required ngModel>
+                        </div>
+                        <div class="col-6">
+                            <span class="material-symbols-outlined" style="font-size: xxx-large">toll</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+          </div>
+          <input type="submit" id="ConfirmWanted" class="buttonPrimary fs-4 position-absolute top-100 start-50 translate-middle submitButton btn" value="Gesuch bestätigen" [disabled]="!wantedForm.valid">
+          <div *ngIf="showError">
+            <div class="alert alert-danger alert-dismissible" role="alert">
+              <div>Bitte bestätige Deine Profildaten.</div>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          </div>
+          <div *ngIf="success">
+            <div class="alert alert-success alert-dismissible" role="alert">
+              <div>Gesuch erfolgreich erstellt.</div>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          </div>
+          <div *ngIf="error">
+            <div class="alert alert-danger alert-dismissible" role="alert">
+              <div>Fehler bei Erstellung.</div>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          </div>
+          </form>
+        </div>
+    </div>
+</div>
+

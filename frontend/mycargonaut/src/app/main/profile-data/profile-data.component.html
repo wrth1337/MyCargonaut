@@ -1,0 +1,62 @@
+    <div id="personalData" class="container p-2 position-relative">
+      <div class="container p-3">
+        <div class="row mt-1 mb-5 d-flex">
+          <div class="col center mb-3" style="border-radius: 50%">
+              <div *ngIf="userData.picture; else placeholder">
+                  <img class="profilepicture" [src]="userData.picture" style="width:100px; height: 100px" alt="Profilbild">
+              </div>
+              <ng-template #placeholder>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="var(--primary)" class="bi bi-person-circle" viewBox="0 0 16 16" style="width:100px; height: 100px;">
+                      <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                      <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                  </svg>
+              </ng-template>
+          </div>
+          <div class="col center">
+            <div>
+              <button style="background-color: white;" class="medium name px-3 FormInputLight mb-4 username" [routerLink]="['/profile', this.userId]"> {{userData.firstName}} {{userData.lastName}} </button>
+            </div>
+            <div>
+              <p class="medium"> {{userData.birthdate}} </p>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-1 mb-5 d-flex">
+          <div class="col center">
+            <div>
+              <p class="FormInputLight medium">Anzahl Fahrten: {{this.tripCount}} </p>
+            </div>
+            <div class="rating">
+              <span *ngFor="let star of stars" class="star" [class.highlight]="star <= this.rating">
+                  &#9733;
+              </span>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <div class="container p-0 mb-3">
+          <div class="card mb-3 p-2 ht1 overflow-auto d-flex justify-content-between description"> {{userData.description}}</div>
+      </div>
+      <div class="row mb-3">
+          <div class="col">
+              <div class="mb-2"> Erfahrung </div>
+              <div class="progress w-100">
+                <div class="progress-bar custom-progress" role="progressbar" [style.width]="xp + '%'" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <div class="progress-label small">Level {{ level }}</div>
+          </div>
+      </div>
+      <div class="row mb-3">
+          <div class="col">
+              <div>Sprachen</div>
+              <div class="row d-flex">
+                <div class="col langs" *ngFor="let lang of language">
+                    <div *ngIf="languageVariables[lang.name]">
+                        <img [src]="lang.icon" [alt]="lang.name" class="cropped-img d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                    </div>
+                </div>
+              </div>
+          </div>
+      </div>
+    </div>

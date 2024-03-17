@@ -1,5 +1,17 @@
 version: '3'
 services:
+    backend:
+        container_name: backend
+        build:
+            context: backend
+            dockerfile: Dockerfile
+        env_file:
+            - environment.env
+        depends_on:
+            - database
+        restart: unless-stopped
+        ports:
+            - "3000:3000"
 
     database:
         container_name: database
@@ -9,5 +21,20 @@ services:
         env_file:
             - environment.env
         restart: always
+        hostname: database
         ports:
             - "3306:3306"
+            
+    frontend:
+        container_name: frontend
+        build:
+            context: frontend/mycargonaut
+            dockerfile: Dockerfile
+        env_file:
+            - environment.env
+        depends_on:
+            - backend
+        restart: unless-stopped
+        ports:
+            - "80:80"
+            - "443:443"

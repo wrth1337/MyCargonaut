@@ -1,0 +1,72 @@
+#SearchFormSection{
+  border: 2px solid var(--secondary);
+  background-color: white;
+  border-radius: 10px;
+  max-width: 55rem;
+}
+.SearchFormInput {
+  border: 2px solid var(--primary);
+  background-color: white;
+  border-radius: 1px;
+  height: 2.5rem;
+  min-height: fit-content;
+}
+#SearchFormButton {
+  border: 1px solid var(--secondary);
+  border-radius: 5px;
+  background-color: var(--secondary);
+  color: var(--light);
+  font-weight: bolder;
+}
+
+#carouselExampleControls.card {
+  background-color: var(--secondary_light);
+}
+
+.btn{
+  background-color: var(--secondary);
+  color: white;
+  width: 30px;
+  height: 74px;
+  padding: 0px;
+}
+
+.btn-text{
+  font-weight:900;
+  text-align: center;
+}
+
+.active-recomended{
+  text-align: center;
+}
+
+.card{
+  background-color: rgba(29,143,131, 0.34);
+  cursor:pointer;
+}
+
+.card-title{
+  background-color: white;
+  border-radius: 5px;
+  min-height: 50px;
+  height: fit-content;
+}
+
+.card-text{
+  background-color: white;
+  border-radius: 5px;
+  text-align: left;
+  padding: 5px;
+  overflow: hidden;
+  flex: 1;
+}
+
+.card-img-top{
+  max-width: 100%;
+  border-radius: 5px;
+}
+.card-body {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+}

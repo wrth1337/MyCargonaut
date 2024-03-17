@@ -1,0 +1,28 @@
+.coin {
+  color: var(--primary);  /* Change the font color */
+  border-radius: 5px;  /* Add rounded corners */
+}
+.coin-btn {
+  width: fit-content;
+}
+
+.coin:hover{
+  color: gold;
+}
+
+.lastCol{
+  text-align: end;
+}
+
+#Navbar {
+  max-width: 100%;
+  z-index: 11;
+  position: relative;
+}
+
+.coin-icon {
+  margin-left: 5px;
+}
+.coin-icon:hover {
+  margin-left: 5px;
+}

@@ -1,0 +1,66 @@
+/* You can add global styles to this file, and also import other style files */
+/*Colors as variables*/
+:root {
+  --primary: #005B52; /*$teal-700*/
+  --secondary: #1D8F83; /*$teal-500*/
+  --secondary_light: rgba(29,143,131, 0.19); /*$teal-500*/
+  --accentuated: #93F5EB; /*$teal-600*/
+  --light: #F4FDFC; /*$teal-100*/
+  --dark: #001A18; /*$teal-800*/
+}
+
+::placeholder {
+  color: var(--primary);
+}
+
+#Navbar {
+  background-color: var(--secondary_light);
+}
+
+#Motto {
+  color: var(--primary);
+}
+
+.navbarIcon {
+  color: var(--primary);
+}
+
+button {
+  border: none;
+}
+
+.FontPrimary {
+  color: var(--primary);
+}
+
+#SearchFormSection,
+.FormInputColor {
+  border: 2px solid var(--primary);
+  border-radius: 10px;
+  background-color: var(--light);
+  color: var(--primary);
+}
+
+#SearchFormButton,
+.buttonPrimary {
+  border: 1px solid var(--primary);
+  border-radius: 10px;
+  background-color: var(--primary);
+  color: var(--light);
+}
+
+#carouselExampleControls.card {
+  background-color: var(--secondary_light);
+}
+
+.FormInputLight,
+.borderPrimary {
+  border: 2px solid var(--primary);
+  border-radius: 10px;
+  color: var(--primary);
+}
+
+#OfferCard {
+  background-color: var(--secondary_light);
+  border-radius: 10px;
+}

@@ -1,0 +1,291 @@
+<div class="infront" *ngIf="state === 'Bewerten'">
+
+</div>
+<div class="row" style="width: 100%; height: 100%;">
+    <div class="col">
+        <button class="btn returnBtn mx-3" [routerLink]="['/']">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="var(--primary)" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+            </svg>
+        </button>
+    </div>
+    <div class="col mx-3 mt-2 centre">
+        <button class="trackingBtn btn fs-5" *ngIf="this.state === 'Stornieren' || this.state === 'bookingDone' || this.state === 'Confirmed'" data-bs-toggle="modal" data-bs-target="#trackingModal">Tracking</button>
+    </div>
+    <div class="col"></div>
+</div>
+<div class="row p-3" style="width: 100%;">
+    <div class="col-md">
+        <div class="card" style="height: 100%">
+            <div class="card-header p-3 fs-5">
+                Übersicht
+            </div>
+            <div class="card-body p-2">
+                <div class="m-2">
+                    <app-profile-data style="height: 100%"></app-profile-data>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-5">
+        <div class="card adCard p-3">
+                <img *ngIf="this.type === 'offer'" src="../../assets/image.png" class="card-img-top p-3" alt="...">
+                <img *ngIf="this.type === 'wanted'" src="../../assets/OIG2.jpeg" class="card-img-top p-3" alt="...">            <div class="card-body adCardBody">
+                <h5 class="card-title adCardTitle p-1">{{writeTitle(ad)}}</h5>
+                <p class="card-text adCardText p-1 lh-xl mb-5">{{ad.description}}</p>
+                <div class="m-1">
+                    <div class="col mb-5">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="mx-4" *ngIf="!ad.smoker">
+                                <img class="smokefree" width="50" heigth="50" src="../../../assets/icons/smoke-free-svgrepo-com.svg" alt="Logo">
+                            </div>
+                            <div class="mx-4" *ngIf="ad.smoker">
+                                <img class="smoke" width="50" heigth="50" src="../../../assets/icons/smoke-svgrepo-com.svg" alt="Logo">
+                            </div>
+                            <div class="mx-4" *ngIf="ad.animals">
+                                <img class="pets" width="50" heigth="50" src="../../../assets/icons/walking-dog-sign-svgrepo-com.svg" alt="Logo">
+                            </div>
+                            <div class="mx-4" *ngIf="!ad.animals">
+                                <img class="nopets" width="50" heigth="50" src="../../../assets/icons/no-pets-svgrepo-com.svg" alt="Logo">
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="this.type === 'offer'">
+                        <div class="col">
+                            <p class="header"> Anzahl verfügbarer Sitze: {{this.seatsAvailable}} </p>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-6">
+                              <div>
+                                <p class="header">Preis pro Person</p>
+                              </div>
+                              <div id="CalculatedPrice" class="container borderPrimary p-3">
+                                <div class="row d-flex align-items-center justify-content-center">
+                                  <div class="col-6">
+                                    <span class="medium">{{typeSpecificContent.pricePerPerson}}</span>
+                                  </div>
+                                  <div class="col-6">
+                                      <span class="material-symbols-outlined" style="font-size: xxx-large">toll</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-6"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                              <div>
+                                <p class="header">Preis pro Fracht</p>
+                              </div>
+                              <div id="FreightPrice" class="container borderPrimary p-3">
+                                <div class="row d-flex align-items-center justify-content-center">
+                                    <div class="col-6">
+                                        <span class="medium">{{typeSpecificContent.pricePerFreight}}</span>
+                                    </div>
+                                  <div class="col-6">
+                                      <span class="material-symbols-outlined" style="font-size: xxx-large">toll</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-1"></div>
+                            <div class="col-5 align-items-right">
+                                <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#ratingModal" *ngIf="this.state === 'Bewerten'">Bewerten</button>
+                                <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#bookingModal" *ngIf="this.isLogin && this.state === 'Buchen' && this.seatsAvailable > 0">{{this.state}}</button>
+                                <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#cancelingModal" *ngIf="this.isLogin && this.state === 'Stornieren'">{{this.state}}</button>
+                                <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#startModal" *ngIf="this.isLogin && this.state === 'Author' && this.ad.state === 'created'">Fahrt starten</button>
+                                <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#stopModal" *ngIf="this.isLogin && this.state === 'Author' && this.ad.state === 'started'">Fahrt beenden</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="this.type === 'wanted'">
+                        <div class="col">
+                            <p class="header"> Anzahl benötigter Sitze: {{ad.numSeats}} </p>
+                        </div>
+                        <div class="col">
+                            <div>
+                              <p class="header">Fracht: {{typeSpecificContent.freight}} </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div>
+                                    <p class="header">Preis</p>
+                                </div>
+                                <div class="container borderPrimary p-3">
+                                    <div class="row d-flex align-items-center justify-content-center">
+                                        <div class="col-6">
+                                            <span class="medium"> {{typeSpecificContent.price}} </span>
+                                        </div>
+                                        <div class="col-6">
+                                            <span class="material-symbols-outlined" style="font-size: xxx-large">toll</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-1"></div>
+                            <div class="col-5 align-items-right">
+                                <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#ratingModal" *ngIf="this.state === 'Bewerten'">Bewerten</button>
+                                <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#bookingModal" *ngIf="this.isLogin && this.state === 'Buchen' && this.seatsAvailable > 0">{{this.state}}</button>
+                                <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#cancelingModal" *ngIf="this.isLogin && this.state === 'Stornieren'">{{this.state}}</button>
+                                <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#startModal" *ngIf="this.isLogin && this.state === 'Author' && this.ad.state === 'created'">Fahrt starten</button>
+                                <button class="bookingBtn btn fs-4 fw-bolder" data-bs-toggle="modal" data-bs-target="#stopModal" *ngIf="this.isLogin && this.state === 'Author' && this.ad.state === 'started'">Fahrt beenden</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md">
+        <div class="card chatCard">
+            <div class="card-header p-3 fs-5 chatCardHeader">
+                Chat mit Nutzer
+            </div>
+            <div style="height: 100%">
+              <app-chat style="height: 100%"></app-chat>
+            </div>
+        </div>
+    </div>
+</div>
+<span *ngIf="this.seatsAvailable <= 0">Ad ist ausgebucht!</span>
+
+<form #bookingForm="ngForm" (ngSubmit)="onBookingSubmit(bookingForm)">
+    <div class="modal" id="bookingModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div *ngIf="this.type==='offer'" class="modal-body">
+                    <p class="fs-4 ms-2">Buchung</p>
+                    <span class="ms-2">Anzahl zu buchender Sitzplätze</span>
+                    <input id="seats" class="form-control mx-2 mb-2 input-field" type="number" name="numSeats" placeholder="Anzahl Sitzplätze" min="1" [max]="this.seatsAvailable" ngModel [(ngModel)]="this.default">
+                    <span class="ms-2">Menge an Fracht in Kg</span>
+                    <input id="freight" class="form-control mx-2 mb-2 me-2 input-field" type="number" name="freight" placeholder="Menge Fracht" min="0" ngModel>
+                    <span class="ms-2 price fs-4 ">Gesamtpreis: </span>
+                    <span class="ms-2 price fs-4 " style="color: var(--primary);">{{this.typeSpecificContent.pricePerFreight * bookingForm.value.freight+ this.typeSpecificContent.pricePerPerson * bookingForm.value.numSeats}}</span>
+                </div>
+                <div *ngIf="this.type==='wanted'" class="modal-body">
+                    <p class="fs-3">Wollen Sie diese Fahrt übernehmen?</p>
+                    <span class="ms-2 price fs-4 ">Angebotener Gesamtpreis: </span>
+                    <span class="ms-2 price fs-4 " style="color: var(--primary);">{{this.typeSpecificContent.price}}</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn abortButton" data-bs-dismiss="modal">Abbrechen</button>
+                    <input id="submitButton" class="submitButton greenButton btn align-middle" type="submit" value="Buchen">
+                    <div *ngIf="toFewSeatsResponse">
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                          <div>Nicht genügend Plätze vorhanden.</div>
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="modal" id="cancelingModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p class="fs-3">Fahrt Stornieren?</p>
+                <span>Diese Aktion kann nicht rückgängig gemacht werden!</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary abortButton" data-bs-dismiss="modal">Abbrechen</button>
+                <input id="submitButton" class="submitButton btn align-middle" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#startModal" type="submit" value="Stornieren" (click)="cancel()">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="startModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modalWidth">
+            <div class="modal-body">
+                <p class="fs-3">Fahrt starten?</p>
+                <span>Diese Aktion kann nicht rückgängig gemacht werden!</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary abortButton" data-bs-dismiss="modal">Abbrechen</button>
+                <input id="submitButton" class="submitButton btn align-middle" data-bs-dismiss="modal" data-bs-target="#startModal" type="submit" value="Fahrt starten" (click)="start()">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="stopModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modalWidth">
+            <div class="modal-body">
+                <p class="fs-3">Fahrt beenden?</p>
+                <span>Diese Aktion kann nicht rückgängig gemacht werden!</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary abortButton" data-bs-dismiss="modal">Abbrechen</button>
+                <input id="submitButton" class="submitButton btn align-middle" data-bs-dismiss="modal" data-bs-target="#stopModal" type="submit" value="Fahrt stoppen" (click)="stop()">
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="modal" id="trackingModal" tabindex="-1" *ngIf="this.state === 'Stornieren'|| this.state === 'bookingDone' || this.state === 'Confirmed'">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row pb-3">
+                        <div class="col align-left">
+                          <button type="button" class=" btn returnButton" data-bs-dismiss="modal" aria-label="Close">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary)" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                            </svg>
+                          </button>
+                        </div>
+                        <div class="col">
+                          <span class="fs-5">Tracking</span>
+                        </div>
+                        <div class="col">
+                        </div>
+                      </div>
+                    </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="trackingItem m-3 mt-0">
+                            <div class="circle m-1">
+                                <svg *ngIf="this.adUserBooking.state === 'confirmed'" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="var(--primary)" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+                                </svg>
+                            </div>
+                            <span>Buchung bestätigt</span>
+                        </div>
+                        <div class="trackingItem m-3">
+                            <div class="circle m-1">
+                                <svg *ngIf="this.ad.state === 'started' || this.ad.state === 'finished'" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="var(--primary)" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+                                </svg>
+                            </div>
+                            <span>Fahrt gestartet</span>
+                        </div>
+                        <div class="trackingItem m-3">
+                            <div class="circle m-1">
+                                <svg *ngIf="this.ad.state === 'finished'" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="var(--primary)" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+                                </svg>
+                            </div>
+                            <span>Fahrt beendet</span>
+                        </div>
+                        <div class="trackingItem m-3">
+                            <div class="circle m-1">
+                                <svg *ngIf="this.bookingDone" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="var(--primary)" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+                                </svg>
+                            </div>
+                            <span>Fahrt bewertet</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<app-rating [userWhoWasEvaluated]="this.ad.userId" [bookingId]="this.adUserBooking.bookingId" [userIsDriver]="this.isDriver" *ngIf="this.adUserBooking"></app-rating>

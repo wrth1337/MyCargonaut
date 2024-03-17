@@ -1,0 +1,25 @@
+<!-- Add Coins Modal -->
+<div class="modal fade" id="addCoinsModal" tabindex="-1" aria-labelledby="addCoinsModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addCoinsModalLabel">Einzahlen</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="coinAmount" class="form-label">Hinzufügen von Coins</label>
+            <p>Diese Funktion befindet sich im Aufbau, in der späteren Anwendung wird hier ein Lastschrifteinzug oder Paypal hinterlegt.</p>
+            <small>Von allen Einzahlungen werden 10 Prozent Gebühr abgezogen</small>
+            <input id="coinAmount" class="form-control email-input input-text-field" type="number" name="coinAmount" min="1" required [(ngModel)]="coinAmount">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="submitButtonAbort" data-bs-dismiss="modal">Abbrechen</button>
+        <button type="button" class="submitButton" (click)="addCoins()">Einzahlen</button>
+      </div>
+    </div>
+  </div>
+</div>
