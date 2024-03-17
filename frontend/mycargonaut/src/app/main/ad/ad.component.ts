@@ -43,6 +43,7 @@ export class AdComponent implements OnInit{
   stars: number[] = [1, 2, 3, 4, 5];
   adUserBooking:any;
   bookingDone = false;
+  isDriver= false;
 
   constructor(
     private route: ActivatedRoute,
@@ -66,6 +67,9 @@ export class AdComponent implements OnInit{
       this.api.getRequest('ad/' + res.data.adId + '/type').subscribe((res2: any) => {
         this.ad.type = res2.data;
         this.type = res2.data;
+        if (this.type == 'wanted'){
+          this.isDriver = true;
+        }
         this.api.getRequest(res2.data + '/' + res.data.adId).subscribe((typeSpecRes:any) => {
           this.typeSpecificContent = typeSpecRes.data;
         })
@@ -75,6 +79,7 @@ export class AdComponent implements OnInit{
       })
       if (this.isLogin) this.getState();
     })
+
   }
 
   getState(){

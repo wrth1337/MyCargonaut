@@ -44,6 +44,7 @@ export class ChatComponent implements OnInit {
   notEnoughCoins = false;
   userToRateId = 0;
   bookingToRateId = 0;
+  isDriver = false;
 
   constructor(
     private api: ApiService,
@@ -169,6 +170,11 @@ export class ChatComponent implements OnInit {
   setRateInfos(booking: any) {
     this.userToRateId = booking.userId;
     this.bookingToRateId = booking.bookingId;
-  }
 
+    this.api.getRequest('ad/' + this.adId + '/type').subscribe((res: any) => {
+      if (res.data == 'offer') {
+        this.isDriver = true;
+      }
+    });
+  }
 }
