@@ -213,6 +213,12 @@ router.post('/add', authenticateToken, async function(req, res) {
         const id = req.user_id;
         const fee = 0.1;
         const coinsToAdd = (1-fee) * req.body.coins;
+
+        if (coinsToAdd <= 0) {
+            res.status(400);
+            res.send({status: 99, error: 'Invalid amount. Must be greater than 0'});
+        }
+
         const result = await addUserCoins(id, coinsToAdd);
         if (result.success) {
             res.status(200);
