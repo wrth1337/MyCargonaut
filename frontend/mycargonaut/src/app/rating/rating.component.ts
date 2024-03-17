@@ -12,7 +12,7 @@ export class RatingComponent {
   @Input() userWhoIsEvaluating: any;
   @Input() bookingId: any;
   @Input() userWhoWasEvaluated: any;
-  userIsDriver = false;
+  @Input() userIsDriver: any;
 
   constructor(private api: ApiService) {}
 

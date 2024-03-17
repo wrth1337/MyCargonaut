@@ -288,4 +288,4 @@
         </div>
     </div>
 
-<app-rating [userWhoWasEvaluated]="this.ad.userId" [bookingId]="this.adUserBooking.bookingId" *ngIf="this.adUserBooking"></app-rating>
+<app-rating [userWhoWasEvaluated]="this.ad.userId" [bookingId]="this.adUserBooking.bookingId" [userIsDriver]="this.isDriver" *ngIf="this.adUserBooking"></app-rating>
