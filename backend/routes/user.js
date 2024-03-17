@@ -20,7 +20,7 @@ router.use(limiter);
 
 // Database settings
 const pool = mariadb.createPool({
-    host: '0.0.0.0',
+    host: 'database',
     port: '3306',
     user: 'root',
     password: 'admin',
